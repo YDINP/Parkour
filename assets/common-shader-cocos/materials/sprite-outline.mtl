@@ -1,0 +1,27 @@
+{
+  "__type__": "cc.Material",
+  "_name": "sprite-outline",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "a7aff03a-35df-47b2-9666-fd1eb2ed1b34"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "SHOW_OUT_LINE": true
+      },
+      "props": {
+        "outlineColor": {
+          "__type__": "cc.Color",
+          "r": 255,
+          "g": 0,
+          "b": 0,
+          "a": 255
+        }
+      }
+    }
+  }
+}

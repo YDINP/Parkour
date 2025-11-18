@@ -1,0 +1,7 @@
+编号	类型	图片	名字
+id	type	icon	name
+int	string	string	string
+1	giant	card_boost_01	巨人状态
+2	protect	card_boost_03	魔法保护
+3	speed	card_boost_02	开局加速
+4	pet_hatch	card_boost_04	宠物孵化卷

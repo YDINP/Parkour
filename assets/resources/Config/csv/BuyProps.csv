@@ -1,0 +1,6 @@
+编号	类型	图片	名字	描述	金币	buff时间	使用音效
+id	type	icon	name	describe	cost	buff	useAudio
+int	string	string	string	string	number	number	string
+1	giant	card_boost_01	巨人状态	英雄变成巨人，无敌出场	400	8	
+2	protect	card_boost_03	魔法保护	发动魔法盾，帮助英雄抵挡一次伤害	500	99999	
+3	speed	card_boost_02	开局加速	英雄以极快的速度冲洗出场！	600	6	

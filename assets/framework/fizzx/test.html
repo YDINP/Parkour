@@ -1,0 +1,432 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Quadtree Hitman Branch</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				color: black;
+				font-size: 14px;
+				margin: 40px;
+				background: white;
+			}
+			.outer {
+				max-width: 640px;
+				margin: 0 auto;
+				text-align: center;
+			}
+			#canvasContainer {
+
+			}
+			#canvasContainer canvas {
+				display: inline-block;
+				background: #000;
+				border: 2px solid #a80000;
+			}
+			.ctrl {
+				margin: 1em 0 2em;
+				text-align: center;
+			}
+			button {
+				padding: 4px 8px;
+			}
+			p {
+				margin-bottom: 1em;
+				line-height: 1.4;
+			}
+			pre {
+				text-align: left;
+				background: #eee;
+				border: 1px solid #ccc;
+				color: black;
+				padding: 1em 1em 0;
+				margin: 2em 0;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="outer">
+			<p>
+				<strong>quadtree-js hitman branch</strong>
+			</p>
+			<div id="canvasContainer">
+				<canvas id="canvas" width="640" height="480"></canvas>
+			</div>
+
+			<div class="ctrl">
+				<button id="btn_add">add random object</button>
+				<button id="btn_update">update random object</button>
+				<button id="btn_remove">remove random object</button>
+				<button id="btn_cleanup">clean up tree</button>
+				<button id="btn_clear">clear tree</button>
+			</div>
+
+			<p>
+				Feel free to use the buttons to manipulate the quadtree. Here is what's happening:
+			</p>
+			<p>
+				This quadtree starts off empty. Note that we pass in 4 as max_objects
+			</p>
+			<pre>
+var myTree = new Quadtree({
+	x: 0,
+	y: 0,
+	width: 640,
+	height: 480
+}, 4);
+			</pre>
+
+			<p>
+				You can now add objects to the quadtree. They need to have x, y, width and height properties in order to work.
+				Of course you can and should extend these objects with your own data.
+			</p>
+			<pre>
+var myObject = {
+	x: 200,
+	y: 100,
+	width: 35,
+	height: 70
+}
+
+myTree.insert( myObject );
+			</pre>
+
+			<p>
+				After adding five objects to the quadtree it should split, because we initially set max_objects to 4.
+			</p>
+
+			<p>
+				In this branch you can easily remove single objects from the quadtree:
+			</p>
+			<pre>
+myTree.removeObject( myObject );
+			</pre>
+
+			<p>
+				With the removeObject function you can easily update single objects:
+			</p>
+			<pre>
+myTree.removeObject( myObject );
+
+myObject.x = 250;
+myObject.width = 100;
+
+myTree.insert( myObject );
+			</pre>
+			
+			<p>
+				Note that empty subnodes don't get deleted automatically after removing an object. This is no actual problem, but if you like to keep things tidy, you should run a cleanup afterwards. This recalculates the quadtree and gets rid of "dead"/empty subnodes:
+			</p>
+
+			<pre>
+myTree.cleanup();
+			</pre>
+			
+			<p>
+				In this example, we constantly retrieve collision candidates for the green area at our mouse cursor. The object passed to the retrieve function does not have to be inside the quadtree. It could be though, if that's your thing. 
+			</p>
+			<p>
+				All it does is retrieve all collision canditates for this area. x, y, width and height are mandatory.
+			</p>
+
+			<pre>
+var myCursor = {
+	x: e.offsetX,
+	y: e.offsetY,
+	width: 20,
+	height: 20
+};
+
+var candidates = myTree.retrieve( myCursor );
+			</pre>
+			
+			<p>
+				You can use these canditates to your likings then. In this example, we will only mark them with a check to paint them brighter later.
+			</p>
+
+			<pre>
+for( var i=0;i&lt;candidates.length;i=i+1 ) {
+	candidates[ i ].check = true;
+}
+			</pre>
+				
+
+			<p>
+				To remove all objects from the quadtree and reset it run clear():
+			</p>
+
+			<pre>
+myTree.clear();
+			</pre>
+
+			<p>
+				If you use alot of updates on your objects, consider the git master branch.
+			</p>
+			<p>
+				<a href="https://github.com/timohausmann/quadtree-js">quadtree-js at github</a>
+			</p>
+			
+		</div>
+		
+		<script src="./QuadTree.js"></script>
+		
+		<script>		
+		
+		(function(w, M) {
+			
+			w.requestAnimFrame = (function () {
+				return  w.requestAnimationFrame ||
+					w.webkitRequestAnimationFrame ||
+					w.mozRequestAnimationFrame ||
+					w.oRequestAnimationFrame ||
+					w.msRequestAnimationFrame ||
+					function (callback) {
+						w.setTimeout(callback, 1000 / 60);
+					};
+			})();
+			
+			/*
+			 * the main Quadtree
+			 */
+			var myTree = new Quadtree({
+				x: 0,
+				y: 0,
+				width: 640,
+				height: 480
+			}, 4);
+			
+			/*
+			 * our objects will be stored here
+			 */
+			var myObjects = [];
+						
+			/*
+			 * our "hero", aka the mouse cursor.
+			 * He is not in the quadtree, we only use this object to retrieve objects from a certain area
+			 */
+			var myCursor = {
+				x : 0,
+				y : 0,
+				width : 20,
+				height : 20
+			};
+			
+			var ctx = document.getElementById('canvas').getContext('2d');
+			
+
+			/*
+			 * position hero at mouse
+			 */
+			var handleMousemove = function(e) {
+				
+				if(!e.offsetX) {
+					e.offsetX = e.layerX - e.target.offsetLeft;
+					e.offsetY = e.layerY - e.target.offsetTop;
+				} 
+				
+				myCursor.x = e.offsetX;
+				myCursor.y = e.offsetY;
+			};
+
+			
+			/*
+			 * add a random object to our simulation
+			 */
+			var handleAdd = function() {
+				
+				var rndObj = {
+					x : randMinMax(10, 630),
+					y : randMinMax(10, 470),
+					width : randMinMax(10, 40),
+					height : randMinMax(10, 40),
+					check : false
+				};
+
+				//store object in our array
+				myObjects.push( rndObj );
+
+				//insert object in our quadtree
+				myTree.insert( rndObj );
+			}
+			
+			
+			/*
+			 * remove a random object from our simulation
+			 */
+			var handleRemove = function() {
+
+				if( !myObjects.length ) return;
+				
+				var 	rndIndex = randMinMax(0, myObjects.length-1, true),
+					rndObject = myObjects[ rndIndex ];
+
+				//remove object from our array
+				myObjects.splice( rndIndex, 1);
+
+				//remove object from our quadtree
+				myTree.removeObject( rndObject );
+			}
+			
+			
+			/*
+			 * update a random object from our simulation
+			 */
+			var handleUpdate = function() {
+
+				if( !myObjects.length ) return;
+				
+				var rndObject = myObjects[ randMinMax(0, myObjects.length-1, true) ];
+
+				//remove object from our quadtree
+				myTree.removeObject( rndObject );
+
+				//update object to our likings
+				rndObject.x = randMinMax(10, 630);
+				rndObject.y = randMinMax(10, 470);
+				rndObject.width = randMinMax(10, 40);
+				rndObject.height = randMinMax(10, 40);
+
+				//re-insert object into tree
+				myTree.insert( rndObject );
+			}
+			
+			
+			/*
+			 * update a random object from our simulation
+			 */
+			var handleCleanup = function() {
+
+				//cleanup removes "dead"/empty subnodes and updates all objects inside the tree
+				//this is useful to keep the quadtree clean, after doing removeObject-operations
+				myTree.cleanup();
+			}
+			
+			
+			/*
+			 * update a random object from our simulation
+			 */
+			var handleClear = function() {
+
+				//empty our array
+				myObjects = [];
+
+				//empty our quadtree
+				myTree.clear();
+			}
+			
+			
+			/*
+			 * draw Quadtree nodes
+			 */
+			var drawQuadtree = function( node ) {
+
+				var bounds = node.bounds;
+			
+				//no subnodes? draw the current node
+				if( node.nodes.length === 0 ) {
+					ctx.strokeStyle = 'rgba(255,0,0,0.5)';
+					ctx.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+					
+				//has subnodes? drawQuadtree them!
+				} else {
+					for( var i=0;i<node.nodes.length;i=i+1 ) {
+						drawQuadtree( node.nodes[ i ] );
+					}
+				}
+			};
+			
+			/*
+			 * draw all objects
+			 */
+			var drawObjects = function() {
+				
+				var obj;
+				
+				for( var i=0;i<myObjects.length;i=i+1 ) {
+					
+					obj = myObjects[ i ];
+					
+					if( obj.check ) {
+						ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+					} else {
+						ctx.strokeStyle = 'rgba(255,255,255,0.33)';
+					}
+					
+					ctx.strokeRect( obj.x, obj.y, obj.width, obj.height );
+				}
+			};
+
+			
+			/**
+			 * return a random number within given boundaries.
+			 *
+			 * @param {number} min		the lowest possible number
+			 * @param {number} max		the highest possible number
+			 * @param {boolean} round	if true, return integer
+			 * @return {number} 		a random number
+			 */
+			randMinMax = function(min, max, round) {
+				var val = min + (Math.random() * (max - min));
+				
+				if( round ) val = Math.round( val );
+				
+				return val;
+			};
+			
+			/*
+			 * our main loop
+			 */
+			var loop = function() {
+				
+				var candidates = [];
+				
+				ctx.clearRect(0, 0, 640, 480);
+				
+				//reset myObjects check flag
+				for( var i=0;i<myObjects.length;i=i+1 ) {
+					
+					myObjects[i].check = false;
+				}
+				
+				//draw hero
+				ctx.strokeStyle = 'rgba(0,255,0,0.5)';
+				ctx.strokeRect( myCursor.x, myCursor.y, myCursor.width, myCursor.height );
+				
+				//retrieve all objects in the bounds of the hero 
+				candidates = myTree.retrieve( myCursor );
+				
+				//flag retrieved objects
+				for( i=0;i<candidates.length;i=i+1 ) {
+					candidates[ i ].check = true;
+				}
+				
+				drawQuadtree( myTree );
+
+				drawObjects();
+				
+				requestAnimFrame( loop );
+			};
+						
+			//init first loop
+			loop();
+			
+			//set eventListener for mousemove
+			document.getElementById('canvas').addEventListener('mousemove', handleMousemove);
+
+			//set eventListener for buttons
+			document.getElementById('btn_add').addEventListener('click', handleAdd);
+			document.getElementById('btn_remove').addEventListener('click', handleRemove);
+			document.getElementById('btn_update').addEventListener('click', handleUpdate);
+			document.getElementById('btn_cleanup').addEventListener('click', handleCleanup);
+			document.getElementById('btn_clear').addEventListener('click', handleClear);
+
+			
+		})(window, Math);
+		</script>
+	</body>
+</html>

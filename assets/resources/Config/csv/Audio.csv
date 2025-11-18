@@ -1,0 +1,18 @@
+key	desc	value
+key	desc	value
+string	string	string
+homeBgm		home
+sfx_player_jump		boy_jump
+sfx_player_attack		trans
+sfx_gameWin		win
+sfx_player_hurt		hurt
+sfx_addgemOrGold		result
+sfx_subgemOrGold		sound_buyItem
+sfx_openEgg		egg
+gameBgm		game
+btn_click		btn_click
+sfx_player_hurt		hurt
+sfx_buff_strong		strong
+sfx_buff_shield		shield
+sfx_buff_rush		i_rush
+sfx_showtime		showtime

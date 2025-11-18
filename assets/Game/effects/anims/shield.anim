@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "shield",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.03333333333333333,
+  "sample": 60,
+  "speed": 0.2,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "590aa108-feca-4706-9084-c2097d55e60c"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "f29126f1-298a-4f92-a92c-c3d6c05a48dc"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

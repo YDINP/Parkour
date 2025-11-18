@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d47a2062-d815-4291-a91d-cb2046bc0081",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 107,
+  "height": 220,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_bush_block_down_03": {
+      "ver": "1.0.6",
+      "uuid": "3a0691a2-37ea-423a-b01b-26898e3e76a0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d47a2062-d815-4291-a91d-cb2046bc0081",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 104,
+      "height": 217,
+      "rawWidth": 107,
+      "rawHeight": 220,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

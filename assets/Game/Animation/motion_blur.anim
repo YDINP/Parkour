@@ -1,0 +1,59 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "motion_blur",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.36666666666666664,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 32
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 255
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "value": 730.609,
+          "curve": [
+            0.18,
+            0.89,
+            0.31,
+            1.21
+          ]
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 85.549
+        }
+      ]
+    },
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "28260068-5e3a-4312-921c-f8bc1de8b409"
+            }
+          },
+          {
+            "frame": 0.35,
+            "value": {
+              "__uuid__": "274e25ff-a18b-4aac-b122-7b9742586fda"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

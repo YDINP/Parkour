@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4b43cde8-ab5d-4bf8-b37a-fd2229c6d38e",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 150,
+  "height": 278,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_cave_block_down_01": {
+      "ver": "1.0.6",
+      "uuid": "b0fb0819-5447-4802-b618-7b90f68b0f7b",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4b43cde8-ab5d-4bf8-b37a-fd2229c6d38e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2,
+      "offsetY": 0.5,
+      "trimX": 1,
+      "trimY": 2,
+      "width": 144,
+      "height": 273,
+      "rawWidth": 150,
+      "rawHeight": 278,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

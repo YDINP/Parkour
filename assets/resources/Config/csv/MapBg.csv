@@ -1,0 +1,15 @@
+bg_key	layer1	layer2
+bg_key	layer1	layer2
+string	string	string
+forest	map/forest/bg_forest	map/forest/bg_forest_bg_01
+bush	map/bush/bg_bush	map/bush/bg_bush_02
+castle	map/castle/bg_castle	map/castle/bg_castle_bg_01
+cave	map/cave/bg_cave	map/cave/bg_cave
+cell	map/cell/bg_cell	map/cell/bg_cell
+dark	map/dark/bg_dark	map/dark/bg_dark
+desert	map/desert/bg_desert	map/desert/bg_desert_02
+ice	map/ice/bg_ice	map/ice/bg_ice_bg_02
+maya	map/maya/bg_maya	map/maya/bg_maya
+volcano	map/volcano/bg_volcano	map/volcano/bg_volcano_bg_01
+showtime_blue	map/showtime/bg_showtime	map/showtime/bg_showtime
+showtime_red	map/showtime/bg_showtime2	map/showtime/bg_showtime2

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="70" height="10" tilewidth="64" tileheight="64">
+    <tileset firstgid="1" source="../bg_forest_bg.tsx"/>
+    <tileset firstgid="31" source="../bg_forest_block.tsx"/>
+    <tileset firstgid="37" source="../dec.tsx"/>
+    <tileset firstgid="46" name="item" tilewidth="64" tileheight="64">
+        <tile id="0">
+            <image width="24" height="24" source="../../item/effect_sparkle2.png"/>
+        </tile>
+        <tile id="1">
+            <image width="64" height="64" source="../../item/item_bean/item_bean_001.png"/>
+        </tile>
+        <tile id="2">
+            <image width="64" height="64" source="../../item/item_004.png"/>
+        </tile>
+        <tile id="3">
+            <image width="64" height="64" source="../../item/slivercoin/sliver_coin0000.png"/>
+        </tile>
+        <tile id="4">
+            <image width="64" height="64" source="../../item/goldcoin/gold_coin0.png"/>
+        </tile>
+    </tileset>
+    <objectgroup name="object_bg">
+        <object gid="37" x="608" y="592"/>
+        <object gid="38" x="0" y="576"/>
+        <object gid="38" x="2304" y="584"/>
+        <object gid="40" x="2562" y="603"/>
+        <object gid="39" x="496" y="576"/>
+        <object gid="40" x="336" y="560"/>
+        <object gid="40" x="145" y="592" rotation="-23.9283"/>
+        <object gid="39" x="1424" y="528"/>
+        <object gid="40" x="1280" y="544"/>
+        <object gid="40" x="944" y="592"/>
+        <object gid="43" x="1152" y="560"/>
+        <object gid="43" x="3744" y="608"/>
+        <object gid="41" x="3136" y="560"/>
+        <object gid="41" x="3200" y="576"/>
+        <object gid="41" x="2240" y="560"/>
+        <object gid="41" x="1312" y="560"/>
+        <object gid="41" x="1488" y="576"/>
+        <object gid="41" x="432" y="544"/>
+        <object gid="41" x="160" y="560"/>
+    </objectgroup>
+    <layer name="bg" width="70" height="10">
+        <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBcMBcAAxExLmIBEzEYEJ6SHGLE4kNzMSUMuMpJadgHuwmQsSBwC+dAEd
+        </data>
+    </layer>
+    <layer name="platform" width="70" height="10">
+        <data encoding="base64" compression="zlib"> eJxjYBgFo2AUjIJRMApGwSgYWoAVCUug8QmJ45MTx6OHHMwGxGJQzILFLnECanG5B5e53GRgLiDmgdLk6MdmHiE1PEhxSUg9NdQCAE3vBQQ=
+        </data>
+    </layer>
+    <objectgroup name="object">
+        <object gid="42" x="128" y="640"/>
+        <object gid="42" x="592" y="624"/>
+        <object gid="42" x="1040" y="624"/>
+        <object gid="42" x="1456" y="608"/>
+        <object gid="42" x="2176" y="640"/>
+        <object gid="42" x="2304" y="640"/>
+    </objectgroup>
+    <objectgroup name="object_obstacle">
+        <object gid="31" x="1811" y="544"/>
+        <object gid="34" x="181" y="428"/>
+        <object gid="32" x="1881" y="555"/>
+    </objectgroup>
+    <objectgroup name="object_item">
+        <object gid="47" x="113" y="418"/>
+        <object gid="47" x="49" y="418"/>
+        <object gid="47" x="1217" y="498"/>
+        <object gid="47" x="833" y="498"/>
+        <object gid="47" x="769" y="498"/>
+        <object gid="47" x="1025" y="498"/>
+        <object gid="47" x="705" y="498"/>
+        <object gid="47" x="897" y="498"/>
+        <object gid="47" x="961" y="498"/>
+        <object gid="47" x="1089" y="498"/>
+        <object gid="47" x="1281" y="498"/>
+        <object gid="47" x="1345" y="498"/>
+        <object gid="47" x="1153" y="498"/>
+        <object gid="47" x="641" y="498"/>
+        <object gid="47" x="1409" y="498"/>
+        <object gid="47" x="1537" y="498"/>
+        <object gid="47" x="1473" y="498"/>
+        <object gid="49" x="1601" y="497"/>
+        <object gid="49" x="1956" y="221"/>
+        <object gid="49" x="1648" y="384"/>
+        <object gid="49" x="2029" y="312"/>
+        <object gid="49" x="1684" y="312"/>
+        <object gid="49" x="2067" y="384"/>
+        <object gid="49" x="1760" y="224"/>
+        <object gid="49" x="2113" y="497"/>
+        <object gid="49" x="1827" y="187"/>
+        <object gid="49" x="1892" y="187"/>
+        <object gid="47" x="2682" y="389"/>
+        <object gid="50" x="2817" y="338"/>
+        <object gid="47" x="2886" y="390"/>
+        <object gid="50" x="2753" y="338"/>
+        <object gid="47" x="2625" y="498"/>
+        <object gid="47" x="2945" y="498"/>
+        <object gid="47" x="2561" y="498"/>
+        <object gid="47" x="2497" y="498"/>
+        <object gid="47" x="2433" y="498"/>
+        <object gid="47" x="2369" y="498"/>
+        <object gid="49" x="2177" y="497"/>
+        <object gid="49" x="2241" y="497"/>
+        <object gid="49" x="2305" y="497"/>
+        <object gid="47" x="3009" y="498"/>
+        <object gid="49" x="3201" y="497"/>
+        <object gid="49" x="3137" y="497"/>
+        <object gid="49" x="3073" y="497"/>
+        <object gid="47" x="3649" y="498"/>
+        <object gid="47" x="3329" y="498"/>
+        <object gid="47" x="3590" y="390"/>
+        <object gid="50" x="3521" y="338"/>
+        <object gid="50" x="3457" y="338"/>
+        <object gid="47" x="3386" y="389"/>
+        <object gid="47" x="3265" y="498"/>
+        <object gid="47" x="3969" y="498"/>
+        <object gid="47" x="3841" y="498"/>
+        <object gid="47" x="3905" y="498"/>
+        <object gid="47" x="3713" y="498"/>
+        <object gid="47" x="3777" y="498"/>
+        <object gid="47" x="4090" y="389"/>
+        <object gid="47" x="4033" y="498"/>
+        <object gid="47" x="4353" y="498"/>
+        <object gid="47" x="4294" y="390"/>
+        <object gid="47" x="4417" y="498"/>
+        <object gid="49" x="4160" y="334"/>
+        <object gid="49" x="4224" y="334"/>
+    </objectgroup>
+    <objectgroup name="object_monster">
+        <object gid="36" x="1056" y="272"/>
+        <object gid="36" x="2528" y="192"/>
+        <object gid="36" x="640" y="208"/>
+    </objectgroup>
+</map>

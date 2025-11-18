@@ -1,0 +1,174 @@
+{
+  "assets-sort-type": "name",
+  "collision-matrix": [
+    [
+      false
+    ],
+    [
+      false,
+      false,
+      null,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      null,
+      null,
+      false
+    ],
+    [
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      null,
+      true,
+      null,
+      true,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      null,
+      null,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      null,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  ],
+  "design-resolution-height": 640,
+  "design-resolution-width": 960,
+  "excluded-modules": [
+    "Canvas Renderer",
+    "Collider",
+    "EditBox",
+    "Intersection",
+    "Native Socket",
+    "Physics",
+    "PageView",
+    "PageViewIndicator",
+    "RichText",
+    "Slider",
+    "Spine Skeleton",
+    "StudioComponent",
+    "VideoPlayer",
+    "WebView",
+    "3D Primitive",
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "SafeArea"
+  ],
+  "facebook": {
+    "appID": "",
+    "audience": {
+      "enable": false
+    },
+    "enable": false,
+    "live": {
+      "enable": false
+    }
+  },
+  "fit-height": true,
+  "fit-width": true,
+  "group-list": [
+    "default",
+    "item",
+    "object",
+    "player",
+    "enemy",
+    "platform",
+    "weapon",
+    "obstacle",
+    "ui",
+    "e_weapon",
+    "e_bullet"
+  ],
+  "last-module-event-record-time": 1759126385571,
+  "simulator-orientation": false,
+  "simulator-resolution": {
+    "height": 640,
+    "width": 960
+  },
+  "use-customize-simulator": true,
+  "use-project-simulator-setting": false,
+  "migrate-history": [
+    "cloud-function"
+  ],
+  "start-scene": "bba6ef9a-17f9-4fa6-97fc-7b8fab4297ed"
+}

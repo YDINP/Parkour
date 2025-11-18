@@ -1,0 +1,44 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "gold_turn",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.31666666666666665,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "scale": [
+        {
+          "frame": 0,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          },
+          "curve": "cubicOut"
+        },
+        {
+          "frame": 0.31666666666666665,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 2,
+            "y": 2
+          }
+        }
+      ],
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 255
+        },
+        {
+          "frame": 0.31666666666666665,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "events": []
+}

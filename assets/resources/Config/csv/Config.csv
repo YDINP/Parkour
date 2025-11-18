@@ -1,0 +1,7 @@
+key	desc	value	type	group
+key	desc	value	type	group
+string	string	string	string	number
+Unlock_Endless	多少级解锁无尽模式	3	number	游戏
+NewRecordReward_Diamond	新记录获得额外的钻石	1	number	游戏
+BannerAdWhiteList	banner显示白名单	UIDiamondShop，UIImgConfirm，UIPause，UIRedHeartShop，UISetting，UITextConfirm	string	游戏
+BannerAdRefreshWhiteList	banner刷新白名单	UIRevive，UIEndPage	string	游戏

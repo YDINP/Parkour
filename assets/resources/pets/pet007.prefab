@@ -1,0 +1,241 @@
+[
+  {
+    "__type__": "cc.Prefab",
+    "_name": "",
+    "_objFlags": 0,
+    "_native": "",
+    "data": {
+      "__id__": 1
+    },
+    "optimizationPolicy": 0,
+    "asyncLoadAssets": false,
+    "readonly": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "pet002",
+    "_objFlags": 0,
+    "_parent": null,
+    "_children": [
+      {
+        "__id__": 2
+      }
+    ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 5
+      },
+      {
+        "__id__": 6
+      }
+    ],
+    "_prefab": {
+      "__id__": 7
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 74.38,
+      "height": 73.55
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "weapon",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 3
+      }
+    ],
+    "_prefab": {
+      "__id__": 4
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        23.323,
+        5.109,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "6fc8eboP6dCloNCWK5kdA/5",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "bulletPrefab": {
+      "__uuid__": "74b008f9-589b-4bd1-aff1-5a185225f965"
+    },
+    "dirType": 1,
+    "aimTarget": null,
+    "rotation": -90,
+    "auto_fire": false,
+    "fireInterval": 0.1,
+    "fireFx": null,
+    "initSpeed": 5,
+    "bulletDamage": 10,
+    "anglePadding": 4,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "717b0606-edcd-4b03-836a-1c816eeb5ee2"
+    },
+    "fileId": "c0Y+YT9t5N6Y7X+NaLSZSZ",
+    "sync": false
+  },
+  {
+    "__type__": "dragonBones.ArmatureDisplay",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_armatureName": "armatureName",
+    "_animationName": "",
+    "_preCacheMode": 0,
+    "_cacheMode": 0,
+    "playTimes": -1,
+    "premultipliedAlpha": false,
+    "_armatureKey": "3e66209d-4d1c-4da7-9ef9-f2ea3fd7c077#2e0a9598-931b-4764-b45d-b41bdd431688",
+    "_accTime": 0,
+    "_playCount": 0,
+    "_frameCache": null,
+    "_curFrame": null,
+    "_playing": false,
+    "_armatureCache": null,
+    "_N$dragonAsset": {
+      "__uuid__": "3e66209d-4d1c-4da7-9ef9-f2ea3fd7c077"
+    },
+    "_N$dragonAtlasAsset": {
+      "__uuid__": "2e0a9598-931b-4764-b45d-b41bdd431688"
+    },
+    "_N$_defaultArmatureIndex": 0,
+    "_N$_animationIndex": 0,
+    "_N$_defaultCacheMode": 0,
+    "_N$timeScale": 1,
+    "_N$debugBones": false,
+    "_N$enableBatch": false,
+    "_id": ""
+  },
+  {
+    "__type__": "ac5ceiyL65L+YxCRYHf4hE2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "717b0606-edcd-4b03-836a-1c816eeb5ee2"
+    },
+    "fileId": "978hsPulJCfIuXRo90InGm",
+    "sync": false
+  }
+]

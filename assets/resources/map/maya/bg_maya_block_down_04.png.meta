@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "88116966-4175-4c22-9e1a-adc1c4882cb7",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 183,
+  "height": 278,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_maya_block_down_04": {
+      "ver": "1.0.6",
+      "uuid": "7a47eb96-3d0b-429b-8a0a-ea8a5443b0b8",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "88116966-4175-4c22-9e1a-adc1c4882cb7",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 179,
+      "height": 275,
+      "rawWidth": 183,
+      "rawHeight": 278,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

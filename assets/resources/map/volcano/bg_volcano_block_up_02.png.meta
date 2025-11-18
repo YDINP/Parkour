@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "148455e6-2081-47c5-8dfd-e8cd978f3880",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 222,
+  "height": 602,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_volcano_block_up_02": {
+      "ver": "1.0.6",
+      "uuid": "963d59a3-0789-4ae7-8051-8c6cbe8f71a0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "148455e6-2081-47c5-8dfd-e8cd978f3880",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 2.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 219,
+      "height": 597,
+      "rawWidth": 222,
+      "rawHeight": 602,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

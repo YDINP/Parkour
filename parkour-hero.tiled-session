@@ -1,0 +1,4980 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "assets/resources/map/showtime/showtime01c.tmx",
+    "automapping.whileDrawing": true,
+    "console.history": [
+        "MapFormat",
+        "printObject(tiled)",
+        "printObj(tiled)",
+        "function printObject(obj) {Object.keys(obj).forEach(k=>console.log(k+\":\"+obj[k]))}",
+        "printObject(tiled)",
+        "tiled.mapFormat",
+        "FileInfo.canonicalPath",
+        "FileInfo.baseName(\"D:/Workspace/CCC/parkour-hero/assets/resources/map/bush/bush01.tmx\")",
+        "FileInfo.path(\"D:/Workspace/CCC/parkour-hero/assets/resources/map/bush/bush01.tmx\")",
+        "tiled.actions"
+    ],
+    "expandedProjectPaths": [
+        "resources/map/desert",
+        "resources/map/cave",
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map",
+        "assets/resources/map/showtime",
+        "resources/map/dark",
+        "assets/resources/map/dark",
+        "resources/map/volcano",
+        "assets/resources/map/ice",
+        "assets/resources/map",
+        "resources/map/forest",
+        "resources/map/cell",
+        "resources/map/castle",
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/castle",
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/test",
+        "resources/map/bush",
+        "resources/map",
+        "assets/resources/map/forest",
+        "resources/map/maya",
+        "assets/resources/map/cave",
+        "assets/resources/map/cell",
+        "assets/resources/map/volcano",
+        "assets/resources/map/castle",
+        "assets/resources/map/bush",
+        "assets/resources/map/desert",
+        "resources/map/ice",
+        "assets/resources/map/maya"
+    ],
+    "file.lastUsedOpenFilter": "全部文件 (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Administrator/AppData/Local/Temp/360zip$Temp/360$0/1.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2192.4242424242425,
+                "y": 157.57575757575756
+            }
+        },
+        "C:/Users/Administrator/Desktop/KoRun/res/map/cave/cave_end01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1192,
+                "y": 2004
+            }
+        },
+        "C:/Users/Administrator/Desktop/KoRun/res/map/cave/cave_end01.tmx#bg_castle_block": {
+            "scaleInDock": 0.25
+        },
+        "C:/Users/Administrator/Desktop/KoRun/res/map/cave/cave_end01.tmx#bg_cave_bg": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Administrator/Desktop/KoRun/res/map/cave/cave_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Administrator/Desktop/新建文件夹/resources/map/001.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 315.3333333333333,
+                "y": 315.3333333333333
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-05/1-15关/1.tmx": {
+            "scale": 0.07588125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4012.8490239683715,
+                "y": -1647.3107651758505
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-05/6-10关/6.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 7763,
+                "y": -132
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-05/8.tmx": {
+            "scale": 0.07588125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4012.8490239683715,
+                "y": -1647.3107651758505
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-06/8x8.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 290,
+                "y": 128.66666666666663
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-06/map/16x16.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 155,
+                "y": 249
+            }
+        },
+        "C:/Users/Administrator/Documents/WeChat Files/aliwangzai/FileStorage/File/2020-06/map/8x8.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.33333333333331,
+                "y": 151.66666666666666
+            }
+        },
+        "C:/Users/Administrator/未命名.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1613.75,
+                "y": 1477.75
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/100.tmx": {
+            "scale": 0.23626086956521739,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 556.5881486934118,
+                "y": 1151.26978284873
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/101.tmx": {
+            "scale": 0.23626086956521739,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 556.5881486934118,
+                "y": 1151.26978284873
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/103.tmx": {
+            "scale": 0.23626086956521739,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 556.5881486934118,
+                "y": 1151.26978284873
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/104.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 628,
+                "y": 1928
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/105.tmx": {
+            "scale": 0.18113333333333334,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 654.2142068457858,
+                "y": 1501.6562384983438
+            }
+        },
+        "D:/Workspace/CCC/HunterAssassin/assets/resources/map/202.tmx": {
+            "scale": 0.18208333333333335,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 650.8009153318076,
+                "y": 1496.5675057208236
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/bush/bush01.tmx": {
+            "scale": 0.03125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 12768,
+                "y": 4624
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/bush/bush01a.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2264,
+                "y": 456
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/bush/bush_end01.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 588,
+                "y": 585
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/castle/castle01a.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3861.333333333333,
+                "y": 563.3333333333333
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/castle/castle02.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 730,
+                "y": 141
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/castle/castle02d.tmx": {
+            "scale": 0.1691127232142857,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1797.6175548589342,
+                "y": -487.8402903811252
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/castle/castle_end01.tmx": {
+            "scale": 0.23675781249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1284.012539184953,
+                "y": 120.37617554858934
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/example.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 5113.333333333333,
+                "y": 445.99999999999994
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 11430.30303030303,
+                "y": 803.030303030303
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_01a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5081.818181818182,
+                "y": 563.6363636363635
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_01b.tmx": {
+            "scale": 0.193859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3203.3529459176275,
+                "y": 324.9778350930926
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_01c.tmx": {
+            "scale": 0.27694196428571427,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2242.347062142339,
+                "y": 321.366970258725
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_01d.tmx": {
+            "scale": 0.27694196428571427,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2242.347062142339,
+                "y": 321.366970258725
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_02.tmx": {
+            "scale": 0.10769965277777777,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5766.03530265173,
+                "y": 324.97783509309284
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_02a.tmx": {
+            "scale": 0.193859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3203.3529459176275,
+                "y": 324.9778350930926
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_02b.tmx": {
+            "scale": 0.27694196428571427,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2242.347062142339,
+                "y": 321.366970258725
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_02c.tmx": {
+            "scale": 0.193859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3203.3529459176275,
+                "y": 324.9778350930926
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_02d.tmx": {
+            "scale": 0.3728064903846154,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1665.743531877166,
+                "y": 686.6833239300395
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_03.tmx": {
+            "scale": 0.10769965277777777,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5766.03530265173,
+                "y": -937.7931812686388
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_03a.tmx": {
+            "scale": 0.193859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3203.3529459176275,
+                "y": 1026.517288627388
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/forest/forest_03b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3790.909090909091,
+                "y": 827.2727272727273
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/maya/maya_end01.tmx": {
+            "scale": 0.32507812499999994,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1282.7685652487387,
+                "y": 321.46118721461187
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime00.tmx": {
+            "scale": 0.722890625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 387.3338376742678,
+                "y": 162.54187830973737
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime00.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01.tmx": {
+            "scale": 0.039558593749999996,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 12816.431322207962,
+                "y": 341.2659227806853
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5693.939393939394,
+                "y": 462.1212121212121
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3057.575757575757,
+                "y": 498.4848484848485
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 654.5454545454546,
+                "y": 443.93939393939394
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/showtime/showtime01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/KoRun/res/map/volcano/volcano01c.tmx": {
+            "scale": 0.1340528350515464,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3110.713770728191,
+                "y": -704.9459264599859
+            }
+        },
+        "D:/Workspace/CCC/KoRun/res/map/volcano/volcano_end01.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1045,
+                "y": 582.5
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-11.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1217,
+                "y": 530.3333333333334
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-14.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1773.9999999999998,
+                "y": 392.66666666666674
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-2.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1228.5,
+                "y": 234
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-27.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3231.333333333333,
+                "y": 397.99999999999994
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-3.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2627,
+                "y": 282.66666666666663
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-5.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2093.5,
+                "y": 620.5
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-6.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2116.6666666666665,
+                "y": 287.33333333333326
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/1-9.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1406.3333333333333,
+                "y": 468.99999999999994
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/n1-17.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 673,
+                "y": 442.99999999999994
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/park_level1.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3927.5,
+                "y": 280
+            }
+        },
+        "D:/Workspace/CCC/NewPizzaboy/assets/resources/map/tutorial_level1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3768.6666666666665,
+                "y": 489.33333333333326
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/castle/bg_castle_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/castle/test.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 2557.5757575757575,
+                "y": 959.0909090909091
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/collision_set.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1333.3333333333333,
+                "y": 131.81818181818198
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_01a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 5893.939393939394,
+                "y": -104.5454545454545
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_01b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 4590.909090909091,
+                "y": 466.6666666666666
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_01c.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2744,
+                "y": 721
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_01d.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2240,
+                "y": 1700
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_02.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5712.121212121212,
+                "y": 734.8484848484849
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_02a.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1346,
+                "y": 589
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_02b.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2040,
+                "y": 356
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_02d.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1176,
+                "y": 580
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_03.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2142,
+                "y": 677
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_03b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2830.30303030303,
+                "y": 1095.4545454545455
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_03c.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 3880,
+                "y": 500
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_03d.tmx": {
+            "scale": 0.19122242647058824,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2180.7065609228553,
+                "y": 321.61499639509725
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_04.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 7132,
+                "y": 462
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_07a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 9620,
+                "y": 478
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_07b.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 8490,
+                "y": 525
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_end01.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 764,
+                "y": 482
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_end02.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1828,
+                "y": 434
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/forest_end03.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1616,
+                "y": 776
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 23128,
+                "y": 916
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01a.tmx": {
+            "scale": 0.13003125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3206.9214131218464,
+                "y": 326.84450853160274
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01b.tmx": {
+            "scale": 0.13003125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3206.9214131218464,
+                "y": 326.84450853160274
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4060.6060606060605,
+                "y": 830.3030303030303
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01d.tmx": {
+            "scale": 0.11821022727272727,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3527.6135544340304,
+                "y": 325.690939677962
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01e.tmx": {
+            "scale": 0.16253906249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2565.5371304974774,
+                "y": 322.9992790194665
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01f.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6700,
+                "y": 225.75757575757575
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01g.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4363.636363636364,
+                "y": 489.39393939393943
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/forest/newplayer01h.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 850,
+                "y": 495
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/items.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/test.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1524.2424242424242,
+                "y": 1431.818181818182
+            }
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/test/forest_tileset.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "D:/Workspace/CCC/adventure-rabbit/assets/resources/map/test/test.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1064,
+                "y": 1092
+            }
+        },
+        "D:/Workspace/CCC/adventureRabbit/assets/resources/map/test.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1054.5454545454545,
+                "y": 1765.1515151515152
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/1.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 260.5,
+                "y": 249
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/10.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 101.5,
+                "y": 156.5
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/15.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 187.5,
+                "y": 256.5
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/16.json": {
+            "scale": 1.3041294642857142,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 176.7462558836115,
+                "y": 224.2875481386393
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/2.json": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 249.99999999999994,
+                "y": 312.66666666666663
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/22.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -249.5,
+                "y": 448.5
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/29.json": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 367.3333333333333,
+                "y": 282
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/3.json": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 137.75,
+                "y": 133.25
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/35.json": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -37,
+                "y": 255
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/4.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 175,
+                "y": 147.66666666666666
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/5.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 194.33333333333331,
+                "y": 145.66666666666666
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/6.json": {
+            "scale": 1.82578125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.43816859221224,
+                "y": 160.2053915275995
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/7.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 294.5,
+                "y": 270.5
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/8.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 134.33333333333331,
+                "y": 181
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/8x8.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 138.33333333333331,
+                "y": 153.66666666666666
+            }
+        },
+        "D:/Workspace/CCC/baitan_car/assets/resources/levels/9.json": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 158.33333333333331,
+                "y": 173.66666666666666
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/001.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1199.3333333333333,
+                "y": 181.33333333333331
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/002.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 318.5,
+                "y": -24
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/1.tmx": {
+            "scale": 1,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 2289.5,
+                "y": 187
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/2.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3429,
+                "y": 492
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/4.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2371.5,
+                "y": 290
+            }
+        },
+        "D:/Workspace/CCC/undead-run/assets/resources/map/5.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6850,
+                "y": 401.33333333333326
+            }
+        },
+        "D:/Workspace/项目文件/愤怒的免子/test.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3900,
+                "y": 4
+            }
+        },
+        "D:/test.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 311.66666666666663,
+                "y": -24.666666666666657
+            }
+        },
+        "D:/未命名.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1435.75,
+                "y": 704.25
+            }
+        },
+        "assets/resources/map/128x128.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_bush_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_bush_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/bg_castle_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_castle_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/bg_cave_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_cave_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.5
+        },
+        "assets/resources/map/bg_cell_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_cell_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/bg_dark_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_dark_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/bg_desert_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_desert_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_forest_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_forest_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_ice_bg.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_ice_block.tsx": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/bg_maya_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_maya_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/bg_volcano_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/bg_volcano_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/bush/begin.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 535,
+                "y": 499
+            }
+        },
+        "assets/resources/map/bush/bush01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3080,
+                "y": 684
+            }
+        },
+        "assets/resources/map/bush/bush01_0.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 4592,
+                "y": 746
+            }
+        },
+        "assets/resources/map/bush/bush01_1.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/bush/bush01_2.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/bush/bush01_2.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/bush/bush01_3.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 2056,
+                "y": 524
+            }
+        },
+        "assets/resources/map/bush/bush01_4.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2172,
+                "y": 950
+            }
+        },
+        "assets/resources/map/bush/bush01_5.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 6636,
+                "y": 667
+            }
+        },
+        "assets/resources/map/bush/bush01_5.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/bush/bush01_6.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 13.333333333333371,
+                "y": 651.3333333333333
+            }
+        },
+        "assets/resources/map/bush/bush_end01.tmx": {
+            "scale": 0.3955859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.1152364964946,
+                "y": 321.04275698627436
+            }
+        },
+        "assets/resources/map/bush/bush_end02.tmx": {
+            "scale": 0.025976562499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1270.3759398496243,
+                "y": 346.4661654135343
+            }
+        },
+        "assets/resources/map/castle/begin.tmx": {
+            "scale": 0.791171875,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 609.2228695566308,
+                "y": 427.84635133800725
+            }
+        },
+        "assets/resources/map/castle/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle01a.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 5886,
+                "y": 369
+            }
+        },
+        "assets/resources/map/castle/castle01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2240,
+                "y": 324
+            }
+        },
+        "assets/resources/map/castle/castle01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle01c.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 5480,
+                "y": 1058
+            }
+        },
+        "assets/resources/map/castle/castle01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle01d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1952,
+                "y": 322
+            }
+        },
+        "assets/resources/map/castle/castle01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle02a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3200,
+                "y": 322
+            }
+        },
+        "assets/resources/map/castle/castle02a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle02b.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2560,
+                "y": 321
+            }
+        },
+        "assets/resources/map/castle/castle02b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle02c.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1860,
+                "y": 402
+            }
+        },
+        "assets/resources/map/castle/castle02c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle02d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1792,
+                "y": 322
+            }
+        },
+        "assets/resources/map/castle/castle02d.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle03a.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 6185.333333333333,
+                "y": 349.99999999999994
+            }
+        },
+        "assets/resources/map/castle/castle03a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle03b.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3772,
+                "y": 738
+            }
+        },
+        "assets/resources/map/castle/castle03b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle03c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2175.757575757576,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/castle/castle03c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle03d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3576,
+                "y": 86
+            }
+        },
+        "assets/resources/map/castle/castle03d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/castle/castle_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 322.36104279390065
+            }
+        },
+        "assets/resources/map/castle/castle_end02.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 322.36104279390065
+            }
+        },
+        "assets/resources/map/castle/castle_end03.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 322.36104279390065
+            }
+        },
+        "assets/resources/map/cave/begin.tmx": {
+            "scale": 0.791171875,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 269.2208946380962,
+                "y": 485.98795299693893
+            }
+        },
+        "assets/resources/map/cave/begin.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cave/begin.tmx#bg_cave_block": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cave/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cave/cave01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 8957.575757575758,
+                "y": 322.72727272727275
+            }
+        },
+        "assets/resources/map/cave/cave01_0.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/cave/cave01_1.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 5188,
+                "y": 854
+            }
+        },
+        "assets/resources/map/cave/cave01_2.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2557.5757575757575,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/cave/cave02.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 3200,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/cave/cave_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1281.8888342351206,
+                "y": 323.6202656173143
+            }
+        },
+        "assets/resources/map/cave/cave_end01.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cave/cave_end01.tmx#bg_cave_block": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cave/cave_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cell/begin.tmx": {
+            "scale": 0.7534970238095238,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 216.32467660709,
+                "y": 475.78157401007206
+            }
+        },
+        "assets/resources/map/cell/cell01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 9440,
+                "y": 324
+            }
+        },
+        "assets/resources/map/cell/cell01_0.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3165.9366051150387,
+                "y": 325.5297718969093
+            }
+        },
+        "assets/resources/map/cell/cell01_1.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3165.9366051150387,
+                "y": 325.5297718969093
+            }
+        },
+        "assets/resources/map/cell/cell02.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 9248,
+                "y": 328
+            }
+        },
+        "assets/resources/map/cell/cell02_0.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3197.7880912412365,
+                "y": 322.30670484842517
+            }
+        },
+        "assets/resources/map/cell/cell02_1.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3165.9366051150387,
+                "y": 325.5297718969093
+            }
+        },
+        "assets/resources/map/cell/cell02_2.tmx": {
+            "scale": 0.17388392857142856,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2846.7265725288835,
+                "y": 322.05391527599477
+            }
+        },
+        "assets/resources/map/cell/cell_end01.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/cell/cell_end02.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/cell/cell_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/cell/cell_end03.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/dark/begin.tmx": {
+            "scale": 0.7534970238095238,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 372.9278167275599,
+                "y": 528.8673842204009
+            }
+        },
+        "assets/resources/map/dark/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 47424.242424242424,
+                "y": 725.7575757575758
+            }
+        },
+        "assets/resources/map/dark/dark01_0.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6331.873210230078,
+                "y": 1177.651821862348
+            }
+        },
+        "assets/resources/map/dark/dark01_1.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6331.873210230078,
+                "y": 1177.651821862348
+            }
+        },
+        "assets/resources/map/dark/dark01_10.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6331.873210230078,
+                "y": 1177.651821862348
+            }
+        },
+        "assets/resources/map/dark/dark01_11.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6331.873210230078,
+                "y": 1177.651821862348
+            }
+        },
+        "assets/resources/map/dark/dark01_11.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark01_12.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 7144,
+                "y": 1388
+            }
+        },
+        "assets/resources/map/dark/dark01_13.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 7144,
+                "y": 1388
+            }
+        },
+        "assets/resources/map/dark/dark01_14.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1384,
+                "y": 386
+            }
+        },
+        "assets/resources/map/dark/dark01_2.tmx": {
+            "scale": 0.156667698019802,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6702.083539054014,
+                "y": 1018.078404265824
+            }
+        },
+        "assets/resources/map/dark/dark01_3.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3164,
+                "y": -216
+            }
+        },
+        "assets/resources/map/dark/dark01_3.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark01_4.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3168,
+                "y": 320
+            }
+        },
+        "assets/resources/map/dark/dark01_5.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 3168,
+                "y": 320
+            }
+        },
+        "assets/resources/map/dark/dark01_6.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3168,
+                "y": 320
+            }
+        },
+        "assets/resources/map/dark/dark01_7.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3166.666666666667,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/dark/dark01_7.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark01_8.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 3166.666666666667,
+                "y": 322.72727272727275
+            }
+        },
+        "assets/resources/map/dark/dark01_9.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3168,
+                "y": 320
+            }
+        },
+        "assets/resources/map/dark/dark_end01.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/dark/dark_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark_end02.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/dark/dark_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dark/dark_end03.tmx": {
+            "scale": 0.3859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1246.3157894736842,
+                "y": 321.2955465587044
+            }
+        },
+        "assets/resources/map/dark/dark_end03.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/dec.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.125
+        },
+        "assets/resources/map/desert/begin.tmx": {
+            "scale": 0.791171875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 169.369013528192,
+                "y": 498.6274316184457
+            }
+        },
+        "assets/resources/map/desert/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 9472,
+                "y": 320
+            }
+        },
+        "assets/resources/map/desert/desert01_0.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/desert/desert01_1.tmx": {
+            "scale": 0.13878906249999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3199.099352659725,
+                "y": 324.2330424992963
+            }
+        },
+        "assets/resources/map/desert/desert01_2.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3072,
+                "y": 320
+            }
+        },
+        "assets/resources/map/desert/desert01d.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3304,
+                "y": 716
+            }
+        },
+        "assets/resources/map/desert/desert01d.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert01d.tmx#bg_desert_bg": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert02.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6400,
+                "y": 320
+            }
+        },
+        "assets/resources/map/desert/desert02.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/desert/desert02.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert02.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert02_0.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/desert/desert02_1.tmx": {
+            "scale": 0.13878906249999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3199.099352659725,
+                "y": 324.2330424992963
+            }
+        },
+        "assets/resources/map/desert/desert02_1.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/desert/desert_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 323.6202656173143
+            }
+        },
+        "assets/resources/map/desert/desert_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/begin.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 642,
+                "y": 318
+            }
+        },
+        "assets/resources/map/forest/begin.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "assets/resources/map/forest/example.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1598,
+                "y": 318
+            }
+        },
+        "assets/resources/map/forest/example.tmx#item": {
+            "scaleInDock": 0.33
+        },
+        "assets/resources/map/forest/example2.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1808,
+                "y": 600
+            }
+        },
+        "assets/resources/map/forest/example2.tmx#item": {
+            "scaleInDock": 0.33
+        },
+        "assets/resources/map/forest/example3.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 3504,
+                "y": 804
+            }
+        },
+        "assets/resources/map/forest/example3.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/example_0.tmx": {
+            "scale": 0.3788125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1602.375845570038,
+                "y": 322.0590661606997
+            }
+        },
+        "assets/resources/map/forest/example_0.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_01a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 3576,
+                "y": 360
+            }
+        },
+        "assets/resources/map/forest/forest_01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/forest/forest_01b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 3200,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/forest/forest_01b.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 3745.454545454545,
+                "y": 727.2727272727271
+            }
+        },
+        "assets/resources/map/forest/forest_01c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_01d.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2236.3636363636365,
+                "y": 321.21212121212125
+            }
+        },
+        "assets/resources/map/forest/forest_02a.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 5582,
+                "y": 476.66666666666663
+            }
+        },
+        "assets/resources/map/forest/forest_02a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "assets/resources/map/forest/forest_02b.tmx": {
+            "scale": 0.22689732142857144,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4429.3162813576,
+                "y": 910.1032956222332
+            }
+        },
+        "assets/resources/map/forest/forest_02b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_02c.tmx": {
+            "scale": 0.158828125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3198.425971470733,
+                "y": 324.24987702902104
+            }
+        },
+        "assets/resources/map/forest/forest_02c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_02d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1664,
+                "y": 322
+            }
+        },
+        "assets/resources/map/forest/forest_02d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_03a.tmx": {
+            "scale": 0.158828125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3198.425971470733,
+                "y": 324.24987702902104
+            }
+        },
+        "assets/resources/map/forest/forest_03a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_03b.tmx": {
+            "scale": 0.19853515624999998,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2558.7407771765866,
+                "y": 324.87948844072787
+            }
+        },
+        "assets/resources/map/forest/forest_03b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_03c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1663.6363636363635,
+                "y": 330.30303030303025
+            }
+        },
+        "assets/resources/map/forest/forest_03c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_03c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_03d.tmx": {
+            "scale": 0.2335707720588235,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 2808.57058534186,
+                "y": 70.64240039350716
+            }
+        },
+        "assets/resources/map/forest/forest_03d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_04.tmx": {
+            "scale": 0.05672433035714286,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 8973.221839645843,
+                "y": 334.9532710280373
+            }
+        },
+        "assets/resources/map/forest/forest_04a.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3197.7880912412365,
+                "y": 322.30670484842517
+            }
+        },
+        "assets/resources/map/forest/forest_04b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 739.3939393939395,
+                "y": -142.42424242424238
+            }
+        },
+        "assets/resources/map/forest/forest_04c.tmx": {
+            "scale": 0.19779296875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2558.2304729929892,
+                "y": 323.5706527105756
+            }
+        },
+        "assets/resources/map/forest/forest_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 321.1018199704871
+            }
+        },
+        "assets/resources/map/forest/forest_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_end02.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1281.8888342351206,
+                "y": 322.36104279390065
+            }
+        },
+        "assets/resources/map/forest/forest_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/forest_end03.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1278.7878787878785,
+                "y": 322.72727272727275
+            }
+        },
+        "assets/resources/map/forest/forest_end03.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/forest/lvend.tmx#item": {
+            "dynamicWrapping": true
+        },
+        "assets/resources/map/forest/newplayer.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 6788,
+                "y": 854
+            }
+        },
+        "assets/resources/map/forest/test.tmx": {
+            "scale": 0.5123487903225806,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 929.0545991146089,
+                "y": 320.0944417117561
+            }
+        },
+        "assets/resources/map/ice/begin.tmx": {
+            "scale": 0.791171875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 137.77031697442476,
+                "y": 508.73901451565126
+            }
+        },
+        "assets/resources/map/ice/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/ice/ice01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 28290.90909090909,
+                "y": -81.81818181818176
+            }
+        },
+        "assets/resources/map/ice/ice01_0.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3545.3737533326757,
+                "y": 420.2626641651034
+            }
+        },
+        "assets/resources/map/ice/ice01_1.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1172,
+                "y": 490
+            }
+        },
+        "assets/resources/map/ice/ice01_2.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2152,
+                "y": 458
+            }
+        },
+        "assets/resources/map/ice/ice01_3.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3204.1078305519904,
+                "y": 325.46657450380144
+            }
+        },
+        "assets/resources/map/ice/ice01_4.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2471.0180705045923,
+                "y": 293.8678779500342
+            }
+        },
+        "assets/resources/map/ice/ice01_5.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3204.1078305519904,
+                "y": 325.46657450380144
+            }
+        },
+        "assets/resources/map/ice/ice01_6.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2053.915275994865,
+                "y": 420.2626641651034
+            }
+        },
+        "assets/resources/map/ice/ice01_6.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/ice/ice01_7.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1333.3333333333333,
+                "y": 440.9090909090909
+            }
+        },
+        "assets/resources/map/ice/ice_end01.tmx": {
+            "scale": 0.3955859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.1152364964946,
+                "y": 321.04275698627436
+            }
+        },
+        "assets/resources/map/ice/ice_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/item.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.33
+        },
+        "assets/resources/map/maya/begin.tmx": {
+            "scale": 0.791171875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 304.6114347783154,
+                "y": 474.61242223758273
+            }
+        },
+        "assets/resources/map/maya/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/maya/maya01_4.tmx": {
+            "scale": 0.15823437499999998,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3197.7880912412365,
+                "y": 322.30670484842517
+            }
+        },
+        "assets/resources/map/maya/maya01_4.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/maya/maya_end02.tmx": {
+            "scale": 0.3955859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.1152364964946,
+                "y": 321.04275698627436
+            }
+        },
+        "assets/resources/map/maya/maya_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/showtime/128x128.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/showtime/showtime.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "assets/resources/map/showtime/showtime01a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1903.030303030303,
+                "y": 636.3636363636365
+            }
+        },
+        "assets/resources/map/showtime/showtime01a.tmx#128x128": {
+            "dynamicWrapping": false
+        },
+        "assets/resources/map/showtime/showtime01a.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "assets/resources/map/showtime/showtime01b.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -1488,
+                "y": 1760
+            }
+        },
+        "assets/resources/map/showtime/showtime01b.tmx#128x128": {
+            "dynamicWrapping": false
+        },
+        "assets/resources/map/showtime/showtime01b.tmx#item": {
+            "dynamicWrapping": true
+        },
+        "assets/resources/map/showtime/showtime01c.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2454,
+                "y": 58
+            }
+        },
+        "assets/resources/map/showtime/showtime01c.tmx#128x128": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/showtime/showtime01c.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.0625
+        },
+        "assets/resources/map/volcano/begin.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 465,
+                "y": 457
+            }
+        },
+        "assets/resources/map/volcano/begin.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/volcano/volcano01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 6784,
+                "y": -16
+            }
+        },
+        "assets/resources/map/volcano/volcano01_0.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 3200,
+                "y": -78.78787878787875
+            }
+        },
+        "assets/resources/map/volcano/volcano01_1.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200,
+                "y": 320
+            }
+        },
+        "assets/resources/map/volcano/volcano01_2.tmx": {
+            "scale": 0.14609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3039.144385026738,
+                "y": 321.7112299465241
+            }
+        },
+        "assets/resources/map/volcano/volcano02.tmx": {
+            "scale": 0.07081074617346939,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6220.807205178722,
+                "y": 155.34365325077397
+            }
+        },
+        "assets/resources/map/volcano/volcano02_0.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6271.5,
+                "y": 320
+            }
+        },
+        "assets/resources/map/volcano/volcano02_1.tmx": {
+            "scale": 0.14457194010416666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3074.5938643399945,
+                "y": 325.09766394596113
+            }
+        },
+        "assets/resources/map/volcano/volcano_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.3703885882933,
+                "y": 322.36104279390065
+            }
+        },
+        "assets/resources/map/volcano/volcano_end01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "assets/resources/map/volcano/volcano_end02.tmx": {
+            "scale": 0.3955859375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1279.1152364964946,
+                "y": 322.30670484842506
+            }
+        },
+        "assets/resources/map/volcano/volcano_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "bush01_1.tmx": {
+            "scale": 0.041015625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 19139.04761904762,
+                "y": 292.57142857142844
+            }
+        },
+        "resources/map/bg_bush_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "resources/map/bg_bush_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.25
+        },
+        "resources/map/bg_castle_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "resources/map/bg_castle_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/bg_cave_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "resources/map/bg_cave_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/bg_cell_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_cell_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/bg_dark_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_dark_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625
+        },
+        "resources/map/bg_desert_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_desert_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/bg_forest_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75
+        },
+        "resources/map/bg_forest_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.5
+        },
+        "resources/map/bg_ice_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_ice_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/bg_maya_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_maya_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/bg_volcano_bg.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "resources/map/bg_volcano_block.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 11528,
+                "y": 808
+            }
+        },
+        "resources/map/bush/bush01.tmx#bg_bush_bg": {
+            "scaleInDock": 0.5
+        },
+        "resources/map/bush/bush01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/bush/bush01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/bush/bush01_0.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 15728,
+                "y": -748
+            }
+        },
+        "resources/map/bush/bush01_1.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2624,
+                "y": 2768
+            }
+        },
+        "resources/map/bush/bush01_2.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 8448,
+                "y": 888
+            }
+        },
+        "resources/map/bush/bush01_3.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2800,
+                "y": 844
+            }
+        },
+        "resources/map/bush/bush01_4.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 19712,
+                "y": 320
+            }
+        },
+        "resources/map/bush/bush01_5.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2856,
+                "y": 504
+            }
+        },
+        "resources/map/bush/bush01_6.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 664,
+                "y": 606
+            }
+        },
+        "resources/map/bush/bush01a.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5264,
+                "y": 1712
+            }
+        },
+        "resources/map/bush/bush01a.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01a.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3240,
+                "y": 688
+            }
+        },
+        "resources/map/bush/bush01b.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01b.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01c.tmx": {
+            "scale": 0.158828125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3204.7220855878013,
+                "y": 327.3979340875553
+            }
+        },
+        "resources/map/bush/bush01c.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01c.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01d.tmx": {
+            "scale": 0.1408671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3208.6961344351403,
+                "y": 326.54872164605376
+            }
+        },
+        "resources/map/bush/bush01d.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01d.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01e.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2204,
+                "y": 356
+            }
+        },
+        "resources/map/bush/bush01e.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01e.tmx#bg_castle_block": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/bush/bush01e.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01f.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5344,
+                "y": 480
+            }
+        },
+        "resources/map/bush/bush01f.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01f.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01f.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01g.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1228,
+                "y": 444
+            }
+        },
+        "resources/map/bush/bush01g.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01g.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush01g.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush_end01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1724,
+                "y": 44
+            }
+        },
+        "resources/map/bush/bush_end01.tmx#bg_bush_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/bush/bush_end01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/bush/bush_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "resources/map/bush/bush_end01_0.tmx": {
+            "scale": 0.9974999999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.80200501253137,
+                "y": 320.8020050125314
+            }
+        },
+        "resources/map/bush/bush_end01_1.tmx": {
+            "scale": 0.9974999999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.80200501253137,
+                "y": 320.8020050125314
+            }
+        },
+        "resources/map/bush/bush_end01_2.tmx": {
+            "scale": 0.9974999999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.80200501253137,
+                "y": 320.8020050125314
+            }
+        },
+        "resources/map/bush/bush_end01_3.tmx": {
+            "scale": 0.9974999999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.80200501253137,
+                "y": 320.8020050125314
+            }
+        },
+        "resources/map/castle/bg_castle_bg.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 3672,
+                "y": 1824
+            }
+        },
+        "resources/map/castle/castle01.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01.tmx#bg_castle_block": {
+            "scaleInDock": 0.33
+        },
+        "resources/map/castle/castle01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 5188,
+                "y": 372
+            }
+        },
+        "resources/map/castle/castle01a.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01a.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "resources/map/castle/castle01b.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 4228,
+                "y": 372
+            }
+        },
+        "resources/map/castle/castle01b.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01b.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.5
+        },
+        "resources/map/castle/castle01b.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4706.060606060606,
+                "y": 360.6060606060606
+            }
+        },
+        "resources/map/castle/castle01c.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01c.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "resources/map/castle/castle01c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "resources/map/castle/castle01d.tmx": {
+            "scale": 0.2594006147540983,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3862.751061518713,
+                "y": 370.08393403772106
+            }
+        },
+        "resources/map/castle/castle01d.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01d.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle01d.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2208,
+                "y": 768
+            }
+        },
+        "resources/map/castle/castle02.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "resources/map/castle/castle02.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "resources/map/castle/castle02.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.25
+        },
+        "resources/map/castle/castle02a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 3866.666666666667,
+                "y": 763.6363636363636
+            }
+        },
+        "resources/map/castle/castle02a.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02a.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "resources/map/castle/castle02a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "resources/map/castle/castle02b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4063.636363636364,
+                "y": 360.6060606060606
+            }
+        },
+        "resources/map/castle/castle02b.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02b.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02b.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02c.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2192,
+                "y": 64
+            }
+        },
+        "resources/map/castle/castle02c.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02c.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02d.tmx": {
+            "scale": 0.25154854910714286,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 83.48289057733882,
+                "y": 640.0354944262658
+            }
+        },
+        "resources/map/castle/castle02d.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02d.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle02d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 8840,
+                "y": 224
+            }
+        },
+        "resources/map/castle/castle03.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/castle/castle03.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.25
+        },
+        "resources/map/castle/castle03a.tmx": {
+            "scale": 0.1408671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3215.795019688315,
+                "y": 326.54872164605376
+            }
+        },
+        "resources/map/castle/castle03a.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03a.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03b.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1380,
+                "y": 272
+            }
+        },
+        "resources/map/castle/castle03b.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03b.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03b.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 3151.515151515151,
+                "y": 293.93939393939377
+            }
+        },
+        "resources/map/castle/castle03c.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03c.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03d.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 3170,
+                "y": 346
+            }
+        },
+        "resources/map/castle/castle03d.tmx#bg_castle_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03d.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle03d.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle_end01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1428,
+                "y": 964
+            }
+        },
+        "resources/map/castle/castle_end01.tmx#bg_castle_bg": {
+            "scaleInDock": 1.5
+        },
+        "resources/map/castle/castle_end01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/castle/castle_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/castle/castle_end02.tmx": {
+            "scale": 0.3955859375,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2535.479411474277,
+                "y": 353.90540140219224
+            }
+        },
+        "resources/map/castle/castle_end02.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "resources/map/castle/castle_end02.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/castle/castle_end02.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/castle/castle_end03.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1096.969696969697,
+                "y": 287.8787878787879
+            }
+        },
+        "resources/map/castle/castle_end03.tmx#bg_castle_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75
+        },
+        "resources/map/castle/castle_end03.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/castle/castle_end03.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/castle/test.tmx": {
+            "scale": 0.1566015625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2560.6385632327265,
+                "y": 961.0376652531804
+            }
+        },
+        "resources/map/cave/cave01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 12936,
+                "y": 424
+            }
+        },
+        "resources/map/cave/cave01.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 1
+        },
+        "resources/map/cave/cave01.tmx#bg_cave_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "resources/map/cave/cave01a.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2693.939393939394,
+                "y": 703.0303030303031
+            }
+        },
+        "resources/map/cave/cave01a.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/cave/cave01a.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/cave/cave01b.tmx": {
+            "scale": 0.1637403350515464,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3652.12395474668,
+                "y": 781.7255287752087
+            }
+        },
+        "resources/map/cave/cave01b.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.5
+        },
+        "resources/map/cave/cave01b.tmx#bg_cave_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01b.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2657.575757575758,
+                "y": 575.7575757575758
+            }
+        },
+        "resources/map/cave/cave01c.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/cave/cave01c.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1372,
+                "y": 928
+            }
+        },
+        "resources/map/cave/cave01d.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/cave/cave01d.tmx#bg_cave_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave01d.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave02.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 5188,
+                "y": 372
+            }
+        },
+        "resources/map/cave/cave02.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "resources/map/cave/cave02.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/cave/cave02.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.75
+        },
+        "resources/map/cave/cave02d.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4936.363636363636,
+                "y": 381.81818181818187
+            }
+        },
+        "resources/map/cave/cave02d.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.75
+        },
+        "resources/map/cave/cave02d.tmx#bg_cave_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave02d.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.75
+        },
+        "resources/map/cave/cave_end01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2784.848484848485,
+                "y": 360.6060606060606
+            }
+        },
+        "resources/map/cave/cave_end01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/cave/cave_end01.tmx#bg_cave_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave_end01.tmx#bg_cave_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cave/cave_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/cell/cell01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1188,
+                "y": 636
+            }
+        },
+        "resources/map/cell/cell01.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01.tmx#bg_cell_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2520,
+                "y": 480
+            }
+        },
+        "resources/map/cell/cell01a.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "resources/map/cell/cell01a.tmx#bg_cell_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/cell/cell01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01b.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4793.939393939394,
+                "y": 542.4242424242424
+            }
+        },
+        "resources/map/cell/cell01b.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01b.tmx#bg_cell_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01b.tmx#item": {
+            "scaleInDock": 0.25
+        },
+        "resources/map/cell/cell01c.tmx": {
+            "scale": 0.14522390463917526,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3043.5760634462868,
+                "y": 323.63817869225227
+            }
+        },
+        "resources/map/cell/cell01c.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01c.tmx#bg_cell_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01d.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2208,
+                "y": 396
+            }
+        },
+        "resources/map/cell/cell01d.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01d.tmx#bg_cell_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01e.tmx": {
+            "scale": 0.13947246287128712,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3176.2542288281293,
+                "y": 322.64433475680744
+            }
+        },
+        "resources/map/cell/cell01e.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01e.tmx#bg_cell_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01e.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01f.tmx": {
+            "scale": 0.17453640109890112,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2853.272995573044,
+                "y": 320.8499754058041
+            }
+        },
+        "resources/map/cell/cell01f.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01f.tmx#bg_cell_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell01f.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell02.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3496,
+                "y": 832
+            }
+        },
+        "resources/map/cell/cell02.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "resources/map/cell/cell02.tmx#bg_cell_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell_end01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1400,
+                "y": 437.8787878787879
+            }
+        },
+        "resources/map/cell/cell_end01.tmx#bg_cell_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell_end01.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/cell/cell_end01.tmx#dec": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/cell/cell_end01.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "resources/map/collision_set.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 53872,
+                "y": 528
+            }
+        },
+        "resources/map/dark/dark01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.0625
+        },
+        "resources/map/dark/dark01.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01a.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3408,
+                "y": 876
+            }
+        },
+        "resources/map/dark/dark01a.tmx#bg_castle_block": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/dark/dark01a.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01a.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01a.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6136,
+                "y": 356
+            }
+        },
+        "resources/map/dark/dark01b.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01b.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01c.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3751.854402361043,
+                "y": 352.9286768322677
+            }
+        },
+        "resources/map/dark/dark01c.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01c.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01d.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3770.9316281357596,
+                "y": 467.3920314805705
+            }
+        },
+        "resources/map/dark/dark01d.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01d.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01d.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01e.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3166.81947860305,
+                "y": 317.9537629119527
+            }
+        },
+        "resources/map/dark/dark01e.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01e.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01e.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01e.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01f.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2888,
+                "y": 236
+            }
+        },
+        "resources/map/dark/dark01f.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01f.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01f.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01f.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01g.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 327.4923757993113
+            }
+        },
+        "resources/map/dark/dark01g.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01g.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01g.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01g.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01h.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 327.4923757993113
+            }
+        },
+        "resources/map/dark/dark01h.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01h.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01h.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01h.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01i.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 6158,
+                "y": 465
+            }
+        },
+        "resources/map/dark/dark01i.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01i.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01i.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01i.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01j.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 324.312838170192
+            }
+        },
+        "resources/map/dark/dark01j.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01j.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01j.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01j.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01k.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 321.13330054107223
+            }
+        },
+        "resources/map/dark/dark01k.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01k.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01k.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01k.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01l.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 327.4923757993113
+            }
+        },
+        "resources/map/dark/dark01l.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01l.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01l.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01l.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01m.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 327.4923757993113
+            }
+        },
+        "resources/map/dark/dark01m.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01m.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01m.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01m.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01n.tmx": {
+            "scale": 0.1572555693069307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3173.1785538612885,
+                "y": 327.4923757993113
+            }
+        },
+        "resources/map/dark/dark01n.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01n.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01n.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01n.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01o.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1652,
+                "y": 358
+            }
+        },
+        "resources/map/dark/dark01o.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01o.tmx#bg_dark_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01o.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark01o.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark_end01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 1245.4545454545455,
+                "y": 322.72727272727275
+            }
+        },
+        "resources/map/dark/dark_end01.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 1
+        },
+        "resources/map/dark/dark_end01.tmx#bg_dark_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark_end01.tmx#bg_dark_block": {
+            "dynamicWrapping": true
+        },
+        "resources/map/dark/dark_end01.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/dark/dark_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/dec.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/desert/desert01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 9472,
+                "y": 322
+            }
+        },
+        "resources/map/desert/desert01.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "resources/map/desert/desert01.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/desert/desert01.tmx#bg_desert_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.0625,
+            "scaleInEditor": 1
+        },
+        "resources/map/desert/desert01a.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2696,
+                "y": 408
+            }
+        },
+        "resources/map/desert/desert01a.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01a.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "resources/map/desert/desert01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3096,
+                "y": -336
+            }
+        },
+        "resources/map/desert/desert01b.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/desert/desert01b.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01b.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/desert/desert01c.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4880,
+                "y": 168
+            }
+        },
+        "resources/map/desert/desert01c.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/desert/desert01c.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5
+        },
+        "resources/map/desert/desert01d.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 2312,
+                "y": 800
+            }
+        },
+        "resources/map/desert/desert01d.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.25
+        },
+        "resources/map/desert/desert01d.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01d.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/desert/desert01e.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1627.272727272727,
+                "y": 687.8787878787878
+            }
+        },
+        "resources/map/desert/desert01e.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01e.tmx#bg_desert_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert01e.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/desert/desert02.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 8616,
+                "y": 528
+            }
+        },
+        "resources/map/desert/desert02.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert02.tmx#bg_desert_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert_end01.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2274,
+                "y": 346
+            }
+        },
+        "resources/map/desert/desert_end01.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "resources/map/desert/desert_end01.tmx#bg_desert_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/desert/desert_end01.tmx#bg_desert_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125
+        },
+        "resources/map/desert/desert_end01.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        },
+        "resources/map/forest/bg_forest_bg.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/block_down_2.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/dec.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/example.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3039.393939393939,
+                "y": 278.78787878787887
+            }
+        },
+        "resources/map/forest/example.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/forest/example.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/example.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/example.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/forest/forest_01.tmx": {
+            "scale": 0.125,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 2680,
+                "y": -120
+            }
+        },
+        "resources/map/forest/forest_01.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/forest/forest_01.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/forest/forest_01.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "resources/map/forest/forest_01a.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3316,
+                "y": 192
+            }
+        },
+        "resources/map/forest/forest_01a.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01a.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/forest/forest_01a.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01a.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/forest/forest_01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 3200,
+                "y": 324
+            }
+        },
+        "resources/map/forest/forest_01b.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01b.tmx#block_down_2": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/forest/forest_01b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01c.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 2240,
+                "y": 318
+            }
+        },
+        "resources/map/forest/forest_01c.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01c.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01d.tmx": {
+            "scale": 0.17897321428571428,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2240.5587428286353,
+                "y": 1089.5485158393617
+            }
+        },
+        "resources/map/forest/forest_01d.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01d.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01d.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 6352,
+                "y": 880
+            }
+        },
+        "resources/map/forest/forest_02.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.5
+        },
+        "resources/map/forest/forest_02.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "resources/map/forest/forest_02a.tmx": {
+            "scale": 0.12528124999999998,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 3456.223497131455,
+                "y": 2155.150910451485
+            }
+        },
+        "resources/map/forest/forest_02a.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "resources/map/forest/forest_02a.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/forest/forest_02a.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02a.tmx#item": {
+            "scaleInDock": 0.5
+        },
+        "resources/map/forest/forest_02b.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1464,
+                "y": 480
+            }
+        },
+        "resources/map/forest/forest_02b.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75
+        },
+        "resources/map/forest/forest_02b.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/forest/forest_02b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2054.5454545454545,
+                "y": 257.5757575757576
+            }
+        },
+        "resources/map/forest/forest_02c.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02c.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02c.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/forest/forest_02d.tmx": {
+            "scale": 0.2514873798076923,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1666.0875799032196,
+                "y": 866.8427026704104
+            }
+        },
+        "resources/map/forest/forest_02d.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02d.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02d.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_02d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03.tmx": {
+            "scale": 0.08823784722222222,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 5768.4997540580425,
+                "y": 334.3236596163306
+            }
+        },
+        "resources/map/forest/forest_03.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03a.tmx": {
+            "scale": 0.158828125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3198.425971470733,
+                "y": 415.5435317265126
+            }
+        },
+        "resources/map/forest/forest_03a.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03a.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03a.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 2800,
+                "y": 1032
+            }
+        },
+        "resources/map/forest/forest_03b.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03b.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 3106.060606060606,
+                "y": 612.121212121212
+            }
+        },
+        "resources/map/forest/forest_03c.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03c.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03d.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2432,
+                "y": 1952
+            }
+        },
+        "resources/map/forest/forest_03d.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03d.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03d.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_03d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_04.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2844,
+                "y": 904
+            }
+        },
+        "resources/map/forest/forest_04.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_04.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_04.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_04.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07a.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 14936,
+                "y": 848
+            }
+        },
+        "resources/map/forest/forest_07a.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07a.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07a.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 14152,
+                "y": 944
+            }
+        },
+        "resources/map/forest/forest_07b.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07b.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_07b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end01.tmx": {
+            "scale": 0.2382421875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1288.6046892933268,
+                "y": 1460.6984751598623
+            }
+        },
+        "resources/map/forest/forest_end01.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end01.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/forest/forest_end01.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end02.tmx": {
+            "scale": 0.2382421875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1288.6046892933268,
+                "y": 894.0482046237087
+            }
+        },
+        "resources/map/forest/forest_end02.tmx#bg_forest_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end02.tmx#block_down_2": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25
+        },
+        "resources/map/forest/forest_end02.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end02.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end03.tmx": {
+            "scale": 0.2382421875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1276.01246105919,
+                "y": 321.1018199704869
+            }
+        },
+        "resources/map/forest/forest_end03.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end03.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end03.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/forest_end03.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 22606,
+                "y": 614
+            }
+        },
+        "resources/map/forest/newplayer.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01a.tmx": {
+            "scale": 0.09529687499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200.5246761764224,
+                "y": 325.2992293818661
+            }
+        },
+        "resources/map/forest/newplayer01a.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01a.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01a.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01b.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2488,
+                "y": 784
+            }
+        },
+        "resources/map/forest/newplayer01b.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01b.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01c.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1181.818181818182,
+                "y": 690.9090909090909
+            }
+        },
+        "resources/map/forest/newplayer01c.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01c.tmx#block_down_2": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/forest/newplayer01c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01d.tmx": {
+            "scale": 0.08663352272727272,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3497.491392031481,
+                "y": 311.6576487948846
+            }
+        },
+        "resources/map/forest/newplayer01d.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01d.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01d.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01d.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01e.tmx": {
+            "scale": 0.11912109375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2552.0249221183803,
+                "y": 1452.3036563371047
+            }
+        },
+        "resources/map/forest/newplayer01e.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01e.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01e.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01e.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01f.tmx": {
+            "scale": 0.09529687499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200.5246761764224,
+                "y": 325.2992293818661
+            }
+        },
+        "resources/map/forest/newplayer01f.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01f.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01f.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01f.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01g.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4336,
+                "y": 720
+            }
+        },
+        "resources/map/forest/newplayer01g.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01g.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01g.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01g.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01h.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2100,
+                "y": 681.8181818181819
+            }
+        },
+        "resources/map/forest/newplayer01h.tmx#bg_forest_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01h.tmx#block_down_2": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01h.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/newplayer01h.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/forest/test.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 928,
+                "y": 321
+            }
+        },
+        "resources/map/ice/ice01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 23104,
+                "y": 322
+            }
+        },
+        "resources/map/ice/ice01.tmx#bg_castle_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01.tmx#bg_ice_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01.tmx#bg_ice_block": {
+            "dynamicWrapping": true,
+            "scaleInEditor": 0.33
+        },
+        "resources/map/ice/ice01.tmx#dec": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01a.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3199,
+                "y": 668
+            }
+        },
+        "resources/map/ice/ice01a.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01a.tmx#bg_ice_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01a.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01b.tmx": {
+            "scale": 0.09529687499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3179.537629119528,
+                "y": 320.0524676176424
+            }
+        },
+        "resources/map/ice/ice01b.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01b.tmx#bg_ice_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01b.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01c.tmx": {
+            "scale": 0.09529687499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200.524676176423,
+                "y": 320.0524676176424
+            }
+        },
+        "resources/map/ice/ice01c.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01c.tmx#bg_ice_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01c.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01f.tmx": {
+            "scale": 0.09529687499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3200.524676176423,
+                "y": 320.0524676176424
+            }
+        },
+        "resources/map/ice/ice01f.tmx#bg_castle_block": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01f.tmx#bg_ice_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01f.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01f.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01h.tmx": {
+            "scale": 0.6403053977272727,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.2395873772947,
+                "y": 340.46253674227717
+            }
+        },
+        "resources/map/ice/ice01h.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01h.tmx#bg_ice_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01h.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice01h.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice_end01.tmx": {
+            "scale": 0.313203125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1277.1264654527313,
+                "y": 320.8780244449987
+            }
+        },
+        "resources/map/ice/ice_end01.tmx#bg_castle_block": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice_end01.tmx#bg_ice_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice_end01.tmx#bg_ice_block": {
+            "scaleInDock": 0.25
+        },
+        "resources/map/ice/ice_end01.tmx#dec": {
+            "scaleInDock": 1
+        },
+        "resources/map/ice/ice_end01.tmx#item": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.33
+        },
+        "resources/map/item.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.125
+        },
+        "resources/map/items.tsx": {
+            "scaleInDock": 1
+        },
+        "resources/map/maya/maya01.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 19268,
+                "y": 372
+            }
+        },
+        "resources/map/maya/maya01.tmx#bg_maya_block": {
+            "dynamicWrapping": true,
+            "scaleInEditor": 0.25
+        },
+        "resources/map/maya/maya01.tmx#item": {
+            "dynamicWrapping": false
+        },
+        "resources/map/maya/maya_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2528.5194294146586,
+                "y": 10.073782587309381
+            }
+        },
+        "resources/map/maya/maya_end01.tmx#bg_maya_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/maya/maya_end01.tmx#bg_maya_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/maya/maya_end01.tmx#item": {
+            "scaleInDock": 0.125
+        },
+        "resources/map/showtime/showtime00.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 516,
+                "y": 356
+            }
+        },
+        "resources/map/showtime/showtime00.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/showtime/showtime01.tmx": {
+            "scale": 0.0625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3936,
+                "y": 2672
+            }
+        },
+        "resources/map/showtime/showtime01.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/showtime/showtime01a.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3368,
+                "y": 1328
+            }
+        },
+        "resources/map/showtime/showtime01a.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/showtime/showtime01b.tmx": {
+            "scale": 0.158828125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3204.7220855878013,
+                "y": 321.101819970487
+            }
+        },
+        "resources/map/showtime/showtime01b.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/showtime/showtime01c.tmx": {
+            "scale": 0.125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3480,
+                "y": 296
+            }
+        },
+        "resources/map/showtime/showtime01c.tmx#item": {
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano01.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 18945.454545454544,
+                "y": 469.69696969696963
+            }
+        },
+        "resources/map/volcano/volcano01.tmx#bg_volcano_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/volcano/volcano01.tmx#bg_volcano_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 0.25
+        },
+        "resources/map/volcano/volcano01.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano02.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 7266,
+                "y": 346
+            }
+        },
+        "resources/map/volcano/volcano02.tmx#bg_volcano_bg": {
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano02.tmx#bg_volcano_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano02.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano_end01.tmx": {
+            "scale": 0.39707031249999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2528.5194294146586,
+                "y": 352.5823905558289
+            }
+        },
+        "resources/map/volcano/volcano_end01.tmx#bg_volcano_bg": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "resources/map/volcano/volcano_end01.tmx#bg_volcano_block": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "resources/map/volcano/volcano_end01.tmx#item": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.33
+        }
+    },
+    "map.fixedSize": true,
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": 3,
+    "map.orientation": 1,
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 50,
+    "openFiles": [
+        "assets/resources/map/item.tsx",
+        "assets/resources/map/showtime/showtime01a.tmx",
+        "assets/resources/map/showtime/showtime01b.tmx",
+        "assets/resources/map/showtime/showtime01c.tmx"
+    ],
+    "project": "parkour-hero.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "assets/resources/map/item.tsx",
+        "assets/resources/map/showtime/showtime01a.tmx",
+        "assets/resources/map/showtime/showtime01b.tmx",
+        "assets/resources/map/showtime/showtime01c.tmx",
+        "assets/resources/map/forest/example.tmx",
+        "assets/resources/map/128x128.tsx",
+        "assets/resources/map/forest/forest_01c.tmx",
+        "assets/resources/map/forest/forest_01d.tmx",
+        "assets/resources/map/forest/forest_01a.tmx",
+        "assets/resources/map/forest/forest_01b.tmx",
+        "assets/resources/map/forest/begin.tmx",
+        "assets/resources/map/showtime/showtime.tsx"
+    ],
+    "resizeMap.removeObjects": true,
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFilter": "Tiled 图块集文件 (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    },
+    "tileset.transparentColor": "#ff00ff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": false
+}

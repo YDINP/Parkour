@@ -1,0 +1,18 @@
+{
+  "ver": "1.0.27",
+  "uuid": "53415968-ef4e-4c31-9f68-6fc51f58acb0",
+  "importer": "effect",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform mat4 cc_matViewProj;\nuniform mat4 cc_matWorld;\nattribute vec3 a_position;\nattribute vec4 a_color;\nvarying vec4 v_color;\n#if USE_TEXTURE\nattribute vec2 a_uv0;\nvarying vec2 v_uv0;\n#endif\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n  v_color = a_color;\n  gl_Position = pos;\n}",
+        "frag": "\nprecision lowp float;\n#if USE_ALPHA_TEST\n#endif\nvarying vec4 v_color;\n#if USE_TEXTURE\nvarying vec2 v_uv0;\nuniform sampler2D texture;\nuniform sampler2D texture0;\nuniform float u_time;\n#endif\nconst float T_TRAN = 1.;\nconst float T_INTR = 1.;\nconst float T_PADN = 1.;\nconst float T_TOTL = ((1. * T_TRAN) + T_INTR + T_PADN);\nvoid main()\n{\n    float t = mod(u_time, T_TOTL);\n    float ts0 =       T_TRAN;\n    float ts1 = ts0 + T_INTR;\n    float ts2 = ts1 + T_TRAN;\n    if(t < ts0) t = t / ts0;\n    else if (t < ts1) t = 1.;\n    else if (t < ts2) t = 1. - ((t - ts1) / (ts2-ts1));\n    else              t = 0.;\n    vec4 tex0 = texture2D(texture, v_uv0);\n    vec4 tex1 = texture2D(texture0, v_uv0);\n    vec3 r = mix(tex0.rgb, tex1.rgb, t);\n    float a = mix(tex0.a,tex1.a,t);\n    gl_FragColor = vec4(r,a);\n}"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\nuniform CCLocal {\n  mat4 cc_matWorld;\n  mat4 cc_matWorldIT;\n};\nin vec3 a_position;\nin vec4 a_color;\nout vec4 v_color;\n#if USE_TEXTURE\nin vec2 a_uv0;\nout vec2 v_uv0;\n#endif\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n  v_color = a_color;\n  gl_Position = pos;\n}",
+        "frag": "\nprecision lowp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\n#if USE_ALPHA_TEST\n  uniform ALPHA_TEST {\n    float alphaThreshold;\n  };\n#endif\nin vec4 v_color;\n#if USE_TEXTURE\nin vec2 v_uv0;\nuniform sampler2D texture;\nuniform sampler2D texture0;\nuniform Const\n{\n  float u_time;\n};\n#endif\nconst float T_TRAN = 1.;\nconst float T_INTR = 1.;\nconst float T_PADN = 1.;\nconst float T_TOTL = ((1. * T_TRAN) + T_INTR + T_PADN);\nvoid main()\n{\n    float t = mod(u_time, T_TOTL);\n    float ts0 =       T_TRAN;\n    float ts1 = ts0 + T_INTR;\n    float ts2 = ts1 + T_TRAN;\n    if(t < ts0) t = t / ts0;\n    else if (t < ts1) t = 1.;\n    else if (t < ts2) t = 1. - ((t - ts1) / (ts2-ts1));\n    else              t = 0.;\n    vec4 tex0 = texture(texture, v_uv0);\n    vec4 tex1 = texture(texture0, v_uv0);\n    vec3 r = mix(tex0.rgb, tex1.rgb, t);\n    float a = mix(tex0.a,tex1.a,t);\n    gl_FragColor = vec4(r,a);\n}"
+      }
+    }
+  ],
+  "subMetas": {}
+}

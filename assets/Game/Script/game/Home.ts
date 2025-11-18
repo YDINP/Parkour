@@ -1,0 +1,245 @@
+import Device from "../../../framework/core/Device";
+import { evt } from "../../../framework/core/event";
+import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
+import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
+import { ITileObjectFactory } from "../../../framework/extension/tilemap/TmxLayerWalker";
+import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
+import { Loading } from "../../../framework/ui/LoadingManager";
+import mvcView from "../../../framework/ui/mvcView";
+import { Toast } from "../../../framework/ui/ToastManager";
+import ccUtil from "../../../framework/utils/ccUtil";
+import { ParkourType, pdata } from "../data/PlayerInfo";
+import InventoryUI from "../view/TopMostInventoryUI";
+import { guider } from "./Guide";
+import PlayerData from "./model/PlayerData";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class Home extends mvcView {
+
+    //ui_engergy
+    @property(cc.Label)
+    private lab_engergy: cc.Label = null;
+
+    //ui_gold
+    @property(cc.Label)
+    private lab_gold: cc.Label = null;
+
+    //ui_diamond
+    @property(cc.Label)
+    private lab_diamond: cc.Label = null;
+
+    //ui_exe
+    @property(cc.Label)
+    private lab_exe: cc.Label = null;
+    @property(cc.Label)
+    private lab_LV: cc.Label = null;
+
+    @property(cc.Node)
+    drawBoxPoint: cc.Node = null;
+
+
+    @property(cc.Node)
+    node_loc: cc.Node = null;
+
+    @property(cc.Sprite)
+    heroModel: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    petModel: cc.Sprite = null;
+
+    @property(cc.Node)
+    node_btn_pet: cc.Node = null;
+
+    onLoad() {
+        this.register(this.lab_engergy, _ => pdata.energy)
+        this.register(this.lab_gold, _ => pdata.gold);
+        this.register(this.lab_diamond, _ => pdata.diamond);
+        this.register(this.lab_exe, _ => (pdata.expPercent * 100).toFixed() + "%");
+        this.register(this.lab_LV, _ => pdata.playerlv);
+        //等级大于3级解锁无尽模式
+        this.onVisible(this.node_loc, _ => pdata.playerlv < csv.Config.Unlock_Endless)
+        //
+        this.onVisible(this.drawBoxPoint, () => {
+            return UInfo.drawResidueTime > 0;
+        })
+        this.register(this.heroModel, () => pdata.selHeroData.portrait);
+        this.onVisible(this.petModel.node, () => pdata.selPet != "0");
+        this.register(this.petModel, () => pdata.selPetData.avatar);
+        this.onClick(this.node_btn_pet, this.click_pet)
+        // 第二关后 ，宠物引导 完后
+        this.onVisible(this.node_btn_pet, () => pdata.level > 2)
+
+        // console.log('bgm', csv.Audio.homeBgm);
+        Device.playBGM(csv.Audio.homeBgm);
+        // evt.on("essential_data", this.render, this);
+        evt.on("View.onHidden", this.render, this);
+        evt.on("pdata.diamond", this.onGetDiamond, this);
+        evt.on("pdata.gold", this.onGetGold, this);
+        evt.on("pdata.energy", this.onGetHeart, this);
+        evt.on("pdata.playerlv", this.onLvExpChanged, this)
+        evt.on("pdata.exp", this.onLvExpChanged, this)
+
+    }
+
+    onLoadFinished(params) {
+        if (params) {
+            if (params.msg) {
+                Toast.make(params.msg)
+            }
+        }
+    }
+
+    onLvExpChanged() {
+        let canUp = pdata.upPlayer();
+        if (canUp) {
+            this.lab_LV.string = pdata.playerlv.toString()
+        }
+        this.lab_exe.string = (pdata.exp * 100).toFixed() + "%";
+    }
+
+    onGetDiamond(n) {
+        this.lab_diamond.string = n
+    }
+
+    onGetGold(n) {
+        this.lab_gold.string = n
+    }
+
+    onGetHeart(n) {
+        this.lab_engergy.string = n;
+    }
+
+
+    start() {
+        this.render();
+        guider.enterHome();
+        if (!guider.isInGuide) {
+            if (g.isNextDay(pdata.signInTime)) {
+                if (pdata.signIn.date >= 7) {
+                    pdata.signIn = { date: 1, isSignIn: false };
+                }
+                else if (pdata.signIn.isSignIn == true) {
+                    pdata.signIn = { date: pdata.signIn.date + 1, isSignIn: false };
+                }
+                vm.show("UI_signIn");
+            }
+        }
+        evt.emit("Home.start")
+    }
+
+    onDestroy() {
+        evt.off(this);
+    }
+
+    //获取体力
+    private click_get_engergy() {
+
+        vm.show("UIRedHeartShop");
+    }
+    //获取银币
+    private click_get_gold() {
+
+        vm.show("UISilverCoin");
+    }
+    //获取钻石
+    private click_get_diamond() {
+
+        vm.show("UIDiamondShop");
+    }
+
+    //角色
+    private click_role() {
+
+        vm.show("UIHeroShop");
+    }
+
+    //宠物
+    private click_pet() {
+
+        vm.show("UIPet");
+    }
+
+    //排行
+    private click_ranking() {
+
+        vm.show("UIRank");
+    }
+
+    //礼物
+    private click_gift() {
+
+        vm.show("UIDrawBox");
+    }
+
+    //设置
+    private click_setting() {
+
+        vm.show("UISetting");
+    }
+
+    //闯关模式
+    private click_breakthrough(e) {
+
+        if (pdata.energy <= 0) {
+            Toast.make("爱心不足");
+            vm.show("UIRedHeartShop", () => {
+                InventoryUI.instance.setTarget(e.target)
+                vm.hide("UIRedHeartShop");
+                Loading.show(0.5);
+                this.scheduleOnce(() => {
+                    vm.show("UILevels");
+                }, 0.5)
+            })
+            return;
+        }
+        pdata.gameMode = ParkourType.Normal;
+        vm.show("UILevels")
+    }
+
+    //无尽模式
+    private click_parkour(e) {
+
+        if (pdata.playerlv < csv.Config.Unlock_Endless) {
+            Toast.make("达到等级 " + csv.Config.Unlock_Endless + "后解锁！")
+            return
+        }
+        if (pdata.energy <= 0) {
+            Toast.make("爱心不足");
+            vm.show("UIRedHeartShop", () => {
+                InventoryUI.instance.setTarget(e.target)
+                vm.hide("UIRedHeartShop");
+                Loading.show(0.5);
+                this.scheduleOnce(() => {
+                    vm.show("UIReady");
+                }, 0.5)
+            })
+            return;
+        }
+        pdata.gameMode = ParkourType.Infinite;
+        vm.show("UIReady")
+    }
+
+    private test(e) {
+        let count = 0;
+        let d = ccUtil.get(PlayerData, count + 1);
+        let exp = 5000
+        let next_require_exp = d.require_exp;
+        let isSucc = false;
+
+        console.log("经验值 :", exp, next_require_exp)
+        while (exp >= next_require_exp) {
+            console.log("经验值1 :", exp, next_require_exp)
+            exp = exp - next_require_exp;
+            d = ccUtil.get(PlayerData, count + 1);
+            next_require_exp = d.require_exp;
+            count++
+            isSucc = true;
+        }
+        console.log(isSucc)
+        console.log(count)
+        console.log(exp)
+    }
+
+}

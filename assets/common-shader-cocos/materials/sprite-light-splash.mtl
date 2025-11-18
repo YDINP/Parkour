@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.Material",
+  "_name": "sprite-light-splash",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "bc4b1073-a16f-4aa9-a7f1-50ab601d2427"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "ENABLE_LIGHT": true
+      },
+      "props": {
+        "enableFog": 0,
+        "lightCenterPoint": {
+          "__type__": "cc.Vec2",
+          "x": -0.3,
+          "y": 1
+        },
+        "lightColor": {
+          "__type__": "cc.Color",
+          "r": 255,
+          "g": 180,
+          "b": 77,
+          "a": 138
+        },
+        "lightWidth": 0.5,
+        "cropAlpha": 1,
+        "enableGradient": 1,
+        "lightAngle": 31.4
+      }
+    }
+  }
+}

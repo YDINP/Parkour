@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="10" tilewidth="64" tileheight="64">
+    <tileset firstgid="1" source="../bg_forest_bg.tsx"/>
+    <tileset firstgid="31" source="../bg_forest_block.tsx"/>
+    <tileset firstgid="36" source="../dec.tsx"/>
+    <tileset firstgid="45" name="item" tilewidth="64" tileheight="64">
+        <tile id="0">
+            <image width="64" height="64" source="../../item/item_bean/item_bean_001.png"/>
+        </tile>
+        <tile id="1">
+            <image width="64" height="64" source="../../item/slivercoin/sliver_coin0000.png"/>
+        </tile>
+        <tile id="2">
+            <image width="64" height="64" source="../../item/goldcoin/gold_coin0.png"/>
+        </tile>
+        <tile id="3">
+            <image width="64" height="64" source="../../item/showtime/showtime_h.png"/>
+        </tile>
+        <tile id="4">
+            <image width="64" height="64" source="../../item/showtime/showtime_m.png"/>
+        </tile>
+    </tileset>
+    <tileset firstgid="50" name="item" tilewidth="64" tileheight="64">
+        <tile id="0">
+            <image width="64" height="64" source="../../item/item_bean/item_bean_001.png"/>
+        </tile>
+        <tile id="1">
+            <image width="64" height="64" source="../../item/slivercoin/sliver_coin0000.png"/>
+        </tile>
+        <tile id="2">
+            <image width="64" height="64" source="../../item/goldcoin/gold_coin0.png"/>
+        </tile>
+        <tile id="3">
+            <image width="64" height="64" source="../../item/showtime/showtime_h.png"/>
+        </tile>
+        <tile id="4">
+            <image width="64" height="64" source="../../item/showtime/showtime_m.png"/>
+        </tile>
+    </tileset>
+    <objectgroup name="object_bg">
+        <object gid="39" x="5952" y="590"/>
+        <object gid="37" x="1984" y="608"/>
+        <object gid="40" x="1904" y="544"/>
+        <object gid="43" x="1360" y="544"/>
+        <object gid="39" x="1392" y="528"/>
+        <object gid="39" x="1280" y="560"/>
+        <object gid="39" x="3072" y="576"/>
+        <object gid="36" x="2848" y="608"/>
+        <object gid="36" x="1440" y="608"/>
+        <object gid="40" x="3616" y="560"/>
+        <object gid="40" x="3376" y="528" rotation="13.3611"/>
+        <object gid="37" x="3456" y="544"/>
+        <object gid="37" x="4080" y="592"/>
+        <object gid="40" x="4256" y="560"/>
+        <object gid="36" x="4944" y="560"/>
+        <object gid="36" x="5376" y="592"/>
+        <object gid="38" x="5856" y="544"/>
+        <object gid="38" x="6080" y="608"/>
+        <object gid="40" x="5776" y="560"/>
+        <object gid="40" x="5120" y="560"/>
+        <object gid="37" x="496" y="576"/>
+        <object gid="36" x="1120" y="576"/>
+    </objectgroup>
+    <layer name="bg" width="100" height="10">
+        <data encoding="base64" compression="zlib"> eJztzzEKADAIA0Dp5P9f7N6tBV28g4ySGAEAAMBG2ZAzkJfOvG4m9v3+UX7vAYk=
+        </data>
+    </layer>
+    <layer name="platform" width="100" height="10">
+        <data encoding="base64" compression="zlib">
+   eJztzzEKACEQQ1EbK9sB5/4n1QWLJSipXLb4D4KFcQZLAQAAAIBv1EsJOZ/0mTz09S5MJ1b6q6szUvo6x+2rm1lp/uHi3jbyqwySUAhA
+        </data>
+    </layer>
+    <objectgroup name="object">
+        <object gid="41" x="2112" y="640"/>
+        <object gid="43" x="1920" y="640"/>
+        <object gid="41" x="2800" y="640"/>
+        <object gid="41" x="2576" y="624"/>
+        <object gid="41" x="3408" y="640"/>
+        <object gid="41" x="3168" y="640"/>
+        <object gid="41" x="4832" y="640"/>
+        <object gid="41" x="5536" y="624"/>
+    </objectgroup>
+    <objectgroup name="object_obstacle">
+        <object gid="35" x="5990" y="553"/>
+        <object gid="32" x="6061" y="553"/>
+        <object gid="33" x="3208" y="448">
+            <properties>
+                <property name="down" value="1"/>
+            </properties>
+        </object>
+        <object gid="34" x="5104" y="336" rotation="-43.4346"/>
+        <object gid="34" x="4624" y="224"/>
+        <object gid="34" x="4896" y="336" rotation="-30.2101"/>
+        <object gid="33" x="5456" y="288"/>
+    </objectgroup>
+    <objectgroup name="object_item">
+        <object gid="46" x="1603" y="370"/>
+        <object gid="46" x="1682" y="370"/>
+        <object gid="46" x="1603" y="306"/>
+        <object gid="46" x="1682" y="306"/>
+        <object gid="46" x="1603" y="242"/>
+        <object gid="46" x="1683" y="242"/>
+        <object gid="46" x="1761" y="306"/>
+        <object gid="45" x="3648" y="498"/>
+        <object gid="45" x="3712" y="498"/>
+        <object gid="45" x="3776" y="498"/>
+        <object gid="45" x="3840" y="498"/>
+        <object gid="45" x="3904" y="498"/>
+        <object gid="46" x="1539" y="306"/>
+        <object gid="46" x="1683" y="181"/>
+        <object gid="46" x="1763" y="242"/>
+        <object gid="46" x="1683" y="431"/>
+        <object gid="46" x="1763" y="370"/>
+        <object gid="46" x="1827" y="306"/>
+        <object gid="49" x="1683" y="114"/>
+        <object gid="49" x="1763" y="178"/>
+        <object gid="49" x="1829" y="243"/>
+        <object gid="49" x="1891" y="307"/>
+        <object gid="49" x="1829" y="371"/>
+        <object gid="49" x="1766" y="436"/>
+        <object gid="49" x="1683" y="498"/>
+        <object gid="49" x="1603" y="437"/>
+        <object gid="49" x="1539" y="371"/>
+        <object gid="49" x="1475" y="308"/>
+        <object gid="49" x="1539" y="244"/>
+        <object gid="49" x="1603" y="178"/>
+        <object gid="48" x="2176" y="306"/>
+        <object gid="48" x="2240" y="242"/>
+        <object gid="48" x="2320" y="178"/>
+        <object gid="48" x="2240" y="370"/>
+        <object gid="48" x="2320" y="434"/>
+        <object gid="48" x="2400" y="370"/>
+        <object gid="48" x="2464" y="306"/>
+        <object gid="48" x="2400" y="242"/>
+        <object gid="46" x="2320" y="241"/>
+        <object gid="46" x="2240" y="305"/>
+        <object gid="46" x="2319" y="305"/>
+        <object gid="46" x="2319" y="369"/>
+        <object gid="46" x="2398" y="305"/>
+        <object gid="45" x="3585" y="498"/>
+        <object gid="48" x="1188" y="371"/>
+        <object gid="48" x="1028" y="371"/>
+        <object gid="46" x="1107" y="306"/>
+        <object gid="46" x="1028" y="306"/>
+        <object gid="48" x="964" y="307"/>
+        <object gid="48" x="1028" y="243"/>
+        <object gid="46" x="1107" y="370"/>
+        <object gid="48" x="1252" y="307"/>
+        <object gid="46" x="1108" y="242"/>
+        <object gid="46" x="1186" y="306"/>
+        <object gid="48" x="1108" y="435"/>
+        <object gid="48" x="1108" y="179"/>
+        <object gid="48" x="1188" y="243"/>
+        <object gid="50" x="3393" y="538"/>
+        <object gid="50" x="3265" y="538"/>
+        <object gid="50" x="3201" y="538"/>
+        <object gid="50" x="3457" y="520"/>
+        <object gid="50" x="3329" y="538"/>
+        <object gid="50" x="3521" y="498"/>
+        <object gid="50" x="3137" y="519"/>
+        <object gid="50" x="3073" y="498"/>
+        <object gid="50" x="4090" y="389"/>
+        <object gid="52" x="4225" y="338"/>
+        <object gid="50" x="4294" y="390"/>
+        <object gid="52" x="4161" y="338"/>
+        <object gid="50" x="4033" y="498"/>
+        <object gid="50" x="4353" y="498"/>
+        <object gid="45" x="3969" y="498"/>
+        <object gid="50" x="4801" y="498"/>
+        <object gid="50" x="4609" y="498"/>
+        <object gid="50" x="4545" y="498"/>
+        <object gid="50" x="4929" y="498"/>
+        <object gid="50" x="4737" y="498"/>
+        <object gid="50" x="4673" y="498"/>
+        <object gid="50" x="4417" y="498"/>
+        <object gid="50" x="4865" y="498"/>
+        <object gid="50" x="4481" y="498"/>
+        <object gid="50" x="5249" y="498"/>
+        <object gid="50" x="5057" y="498"/>
+        <object gid="50" x="5121" y="498"/>
+        <object gid="50" x="5185" y="498"/>
+        <object gid="50" x="5441" y="498"/>
+        <object gid="50" x="5377" y="498"/>
+        <object gid="50" x="5313" y="498"/>
+        <object gid="50" x="4993" y="498"/>
+        <object gid="50" x="5505" y="498"/>
+        <object gid="50" x="5946" y="389"/>
+        <object gid="50" x="5889" y="498"/>
+        <object gid="50" x="6209" y="498"/>
+        <object gid="50" x="6150" y="390"/>
+        <object gid="50" x="5825" y="498"/>
+        <object gid="50" x="5697" y="498"/>
+        <object gid="50" x="5761" y="498"/>
+        <object gid="50" x="5633" y="498"/>
+        <object gid="50" x="5569" y="498"/>
+        <object gid="50" x="6273" y="498"/>
+        <object gid="50" x="6337" y="498"/>
+        <object gid="54" x="6016" y="339"/>
+        <object gid="54" x="6080" y="339"/>
+    </objectgroup>
+</map>

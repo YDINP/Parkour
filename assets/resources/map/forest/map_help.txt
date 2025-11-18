@@ -1,0 +1,20 @@
+
+   三个层 ：
+　　 》platform : 台阶层 - 放置台阶用于检测哪些区域是可以站立的
+          - platform : 1 表示可以站立
+     》bg: 背景层 - 用于场景
+
+
+
+   三个对象层
+      object_bg   : - 可放置装饰品[位置背后]
+      object  : 放置装饰品
+      object_obstacle : 放置障碍
+
+      object_item     : 道具层 - 在场景里放置道具【如金币，积分道具....】
+	  - pickable : 1 表示可以吃
+          - item     : 1 表示金币
+		     : 2 表示磁铁
+   图块动画
+	frameName 
+	frameIndex 

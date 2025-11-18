@@ -1,0 +1,26 @@
+name	pattern	begin	end	description	wrapMode	speed	disapearAtEnd
+name	pattern	begin	end	description	wrapMode	speed	disapearAtEnd
+string	string	number	number	string	number	number	number
+gold_coin	item/goldcoin/gold_coin%d.png	0	7	金币动画	2	1	0
+sliver_coin	item/slivercoin/sliver_coin000%d.png	0	7	银币动画	2	1	0
+effect_explode	effect_explode1_00%d.png	1	6	effect_explode	1	1	1
+effect_fireball	effect_fireball0%d.png	1	6	effect_fireball	1	1	1
+effect_004	effect_004_0000%d.png	0	5	豆豆变星星特效	1	1	1
+effect_008	effect_008_%d.png	1	8	跑步灰尘	1	1	1
+effect_009	effect_009_%d.png	0	12	地上小爆炸	1	1	1
+effect_010	effect_010_%d.png	1	6	二段跳	1	1	1
+effect_012	effect_012_0%d.png	1	7	hero001 attack时候的特效	1	1	1
+effect_013	effect_013_0%d.png	1	9	hero005 龙变身时候的特效	1	1	1
+bullet_005	bullet_hero005_0%d.png	1	6	hero005 attack时候的特效	1	1	1
+effect_025	effect_025_%d.png	1	5	法师施法	1	1	1
+effect_031	effect_031_%d.png	0	9	盾	1	1	1
+effect_041	effect_041_%d.png	0	12	黑洞	1	1	1
+effect_048	effect_048_%d.png	1	4	hero001 cast	1	1	1
+effect_049	effect_049_%d.png	1	5	pet cast	1	1	1
+effect_054	effect_054_0%d.png	1	4	起跳	1	1	1
+effect_055	effect_055_0%d.png	1	7	落下	1	1	1
+effect_057	effect_057_0%d.png	1	9	崩撞无视	1	1	1
+effect_038	effect_038_%d.png	1	7	复活	1	1	1
+effect_029	effect_029_%d.png	1	8	ui_crystal	1	1	1
+effect_028	effect_028_%d.png	1	9	ui_coin	1	1	1
+air_explode	effect_044_0%d.png	1	9	空中爆炸	1	""	""

@@ -1,0 +1,145 @@
+import Device from "../../../framework/core/Device";
+import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
+import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
+import mvcView from "../../../framework/ui/mvcView";
+import { Toast } from "../../../framework/ui/ToastManager";
+import ccUtil from "../../../framework/utils/ccUtil";
+import { pdata } from "../data/PlayerInfo";
+import { ImgConfirmData } from "./UIImgComfirm";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class UIDrawBox extends mvcView {
+    @property([cc.Node])
+    allBox: Array<cc.Node> = [];
+
+    @property(cc.Node)
+    btn_close: cc.Node = null;
+
+    @property(cc.Label)
+    numLabel: cc.Label = null;
+
+    @property(cc.Node)
+    hintNode: cc.Node = null;
+
+    private rewardIdx = 0;
+
+    private rewardData = null;
+
+    private isOnDraw: boolean = false;
+    onLoad() {
+        this.rewardData = csv.drawBox.values;
+        this.register(this.numLabel, () => UInfo.drawResidueTime);
+        this.onVisible(this.hintNode, () => {
+            return UInfo.drawResidueTime <= 4 ? true : false;
+        });
+    }
+
+    onShow() {
+        this.initBox();
+        this.render();
+    }
+
+    initBox() {
+        this.allBox.forEach(v => {
+            v.on(cc.Node.EventType.TOUCH_END, this.onBoxTouchEnd, this);
+            v.getChildByName("box").active = true;
+            v.getChildByName("reward").active = false;
+            v.scale = 1;
+        })
+    }
+
+    randomReward() {
+        let max = this.rewardData.length;
+        this.rewardIdx = Math.floor(Math.random() * max);
+    }
+
+    openBox(box: cc.Node) {
+        this.allBox.forEach(v => {
+            v.off(cc.Node.EventType.TOUCH_END, this.onBoxTouchEnd, this);
+        });
+        UInfo.drawResidueTime--;
+        UInfo.save("drawResidueTime");
+        let reward = this.rewardData[this.rewardIdx];
+
+        let boxOff = box.getChildByName("box");
+        let onNode = box.getChildByName("reward");
+        let icon = ccUtil.find("reward/icon", box, cc.Sprite);
+        let num = ccUtil.find("reward/num", box, cc.Label);
+        let name = ccUtil.find("reward/name", box, cc.Label);
+
+        let fxPlayer = box.getComponent(FxPlayer);
+        onNode.active = true;
+        boxOff.active = false;
+        fxPlayer.play()
+        let iconPath = reward.iconPath;
+        name.string = reward.name;
+        num.string = "X" + reward.num.toString();
+        ccUtil.setDisplay(icon, iconPath);
+        let confirmData: ImgConfirmData = {
+            title: "恭喜获得",
+            iconPath: iconPath,
+            content: name.string + num.string,
+            isShowCancel: false,
+            cancelIsDaley: false,
+            confirmCall: () => {
+                if (this.rewardIdx > 3) {
+                    pdata[this.rewardData[this.rewardIdx].saveKey] += this.rewardData[this.rewardIdx].num;
+                } else {
+                    pdata.buffs[this.rewardData[this.rewardIdx].saveKey] += this.rewardData[this.rewardIdx].num;
+                }
+                this.isOnDraw = false;
+                this.initBox();
+            },
+            cancelCall: null
+        }
+        this.scheduleOnce(() => {
+            vm.show("UIImgConfirm", confirmData);
+        }, 0.3);
+        pdata.save();
+        this.render();
+    }
+
+    onBoxTouchEnd(e) {
+
+        if (this.isOnDraw) {
+            Toast.make("正在挑选奖品！")
+            return;
+        }
+        if (UInfo.drawResidueTime <= 0) {
+            Toast.make("当日抽奖次数已用完！");
+            return;
+        }
+        if (UInfo.drawResidueTime <= 4) {
+            if (pdata.diamond < 5) {
+                Toast.make("钻石不足！");
+                return
+            }
+            pdata.diamond -= 5;
+            pdata.save("diamond");
+        }
+        this.isOnDraw = true;
+        this.randomReward();
+        let box: cc.Node = e.target;
+        cc.tween(box)
+            .to(0.15, { scale: 1.3 })
+            .delay(0.05)
+            .call(() => {
+                this.openBox(e.target);
+            })
+            .start()
+    }
+
+    onHidden() {
+        this.allBox.forEach(v => {
+            v.off(cc.Node.EventType.TOUCH_END, this.onBoxTouchEnd, this);
+        });
+        pdata.sendToServer("diamond,buffs");
+    }
+
+    private click_closes() {
+
+        vm.hide(this);
+    }
+}

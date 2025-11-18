@@ -1,0 +1,43 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "egg_open",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.31666666666666665,
+  "sample": 60,
+  "speed": 0.4,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "d4bd967b-13d7-47d6-abb0-e63db2c6d764"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "af6f37f4-0307-4918-b3e1-85a382302563"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "a2395050-22b3-44a2-a811-59cd91a07175"
+            }
+          },
+          {
+            "frame": 0.3,
+            "value": {
+              "__uuid__": "8bce86fd-6f5b-4480-8825-c978909fe1ae"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

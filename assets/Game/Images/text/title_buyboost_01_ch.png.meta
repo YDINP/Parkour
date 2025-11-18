@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "4a532e86-6b3f-4277-bd5b-bfc9b744dbe8",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 102,
+  "height": 30,
+  "platformSettings": {},
+  "subMetas": {
+    "title_buyboost_01_ch": {
+      "ver": "1.0.6",
+      "uuid": "3ce99475-965e-4216-a676-b5f34bf53c75",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "4a532e86-6b3f-4277-bd5b-bfc9b744dbe8",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1,
+      "offsetY": 1,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 100,
+      "height": 28,
+      "rawWidth": 102,
+      "rawHeight": 30,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

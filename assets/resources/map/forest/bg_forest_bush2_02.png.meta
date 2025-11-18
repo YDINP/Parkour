@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9f4595b4-b69c-46d8-899d-d801752e263a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 234,
+  "height": 157,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_forest_bush2_02": {
+      "ver": "1.0.6",
+      "uuid": "005de411-bf81-4991-8dd4-9ae8752662c2",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9f4595b4-b69c-46d8-899d-d801752e263a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 1.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 231,
+      "height": 154,
+      "rawWidth": 234,
+      "rawHeight": 157,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

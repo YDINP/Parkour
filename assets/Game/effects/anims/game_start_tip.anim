@@ -1,0 +1,45 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "game_start_tip",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.2,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "y": [
+        {
+          "frame": 0,
+          "value": -764.415,
+          "curve": [
+            0.18,
+            0.89,
+            0.31,
+            1.21
+          ]
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 0
+        },
+        {
+          "frame": 0.7666666666666667,
+          "value": 0,
+          "curve": [
+            0.6,
+            -0.27,
+            0.73,
+            0.04
+          ]
+        },
+        {
+          "frame": 1.2,
+          "value": 700
+        }
+      ]
+    }
+  },
+  "events": []
+}

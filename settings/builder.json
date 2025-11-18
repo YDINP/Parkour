@@ -1,0 +1,78 @@
+{
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "http://192.168.124.7:7457/preview-android-instant/",
+    "host": "",
+    "packageName": "org.cocos2d.helloworld",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
+  "appBundle": false,
+  "baidugame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "testappid",
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "encryptJs": true,
+  "excludeScenes": [],
+  "fb-instant-games": {},
+  "includeSDKBox": false,
+  "inlineSpriteFrames": true,
+  "inlineSpriteFrames_native": true,
+  "md5Cache": true,
+  "mergeStartScene": false,
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.helloworld",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait",
+    "zip": false
+  },
+  "startScene": "bba6ef9a-17f9-4fa6-97fc-7b8fab4297ed",
+  "title": "Parkour",
+  "webOrientation": "landscape",
+  "wechatgame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "wxda64295f4e6366e4",
+    "orientation": "landscapeRight",
+    "subContext": "wx-open-data-project"
+  },
+  "xxteaKey": "72a02917-f037-4a",
+  "zipCompressJs": true,
+  "android": {
+    "packageName": "org.liongame777.parkour",
+    "REMOTE_SERVER_ROOT": ""
+  },
+  "ios": {
+    "packageName": "org.cocos2d.helloworld",
+    "REMOTE_SERVER_ROOT": "",
+    "ios_enable_jit": true
+  },
+  "mac": {
+    "packageName": "org.cocos2d.helloworld",
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
+  },
+  "win32": {
+    "REMOTE_SERVER_ROOT": "",
+    "width": 1280,
+    "height": 720
+  },
+  "mainCompressionType": "default",
+  "mainIsRemote": false,
+  "nativeMd5Cache": true,
+  "openharmony": {
+    "packageName": "com.cocos.openharmony",
+    "REMOTE_SERVER_ROOT": ""
+  },
+  "agreements": {}
+}

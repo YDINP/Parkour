@@ -1,0 +1,19 @@
+{
+  "certificatePath": "E:\\GitSpace\\PizzaBoy\\build-templates\\jsb-linksign\\release\\certificate.pem",
+  "deviceOrientation": "landscape",
+  "disabledMode": "disabled is-disabled",
+  "icon": "E:\\GitSpace\\PizzaBoy\\art\\pizzaboy-anim-icon\\out\\test_newAnimation_0.png",
+  "logLevel": "log",
+  "minPlatformVersion": "1050",
+  "name": "披萨小王子",
+  "npmPath": "",
+  "package": "com.psxwz.oppominigame",
+  "privatePath": "E:\\GitSpace\\PizzaBoy\\build-templates\\jsb-linksign\\release\\private.pem",
+  "showNpmPath": false,
+  "tinyPackageMode": false,
+  "tinyPackageServer": "",
+  "useDebugKey": true,
+  "versionCode": "1",
+  "versionName": "2.3.1",
+  "packFirstScreenRes": false
+}

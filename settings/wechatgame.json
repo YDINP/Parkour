@@ -1,0 +1,7 @@
+{
+  "appid": "wxa55a38f225da39ed",
+  "orientation": "landscape",
+  "separate_engine": true,
+  "REMOTE_SERVER_ROOT": "https://cdn.mimgame.com/web-root/dist/parkour/wx",
+  "subContext": "openData"
+}

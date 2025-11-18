@@ -1,0 +1,10 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "extensionsPath": "tools/extensions",
+    "folders": [
+        "assets/resources/map"
+    ],
+    "objectTypesFile": ""
+}

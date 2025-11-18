@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "a3ba1343-bf0d-441e-a3bf-3d37f61d0d89",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 101,
+  "height": 220,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_desert_block_down_03": {
+      "ver": "1.0.6",
+      "uuid": "d59bf583-62ce-447f-be71-1353bbbfe33a",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "a3ba1343-bf0d-441e-a3bf-3d37f61d0d89",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 98,
+      "height": 217,
+      "rawWidth": 101,
+      "rawHeight": 220,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

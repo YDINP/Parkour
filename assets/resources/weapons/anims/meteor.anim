@@ -1,0 +1,31 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "meteor",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.05,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "9bd661f5-ff6b-4252-81f7-ee6812f4f7ac"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "b676f253-6c8c-4c3c-a33b-0bb0883be53c"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

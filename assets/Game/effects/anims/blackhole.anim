@@ -1,0 +1,44 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "blackhole",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.06666666666666667,
+  "sample": 60,
+  "speed": 0.5,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "10f1f73b-eab5-47e8-960f-e109c9809efb"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "567f09c8-7c73-41ae-a257-a8f5e021d70c"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "89a34c20-b411-4e93-8c65-35a795fb173b"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "446d14f5-a563-4eb4-bd67-a4f73529c0fd"
+            }
+          }
+        ]
+      }
+    },
+    "paths": {}
+  },
+  "events": []
+}

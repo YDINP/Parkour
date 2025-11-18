@@ -1,0 +1,73 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "land_dust",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.15,
+  "sample": 60,
+  "speed": 0.3,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "85e9dcb8-dc1c-4f44-8006-f9d5e7fc65c9"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "15bff5ff-839e-4e39-b0e9-105a110e48dc"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "a525982e-ae66-4084-a85c-8320a15c49a1"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "ae8f0264-1f41-438a-8dda-7e584075ffb6"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "649f76c7-ec09-4498-829c-4eea43c0f78c"
+            }
+          },
+          {
+            "frame": 0.08333333333333333,
+            "value": {
+              "__uuid__": "689cec58-6e17-48ea-a020-531a99dbdcdc"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "116e6eed-9b86-4122-887a-e4d29b7d58fc"
+            }
+          },
+          {
+            "frame": 0.11666666666666667,
+            "value": {
+              "__uuid__": "bb214dcd-b9f1-4edb-ba77-09373fd4ace7"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "a0c5e18b-59c1-43c1-a642-0de0517fc0a8"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

@@ -1,0 +1,19 @@
+{
+  "certificatePath": "E:\\GitSpace\\PizzaBoy\\build-templates\\jsb-linksign\\release\\certificate.pem",
+  "deviceOrientation": "landscape",
+  "disabledMode": "",
+  "icon": "C:\\Users\\Administrator\\Desktop\\log\\vivo.png",
+  "logLevel": "log",
+  "minPlatformVersion": "1052",
+  "name": "披萨小王子2",
+  "npmPath": "",
+  "package": "com.xsl.psxwz.vivominigame",
+  "privatePath": "E:\\GitSpace\\PizzaBoy\\build-templates\\jsb-linksign\\release\\private.pem",
+  "showNpmPath": false,
+  "tinyPackageMode": false,
+  "tinyPackageServer": "",
+  "useDebugKey": false,
+  "versionCode": "2",
+  "versionName": "2.3.1",
+  "packFirstScreenRes": true
+}

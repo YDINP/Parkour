@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="2020.11.25" orientation="orthogonal" renderorder="right-down" width="96" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="377">
+ <tileset firstgid="1" source="../bg_cell_block.tsx"/>
+ <tileset firstgid="12" source="../item.tsx"/>
+ <tileset firstgid="73" source="../bg_cell_bg.tsx"/>
+ <tileset firstgid="97" source="../bg_desert_bg.tsx"/>
+ <layer id="1" name="bg" width="96" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAD8Gw8AAAE=
+  </data>
+ </layer>
+ <layer id="2" name="platform" width="96" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzt0LERABAUREEdIkAn6icQiL/Q7swLLr2UAACAXxQ9VXfzlAO766lx/dkCewFTwkBx
+  </data>
+ </layer>
+ <objectgroup id="3" name="object_obstacle">
+  <object id="12" gid="11" x="195" y="449" width="210" height="602"/>
+  <object id="14" gid="11" x="745" y="447" width="210" height="602"/>
+  <object id="15" gid="11" x="1052" y="449" width="210" height="602"/>
+  <object id="16" gid="11" x="1331" y="446" width="210" height="602"/>
+  <object id="17" gid="7" x="2197" y="552" width="160" height="256"/>
+  <object id="18" gid="4" x="4592" y="551" width="90" height="111"/>
+  <object id="19" gid="4" x="4120" y="551" width="90" height="111"/>
+  <object id="20" gid="4" x="4672" y="560" width="90" height="111"/>
+  <object id="25" gid="11" x="474" y="446" width="210" height="602"/>
+ </objectgroup>
+ <objectgroup id="4" name="object_item">
+  <object id="61" gid="13" x="1985" y="498" width="66" height="66"/>
+  <object id="62" gid="13" x="1793" y="498" width="66" height="66"/>
+  <object id="63" gid="13" x="1921" y="498" width="66" height="66"/>
+  <object id="64" gid="13" x="1857" y="498" width="66" height="66"/>
+  <object id="65" gid="13" x="2625" y="498" width="66" height="66"/>
+  <object id="66" gid="13" x="2753" y="498" width="66" height="66"/>
+  <object id="67" gid="13" x="2689" y="498" width="66" height="66"/>
+  <object id="68" gid="13" x="2561" y="498" width="66" height="66"/>
+  <object id="77" gid="16" x="5345" y="321" width="66" height="66"/>
+  <object id="78" gid="16" x="5281" y="321" width="66" height="66"/>
+  <object id="79" gid="16" x="5728" y="321" width="66" height="66"/>
+  <object id="80" gid="16" x="5409" y="321" width="66" height="66"/>
+  <object id="81" gid="16" x="5856" y="321" width="66" height="66"/>
+  <object id="82" gid="16" x="5345" y="449" width="66" height="66"/>
+  <object id="83" gid="16" x="5792" y="321" width="66" height="66"/>
+  <object id="84" gid="16" x="5345" y="385" width="66" height="66"/>
+  <object id="85" gid="16" x="5856" y="449" width="66" height="66"/>
+  <object id="86" gid="16" x="5792" y="385" width="66" height="66"/>
+  <object id="87" gid="16" x="5217" y="321" width="66" height="66"/>
+  <object id="88" gid="16" x="5984" y="321" width="66" height="66"/>
+  <object id="89" gid="16" x="5473" y="321" width="66" height="66"/>
+  <object id="90" gid="16" x="5920" y="321" width="66" height="66"/>
+  <object id="91" gid="16" x="5281" y="385" width="66" height="66"/>
+  <object id="92" gid="16" x="5920" y="385" width="66" height="66"/>
+  <object id="93" gid="16" x="5409" y="385" width="66" height="66"/>
+  <object id="94" gid="16" x="5856" y="385" width="66" height="66"/>
+  <object id="260" gid="13" x="65" y="523" width="66" height="66"/>
+  <object id="261" gid="13" x="257" y="519" width="66" height="66"/>
+  <object id="264" gid="13" x="320" y="518" width="66" height="66"/>
+  <object id="265" gid="13" x="129" y="523" width="66" height="66"/>
+  <object id="266" gid="13" x="193" y="519" width="66" height="66"/>
+  <object id="267" gid="13" x="384" y="518" width="66" height="66"/>
+  <object id="268" gid="13" x="448" y="518" width="66" height="66"/>
+  <object id="270" gid="13" x="1" y="523" width="66" height="66"/>
+  <object id="271" gid="13" x="577" y="518" width="66" height="66"/>
+  <object id="272" gid="13" x="641" y="518" width="66" height="66"/>
+  <object id="273" gid="13" x="1024" y="513" width="66" height="66"/>
+  <object id="274" gid="13" x="833" y="518" width="66" height="66"/>
+  <object id="275" gid="13" x="1152" y="513" width="66" height="66"/>
+  <object id="276" gid="13" x="897" y="514" width="66" height="66"/>
+  <object id="277" gid="13" x="1088" y="513" width="66" height="66"/>
+  <object id="278" gid="13" x="705" y="518" width="66" height="66"/>
+  <object id="279" gid="13" x="769" y="518" width="66" height="66"/>
+  <object id="280" gid="13" x="513" y="518" width="66" height="66"/>
+  <object id="281" gid="13" x="961" y="514" width="66" height="66"/>
+  <object id="282" gid="13" x="1344" y="516" width="66" height="66"/>
+  <object id="283" gid="13" x="1472" y="515" width="66" height="66"/>
+  <object id="284" gid="13" x="1535" y="516" width="66" height="66"/>
+  <object id="285" gid="13" x="1599" y="516" width="66" height="66"/>
+  <object id="286" gid="13" x="1408" y="515" width="66" height="66"/>
+  <object id="287" gid="13" x="1280" y="516" width="66" height="66"/>
+  <object id="288" gid="13" x="1665" y="499" width="66" height="66"/>
+  <object id="289" gid="13" x="1216" y="516" width="66" height="66"/>
+  <object id="290" gid="13" x="1729" y="498" width="66" height="66"/>
+  <object id="291" gid="13" x="2496" y="498" width="66" height="66"/>
+  <object id="292" gid="13" x="2065" y="337" width="66" height="66"/>
+  <object id="293" gid="13" x="2131" y="244" width="66" height="66"/>
+  <object id="294" gid="13" x="2347" y="243" width="66" height="66"/>
+  <object id="295" gid="13" x="2405" y="336" width="66" height="66"/>
+  <object id="296" gid="13" x="2207" y="190" width="66" height="66"/>
+  <object id="297" gid="13" x="2032" y="419" width="66" height="66"/>
+  <object id="298" gid="13" x="2272" y="190" width="66" height="66"/>
+  <object id="299" gid="13" x="2447" y="419" width="66" height="66"/>
+  <object id="300" gid="13" x="3040" y="191" width="66" height="66"/>
+  <object id="301" gid="13" x="3329" y="499" width="66" height="66"/>
+  <object id="302" gid="13" x="3115" y="244" width="66" height="66"/>
+  <object id="303" gid="13" x="3264" y="499" width="66" height="66"/>
+  <object id="304" gid="13" x="3215" y="420" width="66" height="66"/>
+  <object id="305" gid="13" x="2975" y="191" width="66" height="66"/>
+  <object id="306" gid="13" x="3173" y="337" width="66" height="66"/>
+  <object id="307" gid="13" x="2800" y="420" width="66" height="66"/>
+  <object id="308" gid="13" x="2899" y="245" width="66" height="66"/>
+  <object id="309" gid="13" x="2833" y="338" width="66" height="66"/>
+  <object id="310" gid="13" x="3647" y="526" width="66" height="66"/>
+  <object id="311" gid="13" x="3456" y="526" width="66" height="66"/>
+  <object id="312" gid="13" x="3584" y="526" width="66" height="66"/>
+  <object id="313" gid="13" x="3520" y="526" width="66" height="66"/>
+  <object id="314" gid="13" x="3711" y="526" width="66" height="66"/>
+  <object id="315" gid="13" x="3392" y="526" width="66" height="66"/>
+  <object id="316" gid="13" x="4353" y="497" width="66" height="66"/>
+  <object id="317" gid="13" x="3905" y="498" width="66" height="66"/>
+  <object id="318" gid="13" x="4231" y="390" width="66" height="66"/>
+  <object id="319" gid="13" x="3841" y="499" width="66" height="66"/>
+  <object id="320" gid="13" x="4290" y="498" width="66" height="66"/>
+  <object id="321" gid="13" x="3970" y="498" width="66" height="66"/>
+  <object id="322" gid="13" x="4027" y="389" width="66" height="66"/>
+  <object id="323" gid="13" x="4162" y="335" width="66" height="66"/>
+  <object id="324" gid="13" x="4096" y="335" width="66" height="66"/>
+  <object id="325" gid="13" x="4865" y="495" width="66" height="66"/>
+  <object id="326" gid="13" x="4417" y="496" width="66" height="66"/>
+  <object id="327" gid="13" x="4743" y="388" width="66" height="66"/>
+  <object id="328" gid="13" x="4802" y="496" width="66" height="66"/>
+  <object id="329" gid="13" x="4482" y="496" width="66" height="66"/>
+  <object id="330" gid="13" x="4539" y="387" width="66" height="66"/>
+  <object id="331" gid="13" x="4674" y="333" width="66" height="66"/>
+  <object id="332" gid="13" x="4608" y="333" width="66" height="66"/>
+ </objectgroup>
+ <objectgroup id="5" name="object_monster">
+  <object id="363" gid="2" x="2928" y="528" width="115" height="118"/>
+  <object id="364" gid="2" x="3008" y="416" width="115" height="118"/>
+  <object id="365" gid="2" x="3520" y="288" width="115" height="118"/>
+  <object id="366" gid="2" x="3632" y="448" width="115" height="118"/>
+  <object id="367" gid="2" x="3424" y="448" width="115" height="118"/>
+ </objectgroup>
+</map>

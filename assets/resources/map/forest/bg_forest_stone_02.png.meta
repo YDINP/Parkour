@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "932e463b-81f0-44a7-9191-7ed935aba19a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 108,
+  "height": 32,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_forest_stone_02": {
+      "ver": "1.0.6",
+      "uuid": "5a0be134-97ee-4484-97c7-8d249ca3ab6c",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "932e463b-81f0-44a7-9191-7ed935aba19a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 1.5,
+      "trimX": 5,
+      "trimY": 0,
+      "width": 98,
+      "height": 29,
+      "rawWidth": 108,
+      "rawHeight": 32,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

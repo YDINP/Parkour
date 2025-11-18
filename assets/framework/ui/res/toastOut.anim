@@ -1,0 +1,42 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "toastOut",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.3333333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 255
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 0
+        }
+      ]
+    },
+    "paths": {
+      "text": {
+        "props": {
+          "y": [
+            {
+              "frame": 0,
+              "value": 0.2,
+              "curve": "quadIn"
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": 64.553
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

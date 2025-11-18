@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "67b9d13a-6d44-4697-b76f-faa23d02c184",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 162,
+  "height": 47,
+  "platformSettings": {},
+  "subMetas": {
+    "title_buy_heart_01_ch": {
+      "ver": "1.0.6",
+      "uuid": "466139a4-442e-4f90-9faa-ea4a4aeefaa0",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "67b9d13a-6d44-4697-b76f-faa23d02c184",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -2,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 2,
+      "width": 158,
+      "height": 42,
+      "rawWidth": 162,
+      "rawHeight": 47,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

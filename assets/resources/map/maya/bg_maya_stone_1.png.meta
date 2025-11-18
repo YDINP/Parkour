@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "6886e3af-a1a6-439f-91cd-061558e80b16",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 159,
+  "height": 195,
+  "platformSettings": {},
+  "subMetas": {
+    "bg_maya_stone_1": {
+      "ver": "1.0.6",
+      "uuid": "501cd311-1d42-40cf-8d8f-056693d71ea3",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "6886e3af-a1a6-439f-91cd-061558e80b16",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1.5,
+      "offsetY": 1.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 156,
+      "height": 192,
+      "rawWidth": 159,
+      "rawHeight": 195,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,48 @@
+id	image	name	score	coin	life	dead_fx	diamond	buff	audio	isBean
+id	image	name	score	coin	life	dead_fx	diamond	buff	audio	isBean
+string	string	string	int	int	int	string	number	string	string	int
+item_bean_001	item_bean/item_bean_001.png	蓝豆豆	10	0		sparkle			pick_bean	1
+item_bean_002	item_bean/item_bean_002.png	蓝豆豆2	12	0		sparkle			pick_bean	1
+item_bean_003	item_bean/item_bean_003.png	蓝豆豆3	14	0		sparkle			pick_bean	1
+item_bean_004	item_bean/item_bean_004.png	蓝豆豆4	16	0		sparkle			pick_bean	1
+item_bean_005	item_bean/item_bean_005.png	蓝豆豆5	18	0		sparkle			pick_bean	1
+item_bean_006	item_bean/item_bean_006.png	蓝豆豆6	20	0		sparkle			pick_bean	1
+item_bean_007	item_bean/item_bean_007.png	蓝豆豆7	23	0		sparkle			pick_bean	1
+item_bean_008	item_bean/item_bean_008.png	蓝豆豆8	26	0		sparkle			pick_bean	1
+item_bean_009	item_bean/item_bean_009.png	蓝豆豆9	29	0		sparkle			pick_bean	1
+item_bean_010	item_bean/item_bean_010.png	蓝豆豆10	33	0		sparkle			pick_bean	1
+item_bean_011	item_bean/item_bean_011.png	蓝豆豆11	37	0		sparkle			pick_bean	1
+item_bean_012	item_bean/item_bean_012.png	蓝豆豆12	40	0		sparkle			pick_bean	1
+item_bean_013	item_bean/item_bean_013.png	蓝豆豆13	44	0		sparkle			pick_bean	1
+item_bean_014	item_bean/item_bean_014.png	蓝豆豆14	48	0		sparkle			pick_bean	1
+item_bean_015	item_bean/item_bean_015.png	蓝豆豆15	53	0		sparkle			pick_bean	1
+item_bean_016	item_bean/item_bean_016.png	蓝豆豆16	58	0		sparkle			pick_bean	1
+item_bean_017	item_bean/item_bean_017.png	蓝豆豆17	64	0		sparkle			pick_bean	1
+item_bean_018	item_bean/item_bean_018.png	蓝豆豆18	70	0		sparkle			pick_bean	1
+item_bean_019	item_bean/item_bean_019.png	蓝豆豆19	77	0		sparkle			pick_bean	1
+item_bean_020	item_bean/item_bean_020.png	蓝豆豆20	85	0		sparkle			pick_bean	1
+item_004	item_004.png	星星	100	0		sparkle			pick_item	0
+item_003	item_003.png	星星2	200	0		sparkle			pick_item	0
+item_002	item_002.png	大星星	10000	0		eat_star&s=2			pick_item	0
+showtime_s	showtime_s.png	S	100	0		sparkle			pick_showtime	0
+showtime_h	showtime_h.png	H	100	0		sparkle			pick_showtime	0
+showtime_o	showtime_o.png	O	100	0		sparkle			pick_showtime	0
+showtime_w	showtime_w.png	W	100	0		sparkle			pick_showtime	0
+showtime_t	showtime_t.png	T	100	0		sparkle			pick_showtime	0
+showtime_i	showtime_i.png	I	100	0		sparkle			pick_showtime	0
+showtime_m	showtime_m.png	M	100	0		sparkle			pick_showtime	0
+showtime_e	showtime_e.png	E	100	0		sparkle			pick_showtime	0
+item_006	item_006.png	磁铁	500	0		sparkle		magnet-5	pick_item	0
+item_007	item_007.png	点石成星	500	0		sparkle		star-10	pick_item	0
+animation_item_heart001	animation_item_heart001.png	爱心	500	0	15	eat_heart&d=1.5			pick_item	0
+item_005	item_005.png	变大	500	0		sparkle		strong-5	pick_item	0
+item_008	item_008.png	冲刺	500	0		sparkle		rush-5	pick_item	0
+item_009	item_009.png	ShowTime	500	0		sparkle			pick_item	0
+item_010	item_010.png	变金币	500	0		sparkle		gold-1.5	pick_item	0
+gold_coin0	goldcoin/gold_coin0.png	金币	100	10		sparkle			pick_coin	0
+sliver_coin0000	slivercoin/sliver_coin0000.png	银币	10	1		sparkle			pick_coin	0
+gold_coin1	gold_coin0.png	金币1	100	20		sparkle			pick_coin	0
+gold_coin2	skill_pet_008_01	金币大	100	50		sparkle			pick_coin	0
+skill_pet_005_01	skill_pet_005_01	大豆子绿	50	0		sparkle			pick_item	0
+skill_pet_006_01	skill_pet_006_01	大蛋糕	100	0		sparkle			pick_item	0
+diamond	diamond	钻石	0	0		sparkle	1		pick_item	0

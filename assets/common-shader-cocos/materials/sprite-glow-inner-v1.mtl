@@ -1,0 +1,27 @@
+{
+  "__type__": "cc.Material",
+  "_name": "sprite-glow-inner-v1",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "60a38aa7-0417-4857-9a33-165c5570d6a7"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "SHOW_INNER_GLOW": true
+      },
+      "props": {
+        "glowColor": {
+          "__type__": "cc.Color",
+          "r": 255,
+          "g": 255,
+          "b": 255,
+          "a": 255
+        }
+      }
+    }
+  }
+}

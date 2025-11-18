@@ -1,0 +1,18 @@
+{
+  "__type__": "cc.Material",
+  "_name": "sprite-round-corner",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "52a2cf32-d8f3-47dd-983c-3e725fd8ca8a"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true,
+        "ENABLE_ROUNDCORNER": true
+      }
+    }
+  }
+}

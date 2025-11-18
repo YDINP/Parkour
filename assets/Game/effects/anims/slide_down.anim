@@ -1,0 +1,50 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "slide_down",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "y": [
+        {
+          "frame": 0,
+          "value": 700,
+          "curve": [
+            0.18,
+            0.89,
+            0.31,
+            1.21
+          ]
+        },
+        {
+          "frame": 0.5,
+          "value": 0,
+          "curve": "cubicOut"
+        },
+        {
+          "frame": 0.7333333333333333,
+          "value": -10
+        },
+        {
+          "frame": 1.5,
+          "value": -10,
+          "curve": [
+            0.6,
+            -0.27,
+            0.73,
+            0.04
+          ]
+        },
+        {
+          "frame": 2,
+          "value": -500
+        }
+      ]
+    }
+  },
+  "events": []
+}

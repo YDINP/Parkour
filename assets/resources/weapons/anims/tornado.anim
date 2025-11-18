@@ -1,0 +1,49 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "tornado",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.08333333333333333,
+  "sample": 60,
+  "speed": 0.5,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "b58177b4-e67a-4d62-8c1b-c443cfad4113"
+            }
+          },
+          {
+            "frame": 0.016666666666666666,
+            "value": {
+              "__uuid__": "4030e819-2914-4b11-a7dc-3060aa3a8355"
+            }
+          },
+          {
+            "frame": 0.03333333333333333,
+            "value": {
+              "__uuid__": "fa69a7eb-daaa-48b6-b421-342bfbb9b7f4"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "84ee5197-bc9a-4a29-b6da-621e11811740"
+            }
+          },
+          {
+            "frame": 0.06666666666666667,
+            "value": {
+              "__uuid__": "97ec3cdf-bdf8-4a85-b201-2916909fe3c5"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
