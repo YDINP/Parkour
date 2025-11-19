@@ -1,5 +1,6 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import { ITileObjectFactory } from "../../../framework/extension/tilemap/TmxLayerWalker";
@@ -8,6 +9,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import InventoryUI from "../view/TopMostInventoryUI";
 import { guider } from "./Guide";
@@ -116,7 +118,7 @@ export default class Home extends mvcView {
         this.render();
         guider.enterHome();
         if (!guider.isInGuide) {
-            if (g.isNextDay(pdata.signInTime)) {
+            if (gUtil.isNextDay(pdata.signInTime)) {
                 if (pdata.signIn.date >= 7) {
                     pdata.signIn = { date: 1, isSignIn: false };
                 }
@@ -183,7 +185,8 @@ export default class Home extends mvcView {
     private click_breakthrough(e) {
 
         if (pdata.energy <= 0) {
-            Toast.make("爱心不足");
+            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
+            // Toast.make("爱心不足");
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(e.target)
                 vm.hide("UIRedHeartShop");
@@ -202,11 +205,13 @@ export default class Home extends mvcView {
     private click_parkour(e) {
 
         if (pdata.playerlv < csv.Config.Unlock_Endless) {
-            Toast.make("达到等级 " + csv.Config.Unlock_Endless + "后解锁！")
+            // Toast.make("达到等级 " + csv.Config.Unlock_Endless + "后解锁！")
+            Toast.make(LocalizationManager.getTextWithArgs("@unlockEndlessLevel", csv.Config.Unlock_Endless))
             return
         }
         if (pdata.energy <= 0) {
-            Toast.make("爱心不足");
+            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
+            // Toast.make("爱心不足");
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(e.target)
                 vm.hide("UIRedHeartShop");

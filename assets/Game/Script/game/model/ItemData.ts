@@ -26,7 +26,7 @@ export default class ItemData {
         this.life = d.life
         this.score = d.score;
         this.coin = d.coin;
-        this.diamond = d.diamond
+        this.diamond = Number(d.diamond) || 0;
         this.audioPath = d.audio;
         //@ts-ignore
         this.anim = csv.Anim.get(d.anim);

@@ -1,3 +1,5 @@
+import gUtil from "../../../../framework/core/gUtil";
+import { LocalizationManager } from "../../../../Localization/LocalizationManager";
 import { Res } from "./BaseData";
 
 export interface HeroSkillLvData {
@@ -51,13 +53,11 @@ export default class HeroData {
         let d = csv.HeroInfo.get(id);
         this.id = id;
         this.prefabPath = "heros/" + d.skeleton;
-        this.name = d.name;
+        this.name = LocalizationManager.getText(`@hero.${id}.name`);
         this.quality = d.quality;
         this.avatar = "Textures/avatars/hero/" + d.image;
-        this.portrait = "Textures/avatars/portrait/portrait_" + g.padNum(id, 3);
-
-        let str = csv.string.get(d.string_info)
-        str && (this.desc = str.text)
+        let paddedId = gUtil.padNum(id, 3);
+        this.portrait = "Textures/avatars/portrait/portrait_" + paddedId;
         this.hp = d.hp;
         this.skill = new HeroSkillData(d.skill);
         this.weapon = d.weapon;
@@ -65,7 +65,8 @@ export default class HeroData {
         this.buyCost = Res.fromString(d.buycost)
         this.skillAudio = d.skillAudio;
         this.dieAudio = d.dieAudio;
-        this.lvDesc = d.lvdesc;
+        this.lvDesc = LocalizationManager.getText(`@hero.${id}.desc`);
+        // this.lvDesc = d.lvdesc;
         // this.type = d.skillType;
         let lvns = d.lvnum.split("+").map(v => Number(v))
         let lvcs = d.lvcost.split("+").map(v => Number(v))

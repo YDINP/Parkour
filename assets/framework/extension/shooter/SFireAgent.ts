@@ -1,6 +1,7 @@
 import ShootManager from "./ShootManager";
 import SBullet from "./SBullet";
 import GameEntity from "./SGameEntity";
+import gUtil from "../../core/gUtil";
 import Signal from "../../core/Signal";
 import FxPlayer from "../fxplayer/FxPlayer";
 import ccUtil from "../../utils/ccUtil";
@@ -92,7 +93,7 @@ export default class SFireAgent extends cc.Component {
                 this.fireFx.preload();
         }
         if (this.host == null) {
-            this.host = this.getComponentInParent(GameEntity)
+            this.host = gUtil.getComponentInParent(this, GameEntity);
         }
     }
 

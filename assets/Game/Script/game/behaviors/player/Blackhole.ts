@@ -3,7 +3,8 @@ import FxHelpher from "../../../../../framework/extension/fxplayer/FxHelpher";
 import FizzBody, { FizzBodyType } from "../../../../../framework/fizzx/components/FizzBody";
 import ccUtil from "../../../../../framework/utils/ccUtil";
 import { root } from "../../Game";
-import Player from "../../Player"
+import Player from "../../Player";
+import Obstacle from "../../objects/Obstacle";
 
 let { ccclass, property } = cc._decorator
 @ccclass
@@ -42,6 +43,14 @@ export default class Blackhole extends cc.Component {
             if (node.isValid) {
                 let body = node.getComponent(FizzBody);
                 if (body) {
+                    // 블랙홀로 빨려들어가는 장애물은 충돌 무시 플래그 설정
+                    let obstacle = node.getComponent(Obstacle);
+                    if (obstacle) {
+                        obstacle.isBeingSuckedByBlackhole = true;
+                    }
+                    // 충돌 그룹을 변경하여 플레이어와 충돌하지 않도록 함 (충돌 매트릭스에서 제외)
+                    node.group = 'no_collision';
+                    // Kinematic으로 설정하여 물리 시뮬레이션은 유지
                     body.bodyType = (FizzBodyType.Kinematic)
                     this.flyingBodies.push(body)
                     cc.tween(node).to(0.4, { scale: 0.2 }).start()

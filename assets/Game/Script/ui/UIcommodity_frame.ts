@@ -2,6 +2,7 @@ import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import SilverCoinData from "../game/model/SilverCoinData";
 
@@ -41,7 +42,8 @@ export default class UIcommodity_frame extends mvcView {
             pdata.save();
         }
         else
-            Toast.make("钻石不足");
+            Toast.make(LocalizationManager.getText("@text.diamond_not_enough2"));
+            // Toast.make("钻石不足");
     }
 
     // update (dt) {}

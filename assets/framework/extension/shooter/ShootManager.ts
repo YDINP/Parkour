@@ -1,4 +1,5 @@
 import PoolManager from "../../core/PoolManager";
+import gUtil from "../../core/gUtil";
 
 
 const { ccclass, property, menu } = cc._decorator;
@@ -37,7 +38,7 @@ export default class ShootManager extends cc.Component {
         ShootManager.instance = this;
         this.bulletPool = new PoolManager(this.node, this.onCreateObject, this)
         this.bulletPool.name = "ShootManager"
-        g.setGlobalInstance(this);
+        gUtil.setGlobalInstance(this);
 
         this.halfSize.width = cc.visibleRect.width / 2;
         this.halfSize.height = cc.visibleRect.height / 2;
@@ -107,7 +108,7 @@ export default class ShootManager extends cc.Component {
             }
             return true;
         } else if (this.canseeType == CanseeType.Camera) {
-            return this.camera.canSee(node)
+            return gUtil.canSee(this.camera, node);
         }
         // return this.node.getBoundingBox().containsRect(this.node.getBoundingBox()) ||this.node.getBoundingBox().intersects(this.node.getBoundingBox())
 

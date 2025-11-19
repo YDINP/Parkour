@@ -3,6 +3,7 @@ import { evt } from "../core/event";
 import Device from "../core/Device";
 import { Loading } from "./LoadingManager";
 import actionUtil from "../utils/actionUtil";
+import { LocalizationManager } from "../../Localization/LocalizationManager";
 
 const { ccclass, property, menu } = cc._decorator;
 
@@ -118,6 +119,7 @@ export default class ViewManager extends cc.Component {
         }
         this.updateZIndex(view);
         this.audio_show && Device.playEffect(this.audio_show);
+        LocalizationManager.localizeNode(view.node);
         return view.show(...params);
     }
 

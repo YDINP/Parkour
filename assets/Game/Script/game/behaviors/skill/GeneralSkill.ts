@@ -1,4 +1,5 @@
 import { evt } from "../../../../../framework/core/event";
+import gUtil from "../../../../../framework/core/gUtil";
 import FxPlayer from "../../../../../framework/extension/fxplayer/FxPlayer";
 import ccUtil from "../../../../../framework/utils/ccUtil";
 import WeaponData from "../../model/WeaponData";
@@ -17,7 +18,7 @@ export default class GeneralSkill extends cc.Component {
 
     onLoad() {
         this.player = this.getComponent(Player)
-        this.fxPlayer = this.getOrAddComponent(FxPlayer);
+        this.fxPlayer = gUtil.getOrAddComponent(this, FxPlayer);
         this.resetSkillFx();
     }
 

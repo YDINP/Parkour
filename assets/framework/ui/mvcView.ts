@@ -1,3 +1,5 @@
+import { LocalizationManager } from "../../Localization/LocalizationManager";
+import gUtil from "../core/gUtil";
 import ccUtil from "../utils/ccUtil";
 import Switcher from "./controller/Switcher";
 
@@ -238,7 +240,7 @@ export default class mvcView extends cc.Component {
         if (!layout.node.activeInHierarchy) return;
         let list_data = layout.node.dataBind(data, data2);
         let callback = layout.node.setItemCallback;
-        layout.showlist(callback, list_data || []);
+        gUtil.showlistLayout(layout, callback, list_data || []);
     }
 
     renderList(data?, data2?) {
@@ -328,7 +330,7 @@ export default class mvcView extends cc.Component {
         // })
         this._renderBars(data, data2);
         this.onLaterRender();
-
+        LocalizationManager.localizeNode(this.node);
     }
 
     _renderBars(data?, data2?) {

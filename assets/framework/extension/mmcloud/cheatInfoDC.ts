@@ -35,7 +35,7 @@ export default class CheatInfoDC extends DataCenter {
         for (var k in this.open_nums) {
             let date = this.open_date[k]
             if (date) {
-                if (g.isNextDay(date)) {
+                if (gUtil.isNextDay(date)) {
                     this.open_nums[k] = 0;
                 }
             }

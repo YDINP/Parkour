@@ -1,5 +1,6 @@
 import Buff from "./Buff";
 import DataCenter from "../../core/DataCenter";
+import gUtil from "../../core/gUtil";
 import ccUtil from "../../utils/ccUtil";
 export interface GenericBuffConfig {
     onEnable?: Function,
@@ -13,7 +14,7 @@ export default class GenericBuff extends Buff {
 
     get bindComp() {
         if (this._bindComp == null) {
-            this._bindComp = this.node.getOrAddComponent(this.cls_data)
+            this._bindComp = gUtil.getOrAddComponent(this.node, this.cls_data);
         }
         return this._bindComp;
     }

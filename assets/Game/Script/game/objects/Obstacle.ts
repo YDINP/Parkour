@@ -1,4 +1,5 @@
 import Device from "../../../../framework/core/Device";
+import gUtil from "../../../../framework/core/gUtil";
 import Fx from "../../../../framework/extension/fxplayer/Fx";
 import FxHelpher from "../../../../framework/extension/fxplayer/FxHelpher";
 import FxLayer from "../../../../framework/extension/fxplayer/FxLayer";
@@ -24,16 +25,26 @@ export default class Obstacle extends GameEntity {
 
     data: MobData = null;
 
+    // 블랙홀에 의해 빨려들어가는 중인지 표시 (충돌 무시용)
+    isBeingSuckedByBlackhole: boolean = false;
+
     onLoad() {
         super.onLoad();
     }
 
+    onEnable() {
+        super.onEnable();
+        // 재사용 시 플래그 초기화
+        this.isBeingSuckedByBlackhole = false;
+    }
 
     setBody(node?: cc.Node) {
         node = node || this.node;
-        this.body = node.getOrAddComponent(FizzBody)
+        this.body = gUtil.getOrAddComponent(node, FizzBody);
         node.group = 'obstacle'
         this.body.setTarget(this);
+        // 재사용 시 플래그 초기화
+        this.isBeingSuckedByBlackhole = false;
         return this.body;
     }
 
@@ -60,6 +71,10 @@ export default class Obstacle extends GameEntity {
     }
 
     onFizzCollideEnter(b: FizzBody, nx: number, ny: number, pen: number) {
+        // 블랙홀에 의해 빨려들어가는 중이면 충돌 무시
+        if (this.isBeingSuckedByBlackhole) {
+            return false;
+        }
         // pdata.coin += this.data.coin;
         // pdata.score += this.data.score;
         // pdata.life += this.data.life;

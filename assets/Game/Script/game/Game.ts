@@ -1,4 +1,5 @@
 import PoolManager from "../../../framework/core/PoolManager";
+import gUtil from "../../../framework/core/gUtil";
 import FxHelpher, { FxData } from "../../../framework/extension/fxplayer/FxHelpher";
 import FxLayer from "../../../framework/extension/fxplayer/FxLayer";
 import PoolSpawner from "../../../framework/extension/optimization/PoolSpawner";
@@ -33,6 +34,7 @@ import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import NoobLevel from "./behaviors/NoobLevel";
 import GameLayerTop from "./views/GameLayerTop";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 let { ccclass, property } = cc._decorator
 export let root: Game = null;
@@ -229,15 +231,24 @@ export default class Game extends mvcView implements ITileObjectFactory {
             //正常关卡
             //添加剩余段
             if (pdata.gameMode == ParkourType.Normal) {
-                let levelMode = this.mapNode.getOrAddComponent(LevelMode);
+                let levelMode = this.mapNode.getComponent(LevelMode);
+                if (!levelMode) {
+                    levelMode = this.mapNode.addComponent(LevelMode);
+                }
                 levelMode.onLoaded.on(this.onLevelLoadCompleted, this)
                 if (pdata.playinglv == 0) {
                     //新手关
-                    this.uilayer.getOrAddComponent(NoobLevel)
+                    let noobLevel = this.uilayer.getComponent(NoobLevel);
+                    if (!noobLevel) {
+                        noobLevel = this.uilayer.addComponent(NoobLevel);
+                    }
                 }
             }
             else {
-                this.mapNode.getOrAddComponent(InfiniteMode);
+                let infiniteMode = this.mapNode.getComponent(InfiniteMode);
+                if (!infiniteMode) {
+                    infiniteMode = this.mapNode.addComponent(InfiniteMode);
+                }
                 this.onLevelLoadCompleted();
             }
 
@@ -438,9 +449,12 @@ export default class Game extends mvcView implements ITileObjectFactory {
     async equipPet(petId) {
         let petData = ccUtil.get(PetData, petId)
         if (petData == null) return;
+        if (!petData.prefabPath || petData.prefabPath === "") {
+            console.warn(`[Game.equipPet] Invalid prefabPath for petId: ${petId}`);
+            return;
+        }
         let prefab = await ccUtil.getRes(petData.prefabPath, cc.Prefab)
-        let node = cc.instantiate(prefab)
-
+        let node = LocalizationManager.instantiatePrefab(prefab as unknown as cc.Prefab);
         node.parent = this.mapNode;
         this.pet = node.getComponent(Pet);
         this.pet.set(petId)
@@ -449,7 +463,8 @@ export default class Game extends mvcView implements ITileObjectFactory {
 
     public async createBodyNode(prefabPath: string, x, y) {
         let prefab = await ccUtil.getRes(prefabPath, cc.Prefab);
-        let node = cc.instantiate(prefab);
+        let node = LocalizationManager.instantiatePrefab(prefab as unknown as cc.Prefab);
+        if (node == null) return;
         node.parent = this.mapNode;
         node.setPosition(x, y);
         let body = node.getComponent(FizzBody)
@@ -460,7 +475,7 @@ export default class Game extends mvcView implements ITileObjectFactory {
         let layer = this.itemLayer;
         let node = PoolManager.get("items").get(prefab)
         let body = node.getComponent(FizzBody);
-        let item = node.getOrAddComponent(Item);
+        let item = gUtil.getOrAddComponent(node, Item);
         item.changeItem(itemName);
         layer.push(node);
         node.parent = layer.node;

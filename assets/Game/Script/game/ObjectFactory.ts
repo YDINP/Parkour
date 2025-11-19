@@ -1,4 +1,5 @@
 import PoolManager from "../../../framework/core/PoolManager";
+import gUtil from "../../../framework/core/gUtil";
 import FxHelpher from "../../../framework/extension/fxplayer/FxHelpher";
 import { EaseType } from "../../../framework/extension/qanim/EaseType";
 import { FizzBodyType } from "../../../framework/fizzx/components/FizzBody";
@@ -34,24 +35,25 @@ function playEnter(node: cc.Node, style) {
 const creators = {
     object_item: {
         default(node: cc.Node, name) {
-            let item = node.getOrAddComponent(Item);
+            let item = gUtil.getOrAddComponent(node, Item);
             let ok = item.setItem(name)
             root.addBodyToLayer(node, root.itemLayer)
             return item;
         },
         //变豆子
         item_bean_001(node: cc.Node, name) {
-            let item = node.getOrAddComponent(Item);
+            let item = gUtil.getOrAddComponent(node, Item);
             //item_bean_001
             let lv = pdata.abilitys['beanup']
-            let nname = 'item_bean_' + g.padNum(lv, 3);
+            let paddedLv = gUtil.padNum(lv, 3);
+            let nname = 'item_bean_' + paddedLv;
             let ok = item.changeItem(nname)
             //普通 豆 跟据当前豆子的等级变化外形 
             root.addBodyToLayer(node, root.itemLayer)
             return item;
         },
         changeItem(node: cc.Node, name) {
-            let item = node.getOrAddComponent(Item);
+            let item = gUtil.getOrAddComponent(node, Item);
             let ok = item.changeItem(name)
             root.addBodyToLayer(node, root.itemLayer)
             return item;
@@ -97,7 +99,7 @@ const creators = {
 
     object_obstacle: {
         default(node: cc.Node, name, properties) {
-            let obstacle = node.getOrAddComponent(Obstacle);
+            let obstacle = gUtil.getOrAddComponent(node, Obstacle);
             obstacle.setBody();
             let ok = obstacle.set(name)
             if (ok) {
@@ -110,7 +112,7 @@ const creators = {
         },
 
         bg_cell_block_up_03(node: cc.Node, name, properties) {
-            let obstacle = node.getOrAddComponent(Obstacle);
+            let obstacle = gUtil.getOrAddComponent(node, Obstacle);
 
             obstacle.set(name)
             root.addToLayer(node, root.obstacleLayer)
@@ -143,7 +145,7 @@ const creators = {
             if (node.isValid) {
                 newNode.parent = node.parent;
                 newNode.position = node.position.addSelf(cc.v3(node.width / 2, node.height / 2, 0));
-                let monster = newNode.getOrAddComponent(Obstacle);
+                let monster = gUtil.getOrAddComponent(newNode, Obstacle);
                 monster.setBody();
                 monster.body.response = false;
                 monster.set(name);

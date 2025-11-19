@@ -223,7 +223,7 @@ export default class MoveEngine extends MoveBase {
         let displacement: cc.Vec2 = cc.v2(-1, 0);
         displacement.mulSelf(WANDER_CIRCLE_RADIUS);
         displacement.rotateSelf(this.wanderAngle);
-        this.wanderAngle += g.randomFloat(-WANDER_ANGLE_CHANGE, WANDER_ANGLE_CHANGE)
+        this.wanderAngle += gUtil.randomFloat(-WANDER_ANGLE_CHANGE, WANDER_ANGLE_CHANGE)
         return circleCenter.add(displacement);
     }
 

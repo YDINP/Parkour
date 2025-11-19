@@ -1,7 +1,9 @@
 import Fx from "../../../framework/extension/fxplayer/Fx";
+import gUtil from "../../../framework/core/gUtil";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import ShopCapData from "../game/model/ShopCapData";
 
@@ -50,7 +52,7 @@ export default class UILiftGift extends mvcView {
     }
 
     refreshToggleList() {
-        this.togLayout.showlist(this.refreshCallBack.bind(this), this.toggleListData, this.togLayout.node.children[0]);
+        gUtil.showlistLayout(this.togLayout, this.refreshCallBack.bind(this), this.toggleListData, this.togLayout.node.children[0]);
     }
 
     refreshCallBack(node: cc.Node, dat: ShopCapData, idx: number) {
@@ -110,7 +112,8 @@ export default class UILiftGift extends mvcView {
         let lv = pdata.abilitys[d.type];
         let price = d.prices[lv];
         if (price == null) {
-            Toast.make("已到达最高级")
+            Toast.make(LocalizationManager.getText("@text.highest_level"));
+            // Toast.make("已到达最高级")
             return;
         }
         if (pdata.gold - price >= 0) {
@@ -123,7 +126,8 @@ export default class UILiftGift extends mvcView {
             pdata.save();
         }
         else {
-            Toast.make("银币不足");
+            Toast.make(LocalizationManager.getText("@text.not_enough_silver2"));
+            // Toast.make("银币不足");
         }
         this.refreshToggleList();
         this.renderShow();

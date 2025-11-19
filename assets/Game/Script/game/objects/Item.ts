@@ -1,4 +1,5 @@
 import Device from "../../../../framework/core/Device";
+import gUtil from "../../../../framework/core/gUtil";
 import FxHelpher from "../../../../framework/extension/fxplayer/FxHelpher";
 import FxLayer from "../../../../framework/extension/fxplayer/FxLayer";
 import FrameAnim from "../../../../framework/extension/qanim/FrameAnim";
@@ -26,7 +27,7 @@ export default class Item extends cc.Component {
     sprite: cc.Sprite = null;
 
     onLoad() {
-        this.body = this.getOrAddComponent(FizzBody)
+        this.body = gUtil.getOrAddComponent(this, FizzBody)
         this.body.isTrigger = true;
         this.node.group = 'item'
         this.sprite = this.getComponent(cc.Sprite)
@@ -43,7 +44,7 @@ export default class Item extends cc.Component {
             return
         }
         if (this.data.anim) {
-            let anim = this.getOrAddComponent(FrameAnim);
+            let anim = gUtil.getOrAddComponent(this, FrameAnim);
             anim.loadFrames(this.data.anim);
         }
         return true;

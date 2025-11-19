@@ -149,7 +149,13 @@ declare namespace csv{
          * @type {string}
          * @description "" - i_rush 
          */
-        static sfx_buff_rush?:string
+        static sfx_buff_rush?:string;
+
+        /**
+         * @type {string}
+         * @description "" - showtime 
+         */
+        static sfx_showtime?:string;
     }
 
     interface BuyProps_Row {
@@ -446,6 +452,7 @@ declare namespace csv{
 
 
     interface Item_Row {
+        [x: string]: number | string;
         
         /**
          * @type {string}
@@ -624,71 +631,71 @@ declare namespace csv{
          */
         "mapbg"?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any,
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any,
 
-        /**
-         * @type {any}
-         * @description  -  
-         */
-        ?:any
+        // /**
+        //  * @type {any}
+        //  * @description  -  
+        //  */
+        // ?:any
     };
     
     export class MapSeg{

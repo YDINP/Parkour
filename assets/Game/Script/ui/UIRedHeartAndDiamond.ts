@@ -3,6 +3,7 @@ import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import PlayerInfoDC, { pdata } from "../data/PlayerInfo";
 import { Res, ResType } from "../game/model/BaseData";
 
@@ -13,7 +14,7 @@ export default class UIRedHeartAndDiamond extends cc.Component {
 
     @property({
         type: cc.Enum(ResType),
-        displayName: "获得的资源"
+        displayName: "획득 자원"
     })
     res = ResType.Diamond
 
@@ -29,7 +30,8 @@ export default class UIRedHeartAndDiamond extends cc.Component {
     onLoad() { }
 
     start() {
-        let name = this.res == ResType.Diamond ? "钻石" : "红心";
+        let name = this.res == ResType.Diamond ? LocalizationManager.getText("@currency.dia") : LocalizationManager.getText("@currency.heart");
+        // let name = this.res == ResType.Diamond ? "钻石" : "红心";
         this.lab_num1.string = name + "+" + this.lab_num;
     }
 

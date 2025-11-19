@@ -5,6 +5,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { root } from "../game/Game";
 import HeroData from "../game/model/HeroData";
@@ -43,7 +44,8 @@ export default class UIReviveItem extends mvcView {
         this.register(this.lab_name, (d: HeroData) => d.name);
         this.register(this.lab_subNum, (d: HeroData) => {
             if (d.quality == "A" || d.quality == "B") {
-                return "看视频";
+                return LocalizationManager.getText("@text.watch_video");
+                // return "看视频";
             } else {
                 return "X 3";
             }
@@ -76,7 +78,8 @@ export default class UIReviveItem extends mvcView {
             })
         } else {
             if (pdata.diamond < 3) {
-                Toast.make("钻石不足！");
+                Toast.make(LocalizationManager.getText("@text.diamond_not_enough"));
+                // Toast.make("钻石不足！");
                 Loading.show(0.5);
                 this.scheduleOnce(() => {
                     vm.show("UIDiamondShop");

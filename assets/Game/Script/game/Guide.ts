@@ -2,6 +2,7 @@ import { evt } from "../../../framework/core/event";
 import GuiderLayer from "../../../framework/extension/guide/GuiderLayer";
 import FizzManager from "../../../framework/fizzx/components/FizzManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import UIEndPage from "../ui/UIEndPage";
@@ -51,7 +52,8 @@ export default class Guide {
         await this.init()
         this.pause()
         guiderLayer.showMessageEx({
-            content: "点击右边的按钮进行跳跃！",
+            content: LocalizationManager.getText("@guide.1"),
+            // content: "点击右边的按钮进行跳跃！",
         })
         await guiderLayer.waitClickEx("Canvas/uilayer/operation/jump_btn/New Node")
         this.resume()
@@ -59,7 +61,8 @@ export default class Guide {
         await evt.wait('NoobLevel.next')
         //---------------------------[]-----------------------------
         guiderLayer.showMessageEx({
-            content: "--------起跳--------",
+            content: LocalizationManager.getText("@guide.2"),
+            // content: "--------起跳--------",
         })
         this.pause()
         await guiderLayer.waitClickEx("Canvas/uilayer/operation/jump_btn/New Node")
@@ -68,7 +71,8 @@ export default class Guide {
         await evt.sleepSafe(guiderLayer, 0.18)
         this.pause()
         guiderLayer.showMessageEx({
-            content: "再次点击进行二段跳",
+            content: LocalizationManager.getText("@guide.3"),
+            // content: "再次点击进行二段跳",
         })
         await guiderLayer.waitClickEx("Canvas/uilayer/operation/jump_btn/New Node")
         this.resume()
@@ -78,7 +82,8 @@ export default class Guide {
         //---------------------------[]-----------------------------
         this.pause()
         guiderLayer.showMessageEx({
-            content: "点击左侧按钮进行滑动！",
+            content: LocalizationManager.getText("@guide.4"),
+            // content: "点击左侧按钮进行滑动！",
         })
         await guiderLayer.waitClickEx("Canvas/uilayer/operation/slide_btn/New Node")
         this.resume()
@@ -90,17 +95,20 @@ export default class Guide {
         //---------------------------[]-----------------------------
         await evt.wait('NoobLevel.next')
         guiderLayer.showMessageEx({
-            content: "障碍，小心！！！",
+            content: LocalizationManager.getText("@guide.5"),
+            // content: "障碍，小心！！！",
         })
         await evt.sleepSafe(guiderLayer, 1)
         guiderLayer.showMessageEx({
-            content: "啊！",
+            content: LocalizationManager.getText("@guide.7"),
+            // content: "啊！",
         })
         //---------------------------[]-----------------------------
         await evt.wait('NoobLevel.next')
         guiderLayer.hideAll();
         guiderLayer.showMessageEx({
-            content: "没关系，有红心恢复体力！",
+            content: LocalizationManager.getText("@guide.6"),
+            // content: "没关系，有红心恢复体力！",
         })
         this.pause()
         await guiderLayer.waitAnyKey();
@@ -113,9 +121,12 @@ export default class Guide {
         this.isInGuide = true
         await this.init()
         let ret = await guiderLayer.showMessageEx({
-            content: "第一次进游戏？是否进行操作向导?",
-            confirmText: "好的 ",
-            cancelText: "不用"
+            content: LocalizationManager.getText("@guide.0"),
+            // content: "第一次进游戏？是否进行操作向导?",
+            confirmText: LocalizationManager.getText("@text.confirm"),
+            // confirmText: "好的 ",
+            cancelText: LocalizationManager.getText("@text.cancel"),
+            // cancelText: "不用"
         })
         if (ret == 1) {
             pdata.playinglv = 0;
@@ -159,13 +170,15 @@ export default class Guide {
         guiderLayer.showFocus(node)
         guiderLayer.hideFinger();
         guiderLayer.showMessageEx({
-            content: "恭喜你获得一个宠物孵化卷,快去试试孵化宠物吧!",
+            content: LocalizationManager.getText("@guide.8"),
+            // content: "恭喜你获得一个宠物孵化卷,快去试试孵化宠物吧!",
             y: 100,
         })
         await guiderLayer.waitAnyKey(node);
         await guiderLayer.hideAll();
         guiderLayer.showMessageEx({
-            content: "点击关闭返回主界面",
+            content: LocalizationManager.getText("@guide.9"),
+            // content: "点击关闭返回主界面",
         })
         await guiderLayer.waitClickUI("UIEndPage/k/title/btn_close")
         //退到主界面后重新加载
@@ -181,7 +194,8 @@ export default class Guide {
         await guiderLayer.waitClickUI("UIHatchPet/k/New Layout/item_2/btn_hatch")
         // 孵化完后，强制引导装备 
         await evt.wait("UIPetDrawResult.onShown")
-        guiderLayer.showMessageEx({ content: "获得新宠物，快去游戏里试试吧！", y: -100 })
+        guiderLayer.showMessageEx({ content: LocalizationManager.getText("@guide.10"), y: -100 })
+        // content: "获得新宠物，快去游戏里试试吧！", y: -100 })
         await guiderLayer.waitClickUI("UIPetDrawResult/k/btn_equip")
         vm.hide("common/UIGuider")
         this.isInGuide = false;
@@ -201,10 +215,13 @@ export default class Guide {
         guiderLayer.showFocus(node)
         guiderLayer.hideFinger();
         let ret = await guiderLayer.showMessageEx({
-            content: "恭喜获得新道具，快去无尽模式去体验吧",
+            content: LocalizationManager.getText("@guide.11"),
+            // content: "恭喜获得新道具，快去无尽模式去体验吧",
             y: 100,
-            confirmText: "好的",
-            cancelText: "不去"
+            confirmText: LocalizationManager.getText("@text.confirm"),
+            // confirmText: "好的",
+            cancelText: LocalizationManager.getText("@text.cancel"),
+            // cancelText: "不去"
         })
         if (ret == 0) {
             // 0 :不去
@@ -218,7 +235,8 @@ export default class Guide {
         vm.show("UIReady")
         guiderLayer.hideFocus();
         await evt.wait("UIReady.onShown")
-        guiderLayer.showMessageEx({ content: "点击使用刚才获得的[冲刺]道具", y: 100 })
+        guiderLayer.showMessageEx({ content: LocalizationManager.getText("@guide.12"), y: 100 })
+        // guiderLayer.showMessageEx({ content: "点击使用刚才获得的[冲刺]道具", y: 100 })
         await guiderLayer.waitClickLayoutUI("UIReady/ui_buy_props/New ScrollView/view/lay_props_content", 3, "New Node/btn_use")
         guiderLayer.hideMessage();
         await guiderLayer.waitClickUI("UIReady/button_play_03_ch")
@@ -238,10 +256,13 @@ export default class Guide {
         guiderLayer.showFocus(node)
         guiderLayer.hideFinger();
         let ret = await guiderLayer.showMessageEx({
-            content: "恭喜获得新英雄,是否去切换",
+            content: LocalizationManager.getText("@guide.13"),
+            // content: "恭喜获得新英雄,是否去切换",
             y: 100,
-            confirmText: "切换",
-            cancelText: "不需要"
+            confirmText: LocalizationManager.getText("@text.confirm"),
+            // confirmText: "切换",
+            cancelText: LocalizationManager.getText("@text.cancel"),
+            // cancelText: "不需要"
         })
         if (ret == 0) {
             // 0 :不需要 取消：关闭引导
@@ -253,7 +274,8 @@ export default class Guide {
         //1 : 切换
         //确定 ：跳转到主界面   
         guiderLayer.showMessageEx({
-            content: "点击关闭返回主界面",
+            content: LocalizationManager.getText("@guide.14"),
+            // content: "点击关闭返回主界面",
         })
         await guiderLayer.waitClickUI("UIEndPage/k/title/btn_close")
         //退到主界面后重新加载

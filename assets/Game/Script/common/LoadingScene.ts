@@ -1,4 +1,5 @@
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import Platform from "../../../framework/extension/Platform";
@@ -37,7 +38,7 @@ export default class LoadingScene extends LoadingSceneBase {
     }
 
     async nextScene() {
-        if (g.isNextDay(UInfo.lastLoginTime)) {
+        if (gUtil.isNextDay(UInfo.lastLoginTime)) {
             UInfo.lastLoginTime = Date.now();
             UInfo.isFirstLoginToday = true;
             UInfo.save("lastLoginTime")

@@ -1,4 +1,5 @@
 import BuffSystem from "../../../../framework/extension/buffs/BuffSystem";
+import gUtil from "../../../../framework/core/gUtil";
 import FizzBody, { FizzBodyType } from "../../../../framework/fizzx/components/FizzBody";
 import Fizz from "../../../../framework/fizzx/fizz";
 import ccUtil from "../../../../framework/utils/ccUtil";
@@ -29,9 +30,9 @@ export default class Pet extends cc.Component {
 
         this.follower.offset = cc.v2(-100, 100);
 
-        this.skeleton = this.getOrAddComponent(SkeletonComponent)
-        this.buffSystem = this.getOrAddComponent(BuffSystem)
-        this.body = this.getOrAddComponent(FizzBody);
+        this.skeleton = gUtil.getOrAddComponent(this, SkeletonComponent)
+        this.buffSystem = gUtil.getOrAddComponent(this, BuffSystem)
+        this.body = gUtil.getOrAddComponent(this, FizzBody);
         this.body.isTrigger = true;
         this.node.group = 'player'
         //默认关闭碰撞

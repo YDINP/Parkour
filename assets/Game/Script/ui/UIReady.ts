@@ -1,5 +1,6 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import Fx from "../../../framework/extension/fxplayer/Fx";
 import Platform from "../../../framework/extension/Platform";
 import { Loading } from "../../../framework/ui/LoadingManager";
@@ -11,6 +12,7 @@ import { ParkourType, pdata } from "../data/PlayerInfo";
 import BuyPropsData from "../game/model/BuyPropsData";
 import ShopCapData from "../game/model/ShopCapData";
 import readyItem from "./readyItem";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -90,7 +92,7 @@ export default class UIReady extends mvcView {
     }
 
     ability_refresh() {
-        this.Toggle_ability.showlist(this.get_ability.bind(this), this.shopItemList, this.Toggle_ability.node.children[0]);
+        gUtil.showlistLayout(this.Toggle_ability, this.get_ability.bind(this), this.shopItemList, this.Toggle_ability.node.children[0]);
     }
 
     on_useItem(item: readyItem) {
@@ -112,7 +114,8 @@ export default class UIReady extends mvcView {
         if (rest < 0) {
             item.isUse = false;
             item.render();
-            Toast.make("无法使用，当前银币不足.")
+            Toast.make(LocalizationManager.getText("@text.not_enough_silver3"));
+            // Toast.make("无法使用，当前银币不足.")
             return;
         }
         this.lable_coin_rest.string = rest.toString()
@@ -198,7 +201,8 @@ export default class UIReady extends mvcView {
         let price = data.prices[lv];
         if (price == null) {
             // max level reached
-            Toast.make("已到达最高级")
+            Toast.make(LocalizationManager.getText("@text.highest_level"));
+            // Toast.make("已到达最高级")
             return;
         }
         if (pdata.gold - price >= 0) {
@@ -214,7 +218,8 @@ export default class UIReady extends mvcView {
 
         }
         else {
-            Toast.make("银币不足");
+            Toast.make(LocalizationManager.getText("@text.not_enough_silver2"));
+            // Toast.make("银币不足");
         }
         this.ability_refresh();
         this.skillPromote();
@@ -223,7 +228,8 @@ export default class UIReady extends mvcView {
     private click_start_game() {
         pdata.gameMode = ParkourType.Infinite;
         if (pdata.energy <= 0) {
-            Toast.make("红心不足！");
+            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
+            // Toast.make("红心不足！");
             vm.show("UIRedHeartShop", () => {
                 pdata.energy--;
                 pdata.save("energy");

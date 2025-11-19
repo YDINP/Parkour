@@ -1,4 +1,5 @@
 import SFireAgent from "./SFireAgent";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,7 +23,8 @@ export default class SEquipSystem extends cc.Component {
     }
 
     private createWeapon(weaponPrefab: cc.Prefab): SFireAgent {
-        let weaponNode = cc.instantiate(weaponPrefab);
+        // let weaponNode = cc.instantiate(weaponPrefab);
+        let weaponNode = LocalizationManager.instantiatePrefab(weaponPrefab);
         weaponNode.setParent(this.node);
         weaponNode.setPosition(0, 0);
         let weapon = weaponNode.getComponent(SFireAgent);

@@ -4,6 +4,7 @@ import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { ServerConfig } from "../common/ServerConfig";
 import { pdata } from "../data/PlayerInfo";
 
@@ -44,7 +45,8 @@ export default class UIRank extends mvcView {
     private async getRankData() {
         let res = await new Net().httpGet(ServerConfig.root_url + "/api/rank", { orderBy: 'score' });
         if (!res) {
-            Toast.make("数据异常");
+            Toast.make(LocalizationManager.getText("@text.data_exception"));
+            // Toast.make("数据异常");
             return;
         }
         let d = JSON.parse(res);

@@ -1,3 +1,4 @@
+import { LocalizationManager } from "../../../../Localization/LocalizationManager";
 import { Res } from "./BaseData";
 
 export interface PetSkillLvData {
@@ -33,19 +34,37 @@ export default class PetData {
     lvDesc: string;
     public constructor(id) {
         this.id = id;
-        let d = csv.PetInfo.get(id)
+        let d = csv.PetInfo.get(id);
+        if (!d) {
+            console.warn(`[PetData] PetInfo not found for id: ${id}`);
+            // Set default values to prevent errors
+            this.prefabPath = "";
+            this.name = "";
+            this.quality = "";
+            this.avatar = "";
+            this.capbility = "";
+            this.desc = "";
+            this.skill = new PetSkillData("");
+            this.passiveSkill = new PetSkillData("");
+            this.lvDesc = "";
+            return;
+        }
         this.prefabPath = "pets/" + d.skeleton;
-        this.name = d.name
+        this.name = LocalizationManager.getText(`@pet.${id}.name`);
+        // this.name = d.name
         this.quality = d.quality;
         this.avatar = "Textures/avatars/pet/" + d.image;
-        this.capbility = d.brief_info;
-        this.desc = d.string_info
+        this.capbility = LocalizationManager.getText(`@pet.${id}.brief_info`);
+        // this.capbility = d.brief_info;
+        this.desc = LocalizationManager.getText(`@pet.${id}.string_Info`);
+        // this.desc = d.string_info
         this.skill = new PetSkillData(d.skill);
         this.passiveSkill = new PetSkillData(d.passiveSkill)
         // let [type, x, xx] = d.buycost.split("+");
         // this.buyCost = Res.fromString(d.buycost)
 
-        this.lvDesc = d.lvdesc;
+        this.lvDesc = LocalizationManager.getText(`@pet.${id}.lvdesc`);
+        // this.lvDesc = d.lvdesc;
         let lvns = d.lvnum.split("+").map(v => Number(v))
         let lvcs = d.lvcost.split("+").map(v => Number(v))
         for (let i = 0; i < lvns.length; ++i) {
@@ -53,10 +72,10 @@ export default class PetData {
             lvdata.lv = i + 1;
             lvdata.data = lvns[i];
             // 升级固定使用银币升级
-            lvdata.up_cost = Res.fromString("Gold+" + lvcs[i])
+            lvdata.up_cost = Res.fromString("Gold+" + lvcs[i]);
             //- 注意这里  表里配置的是k单位
-            lvdata.up_cost.num = Math.floor(1000 * lvdata.up_cost.num)
-            this.lvs[i] = lvdata
+            lvdata.up_cost.num = Math.floor(1000 * lvdata.up_cost.num);
+            this.lvs[i] = lvdata;
         }
     }
 

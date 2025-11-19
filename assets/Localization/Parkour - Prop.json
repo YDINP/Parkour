@@ -1,0 +1,29 @@
+{
+  "ko": {
+    "prop.1.name": "거대한 형태",
+    "prop.1.desc": "영웅은 거인으로 변신하여 무적의 등장을 합니다.",
+    "prop.2.name": "마법 보호",
+    "prop.2.desc": "영웅이 한 번의 피해를 견뎌낼 수 있도록 마법의 보호막을 활성화합니다.",
+    "prop.3.name": "시동 가속",
+    "prop.3.desc": "영웅이 번개처럼 빠르게 등장합니다!",
+    "prop.4.name": "애완동물 부화 두루마리"
+  },
+  "en": {
+    "prop.1.name": "prop.1.name",
+    "prop.1.desc": "prop.1.desc",
+    "prop.2.name": "prop.2.name",
+    "prop.2.desc": "prop.2.desc",
+    "prop.3.name": "prop.3.name",
+    "prop.3.desc": "prop.3.desc",
+    "prop.4.name": "prop.4.name"
+  },
+  "cn": {
+    "prop.1.name": "巨人状态",
+    "prop.1.desc": "英雄变成巨人，无敌出场",
+    "prop.2.name": "魔法保护",
+    "prop.2.desc": "发动魔法盾，帮助英雄抵挡一次伤害",
+    "prop.3.name": "开局加速",
+    "prop.3.desc": "英雄以极快的速度冲洗出场！",
+    "prop.4.name": "宠物孵化卷"
+  }
+}

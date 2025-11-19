@@ -28,10 +28,10 @@ export default class Net {
             var xhr = cc.loader.getXMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
+                    if (time) return; //请求已经超时，忽略中止请求
+                    clearTimeout(timer);//取消等待的超时 
                     if (xhr.status >= 200 && xhr.status < 300) {
                         var respone = xhr.responseText;
-                        if (time) return reject(respone);//请求已经超时，忽略中止请求
-                        clearTimeout(timer);//取消等待的超时 
                         let ret = respone;
                         if (Net.handler) {
                             ret = Net.handler(this, respone);
@@ -41,6 +41,7 @@ export default class Net {
                         if (Net.errHandler) {
                             Net.errHandler(Net.Code.StatusUnexpected, xhr.status);
                         }
+                        reject(Net.Code.StatusUnexpected);
                     }
                 }
             };

@@ -1,5 +1,6 @@
 import FxHelpher from "../../../../framework/extension/fxplayer/FxHelpher";
 import ccUtil from "../../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../../Localization/LocalizationManager";
 import { root } from "../Game";
 import Player from "../Player";
 
@@ -18,7 +19,7 @@ export default class ShieldBuff extends cc.Component {
     onEnable() {
         if (this.shieldNode == null) {
             ccUtil.getRes("effects/prefabs/shield", cc.Prefab).then(v => {
-                this.shieldNode = cc.instantiate(v);
+                this.shieldNode = LocalizationManager.instantiatePrefab(v as unknown as cc.Prefab);
                 this.shieldNode.parent = this.node;
                 this.shieldNode.setPosition(0, 0);
             })

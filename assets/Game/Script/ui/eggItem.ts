@@ -1,6 +1,8 @@
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import eggAction from "../game/effects/eggAction";
 import PetData from "../game/model/PetData";
@@ -42,7 +44,8 @@ export default class eggItem extends cc.Component {
     }
 
     getRandom(idx) {
-        let _idx: number = g.getRandom(this["oddsArr" + idx]);
+        let arr = this["oddsArr" + idx];
+        let _idx: number = gUtil.getRandom(arr) || 0;
         console.log("获取到的宠物ID：" + _idx);
         return _idx;
     }
@@ -86,9 +89,11 @@ export default class eggItem extends cc.Component {
             .to(0.5, { scale: 2 })
             .call(() => {
                 let confirmData: ImgConfirmData = {
-                    title: "恭喜获得",
+                    title: LocalizationManager.getText("@text.congratulations"),
+                    // title: "恭喜获得",
                     iconPath: this.selectPetData.avatar,
-                    content: "获得新宠物“" + this.selectPetData.name + "”",
+                    content: LocalizationManager.getText("@PetDrawResult.content") + "“" + this.selectPetData.name + "”",
+                    // content: "获得新宠物“" + this.selectPetData.name + "”",
                     isShowCancel: true,
                     cancelIsDaley: false,
                     confirmCall: () => {

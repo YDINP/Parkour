@@ -1,5 +1,6 @@
 import Fx from "./Fx";
 import Device from "../../core/Device";
+import gUtil from "../../core/gUtil";
 
 const { ccclass, property, menu } = cc._decorator;
 
@@ -50,7 +51,7 @@ export default class FxPlayer extends cc.Component {
 
 
     loadPrefab() {
-        if (this.prefabPath == null || isEmpty(this.prefabPath)) return Promise.resolve();
+        if (this.prefabPath == null || gUtil.isEmpty(this.prefabPath)) return Promise.resolve();
         return new Promise((resolve, reject) => {
             cc.loader.loadRes(this.prefabPath, (err, res) => {
                 if (err) reject(err)
@@ -105,7 +106,7 @@ export default class FxPlayer extends cc.Component {
     }
 
     sleep(sec) {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             setTimeout(_ => {
                 resolve();
             }, sec)
@@ -142,7 +143,7 @@ export default class FxPlayer extends cc.Component {
         fx = this.fx;
         if (fx) {
             if (this.randomRotaion)
-                fx.node.angle = g.randomInt(0, 360);
+                fx.node.angle = gUtil.randomInt(0, 360);
             fx.reset();
             this.setOptions(fx, options);
 

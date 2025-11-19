@@ -24,7 +24,7 @@ export default class EndTrigger extends cc.Component {
 
     winGame() {
         root.pause();
-        console.log("游戏胜利")
+        console.log("Game victory")
         vm.show("UIEndPage")
     }
 

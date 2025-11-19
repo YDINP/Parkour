@@ -9,6 +9,7 @@ import SFireAgent from "../../../framework/extension/shooter/SFireAgent";
 import PlayerController, { PlayerState } from "../../../framework/fizzx/components/Common/PlayerController";
 import FizzBody, { FizzCollideInterface } from "../../../framework/fizzx/components/FizzBody";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import SkeletonComponent from "../Controller/SkeletonComponent";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import Falloff from "./behaviors/Falloff";
@@ -188,7 +189,8 @@ export default class Player extends cc.Component implements FizzCollideInterface
     /**set skeleton from template */
     async setSkeleton(prefabPath) {
         let res = await ccUtil.getRes(prefabPath, cc.Prefab)
-        let node = cc.instantiate(res)
+        let node = LocalizationManager.instantiatePrefab(res as unknown as cc.Prefab);
+        if (node == null) return;
         this.skeleton.node.destroy()
         this.skeleton = node.getComponentInChildren(SkeletonComponent)
         this.skeleton.node.parent = this.node;
@@ -380,7 +382,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
 
         if (weaponData.bullet) {
             ccUtil.getRes("weapons/bullets/" + weaponData.bullet, cc.Prefab).then(v => {
-                this.gun.bulletPrefab = v;
+                this.gun.bulletPrefab = v as unknown as cc.Prefab;
             })
         }
     }

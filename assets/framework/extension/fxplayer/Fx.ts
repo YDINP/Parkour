@@ -1,4 +1,5 @@
 import Device from "../../core/Device";
+import gUtil from "../../core/gUtil";
 import ccUtil from "../../utils/ccUtil";
 
 const { ccclass, property, menu } = cc._decorator;
@@ -147,7 +148,7 @@ export default class Fx extends cc.Component {
             this.armature.playAnimation(this.defaultAnim, this.repeatTime);
             dur = this.duration
             if (dur <= 0) {
-                return new Promise((resolve, reject) => {
+                return new Promise<void>((resolve, reject) => {
                     // this.armature.addEventListener(dragonBones.EventObject.LOOP_COMPLETE, _=>{
                     //     console.log("loop complete");
                     //     this.fadeOnFinish(resolve)
@@ -170,7 +171,7 @@ export default class Fx extends cc.Component {
             }
         }
         // console.log("[psfx] play : " ,  this.name,  dur);
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.scheduleOnce(_ => {
                 if (!this.isValid) return resolve()
                 if (this.removeAfterFinish) {
@@ -204,7 +205,11 @@ export default class Fx extends cc.Component {
         if (this.resetOrigin)
             this.node.setPosition(cc.Vec2.ZERO);
         this.node.opacity = 255;
-        this.animations.forEach(v => v.stepTo(0))
+        this.animations.forEach(v => {
+            if (v) {
+                gUtil.stepToAnimation(v, 0);
+            }
+        })
     }
 
     start() {

@@ -94,7 +94,7 @@ export default class FizzBody extends cc.Component {
         return this._sid_;
     }
     /** 碰撞反应：仅碰撞回调 */
-    @property({ tooltip: "是否需要计算碰撞反应" })
+    @property({ tooltip: "Do we need to calculate the collision reaction?" })
     response: boolean = true;
 
     /**碰撞反应：true 时计算碰撞物体的位置 ，但不计算碰撞后变化的速度,false时全部计算   */

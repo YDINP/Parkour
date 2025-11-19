@@ -99,7 +99,7 @@ class WxSdk extends SDKBase {
      * @param share_cfg {ShareInfo}
      */
     async openShare(share_cfg: ShareInfo, params?) {
-        if (!g.iswxgame()) return;
+        if (!gUtil.iswxgame()) return;
         let info = {} as ShareInfo;
         console.log("sdsdsd", info, info.title);
 

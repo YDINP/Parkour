@@ -1,4 +1,5 @@
 import Device from "../../../../framework/core/Device"
+import gUtil from "../../../../framework/core/gUtil"
 import BuffSystem from "../../../../framework/extension/buffs/BuffSystem"
 import FxHelpher from "../../../../framework/extension/fxplayer/FxHelpher"
 import ccUtil from "../../../../framework/utils/ccUtil"
@@ -41,7 +42,7 @@ export default class InfiniteMode extends cc.Component {
                     return;
                 }
             }
-            let segs = g.getRandom(lvdata.begin)
+            let segs = gUtil.getRandom(lvdata.begin);
             //循环  速度 加快
             this.next()
             this.isLoading = true;

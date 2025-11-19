@@ -25,7 +25,7 @@ export default class FrameSwitcher extends cc.Component {
     }
 
     switchRandom() {
-        this.index = g.randomInt(0, this.frames.length);
+        this.index = gUtil.randomInt(0, this.frames.length);
     }
 
     set index(k) {

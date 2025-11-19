@@ -24,6 +24,8 @@ export default class UIHeroShop extends mvcView {
 
 
     onLoad() {
+        // 리스트 데이터 초기화 후 채우기
+        this.listData = [];
         csv.HeroInfo.values.map((v, idx) => {
             this.listData.push(ccUtil.get(HeroData, idx + 1));
         })

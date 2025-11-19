@@ -106,7 +106,7 @@ class TTSdk {
      * @param share_cfg {ShareInfo}
      */
     async openShare(share_cfg: ShareInfo, params?) {
-        if (!g.iswxgame()) return;
+        if (!gUtil.iswxgame()) return;
         let info = {} as ShareInfo
         info.title = share_cfg.title;
         info.imageUrl = share_cfg.imageUrl;

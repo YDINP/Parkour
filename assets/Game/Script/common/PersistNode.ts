@@ -11,6 +11,9 @@ import mmgame from "../../../framework/extension/mmcloud/mmgame";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import { pdata } from "../data/PlayerInfo";
+// g.js를 명시적으로 로드하여 로드 순서 보장
+// @ts-ignore - g.js는 플러그인으로 자동 로드되지만, 명시적 import로 로드 순서 보장
+import "../../../framework/core/g.js";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,7 +50,10 @@ export default class PersistNode extends cc.Component {
         SDKBase.initConfig(GameConfig);
         AliEvent.init(GameConfig.appId);
 
-        this.getOrAddComponent(BuffSystem);
+        let buffSystem = this.getComponent(BuffSystem);
+        if (!buffSystem) {
+            buffSystem = this.addComponent(BuffSystem);
+        }
 
         cc.macro.FIX_ARTIFACTS_BY_STRECHING_TEXEL_TMX = 1;
 
@@ -85,10 +91,10 @@ export default class PersistNode extends cc.Component {
     onViewShow(view) {
         if (!csv.Config) return;
         if (csv.Config.BannerAdWhiteList && csv.Config.BannerAdWhiteList.indexOf(view.node.name) != -1) {
-            console.log(view.node.name + "显示banner")
+            console.log(view.node.name + "Display banner")
             Platform.showBannerAd();
         } else {
-            console.log(view.node.name + "隐藏banner")
+            console.log(view.node.name + "Hide banner")
             Platform.hideBannerAd();
         }
     }
@@ -96,11 +102,11 @@ export default class PersistNode extends cc.Component {
     onViewHidden(view) {
         if (!csv.Config) return;
         if (csv.Config.BannerAdWhiteList && csv.Config.BannerAdWhiteList.indexOf(view.node.name) != -1) {
-            console.log(view.node.name + "隐藏banner")
+            console.log(view.node.name + "Hide banner")
             Platform.hideBannerAd();
         }
         if (csv.Config.BannerAdRefreshWhiteList && csv.Config.BannerAdRefreshWhiteList.indexOf(view.node.name) != -1) {
-            console.log(view.node.name + "刷新banner")
+            console.log(view.node.name + "Refresh banner")
             Platform.refreshBannerAd();
         }
     }
@@ -111,7 +117,7 @@ export default class PersistNode extends cc.Component {
                 if (v.node.active) {
                     if (csv.Config.BannerAdWhiteList.indexOf(v.node.name) == -1) {
                         //没有在白名单里的要隐藏 
-                        console.log("不在白名单关闭banner广告！")
+                        console.log("Not in the white list, close banner ad!")
                         Platform.hideBannerAd();
                     }
                 }

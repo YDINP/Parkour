@@ -4,6 +4,7 @@ import { EaseType } from "../../../framework/extension/qanim/EaseType";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { pdata } from "../data/PlayerInfo";
 import UILevelsPage from "./UILevelsPage";
@@ -226,7 +227,7 @@ export default class UILevels extends mvcView {
     enterGame() {
 
         if (pdata.energy <= 0) {
-            Toast.make("红心不足！");
+            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
             vm.show("UIRedHeartShop", () => {
                 pdata.playinglv = pdata.level;
                 pdata.energy--;

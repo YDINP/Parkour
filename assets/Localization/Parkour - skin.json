@@ -1,0 +1,50 @@
+{
+  "ko": {
+    "skin.1.name": "체력",
+    "skin.1.date": "1일차",
+    "skin.2.name": "다이아몬드",
+    "skin.2.date": "이튿날",
+    "skin.3.name": "은",
+    "skin.3.date": "3일차",
+    "skin.4.name": "다이아몬드",
+    "skin.4.date": "4일차",
+    "skin.5.name": "체력",
+    "skin.5.date": "5일차",
+    "skin.6.name": "은",
+    "skin.6.date": "6일차",
+    "skin.7.name": "다이아몬드",
+    "skin.7.date": "7일차"
+  },
+  "en": {
+    "skin.1.name": "skin.1.name",
+    "skin.1.date": "skin.1.date",
+    "skin.2.name": "skin.2.name",
+    "skin.2.date": "skin.2.date",
+    "skin.3.name": "skin.3.name",
+    "skin.3.date": "skin.3.date",
+    "skin.4.name": "skin.4.name",
+    "skin.4.date": "skin.4.date",
+    "skin.5.name": "skin.5.name",
+    "skin.5.date": "skin.5.date",
+    "skin.6.name": "skin.6.name",
+    "skin.6.date": "skin.6.date",
+    "skin.7.name": "skin.7.name",
+    "skin.7.date": "skin.7.date"
+  },
+  "cn": {
+    "skin.1.name": "体力",
+    "skin.1.date": "第一天",
+    "skin.2.name": "钻石",
+    "skin.2.date": "第二天",
+    "skin.3.name": "银币",
+    "skin.3.date": "第三天",
+    "skin.4.name": "钻石",
+    "skin.4.date": "第四天",
+    "skin.5.name": "体力",
+    "skin.5.date": "第五天",
+    "skin.6.name": "银币",
+    "skin.6.date": "第六天",
+    "skin.7.name": "钻石",
+    "skin.7.date": "第七天"
+  }
+}

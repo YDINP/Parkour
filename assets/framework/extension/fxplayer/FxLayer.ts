@@ -3,6 +3,7 @@ import PoolManager from "../../core/PoolManager";
 import Platform from "../Platform";
 import { EaseType } from "../qanim/EaseType";
 import { evt } from "../../core/event";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 const { ccclass, property, menu } = cc._decorator;
 export interface EfxOption {
@@ -67,14 +68,17 @@ export default class FxLayer extends cc.Component {
             let node = this._poolmgr.get(prefabPath)
             if (node == null) {
                 if (prefabPath instanceof cc.Prefab) {
-                    node = cc.instantiate(prefabPath);
+                    node = LocalizationManager.instantiatePrefab(prefabPath);
                     this._poolmgr.tag(node, this._poolmgr.getPool(prefabPath))
                 } else {
                     cc.loader.loadRes(prefabPath, cc.Prefab, (e, prefab: cc.Prefab) => {
-                        node = cc.instantiate(prefab);
+                        node = LocalizationManager.instantiatePrefab(prefab);
                         this._poolmgr.tag(node, this._poolmgr.getPool(prefabPath))
                         node.setParent(this.node);
-                        let psfx = node.getOrAddComponent(Fx)
+                        let psfx = node.getComponent(Fx);
+                        if (!psfx) {
+                            psfx = node.addComponent(Fx);
+                        }
                         psfx.name = prefabPath;
                         resolve(psfx);
                     })
@@ -83,7 +87,10 @@ export default class FxLayer extends cc.Component {
             }
             node.setParent(this.node);
             node.active = false;
-            let psfx = node.getOrAddComponent(Fx)
+            let psfx = node.getComponent(Fx);
+            if (!psfx) {
+                psfx = node.addComponent(Fx);
+            }
             psfx.reset();
             resolve(psfx);
         })

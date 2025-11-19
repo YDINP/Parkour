@@ -1,0 +1,20 @@
+{
+  "ko": {
+    "shopCap.1.name": "신체적 강화",
+    "shopCap.1.desc": "총 {0}의 체력 포인트를 획득하여 더 오래 버틸 수 있게 되었습니다.",
+    "shopCap.2.name": "매직빈 강화",
+    "shopCap.2.desc": "매직빈 점수가 {0}으로 변경되었으니, 더 높은 총점을 목표로 해보세요!"
+  },
+  "en": {
+    "shopCap.1.name": "shopCap.1.name",
+    "shopCap.1.desc": "shopCap.1.desc",
+    "shopCap.2.name": "shopCap.2.name",
+    "shopCap.2.desc": "shopCap.2.desc"
+  },
+  "cn": {
+    "shopCap.1.name": "体力强化",
+    "shopCap.1.desc": "总共增加体力{0}点，可以坚持更久了",
+    "shopCap.2.name": "魔法豆强化",
+    "shopCap.2.desc": "魔法豆分数变成{0}，可以争取更高的总分啦"
+  }
+}

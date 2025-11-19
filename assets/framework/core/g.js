@@ -6,6 +6,19 @@
  * @suppress {globalThis}
  */
 
+// LocalizationManager는 런타임에 전역에서 접근 가능하므로 require 대신 전역 접근 사용
+// Cocos Creator 에디터에서는 require가 작동하지 않으므로 조건부로 처리
+let LocalizationManager = null;
+if (typeof require === 'function') {
+    try {
+        const lm = require("../../Localization/LocalizationManager");
+        LocalizationManager = lm.LocalizationManager;
+    } catch (e) {
+        // 에디터 환경에서는 require가 실패할 수 있음
+        console.warn("[g.js] LocalizationManager require failed, will use global access:", e);
+    }
+}
+
 var g = function () { };
 
 g.iswxgame = function () {
@@ -484,7 +497,13 @@ cc.ScrollView.prototype.showlist = function (callback, list, template) {
   if (template) template.active = false;
   for (var i = 0; i < list.length; i++) {
     var cfg = list[i];
-    var node = cc.instantiate(template);
+    var node;
+    if (LocalizationManager && LocalizationManager.instantiatePrefab) {
+      node = LocalizationManager.instantiatePrefab(template);
+    } else {
+      // LocalizationManager가 없을 경우 일반 instantiate 사용
+      node = cc.instantiate(template);
+    }
     node.active = true;
     this.content.addChild(node);
     if (callback) callback(node, cfg, i);
@@ -516,7 +535,12 @@ cc.Layout.prototype.showlist = function (callback, list, template) {
     var cfg = list[i];
     var node = pool.get();
     if (node == null) {
-      node = cc.instantiate(template);
+      if (LocalizationManager && LocalizationManager.instantiatePrefab) {
+        node = LocalizationManager.instantiatePrefab(template);
+      } else {
+        // LocalizationManager가 없을 경우 일반 instantiate 사용
+        node = cc.instantiate(template);
+      }
     }
     node.active = true;
     node.parent = this.node;

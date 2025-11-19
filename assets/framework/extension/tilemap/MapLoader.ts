@@ -1,4 +1,5 @@
 // import ObjectFactory from "../ObjectFactory";
+import gUtil from "../../../framework/core/gUtil";
 import { tmxLoader, TMXProgressListener } from "../../../framework/extension/tilemap/RemoteTMXLoader";
 import TmxLayerWalker from "../../../framework/extension/tilemap/TmxLayerWalker";
 import FizzHelper, { BodyProperties } from "../../../framework/fizzx/components/FizzHelper";
@@ -100,7 +101,8 @@ export default class MapLoader extends cc.Component {
             mapNode.parent = this.tiledmap.node;
             let tiledmap = mapNode.addComponent(cc.TiledMap)
             tiledmap.tmxAsset = tmxAsset;
-            let layerWalker = tiledmap.getOrAddComponent(TmxLayerWalker)
+            // let layerWalker = tiledmap.getOrAddComponent(TmxLayerWalker);
+            let layerWalker = gUtil.getOrAddComponent(tiledmap, TmxLayerWalker);
             tiledmap.node.setAnchorPoint(0, 0)
             tiledmap.node.setPosition(this.mapWidth, 0)
             this.mapWidth += layerWalker.mapSizeInPixel.width;

@@ -1,5 +1,6 @@
 import Platform from "../extension/Platform";
 import { Loading } from "../ui/LoadingManager";
+import { LocalizationManager } from "../../Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,7 +33,8 @@ export default class LoadingSceneBase extends cc.Component {
     start() {
 
         this.bar.progress = 0;
-        this.label.string = "加载中..."
+        // this.label.string = "加载中..."
+        this.label.string = LocalizationManager.getText("loading");
     }
 
     set progress(p) {
@@ -44,8 +46,9 @@ export default class LoadingSceneBase extends cc.Component {
 
     loadNextScene(prefabTobeLoad?) {
         targetScene = targetScene || this.defaultSceneName;
-        this.label.string = '加载场景资源'
-        return new Promise((resolve, reject) => {
+        // this.label.string = '加载场景资源'
+        this.label.string = LocalizationManager.getText("@loadingSceneResource");
+        return new Promise<void>((resolve, reject) => {
             cc.director.preloadScene(targetScene, (c, t, i) => {
                 this.percentLabel.string = `${(c / t * 100).toFixed(1)}%`
                 this.bar.progress = c / t;

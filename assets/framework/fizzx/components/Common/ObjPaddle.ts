@@ -81,7 +81,7 @@ export default class ObjPaddle extends BodyBase {
         }
         toTarget.normalizeSelf();
         if (d < 50) {
-            let m = g.map(d, 0, 50, 10, this.maxSpeed);
+            let m = gUtil.map(d, 0, 50, 10, this.maxSpeed);
             toTarget.mulSelf(m);
         } else {
             toTarget.mulSelf(this.maxSpeed);

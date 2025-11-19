@@ -1,3 +1,4 @@
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import Signal from "../../core/Signal";
 import ccUtil from "../../utils/ccUtil";
 
@@ -98,7 +99,8 @@ export default class DynamicMap extends cc.Component {
         this.segIdx = cc.misc.clampf(idx, 0, this.segments.length - 1);
         let prefab = this.segments[this.segIdx]
         console.warn("create next level:", prefab.name);
-        let node = cc.instantiate(prefab)
+        // let node = cc.instantiate(prefab);
+        let node = LocalizationManager.instantiatePrefab(prefab);
         // let roadType = this.levels_roadAvatar[this.levelIndex]
         if (node == null) {
             console.error("create segment failed:", this.segments, this.segIdx)

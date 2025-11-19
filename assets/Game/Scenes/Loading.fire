@@ -18,6 +18,9 @@
       },
       {
         "__id__": 4
+      },
+      {
+        "__id__": 21
       }
     ],
     "_active": false,
@@ -678,7 +681,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 96,
+      "width": 141.91,
       "height": 56.4
     },
     "_anchorPoint": {
@@ -730,8 +733,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "加载中",
-    "_N$string": "加载中",
+    "_string": "@loading",
+    "_N$string": "@loading",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -832,5 +835,109 @@
       "__id__": 16
     },
     "_id": "aavExPOGNMn7EerUcI50cL"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "Localization",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 22
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "a6L0EI+4RCaaZk9r6gr84K"
+  },
+  {
+    "__type__": "4ad502hZjFD749Uc7c/jA5q",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 21
+    },
+    "_enabled": true,
+    "localizationJsonFiles": [
+      {
+        "__uuid__": "6a990091-fd75-46d8-988c-e65befd10088"
+      },
+      {
+        "__uuid__": "45966e4e-df95-4e1f-8500-e48ffec3397a"
+      },
+      {
+        "__uuid__": "b83314e9-510d-4886-a520-4c0bef9a9aef"
+      },
+      {
+        "__uuid__": "0ab17ec1-a01c-443e-8aa6-2966824bfd73"
+      },
+      {
+        "__uuid__": "e3e53a47-5dba-4ca2-b9fd-a6b41636341a"
+      },
+      {
+        "__uuid__": "9dfe7081-1de7-4426-baca-bf99b4a243e5"
+      },
+      {
+        "__uuid__": "a1bb59e6-07aa-4505-9a0e-72df60263325"
+      },
+      {
+        "__uuid__": "d33e5099-f3d9-4bcc-976f-110d60024166"
+      }
+    ],
+    "defaultLanguage": "ko",
+    "autoLocalizeOnStart": true,
+    "autoLocalizeOnSceneLoaded": true,
+    "keyPrefix": "@",
+    "debugMode": true,
+    "warnOnDuplicate": true,
+    "_id": "ffsUXr9u5PzrZGofi6Q6uU"
   }
 ]

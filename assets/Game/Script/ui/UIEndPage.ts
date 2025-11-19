@@ -1,5 +1,6 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import Fx from "../../../framework/extension/fxplayer/Fx";
 import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import Platform from "../../../framework/extension/Platform";
@@ -9,6 +10,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import { root } from "../game/Game";
@@ -145,7 +147,8 @@ export default class UIEndPage extends mvcView {
     }
 
     click_boxtip() {
-        Toast.make("每次升级将会额外获得奖励!")
+        Toast.make(LocalizationManager.getText("@text.upgrade_extra_reward"));
+        // Toast.make("每次升级将会额外获得奖励!")
     }
 
     async addLootItems(items: LootItemData[], interval = 0.1) {
@@ -153,10 +156,10 @@ export default class UIEndPage extends mvcView {
         for (let i = 0; i < items.length; i++) {
             let itemd = items[i]
             //仅支持金币和钻石2种资源 ，
-            if (ResType[itemd.type] == null) return console.warn("未知资源类型")
+            if (ResType[itemd.type] == null) return console.warn("Unknown resource type");
             if (itemd.num == 0) return;
             this.items_tobeAdded.push(itemd);
-            let loot = cc.instantiate(tmp)
+            let loot = LocalizationManager.instantiatePrefab(tmp);
             loot.active = true;
             let fx = loot.getComponentInChildren(FxPlayer);
             let icon = ccUtil.find("icon", loot, cc.Sprite)
@@ -186,7 +189,7 @@ export default class UIEndPage extends mvcView {
             multi = 0.5;
         }
         let score = pdata.tmpScore;
-        let labelAnim = this.lab_score.getOrAddComponent(LabelAnim)
+        let labelAnim = gUtil.getOrAddComponent(this.lab_score, LabelAnim)
         await labelAnim.play(0.3, 0, score)
         this.isNewRecord = pdata.breakNewRecord();
         this.render();
@@ -211,8 +214,8 @@ export default class UIEndPage extends mvcView {
         // get exp current percentage 
         let expRatio = pdata.expPercent;
         let addExpRatio = expGain / pdata.reuquireExp;
-        let barAnim = this.bar_exp.getOrAddComponent(ProgressBarAnim)
-        let labelExpAnim = this.lab_exp.getOrAddComponent(LabelAnim)
+        let barAnim = gUtil.getOrAddComponent(this.bar_exp, ProgressBarAnim)
+        let labelExpAnim = gUtil.getOrAddComponent(this.lab_exp, LabelAnim)
         labelExpAnim.templateStr = "%s%"
         let nextExp = Math.min(1, expRatio + addExpRatio)
         Device.playSfx(csv.Audio.sfx_addgemOrGold);
@@ -299,7 +302,8 @@ export default class UIEndPage extends mvcView {
         this.btn_next.active = false;
         this.btn_triple.active = false;
         if (pdata.energy <= 0) {
-            Toast.make("红心不足！");
+            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
+            // Toast.make("红心不足！");
             vm.show("UIRedHeartShop", () => {
                 vm.hide("UIRedHeartShop");
                 this.scheduleOnce(this.gotoNextLevel, 2)
@@ -320,7 +324,8 @@ export default class UIEndPage extends mvcView {
                 //没有更多关卡
                 Loading.show(0.5);
                 this.scheduleOnce(() => {
-                    LoadingScene.goto("Home", { msg: "可先进行无尽模式，请期待更多关卡！" })
+                    LoadingScene.goto("Home", { msg: LocalizationManager.getText("@text.waitForMoreLevels") })
+                    // LoadingScene.goto("Home", { msg: "可先进行无尽模式，请期待更多关卡！" })
                 }, 0.5)
                 return;
             }

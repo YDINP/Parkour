@@ -4,6 +4,7 @@ import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import LoadingScene from "../common/LoadingScene";
 import { pdata } from "../data/PlayerInfo";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 let { ccclass, property } = cc._decorator
 @ccclass
@@ -25,7 +26,8 @@ export default class UIFail extends mvcView {
          
         Loading.show(0.5);
         if (pdata.energy <= 0) {
-            Toast.make("红心不足！");
+            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
+            // Toast.make("红心不足！");
             vm.show("UIRedHeartShop", () => {
                 pdata.energy--;
                 pdata.save("energy");

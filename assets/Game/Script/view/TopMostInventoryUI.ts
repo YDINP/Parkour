@@ -1,5 +1,6 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import Fx from "../../../framework/extension/fxplayer/Fx";
 import FxHelpher from "../../../framework/extension/fxplayer/FxHelpher";
 import ccUtil from "../../../framework/utils/ccUtil";
@@ -134,7 +135,7 @@ export default class InventoryUI extends cc.Component {
         if (this.topPriorityNode) {
             from = this.topPriorityNode;
         } else {
-            let evt = g.lastEvent;
+            let evt = gUtil.lastEvent;
             from = evt && evt.target
         }
         return from;

@@ -1,5 +1,6 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
+import gUtil from "../../../framework/core/gUtil";
 import { Input, InputSystem } from "../../../framework/extension/input/InputSystem";
 import PlayController from "../../../framework/extension/input/PlayController";
 import PlayerController from "../../../framework/fizzx/components/Common/PlayerController";
@@ -74,7 +75,10 @@ export default class UIPlayControls extends cc.Component {
         evt.on("Player.setControllerEnable", this.setControllerEnable, this);
 
         // this.fireSp.spriteFrame = this.fireEndState;
-        this.getOrAddComponent(InputSystem);
+        let inputSystem = gUtil.getOrAddComponent(this, InputSystem);
+        if (inputSystem) {
+            inputSystem.enabled = true;
+        }
         //先隐藏技能 图标
         this.fireController.node.active = false;
 
@@ -188,13 +192,15 @@ export default class UIPlayControls extends cc.Component {
 
     update(dt) {
         if (CC_DEBUG) {
-            if (Input.getKey("a")) {
-                this.playerController.move(-1)
-            } else if (Input.getKey("d")) {
-                this.playerController.move(1)
-            }
-            if (Input.getKey("w")) {
-                this.playerController.holdJump()
+            if (Input && Input.getKey) {
+                if (Input.getKey("a")) {
+                    this.playerController.move(-1)
+                } else if (Input.getKey("d")) {
+                    this.playerController.move(1)
+                }
+                if (Input.getKey("w")) {
+                    this.playerController.holdJump()
+                }
             }
         }
     }

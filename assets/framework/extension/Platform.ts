@@ -1,4 +1,5 @@
 import Signal from "../core/Signal";
+import gUtil from "../core/gUtil";
 import { wxsdk } from "./sdks/wxsdk/sdk";
 import SpriteFrameCache from "./optimization/SpriteFrameCache";
 import { Toast } from "../ui/ToastManager";
@@ -7,6 +8,7 @@ import { GameConfig } from "../../Game/Script/common/configs/GameConfigs";
 import { qqsdk } from "./sdks/qq/qqsdk";
 import { ttsdk } from "./sdks/ttsdk/ttsdk";
 import mmgame from "./mmcloud/mmgame";
+import { LocalizationManager } from "../../Localization/LocalizationManager";
 
 
 enum WxCommands {
@@ -196,7 +198,7 @@ export default class Platform {
         share_cfgs = share_cfgs || this.defaultShareConfig
         let share_cfg;
         if (Array.isArray(share_cfgs)) {
-            share_cfg = g.getRandomInArray(share_cfgs) as ShareInfo;
+            share_cfg = gUtil.getRandomInArray(share_cfgs) as ShareInfo;
         }
         console.log("######开始分享")
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
@@ -276,7 +278,7 @@ export default class Platform {
     static video_failcallback: Signal = new Signal();
 
     static watch_video(callback, target?, fail_load_callback?, notfinish_callback?) {
-        console.log("######开始看视频")
+        console.log("######Start watching the video")
         if (!this._videoEnabled) return;
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             let sdk;
@@ -298,10 +300,12 @@ export default class Platform {
                     cc.audioEngine.pauseMusic();
                     cc.audioEngine.resumeMusic();
                     if (!isEnded) {
-                        Toast.make("必须看完视频,才能获取奖励")
+                        Toast.make(LocalizationManager.getText("@text.must_watch_video_to_get_reward"));
+                        // Toast.make("必须看完视频,才能获取奖励")
                         notfinish_callback && notfinish_callback.call(target)
                         wx.showModal({
-                            title: "提示", content: "看完广告才能获得奖励哦", showCancel: false
+                            title: LocalizationManager.getText("@ImgConfirm.title"), content: LocalizationManager.getText("@text.must_watch_video_to_get_reward2"), showCancel: false
+                            // title: "提示", content: "看完广告才能获得奖励哦", showCancel: false
                         })
                     }
                     else {
@@ -383,9 +387,10 @@ export default class Platform {
     static interstitial_callback: Signal = new Signal();
     static showInterstitial(callback?, target?, errorCallback?) {
         if (!CC_WECHATGAME) return;
-        console.log("####显示插屏广告");
+        console.log("####Display screen ads");
+        // console.log("####显示插屏广告");
         if (CC_DEBUG) {
-            console.log("DEBUG模式跳过插屏广告");
+            console.log("DEBUG Mode skips screen ads");
             callback && callback.call(target);
             return;
         }
@@ -444,11 +449,11 @@ export default class Platform {
     static showGamePortal(errcallback) {
         if (!CC_WECHATGAME) return;
         let portalAd = null;
-        console.log("创建推荐位实例-----")
+        console.log("Create recommendation instance-----")
         if (wx.createGamePortal) {
             portalAd = wx.createGamePortal({ adUnitId: GameConfig.portal_id })
         } else {
-            console.error('不支持wx.createGamePortal');
+            console.error('wx.createGamePortal is not supported');
             errcallback && errcallback(0);
         }
         // 在适合的场景显示推荐位
@@ -463,8 +468,8 @@ export default class Platform {
     static showBannerAd(errorCallback?, style?: { top?: Function, left?: Function }) {
 
         Platform.autoRefreshBanner(true);
-        console.log("######显示Banner广告")
-        console.log("******************banner回调函数", errorCallback)
+        console.log("######Display banner ads")
+        console.log("******************banner callback function", errorCallback)
         if (!this._bannerEnabled) return
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             if (window.qq) {
@@ -485,7 +490,7 @@ export default class Platform {
             //pc 
             if (Math.random() < 0.5) {
                 //显示 广告失败
-                console.log("显示广告失败(模拟)")
+                console.log("Display ad failure (simulation)")
                 errorCallback && errorCallback();
             }
         }
@@ -495,7 +500,7 @@ export default class Platform {
     */
     static startRecorder() {
         if (CC_DEBUG) {
-            console.log("*************开始录屏")
+            console.log("************* Start Recording")
             return;
         }
         if (window.tt) {
@@ -507,7 +512,7 @@ export default class Platform {
   */
     static pause_recorder() {
         if (CC_DEBUG) {
-            console.log("*************暂停录屏")
+            console.log("************* Pause Recording")
             return;
         }
         if (window.tt) {
@@ -519,7 +524,7 @@ export default class Platform {
     */
     static resume_recorder() {
         if (CC_DEBUG) {
-            console.log("*************继续录屏")
+            console.log("************* Resume Recording")
             return;
         }
         if (window.tt) {
@@ -531,7 +536,7 @@ export default class Platform {
     */
     static stopRecorder() {
         if (CC_DEBUG) {
-            console.log("*************结束录屏")
+            console.log("************* Stop Recording")
             return;
         }
         if (window.tt) {
@@ -543,7 +548,7 @@ export default class Platform {
     */
     static shareRecorder(sucCallBack, failCall?, target?) {
         if (CC_DEBUG) {
-            console.log("********拉起分享成功*************")
+            console.log("******** Share Success *************")
             // console.log("拉起分享")
             sucCallBack.call(target)
             return;
@@ -587,7 +592,7 @@ export default class Platform {
     static hideBannerAd() {
         if (!CC_WECHATGAME) return;
         Platform.autoRefreshBanner(false);
-        console.log("######隐藏Banner广告")
+        console.log("###### Hide Banner Ad")
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             if (window.qq) {
                 qqsdk.hideBannerAd();
@@ -610,7 +615,7 @@ export default class Platform {
 
     static refreshBannerAd() {
         if (!CC_WECHATGAME) return;
-        console.log("刷新 banner ")
+        console.log("Refresh Banner")
         if (CC_WECHATGAME) {
             if (window.qq) {
                 qqsdk.loadBannerAd();
@@ -637,7 +642,7 @@ export default class Platform {
                     }
             })
         } else {
-            console.log("####reload Banner.....")
+            console.log("#### Reload Banner.....")
         }
     }
     static showMoreGameModel(call, failcall, target?) {
@@ -654,7 +659,7 @@ export default class Platform {
         } else if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             setInterval(_ => {
                 if (Platform.bannnerRefreshEnabled && Platform._refreshEnabled) {
-                    console.log("######加载WX Banner广告")
+                    console.log("###### Load WX Banner Ad")
                     wxsdk.hideBannerAd()
                     wxsdk.loadBannerAd(v => {
                         if (v == "load")
@@ -672,7 +677,7 @@ export default class Platform {
     }
 
     static showRankDialog() {
-        console.log("[Platform]#showRankDialog");
+        console.log("[Platform]# Show Rank Dialog");
         Toast.make("#[Platform]#showRankDialog")
 
         // vm.show("Game/RankDialog")
@@ -779,13 +784,13 @@ export default class Platform {
     static loadSubPackage(name, progress?) {
         if (CC_WECHATGAME) {
             if (window.wx) {
-                return new Promise((resolve, reject) => {
+                return new Promise<void>((resolve, reject) => {
                     let id_interval = 0;
                     const loadTask = wx.loadSubpackage({
                         name: name,
                         success: function () {
                             clearInterval(id_interval);
-                            resolve()
+                            resolve();
                         },
                         fail: function (e) {
                             clearInterval(id_interval);
@@ -813,14 +818,14 @@ export default class Platform {
                 })
             }
         } else {
-            return new Promise(resolve => {
+            return new Promise<void>(resolve => {
                 let c = 0;
                 let id = setInterval(v => {
                     c += 10
                     progress && progress(c, c, 100);
                     if (c >= 100) {
                         clearInterval(id);
-                        resolve()
+                        resolve();
                     }
                 }, 50)
             })
@@ -898,7 +903,7 @@ export default class Platform {
         let self = Platform;
         let setting = await self._getSetting();
         if (setting["scope.userInfo"] == true) {
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 wx.getUserInfo({
                     withCredentials: false,
                     lang: null,

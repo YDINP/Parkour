@@ -1,4 +1,5 @@
 import DataCenter, { dc, field } from "../../core/DataCenter";
+import gUtil from "../../core/gUtil";
 import WeakNetGame from "./WeakNetGame";
 import gameUtil from "../../utils/gameUtil";
 import Platform, { AuthUserInfo } from "../Platform";
@@ -101,8 +102,8 @@ export default class UInfoDC extends DataCenter {
 
         // }
 
-        if (isEmpty(this.userId)) {
-            this.userId = g.uuid(32, 16)
+        if (this.userId == null || this.userId == '') {
+            this.userId = gUtil.uuid(32, 16);
             // Platform.userId = this.userId;
         }
         this.save()
@@ -114,7 +115,7 @@ export default class UInfoDC extends DataCenter {
      */
     async uploadUserInfo(kvs: Object) {
         //仅对授权过的用户进行提交数据
-        if (isEmpty(UInfo.userId)) {
+        if (!UInfo.userId || UInfo.userId === '') {
             return -1;
         }
         //开始上传
@@ -155,8 +156,8 @@ export default class UInfoDC extends DataCenter {
             } else {
                 //已授权 
                 UInfo.nickName = authInfo.nickName;
-                if (isEmpty(UInfo.userId)) {
-                    UInfo.userId = g.uuid(32, 16);
+                if (!UInfo.userId || UInfo.userId === '') {
+                    UInfo.userId = gUtil.uuid(32, 16);
                 }
                 UInfo.gender = authInfo.gender;
                 UInfo.avatarUrl = authInfo.avatarUrl;
@@ -188,7 +189,7 @@ export default class UInfoDC extends DataCenter {
     }
 
     isAuthOk() {
-        return !isEmpty(UInfo.nickName)
+        return !!(UInfo.nickName && UInfo.nickName !== '')
     }
     /**检查是否有离线收益 
      * @returns 离线时间  (s)

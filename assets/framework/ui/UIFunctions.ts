@@ -130,7 +130,7 @@ export default class UIFunctions {
 
     // set btn 
     static setTouchEnabled(node, b) {
-        g.foreachNode(node, child => {
+        gUtil.foreachNode(node, child => {
             let btn: cc.Button = child.getComponent(cc.Button)
             if (btn) {
                 console.log("[UIFunction] " + child.name + " touch : " + b)

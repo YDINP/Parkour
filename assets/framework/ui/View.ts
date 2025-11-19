@@ -1,5 +1,6 @@
 import ViewManager from "./ViewManager";
 import { evt } from "../core/event";
+import gUtil from "../core/gUtil";
 
 const { ccclass, property, menu } = cc._decorator;
 
@@ -7,8 +8,8 @@ export interface IView {
     onShow?(...params)
     onShown?(...params)
     onHidden?()
-    onAnimateShow?(callback: Function, target: any): cc.Tween;
-    onAnimateHide?(callback: Function, target: any): cc.Tween;
+    onAnimateShow?(callback: Function, target: any): cc.Tween<any>;
+    onAnimateHide?(callback: Function, target: any): cc.Tween<any>;
 }
 
 @ccclass
@@ -49,7 +50,7 @@ export default class View extends cc.Component {
 
     call(event, exp: string) {
         // eval(exp);
-        g.execScript(exp);
+        gUtil.execScript(exp);
     }
 
     setDelegate(target) {

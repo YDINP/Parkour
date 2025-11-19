@@ -5,6 +5,7 @@ import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
 import { pdata } from "../data/PlayerInfo";
 import skinData from "../game/model/skinData";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,7 +62,8 @@ export default class UI_signIn extends mvcView {
         // evt.emit("Effect.FlyObj", data.type, data.num);
         pdata.save();
         this.render();
-        Toast.make("签到成功")
+        Toast.make(LocalizationManager.getText("@signInSuccess"));
+        // Toast.make("签到成功")
     }
 
     private click_closes() {

@@ -3,6 +3,7 @@ import { evt } from "../../../framework/core/event";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { pdata } from "../data/PlayerInfo";
 import InventoryUI from "../view/TopMostInventoryUI";
@@ -24,7 +25,7 @@ export default class UILevelItem extends mvcView {
     idx: number = null;
     onLoad() {
         this.register(this.level, _ => { return _.toString() });
-        this.onVisible(this.lockNode, _ => _ > pdata.level);
+        this.onVisible(this.lockNode, _ => (_ as number) > pdata.level);
         this.node.on(cc.Node.EventType.TOUCH_START, this.click_start, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.click_Item, this);
         evt.on("UILevel.render", this.renderLock, this);
@@ -50,7 +51,8 @@ export default class UILevelItem extends mvcView {
         if (UILevels.instance.isInTouch) return;
         Device.playSfx(csv.Audio.btn_click);
         if (this.lockNode.active) {
-            Toast.make("未解锁");
+            Toast.make(LocalizationManager.getText("@unlocked"));
+            // Toast.make("未解锁");
             return;
         }
         let d = this.getData() as number;
@@ -60,7 +62,8 @@ export default class UILevelItem extends mvcView {
 
     click_start_game() {
         if (pdata.energy <= 0) {
-            Toast.make("红心不足！");
+            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
+            // Toast.make("红心不足！");
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(this.node)
                 pdata.energy--;

@@ -49,7 +49,7 @@ export default class ccUtil {
         if (speed > 0) {
             state.speed = speed;
         }
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             anim.on("finished", () => {
                 resolve();
             })
@@ -380,11 +380,11 @@ export default class ccUtil {
         }
     }
 
-    public static getRes<T extends cc.Asset>(path, type: { prototype: T }): Promise<T> {
+    public static getRes<T extends cc.Asset>(path, type: typeof cc.Asset): Promise<T> {
         return new Promise((resolve, reject) => {
             cc.loader.loadRes(path, type, (err, res) => {
                 if (err) return reject(err)
-                resolve(res);
+                resolve(res as T);
             })
         })
     }
@@ -459,7 +459,7 @@ export default class ccUtil {
         let obj: { num: number } = { num: 0 };
         obj.num = before;
         cmp.string = obj.num.toString();
-        cc.tween(obj).to(time, { num: after }, {
+        cc.tween(obj as any).to(time, { num: after }, {
             progress: (start, end, current, t) => {
                 cmp.string = Math.ceil(start + (end - start) * t).toString();
                 return start + (end - start) * t;

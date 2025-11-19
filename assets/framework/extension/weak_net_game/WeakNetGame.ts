@@ -1,10 +1,12 @@
 import Platform, { ShareInfo } from "../Platform";
 import { evt } from "../../core/event";
+import gUtil from "../../core/gUtil";
 import { SovInfo } from "./SovInfo";
 import gameUtil from "../../utils/gameUtil";
 import { Toast } from "../../ui/ToastManager";
 import Net, { net } from "../../core/Net";
 import { Loading } from "../../ui/LoadingManager";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 
 
@@ -79,7 +81,8 @@ export default class WeakNetGame {
                 if (res) {
                     this.shareConfigs = JSON.parse(res)
                     this.shareConfig_inited = true;
-                    console.log('分享配置', this.shareConfigs)
+                    console.log('Share configuration', this.shareConfigs)
+                    // console.log('分享配置', this.shareConfigs)
                     resolve();
                 } else {
                     resolve();
@@ -96,7 +99,8 @@ export default class WeakNetGame {
         let time = Date.now()
         let cache = this._configstr_cache[name]
         if (cache && time - cache.timestamp <= 1000 * 10) {
-            console.log("刚已下载并加载表： " + name)
+            console.log("Recently downloaded and loaded table: " + name)
+            // console.log("刚已下载并加载表： " + name)
             return Promise.resolve()
         }
         let url = this.serverConfig.cdn_url + this.config.csv_url + name + '.csv' + "?t=" + Date.now()
@@ -183,7 +187,8 @@ export default class WeakNetGame {
         }
         let res = await this.client.httpPost(this.serverConfig.root_url + "/game/login", params)
         if (res == Net.Code.Timeout) {
-            console.log("登陆失败", this.retry_count)
+            console.log("Login failed", this.retry_count)
+            // console.log("登陆失败", this.retry_count)
             return false;
         } else {
             if (res) {
@@ -191,17 +196,20 @@ export default class WeakNetGame {
                 if (ret.data) {
                     this.client.setHeader("Authorization", ret.data.token);
                     if (CC_DEBUG)
-                        console.log('登陆成功', ret.data);
+                        console.log('Login successful', ret.data);
+                    // console.log('登陆成功', ret.data);
                     this.logined_useId = ret.data.userId || ret.data.openId;
                     this.retry_count = 0;
                     this.userInfo = ret.data;
                     return true;
                 }
-                console.log("登陆失败")
+                console.log("Login failed")
+                // console.log("登陆失败")
                 return false;
             }
             else {
-                console.log("登陆失败", this.retry_count)
+                console.log("Login failed", this.retry_count)
+                // console.log("登陆失败", this.retry_count)
                 return false;
                 //重新登陆 
                 // if (this.retry_count <= 1) {
@@ -221,7 +229,8 @@ export default class WeakNetGame {
             if (WeakNetGame.isLoggedIn) {
                 openId = this.logined_useId;
             } else {
-                return console.warn("上传数据！，未登陆且未指定用户id")
+                return console.warn("Upload data! Not logged in and no specified user id")
+                // console.warn("上传数据！，未登陆且未指定用户id")
             }
         }
         return this.syncDataToTable(v, 'user', openId);
@@ -235,32 +244,48 @@ export default class WeakNetGame {
      */
     static async syncDataToTable(v, table, id?) {
         if (id == null) {
-            return console.warn("上传数据！未指定id !")
+            return console.warn("Upload data! No specified id!")
+            // console.warn("上传数据！未指定id !")
         }
-        let res = await this.client.httpPut(this.serverConfig.root_url + "/" + table + "/" + id, v)
-        if (res == Net.Code.Timeout) {
-            console.log("上传数据 超时....")
-            return false
-        } else {
-            if (res) {
-                let ret = JSON.parse(res);
-                console.log(ret);
-                return ret;
+        try {
+            let res = await this.client.httpPut(this.serverConfig.root_url + "/" + table + "/" + id, v)
+            if (res == Net.Code.Timeout) {
+                console.log("Upload data timeout....")
+                // console.log("上传数据 超时....")
+                return false
             } else {
-                console.warn("同步数据失败")
+                if (res) {
+                    let ret = JSON.parse(res);
+                    console.log(ret);
+                    return ret;
+                } else {
+                    console.warn("Synchronization data failed")
+                    // console.warn("同步数据失败")
+                    return false
+                }
+            }
+        } catch (error) {
+            if (error === Net.Code.Timeout) {
+                console.log("Upload data timeout....")
+                // console.log("上传数据 超时....")
+                return false
+            } else {
+                console.warn("Synchronization data failed:", error)
+                // console.warn("同步数据失败:", error)
                 return false
             }
         }
-
     }
 
     static async loadUserInfo() {
         //拉取用户数据
-        if (!this.isLoggedIn) return console.warn("拉取数据时：未登录");
+        if (!this.isLoggedIn) return console.warn("Fetching data: Not logged in");
+        // console.warn("拉取数据时：未登录");
         if (this.userInfo) {
             return this.userInfo
         }
-        console.log("拉取用户数据")
+        console.log("Fetching user data")
+        // console.log("拉取用户数据")
         let res = await this.client.httpGet(this.serverConfig.root_url + "/user/" + this.logined_useId)
         if (res == Net.Code.Timeout) {
             return this.userInfo;
@@ -349,13 +374,15 @@ export default class WeakNetGame {
     static initConfig(conf) {
         this.serverConfig = conf;
         this.client.setTimeout(2500)
-        console.log("[WeakNetGame]加载配置文件")
+        console.log("[WeakNetGame]Load configuration file")
+        // console.log("[WeakNetGame]加载配置文件")
         console.log(conf);
     }
 
     static async doLogin(userId: string, progressCallback?: Function): Promise<any> {
         if (!this.isInit) {
-            console.log("[WeakNetGame]开始登陆")
+            console.log("[WeakNetGame]Start login")
+            // console.log("[WeakNetGame]开始登陆")
             WeakNetGame.initUserData()
             if (!this.serverConfig.is_local_game) {
                 progressCallback && progressCallback("config");
@@ -426,12 +453,13 @@ export default class WeakNetGame {
                 let c = SovInfo.getCount(key)
                 choice = this.check(c, t1, c1, t2, c2)
             } catch (e) {
-                console.error("配置错误：请检测后台配置！" + "[" + key + "] = " + val);
+                console.error("Configuration error: Please check the backend configuration!" + "[" + key + "] = " + val);
+                // console.error("配置错误：请检测后台配置！" + "[" + key + "] = " + val);
                 choice = 0;
             }
         }
         if (val == 2) {
-            choice = g.randomInt(0, 2);
+            choice = gUtil.randomInt(0, 2);
         }
         return choice;
     }
@@ -460,7 +488,8 @@ export default class WeakNetGame {
             callback()
     }
 
-    static share_fail_texts = ['分享失败，请分享到30人群', '分享失败，请分享到新的群']
+    // static share_fail_texts = ['分享失败，请分享到30人群', '分享失败，请分享到新的群']
+    static share_fail_texts = [LocalizationManager.getText("@text.share_fail_text1"), LocalizationManager.getText("@text.share_fail_text2")]
 
     static doChoice(key: any, callback, target?, fail_callback?) {
         let choice = this.getChoice(key);
@@ -474,7 +503,8 @@ export default class WeakNetGame {
             // evt.emit("wx.shareMessageToFriend", function() {});if
             // 2. 当玩家当日普通分享获利超过3次后，给出toast提示：暂无可用视频，请稍后再试~；
             if (this.share_succ_count >= 3) {
-                Toast.make("暂无可用视频，请稍后再试 !")
+                Toast.make(LocalizationManager.getText("@text.no_available_video"));
+                // Toast.make("暂无可用视频，请稍后再试 !")
                 fail_callback && fail_callback.call();
             } else {
                 share();
@@ -502,7 +532,7 @@ export default class WeakNetGame {
                 return;
             } else {
                 if (b) {
-                    let uuid = g.uuid(8, 16)
+                    let uuid = gUtil.uuid(8, 16);
                     this._sharedUUIDs[uuid] = callback.bind(target, 'share_link_click');
                     Platform.doShareWithParams({ uuid, share_link: true }, this.shareConfigs[key], () => {
                         Loading && Loading.hide()
@@ -533,12 +563,13 @@ export default class WeakNetGame {
                             fail_callback && fail_callback.call();
                             evt.emit("WeakNetGame.ShareFail", key)
                             if (CC_WECHATGAME) {
+                                let failText: string = gUtil.getRandom(this.share_fail_texts) || "";
                                 wx.showModal({
-                                    title: "提示",
-                                    content: g.getRandom(this.share_fail_texts),
+                                    title: LocalizationManager.getText("@ImgConfirm.title"),
+                                    content: failText,
                                     showCancel: true,
-                                    cancelText: "取消",
-                                    confirmText: "去分享",
+                                    cancelText: LocalizationManager.getText("@text.cancel"),
+                                    confirmText: LocalizationManager.getText("@text.share"),
                                     success: (res) => {
                                         Loading && Loading.hide()
                                         if (res.cancel) {
@@ -549,7 +580,7 @@ export default class WeakNetGame {
                                     }
                                 })
                             } else {
-                                console.warn("分享失败! ,请重试!")
+                                console.warn("Share failure! Please try again!")
                             }
                         }
                     }, this.share_succ_delay)

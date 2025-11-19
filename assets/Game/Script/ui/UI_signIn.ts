@@ -4,6 +4,7 @@ import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import skinData from "../game/model/skinData";
 
@@ -50,9 +51,11 @@ export default class UI_signIn extends mvcView {
         let lab_num = ccUtil.find("lab_num", node, cc.Label);
         let btn_isSignIn = ccUtil.find("btn_signIn", node, cc.Button);
         let img_isSignIn = ccUtil.find("btn_signIn/img_isSignIn", node, cc.Sprite);
-        this.register(lab_date, _ => data.date);
+        this.register(lab_date, _ => LocalizationManager.getText(`@skin.${data.id}.date`));
+        // this.register(lab_date, _ => data.date);
         ccUtil.setDisplay(img_prize, data.path);
-        this.register(lab_name, _ => data.name);
+        this.register(lab_name, _ => LocalizationManager.getText(`@skin.${data.id}.name`));
+        // this.register(lab_name, _ => data.name);
         this.register(lab_num, _ => "X" + data.number);
         btn_isSignIn.clickEvents[0].customEventData = data.id + "";
         if (pdata.signIn.date == data.id) {
@@ -81,7 +84,8 @@ export default class UI_signIn extends mvcView {
         let img_isSignIn = ccUtil.find("btn_signIn/img_isSignIn", e.target.parent, cc.Sprite);
         ccUtil.setDisplay(img_isSignIn, "Textures/ui/signIn/title_signIn_1");
         ccUtil.setButtonEnabled(e.target, false)
-        Toast.make("签到成功")
+        Toast.make(LocalizationManager.getText("@signInSuccess"));
+        // Toast.make("签到成功")
     }
 
     private click_closes() {

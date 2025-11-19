@@ -11,6 +11,7 @@ import eggAction from "../game/effects/eggAction";
 import PetData from "../game/model/PetData";
 import eggItem from "./eggItem";
 import { ImgConfirmData } from "./UIImgComfirm";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -70,7 +71,8 @@ export default class UIhatchPet extends mvcView {
 
     click_pet() {
         if (this.isOnhatchPet) {
-            Toast.make("宠物正在努力破壳，请稍后...");
+            Toast.make(LocalizationManager.getText("@text.pet_hatching"));
+            // Toast.make("宠物正在努力破壳，请稍后...");
             return
         }
         vm.hide(this);
@@ -105,7 +107,8 @@ export default class UIhatchPet extends mvcView {
     click_close() {
 
         if (this.isOnhatchPet) {
-            Toast.make("宠物正在努力破壳，请稍后...");
+            Toast.make(LocalizationManager.getText("@text.pet_hatching"));
+            // Toast.make("宠物正在努力破壳，请稍后...");
             return
         }
         vm.hide(this);
@@ -119,7 +122,8 @@ export default class UIhatchPet extends mvcView {
     click_hatch(e) {
 
         if (this.isOnhatchPet) {
-            Toast.make("宠物正在努力破壳，请稍后...");
+            Toast.make(LocalizationManager.getText("@text.pet_hatching"));
+            // Toast.make("宠物正在努力破壳，请稍后...");
             return
         }
         Device.playSfx(csv.Audio.sfx_openEgg);
@@ -149,7 +153,8 @@ export default class UIhatchPet extends mvcView {
                     this.openEggCall(1);
                     this.render();
                 } else {
-                    Toast.make("银币不足！")
+                    Toast.make(LocalizationManager.getText("@text.not_enough_silver"));
+                    // Toast.make("银币不足！")
                 }
             }
         }

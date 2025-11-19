@@ -1,5 +1,6 @@
 import FxHelpher from "../../../../../framework/extension/fxplayer/FxHelpher";
 import ccUtil from "../../../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../../../Localization/LocalizationManager";
 import { root } from "../../Game";
 import Player from "../../Player"
 
@@ -24,7 +25,7 @@ export default class RushBuff extends cc.Component {
         }
         if (this.rushTail == null) {
             ccUtil.getRes(path, cc.Prefab).then(v => {
-                this.rushTail = cc.instantiate(v);
+                this.rushTail = LocalizationManager.instantiatePrefab(v as unknown as cc.Prefab);
                 this.rushTail.parent = this.node;
                 this.rushTail.zIndex = -1;
                 this.rushTail.setPosition(0, 0);

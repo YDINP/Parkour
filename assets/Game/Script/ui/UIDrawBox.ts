@@ -4,6 +4,7 @@ import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ImgConfirmData } from "./UIImgComfirm";
 
@@ -74,11 +75,17 @@ export default class UIDrawBox extends mvcView {
         boxOff.active = false;
         fxPlayer.play()
         let iconPath = reward.iconPath;
-        name.string = reward.name;
+        if(reward.id > 3){
+            name.string = LocalizationManager.getText("@currency.silver");
+        }else{
+            name.string = LocalizationManager.getText(`@prop.${reward.id}.name`);
+        }
+        // name.string = reward.name;
         num.string = "X" + reward.num.toString();
         ccUtil.setDisplay(icon, iconPath);
         let confirmData: ImgConfirmData = {
-            title: "恭喜获得",
+            title: LocalizationManager.getText("@text.congratulations"),
+            // title: "恭喜获得",
             iconPath: iconPath,
             content: name.string + num.string,
             isShowCancel: false,
@@ -104,16 +111,19 @@ export default class UIDrawBox extends mvcView {
     onBoxTouchEnd(e) {
 
         if (this.isOnDraw) {
-            Toast.make("正在挑选奖品！")
+            Toast.make(LocalizationManager.getText("@text.selecting_prize"));
+            // Toast.make("正在挑选奖品！")
             return;
         }
         if (UInfo.drawResidueTime <= 0) {
-            Toast.make("当日抽奖次数已用完！");
+            Toast.make(LocalizationManager.getText("@text.draw_time_used_up"));
+            // Toast.make("当日抽奖次数已用完！");
             return;
         }
         if (UInfo.drawResidueTime <= 4) {
             if (pdata.diamond < 5) {
-                Toast.make("钻石不足！");
+                Toast.make(LocalizationManager.getText("@text.diamond_not_enough"));
+                // Toast.make("钻石不足！");
                 return
             }
             pdata.diamond -= 5;

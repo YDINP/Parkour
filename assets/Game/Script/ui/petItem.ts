@@ -6,6 +6,7 @@ import Switcher from "../../../framework/ui/controller/Switcher";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ResType } from "../game/model/BaseData";
 import LevelData from "../game/model/LevelData";
@@ -111,7 +112,8 @@ export default class petItem extends cc.Component {
          
         let lv = pdata.getPetLevel(this.data.id)
         if (lv <= 0) {
-            Toast.make("无法选择未解锁的宠物！")
+            Toast.make(LocalizationManager.getText("@text.cannot_select_unlocked_pet"));
+            // Toast.make("无法选择未解锁的宠物！")
             return
         }
         pdata.selectPet(this.data.id);
@@ -124,7 +126,8 @@ export default class petItem extends cc.Component {
         let lvdata = this.data.lvs[lv - 1]
         if (this.data.lvs[lv] == null) {
             // max reached
-            Toast.make('已到最高级！')
+            Toast.make(LocalizationManager.getText("@text.max_level_reached"));
+            // Toast.make('已到最高级！')
             this.switcher.index = 2
             return;
         }
@@ -134,8 +137,9 @@ export default class petItem extends cc.Component {
             this.fxPlayer.play();
             cc.tween(this.lvLab.node).to(0.1, { scale: 1.5 }).to(0.1, { scale: 1 }).start()
         } else {
-            let type = lvdata.up_cost.type == ResType.Gold ? "银币" : "钻石"
-            Toast.make(type + "不足！");
+            let type = lvdata.up_cost.type == ResType.Gold ? LocalizationManager.getText("@currency.silver") : LocalizationManager.getText("@currency.dia");
+            // let type = lvdata.up_cost.type == ResType.Gold ? "银币" : "钻石";
+            Toast.make(type + LocalizationManager.getText("@text.not_enough_resource") + "！");
         }
         this.refresh();
     }
