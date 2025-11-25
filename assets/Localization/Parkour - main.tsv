@@ -1,121 +1,121 @@
 Key	Ko	En	Cn	Description
 loading	로딩 중		加载中	
-enegy.recovery	심장 회복 시간:		爱心恢复时间:	
+enegy.recovery	하트 회복 시간:		爱心恢复时间:	
 mode.challenge	챌린지 모드	Challenge Mode	闯关模式	
 mode.eternal	무한 모드	Endless Mode	无尽模式	
-btn.hero	역할		角色	
-btn.pet	애완 동물		宠物	
+btn.hero	영웅		角色	
+btn.pet	마이펫		宠物	
 btn.setting	설정		设置	
 btn.gift	선물		礼物	
-btn.rank	순위		排行	
-text.confirm	좋아요		好的	
-text.cancel	필요 없다		不用	
-text.continue	계속하려면 원하는 지역을 클릭하세요.		点击任意区域继续	
-btn.confirm	확신하는		确定	
+btn.rank	랭킹		排行	
+text.confirm	확인		好的	
+text.cancel	취소		不用	
+text.continue	아무 곳이나 터치하여 계속		点击任意区域继续	
+btn.confirm	획득		确定	
 btn.cancel	취소		取消	
 signIn.title	매일 체크인		每日签到	
-signIn.signin	로그인		签到	
-	서명됨		已签	
-DiaShop.title	다이아몬드 숍		钻石商店	
-DiaShop.getFree	무료로 받으세요		免费领取	
-currency.dia	다이아몬드		钻石	
-currency.silver	은		银币	
-currency.heart	마음		红心	
-DrawBox.title	선물을 뽑으세요		抽礼物	
-DrawBox.remain	오늘 남은 시도 횟수:		当日剩余次数：	
-DrawBox.reward	시동 가속		开局加速	
-DrawBox.hint1	X5 보물상자를 열어보세요		X5 打开宝箱	
-DrawBox.hint2	소비		消耗	
+signIn.signin	체크인		签到	
+	체크인 완료		已签	
+DiaShop.title	다이아 상점		钻石商店	
+DiaShop.getFree	무료 받기		免费领取	
+currency.dia	다이아		钻石	
+currency.silver	은화		银币	
+currency.heart	하트		红心	
+DrawBox.title	선물 뽑기		抽礼物	
+DrawBox.remain	오늘 남은 횟수:		当日剩余次数：	
+DrawBox.reward	초반 가속		开局加速	
+DrawBox.hint1	X5 보물상자 열기		X5 打开宝箱	
+DrawBox.hint2	소모		消耗	
 text.congratulations	우승을 축하합니다!		恭喜获得	
 text.selecting_prize	상품을 선택하세요!		正在挑选奖品！	
-text.draw_time_used_up	오늘은 상품을 얻을 수 있는 모든 기회를 다 써버렸어요!		当日抽奖次数已用完！	
-text.diamond_not_enough	다이아몬드가 부족해요!		钻石不足！	
-text.diamond_not_enough2	다이아몬드가 부족합니다		钻石不足	
-text.close	폐쇄		关闭	
+text.draw_time_used_up	오늘의 추첨 횟수를 모두 사용했습니다!		当日抽奖次数已用完！	
+text.diamond_not_enough	다이아 부족!		钻石不足！	
+text.diamond_not_enough2	다이아 부족		钻石不足	
+text.close	닫기		关闭	
 EndPage.title	게임 점수		游戏得分	
-EndPage.newRecord	새로운 기록		新纪录	
-EndPage.growLv	레벨 성장:		等级成长:	
+EndPage.newRecord	신기록		新纪录	
+EndPage.growLv	레벨 요새장:		等级成长:	
 EndPage.dropItem	전리품:		战利品:	
-EndPage.hintEndless	무한한 레벨이 이제 잠금 해제되었습니다. 플레이해보세요!		无尽关卡已解锁，快去游玩吧！	
-item.upgrade	업그레이드 보상		升级奖励	
-receive.normal	일반 영수증		普通领取	
-receive.triple	트리플 리워드		三倍领取	
+EndPage.hintEndless	무한 모드 잠금 해제, 플레이 가능		无尽关卡已解锁，快去游玩吧！	
+item.upgrade	레벨업 보상		升级奖励	
+receive.normal	일반 보상		普通领取	
+receive.triple	3배 보상		三倍领取	
 Fail.Title	도전 실패		挑战失败	
-Fail.home	홈페이지로 돌아가기		返回主页	
-Fail.continue	다시 시작하다		重新再来	
-HatchPet.title	애완동물 부화		孵化宠物	
-HatchPet.myPet	내 반려동물		我的宠物	
-petEgg.normal	일반 애완동물 알		普通宠物蛋	
-petEgg.high	프리미엄 반려동물 계란		高级宠物蛋	
-petEgg.normalDesc	부화하면 C/D 애완동물을 얻을 수 있습니다.		孵化可获得C/D宠物	
-petEgg.highDesc	부화하면 A/B/C 등급의 애완동물을 얻을 수 있습니다.		孵化可获得A/B/C级宠物	
-petEgg.normalHatch	일반 배양		普通孵化	
-petEgg.highHatch	고급 인큐베이션		高级孵化	
-heroShop.title	영웅을 선택하세요		选择英雄	
+Fail.home	홈으로 돌아가기		返回主页	
+Fail.continue	다시 시작하기		重新再来	
+HatchPet.title	펫 부화		孵化宠物	
+HatchPet.myPet	마이펫		我的宠物	
+petEgg.normal	일반 펫 알		普通宠物蛋	
+petEgg.high	고급 펫 알		高级宠物蛋	
+petEgg.normalDesc	C/D급 펫 획득 가능		孵化可获得C/D宠物	
+petEgg.highDesc	A/B/C급 펫 획득 가능		孵化可获得A/B/C级宠物	
+petEgg.normalHatch	일반 부화		普通孵化	
+petEgg.highHatch	고급 부화		高级孵化	
+heroShop.title	영웅 선택		选择英雄	
 maxLevel	최대 레벨		已满级	
-limited	제한된		限定	
-heroShop.item.nameLab	나는 머스킷티어다		我是火枪手	
+limited	한정		限定	
+heroShop.item.nameLab	나는 머스킷병		我是火枪手	
 heroShop.item.selected	현재 선택		当前选择	
 upgrade	강화		升级	
-unlocked	잠금 해제됨		未解锁	
+unlocked	잠금 해제 안 됨		未解锁	
 ImgConfirm.title	힌트		提示	
-ImgConfirm.content	거대한 형태		巨人状态	
-text.pet_hatching	애완동물이 부화 중입니다. 잠시만 기다려 주세요.		宠物正在努力破壳，请稍后...	
-text.not_enough_silver	은화가 부족해요!		银币不足！	
-text.not_enough_heart	하트가 부족해요!		红心不足！	
+ImgConfirm.content	거인 상태		巨人状态	
+text.pet_hatching	펫 부화 중… 잠시만 기다려 주세요		宠物正在努力破壳，请稍后...	
+text.not_enough_silver	은화 부족!		银币不足！	
+text.not_enough_heart	하트 부족!		红心不足！	
 UILevel.gamestart	게임 시작		开始游戏	
-UILevel.upgrade	업그레이드 재능		升级天赋	
+UILevel.upgrade	특요새 업그레이드		升级天赋	
 UILevel.title	레벨 선택		选择关卡	
-LiftGift.title	기능 업그레이드		能力升级	
-text.highest_level	가장 높은 수준에 도달했습니다.		已到达最高级	
-text.not_enough_silver2	은화가 부족합니다		银币不足	
-UIPause.continue	게임을 계속하세요		继续游戏	
-UIPet.title	반려동물을 선택하세요		选择宠物	
-UIPet.noPet	아직 반려동물이 없으신가요? 부화시켜 보세요!		你还没有宠物  快去孵化一个吧！	
-UIPet.hatch	잠복		孵化	
-PetDrawResult.content	새로운 반려동물을 데려오세요		获得新宠物“	
-text.equipNow	즉시 장비하세요		立即装备	
-text.show	과시하다		炫耀	
-UIRank.title	끝없는 랭킹		无尽排行榜	
+LiftGift.title	능력 업그레이드		能力升级	
+text.highest_level	최고 레벨 도달		已到达最高级	
+text.not_enough_silver2	은화 부족		银币不足	
+UIPause.continue	게임 계속하기		继续游戏	
+UIPet.title	펫 선택		选择宠物	
+UIPet.noPet	펫 없음, 부화하세요!		你还没有宠物  快去孵化一个吧！	
+UIPet.hatch	부화		孵化	
+PetDrawResult.content	새로운 펫 획득		获得新宠物“	
+text.equipNow	즉시 장착		立即装备	
+text.show	자랑하기		炫耀	
+UIRank.title	무한 모드 랭킹		无尽排行榜	
 UIRank.worldRank	세계 랭킹		世界榜	
-UIRank.friendList	친구 목록		好友榜	
+UIRank.friendList	친구 랭킹		好友榜	
 UIReady.buyboost	아이템 구매		购买道具	
-UIReady.skillUpgrade	기능 업그레이드		能力升级	
+UIReady.skillUpgrade	능력 업그레이드		能力升级	
 test.use	사용		使用	
-UIRedHeartShop.title	레드 하트 샵		红心商店	
-UIRevive.close	부활을 포기하다		放弃复活	
-UIRevive.title	친구들을 불러 릴레이에 참여하세요		召唤好友接力	
+UIRedHeartShop.title	하트 상점		红心商店	
+UIRevive.close	부활 포기		放弃复活	
+UIRevive.title	친구들을 불러 도전에 참여하세요		召唤好友接力	
 UISetting.title	게임 설정		游戏设置	
-UISetting.BGM	음악		音乐	
-UISetting.SFX	음향 효과		音效	
-UISilverCoin.desc	은화는 영웅을 구매하는 데 사용할 수 있습니다!		银币可以用来购买英雄！	
-UISilverCoin.title	은화 가게		银币商店	
+UISetting.BGM	BGM		音乐	
+UISetting.SFX	SFX		音效	
+UISilverCoin.desc	은화로 영웅을 획득 할 수 있습니다!		银币可以用来购买英雄！	
+UISilverCoin.title	은화 상점		银币商店	
 text.buy	구입하다		购买	
-loadingSceneResource	씬 리소스 로드		加载场景资源	
-unlockEndlessLevel	레벨 {0}에 도달하면 잠금 해제됩니다!		达到等级 {0} 后解锁!	
-notEnoughHeart	사랑이 부족해요		爱心不足	
-text.not_enough_silver3	사용할 수 없습니다. 은화가 부족합니다.		无法使用，当前银币不足.	
-signInSuccess	로그인 성공		签到成功	
-text.upgrade_extra_reward	업그레이드할 때마다 추가 보상을 받게 됩니다!		每次升级将会额外获得奖励!	
-text.waitForMoreLevels	먼저 무한 모드를 시도해 보시고, 더 많은 레벨이 나올 때까지 기다려 주세요!		可先进行无尽模式，请期待更多关卡！	
-text.data_exception	데이터 이상		数据异常	
-text.cannot_select_unlocked_hero	아직 잠금 해제되지 않은 영웅은 선택할 수 없습니다!		无法选择未解锁的英雄！	
-text.max_level_reached	최고 수준에 도달했습니다!		已到最高级！	
-text.not_enough_resource	불충분하다		不足	
-text.cannot_select_unlocked_pet	아직 잠금 해제되지 않은 애완동물은 선택할 수 없습니다!		无法选择未解锁的宠物！	
-text.must_watch_video_to_get_reward	보상을 받으려면 영상 전체를 시청해야 합니다.		必须看完视频,才能获取奖励	
-text.must_watch_video_to_get_reward2	보상을 받으려면 광고를 시청해야 합니다!		看完广告才能获得奖励哦	
-text.share_fail_text1	공유에 실패했습니다. 30명 규모의 그룹에 공유해 주세요.		分享失败，请分享到30人群	
-text.share_fail_text2	공유에 실패했습니다. 새로운 그룹에 공유해 주세요.		分享失败，请分享到新的群	
-text.no_available_video	현재 이용 가능한 동영상이 없습니다. 나중에 다시 시도해 주세요!		暂无可用视频，请稍后再试 !	
-UIPet.hatch.hint	반려동물 복권		宠物抽奖	
-UIPet.hatch.title	애완동물 알		宠物蛋	
-UIPet.hatch.title2	잠복		孵化	
+loadingSceneResource	로딩 중		加载场景资源	
+unlockEndlessLevel	레벨 {0}에 도달시 장금 해제		达到等级 {0} 后解锁!	
+notEnoughHeart	하트 부족		爱心不足	
+text.not_enough_silver3	은화 부족		无法使用，当前银币不足.	
+signInSuccess	출석 완료		签到成功	
+text.upgrade_extra_reward	레벨업 시 추가 보상		每次升级将会额外获得奖励!	
+text.waitForMoreLevels	무한 모드 가능, 더 많은 스테이지 준비 중		可先进行无尽模式，请期待更多关卡！	
+text.data_exception	데이터 오류		数据异常	
+text.cannot_select_unlocked_hero	잠금 해제되지 않은 영웅 선택 불가		无法选择未解锁的英雄！	
+text.max_level_reached	최고 레벨 도달		已到最高级！	
+text.not_enough_resource	부족		不足	
+text.cannot_select_unlocked_pet	잠금 해제되지 않은 펫은 선택 불가!		无法选择未解锁的宠物！	
+text.must_watch_video_to_get_reward	영상 끝까지 시청 시 보상 지급		必须看完视频,才能获取奖励	
+text.must_watch_video_to_get_reward2	광고 시청 완료 후 보상 획득		看完广告才能获得奖励哦	
+text.share_fail_text1	공유 실패: 30명 이상 그룹에 공유 필요		分享失败，请分享到30人群	
+text.share_fail_text2	공유 실패: 새로운 그룹에 공유 필요		分享失败，请分享到新的群	
+text.no_available_video	영상 없음, 잠시 후 재시도!		暂无可用视频，请稍后再试 !	
+UIPet.hatch.hint	펫 뽑기		宠物抽奖	
+UIPet.hatch.title	펫 알		宠物蛋	
+UIPet.hatch.title2	펫 부화		孵化	
 text.watch_video	영상 보기		看视频	
-fail_tip	절벽에서 떨어졌어요!!		你掉下悬崖了!!	
-fail_tip_exhausted	당신의 체력이 완전히 고갈되었습니다!!		你的体力消耗完了!!	
-challengeStart	도전이 시작됩니다		挑战开始	
+fail_tip	절벽에서 추락!		你掉下悬崖了!!	
+fail_tip_exhausted	체력 소진!		你的体力消耗完了!!	
+challengeStart	도전 시작		挑战开始	
 challengeSuccess	도전 성공!		挑战成功!	
-tip_Grow	더 크게 자라세요!		变大!	
-tip_magnet	자기력!		磁力!	
-tip_sprint	스프린트!		冲刺!	
+tip_Grow	거인 변신!		变大!	
+tip_magnet	자석 파워!		磁力!	
+tip_sprint	대시!		冲刺!	
