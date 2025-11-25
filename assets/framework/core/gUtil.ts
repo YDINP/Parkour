@@ -471,24 +471,19 @@ export default class gUtil {
 
         // 기존 노드들 제거 (템플릿 제외)
         // g.js의 원래 로직과 동일하게 구현
-        // 노드를 역순으로 제거하여 인덱스 문제 방지
-        const childrenToRemove: cc.Node[] = [];
-        for (let i = 0; i < layout.node.children.length; i++) {
-            let v = layout.node.children[i];
-            if (v !== template) {
-                childrenToRemove.push(v);
+        // 역순으로 제거하여 인덱스 문제 방지
+        const children = layout.node.children;
+        for (let i = children.length - 1; i >= 0; i--) {
+            let v = children[i];
+            if (v !== template && v && v.isValid) {
+                if (v.parent === layout.node) {
+                    layout.node.removeChild(v);
+                }
+                pool.put(v);
             }
         }
-        // 역순으로 제거하여 인덱스 문제 방지
-        for (let i = childrenToRemove.length - 1; i >= 0; i--) {
-            let v = childrenToRemove[i];
-            pool.put(v);
-            if (v.parent === layout.node) {
-                layout.node.removeChild(v);
-            }
-        } 
 
-        template.active = false;
+        if (template) template.active = false;
 
         for (let i = 0; i < list.length; i++) {
             const cfg = list[i];

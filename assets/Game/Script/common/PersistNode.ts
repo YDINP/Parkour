@@ -11,9 +11,8 @@ import mmgame from "../../../framework/extension/mmcloud/mmgame";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import { pdata } from "../data/PlayerInfo";
-// g.js를 명시적으로 로드하여 로드 순서 보장
-// @ts-ignore - g.js는 플러그인으로 자동 로드되지만, 명시적 import로 로드 순서 보장
-import "../../../framework/core/g.js";
+// g.js는 플러그인 스크립트로 자동 로드되므로 명시적 import 불필요
+// 에디터 환경에서는 require가 작동하지 않으므로 import 제거
 
 const { ccclass, property } = cc._decorator;
 
