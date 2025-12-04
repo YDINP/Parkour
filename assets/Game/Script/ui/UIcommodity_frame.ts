@@ -24,7 +24,7 @@ export default class UIcommodity_frame extends mvcView {
 
     onLoad() {
         this.register<SilverCoinData>(this.lab_silver_coin, (data) => data.silver_coin);
-        this.register<SilverCoinData>(this.lab_diamond, (data) => data.diamond);
+        this.register<SilverCoinData>(this.lab_diamond, (data) => "×" + data.diamond);
         this.register<SilverCoinData>(this.commodity_icon, (data) => data.icon);
 
     }
