@@ -52,8 +52,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1136,
-      "height": 640
+      "width": 1334,
+      "height": 750
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -64,8 +64,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        568,
-        320,
+        667,
+        375,
         0,
         0,
         0,
@@ -1839,7 +1839,7 @@
     },
     "_enabled": true,
     "res": 6,
-    "lab_num": 5,
+    "lab_num": 1,
     "lab_num1": {
       "__id__": 26
     },

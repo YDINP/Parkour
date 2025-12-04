@@ -31,23 +31,47 @@ export default class PlayerDeadDetector extends cc.Component {
     }
 
     onHpChanged(n) {
+        console.log("onHpChanged 호출! hp:", n, "isDead:", this.isDead);
         if (this.isDead) return;
         if (n <= 0) {
+            console.log("========== HP 0! 사망 처리 시작 ==========");
             root.player.handleDead();
             this.showReason()
-            if (pdata.lastAction == PlayerActionType.fall_off) {
-                //立即停止
-                FizzManager.instance.enabled = false;
-            }
+            // 물리 엔진은 계속 작동시켜서 아래로 떨어지게 함
+            // pause() 대신 필요한 것만 중지
+            root.player.buffSystem.pause();
+            if (root.pet) root.pet.buffSystem.pause();
+            
             this.isDead = true;
+            console.log("isDead를 true로 설정했습니다.");
             this.scheduleOnce(this.onDead, 1.5);
-            root.pause();
         }
     }
 
-    update() {
+    _fallTimer = 0;
+    
+    update(dt) {
+        // 사망 후 강제로 아래로 떨어뜨리기 (물리 시스템 제외)
+        if (this.isDead) {
+            this._fallTimer += dt;
+            // 중력 적용 (물리 엔진 없이 직접 계산)
+            this.body.yv -= 1000 * dt; // 중력 가속
+            
+            // Player 노드 위치를 새로 설정
+            // let player = this.node;
+            let currentPos = this.node.position;
+            let newY = currentPos.y + this.body.yv * dt;
+            this.node.position = cc.v3(currentPos.x, newY, 0);
+            
+            // 0.1초마다 로그 출력 (너무 많은 로그 방지)
+            if (this._fallTimer > 0.1) {
+                console.log("Falling... yv:", this.body.yv.toFixed(2), "newY:", newY.toFixed(2), "currentPos.y:", currentPos.y.toFixed(2));
+                this._fallTimer = 0;
+            }
+        }
+        
         //掉落悬崖
-        if (this.body.y + this.body.hh < -100) {
+        if (!this.isDead && this.body.y + this.body.hh < -100) {
             pdata.lastAction = PlayerActionType.fall_off
             pdata.hp = 0;
         }

@@ -138,6 +138,8 @@ export default class Player extends cc.Component implements FizzCollideInterface
     }
 
     move() {
+        // 사망했으면 이동하지 않음
+        if (pdata.hp <= 0) return;
         this.controller.move(this.xMove);
     }
 
@@ -146,9 +148,24 @@ export default class Player extends cc.Component implements FizzCollideInterface
     }
 
     handleDead() {
+        console.log("========== handleDead 호출됨! ==========");
         if (this.data) {
             Device.playSfx(this.data.dieAudio);
         }
+        
+        // 컨트롤러 중지 (이동 완전히 비활성화)
+        this.controller.setMovable(false);
+        this.controller.enabled = false; // 컨트롤러 비활성화
+        
+        // FizzBody를 물리 시스템에서 완전히 제거 (충돌 무시)
+        this.body.remove();
+        this.body.enabled = false; // FizzBody 컴포넌트 비활성화 (lateUpdate 실행 중지)
+        console.log("FizzBody removed and disabled");
+        
+        // 초기 낙하 속도 설정
+        this.body.xv = 0;
+        this.body.yv = -100;
+        
         this.skeleton.stopMain();
         this.skeleton.play("dead")
         this.buffSystem.stopAll();
