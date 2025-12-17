@@ -19,14 +19,14 @@ signIn.signin	체크인		签到
 DiaShop.title	다이아 상점		钻石商店	
 DiaShop.getFree	무료 받기		免费领取	
 currency.dia	다이아		钻石	
-currency.silver	은화		银币	
+currency.silver	코인		银币	
 currency.heart	하트		红心	
 DrawBox.title	선물 뽑기		抽礼物	
 DrawBox.remain	오늘 남은 횟수:		当日剩余次数：	
 DrawBox.reward	초반 가속		开局加速	
 DrawBox.hint1	X5 보물상자 열기		X5 打开宝箱	
 DrawBox.hint2	소모		消耗	
-text.congratulations	우승을 축하합니다!		恭喜获得	
+text.congratulations	축하합니다!		恭喜获得	
 text.selecting_prize	상품을 선택하세요!		正在挑选奖品！	
 text.draw_time_used_up	오늘의 추첨 횟수를 모두 사용했습니다!		当日抽奖次数已用完！	
 text.diamond_not_enough	다이아 부족!		钻石不足！	
@@ -51,7 +51,7 @@ petEgg.normalDesc	C/D급 펫 획득 가능		孵化可获得C/D宠物
 petEgg.highDesc	A/B/C급 펫 획득 가능		孵化可获得A/B/C级宠物	
 petEgg.normalHatch	일반 부화		普通孵化	
 petEgg.highHatch	고급 부화		高级孵化	
-heroShop.title	영웅 선택		选择英雄	
+heroShop.title	프렌즈 정보		选择英雄	
 maxLevel	최대 레벨		已满级	
 limited	한정		限定	
 heroShop.item.nameLab	나는 머스킷병		我是火枪手	
@@ -61,14 +61,14 @@ unlocked	잠금 해제 안 됨		未解锁
 ImgConfirm.title	힌트		提示	
 ImgConfirm.content	거인 상태		巨人状态	
 text.pet_hatching	펫 부화 중… 잠시만 기다려 주세요		宠物正在努力破壳，请稍后...	
-text.not_enough_silver	은화 부족!		银币不足！	
+text.not_enough_silver	코인 부족!		银币不足！	
 text.not_enough_heart	하트 부족!		红心不足！	
 UILevel.gamestart	게임 시작		开始游戏	
 UILevel.upgrade	특요새 업그레이드		升级天赋	
 UILevel.title	레벨 선택		选择关卡	
 LiftGift.title	능력 업그레이드		能力升级	
 text.highest_level	최고 레벨 도달		已到达最高级	
-text.not_enough_silver2	은화 부족		银币不足	
+text.not_enough_silver2	코인 부족		银币不足	
 UIPause.continue	게임 계속하기		继续游戏	
 UIPet.title	펫 선택		选择宠物	
 UIPet.noPet	펫 없음, 부화하세요!		你还没有宠物  快去孵化一个吧！	
@@ -88,13 +88,13 @@ UIRevive.title	친구들을 불러 도전에 참여하세요		召唤好友接力
 UISetting.title	게임 설정		游戏设置	
 UISetting.BGM	BGM		音乐	
 UISetting.SFX	SFX		音效	
-UISilverCoin.desc	은화로 영웅을 획득 할 수 있습니다!		银币可以用来购买英雄！	
-UISilverCoin.title	은화 상점		银币商店	
+UISilverCoin.desc	코인은 프렌즈를 구매하는데 사용할 수 있습니다.		银币可以用来购买英雄！	
+UISilverCoin.title	코인 상점		银币商店	
 text.buy	구입하다		购买	
 loadingSceneResource	로딩 중		加载场景资源	
 unlockEndlessLevel	레벨 {0}에 도달시 장금 해제		达到等级 {0} 后解锁!	
 notEnoughHeart	하트 부족		爱心不足	
-text.not_enough_silver3	은화 부족		无法使用，当前银币不足.	
+text.not_enough_silver3	코인 부족		无法使用，当前银币不足.	
 signInSuccess	출석 완료		签到成功	
 text.upgrade_extra_reward	레벨업 시 추가 보상		每次升级将会额外获得奖励!	
 text.waitForMoreLevels	무한 모드 가능, 더 많은 스테이지 준비 중		可先进行无尽模式，请期待更多关卡！	

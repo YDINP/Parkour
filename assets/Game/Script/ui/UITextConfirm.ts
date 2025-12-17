@@ -60,15 +60,17 @@ export default class UITextConfirm extends mvcView {
     }
 
     click_confirm() {
-         
-        vm.hide(this)
-        this.confirmData.confirmCall && this.confirmData.confirmCall();
+
+        let callback = this.confirmData.confirmCall;
+        vm.hide(this);
+        callback && callback();
     }
 
     click_cancel() {
-         
-        vm.hide(this)
-        this.confirmData.cancelCall && this.confirmData.confirmCall();
+
+        let callback = this.confirmData.cancelCall;
+        vm.hide(this);
+        callback && callback();
     }
 
     onHidden() {

@@ -1,9 +1,9 @@
 {
   "ko": {
     "shopCap.1.name": "체력 강화",
-    "shopCap.1.desc": "전체 체력이 %s 포인트 증가하여 더 오래 버틸 수 있게 되었습니다.",
+    "shopCap.1.desc": "전체 체력이 %s 포인트 증가하여\n더 오래 버틸 수 있게 되었습니다.",
     "shopCap.2.name": "마법콩 강화",
-    "shopCap.2.desc": "마법콩 점수가 %s로 변하여 더 높은 총점을 노릴 수 있습니다"
+    "shopCap.2.desc": "마법콩 점수가 %s로 변하여\n더 높은 총점을 노릴 수 있습니다."
   },
   "en": {
     "shopCap.1.name": "shopCap.1.name",

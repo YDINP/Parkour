@@ -12,15 +12,16 @@ import { ResType } from "../game/model/BaseData";
 import HeroData from "../game/model/HeroData";
 import LevelData from "../game/model/LevelData";
 import UIHeroShop from "./UIHeroShop";
+import { TextConfirmInfo } from "./UITextConfirm";
 
 let { ccclass, property } = cc._decorator
 
 
 const starIconPath = {
-    A: "Textures/ui/common/quality/a",
-    B: "Textures/ui/common/quality/b",
-    C: "Textures/ui/common/quality/c",
-    D: "Textures/ui/common/quality/d"
+    A: "Textures/kakao/06friends/ui_img_friends_tier_a",
+    B: "Textures/kakao/06friends/ui_img_friends_tier_b",
+    C: "Textures/kakao/06friends/ui_img_friends_tier_c",
+    D: "Textures/kakao/06friends/ui_img_friends_tier_D"
 }
 
 
@@ -46,7 +47,7 @@ export default class heroItem extends cc.Component {
     lock_mask: cc.Node = null;
 
     @property(cc.Node)
-    node_selectFlag: cc.Node = null;
+    node_selectFlag: cc.Node[] = [];
 
     @property(FxPlayer)
     fxPlayer: FxPlayer = null;
@@ -58,7 +59,7 @@ export default class heroItem extends cc.Component {
         this.nameLab = ccUtil.find("nameLab", this.node, cc.Label);
         this.lvLab = ccUtil.find("heroLv", this.node, cc.Label);
         this.starSp = ccUtil.find("starLv", this.node, cc.Sprite);
-        this.headIconSp = ccUtil.find("headIcon", this.node, cc.Sprite);
+        this.headIconSp = ccUtil.find("frame/sprite/headIcon", this.node, cc.Sprite);
         this.hpLab = ccUtil.find("lab_k/hp", this.node, cc.Label);
         this.skillDisLab = ccUtil.find("lab_k/skillDes", this.node, cc.Label);
         this.switcher = ccUtil.find("switcher", this.node, Switcher);
@@ -77,14 +78,18 @@ export default class heroItem extends cc.Component {
 
         let lv = pdata.getHeroLevel(data.id)
         let isLimit = data.quality == "A" ? true : false;
-        this.node_selectFlag.active = data.id == pdata.selHero
-        if (this.node_selectFlag.active) {
-            // 播放选择动画 
-            this.node_selectFlag.opacity = 0;
-            cc.tween(this.node_selectFlag).to(0.2, { opacity: 255 }).start()
-            this.node_selectFlag.scale = 1.3;
-            cc.tween(this.node_selectFlag).to(0.2, { scale: 1 }, { easing: EaseType[EaseType.backOut] }).start()
-        }
+
+        // 모든 selectFlag 활성화/비활성화 및 애니메이션
+        this.node_selectFlag.forEach(flag => {
+            flag.active = data.id == pdata.selHero;
+            if (flag.active) {
+                // 播放选择动画
+                flag.opacity = 0;
+                flag.scale = 1.3;
+                cc.tween(flag).to(0.2, { opacity: 255 }).start();
+                cc.tween(flag).to(0.2, { scale: 1 }, { easing: EaseType[EaseType.backOut] }).start();
+            }
+        });
 
         let nextLv = data.lvs[lv]
         if (!nextLv) {
@@ -136,7 +141,7 @@ export default class heroItem extends cc.Component {
     }
 
     up_hero(e) {
-         
+
         let lv = pdata.getHeroLevel(this.data.id)
         let lvdata = this.data.lvs[lv - 1]
         if (this.data.lvs[lv] == null) {
@@ -146,6 +151,27 @@ export default class heroItem extends cc.Component {
             this.switcher.index = 2
             return;
         }
+
+        // 다이아 소모 시 확인 팝업
+        if (lvdata.up_cost.type == ResType.Diamond) {
+            vm.show("UITextConfirm", {
+                title: LocalizationManager.getText("@text.confirm"),
+                content: LocalizationManager.getText("@currency.dia") + " " + lvdata.up_cost.num + LocalizationManager.getText("@text.confirm_use"),
+                confirmTxt: LocalizationManager.getText("@text.confirm"),
+                isShowCancel: true,
+                cancelIsDaley: false,
+                confirmCall: () => {
+                    this.executeUpHero(lvdata);
+                },
+                cancelCall: () => {}
+            } as TextConfirmInfo);
+            return;
+        }
+
+        this.executeUpHero(lvdata);
+    }
+
+    private executeUpHero(lvdata) {
         let canBuy = pdata.addRes(lvdata.up_cost, -1);
         if (canBuy) {
             let r = pdata.upHero(this.data.id);
@@ -162,7 +188,27 @@ export default class heroItem extends cc.Component {
 
     //upLabel
     buy_hero(e) {
-         
+
+        // 다이아 소모 시 확인 팝업
+        if (this.data.buyCost.type == ResType.Diamond) {
+            vm.show("UITextConfirm", {
+                title: LocalizationManager.getText("@text.confirm"),
+                content: LocalizationManager.getText("@currency.dia") + " " + this.data.buyCost.num + LocalizationManager.getText("@text.confirm_use"),
+                confirmTxt: LocalizationManager.getText("@text.confirm"),
+                isShowCancel: true,
+                cancelIsDaley: false,
+                confirmCall: () => {
+                    this.executeBuyHero();
+                },
+                cancelCall: () => {}
+            } as TextConfirmInfo);
+            return;
+        }
+
+        this.executeBuyHero();
+    }
+
+    private executeBuyHero() {
         let canbuy = pdata.addRes(this.data.buyCost, -1);
         if (canbuy) {
             pdata.upHero(this.data.id);

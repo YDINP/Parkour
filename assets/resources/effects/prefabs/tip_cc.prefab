@@ -173,7 +173,9 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
+    "_N$file": {
+      "__uuid__": "bdc7ca43-344a-44d5-b6b1-0fa9096ce47f"
+    },
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,
@@ -400,7 +402,9 @@
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
-    "_N$file": null,
+    "_N$file": {
+      "__uuid__": "bdc7ca43-344a-44d5-b6b1-0fa9096ce47f"
+    },
     "_isSystemFontUsed": true,
     "_spacingX": 0,
     "_batchAsBitmap": false,

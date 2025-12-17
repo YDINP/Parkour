@@ -31,7 +31,7 @@ export default class PlayerDeadDetector extends cc.Component {
     }
 
     onHpChanged(n) {
-        console.log("onHpChanged 호출! hp:", n, "isDead:", this.isDead);
+        // console.log("onHpChanged 호출! hp:", n, "isDead:", this.isDead);
         if (this.isDead) return;
         if (n <= 0) {
             console.log("========== HP 0! 사망 처리 시작 ==========");
@@ -65,7 +65,7 @@ export default class PlayerDeadDetector extends cc.Component {
             
             // 0.1초마다 로그 출력 (너무 많은 로그 방지)
             if (this._fallTimer > 0.1) {
-                console.log("Falling... yv:", this.body.yv.toFixed(2), "newY:", newY.toFixed(2), "currentPos.y:", currentPos.y.toFixed(2));
+                // console.log("Falling... yv:", this.body.yv.toFixed(2), "newY:", newY.toFixed(2), "currentPos.y:", currentPos.y.toFixed(2));
                 this._fallTimer = 0;
             }
         }

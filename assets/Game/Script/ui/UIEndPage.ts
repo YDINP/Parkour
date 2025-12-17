@@ -115,7 +115,7 @@ export default class UIEndPage extends mvcView {
                 this.node_success.active = true;
             }
         }
-        this.lab_level.string = "Lv." + pdata.playerlv;
+        this.lab_level.string = "" + pdata.playerlv;
         this.anim.play()
         this.cleanup();
         this.cutBtnStyle(false);
@@ -130,7 +130,7 @@ export default class UIEndPage extends mvcView {
     }
 
     onUpgradePlayLv() {
-        this.lab_level.string = "Lv." + pdata.playerlv;
+        this.lab_level.string = "" + pdata.playerlv;
     }
 
     onHidden() {
@@ -143,7 +143,7 @@ export default class UIEndPage extends mvcView {
         let children = this.layout_lootlist.node.children
         children.filter(v => v != this.tmp).forEach(v => v.destroy())
         this.lab_exp.string = (pdata.expPercent * 100).toFixed(2) + "%"
-        this.bar_exp.progress = pdata.expPercent;
+        // this.bar_exp.progress = pdata.expPercent;
     }
 
     click_boxtip() {
@@ -214,13 +214,13 @@ export default class UIEndPage extends mvcView {
         // get exp current percentage 
         let expRatio = pdata.expPercent;
         let addExpRatio = expGain / pdata.reuquireExp;
-        let barAnim = gUtil.getOrAddComponent(this.bar_exp, ProgressBarAnim)
+        // let barAnim = gUtil.getOrAddComponent(this.bar_exp, ProgressBarAnim)
         let labelExpAnim = gUtil.getOrAddComponent(this.lab_exp, LabelAnim)
         labelExpAnim.templateStr = "%s%"
         let nextExp = Math.min(1, expRatio + addExpRatio)
         Device.playSfx(csv.Audio.sfx_addgemOrGold);
         labelExpAnim.play(0.3, expRatio * 100, nextExp * 100)
-        await barAnim.play(0.3, expRatio, nextExp)
+        // await barAnim.play(0.3, expRatio, nextExp)
         pdata.exp += expGain;
         // levelup 
         let ret = pdata.upPlayer();
@@ -229,7 +229,7 @@ export default class UIEndPage extends mvcView {
             this.onUpgradePlayLv();
             expRatio = pdata.expPercent;
             labelExpAnim.play(0.3, 0, Math.floor(expRatio * 100));
-            await barAnim.play(0.3, 0, pdata.expPercent)
+            // await barAnim.play(0.3, 0, pdata.expPercent)
             // Toast.make("获得升级奖励!")
             // add lvup-reward-item to loot list
             await this.addLootItems([{ type: ResType.Diamond, num: data.diamond_reward, is_lvup_reward: true }, { type: ResType.Gold, num: data.gold_reward, is_lvup_reward: true }]);

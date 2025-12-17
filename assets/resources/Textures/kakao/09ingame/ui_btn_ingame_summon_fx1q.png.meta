@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "e6ce673a-d186-423b-a9b6-63b06d79d803",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1320,
+  "height": 340,
+  "platformSettings": {},
+  "subMetas": {
+    "ui_btn_ingame_summon_fx1q": {
+      "ver": "1.0.6",
+      "uuid": "85de9375-7e11-41eb-8e60-07784da0ab6f",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "e6ce673a-d186-423b-a9b6-63b06d79d803",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 9,
+      "offsetY": 4,
+      "trimX": 31,
+      "trimY": 9,
+      "width": 1276,
+      "height": 314,
+      "rawWidth": 1320,
+      "rawHeight": 340,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

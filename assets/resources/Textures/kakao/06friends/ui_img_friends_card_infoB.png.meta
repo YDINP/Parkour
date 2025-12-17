@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9599c6b8-c0e7-4d19-949f-cc2ccb8f8a02",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 152,
+  "height": 82,
+  "platformSettings": {},
+  "subMetas": {
+    "ui_img_friends_card_infoB": {
+      "ver": "1.0.6",
+      "uuid": "7fc5b63c-d533-4675-9c80-77be927e3c7b",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "9599c6b8-c0e7-4d19-949f-cc2ccb8f8a02",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 152,
+      "height": 82,
+      "rawWidth": 152,
+      "rawHeight": 82,
+      "borderTop": 32,
+      "borderBottom": 32,
+      "borderLeft": 32,
+      "borderRight": 32,
+      "subMetas": {}
+    }
+  }
+}

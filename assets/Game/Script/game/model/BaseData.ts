@@ -15,8 +15,8 @@ export enum ResType {
 
 
 const ResIconPath = {
-    [ResType.Gold]: "Textures/ui/common/ui_coin_01",
-    [ResType.Diamond]: "Textures/ui/common/ui_crystal_01",
+    [ResType.Gold]: "Textures/kakao/01lobby/ui_img_lobby_topmenu_coin",
+    [ResType.Diamond]: "Textures/kakao/01lobby/ui_img_lobby_topmenu_dia",
 }
 
 export class Res {

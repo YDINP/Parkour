@@ -8,14 +8,11 @@ const EMOTION_WEIGHT = 0;
 @menu("story/SkeletonComponent")
 export default class SkeletonComponent extends cc.Component {
 
-    private _display: dragonBones.ArmatureDisplay = null;
+    private _skeleton: sp.Skeleton = null;
 
-    private _armature: dragonBones.Armature = null;
+    animStates: { [index: string]: sp.spine.TrackEntry } = {};
 
-
-    animStates: { [index: string]: dragonBones.AnimationState } = {};
-
-    mainState: dragonBones.AnimationState = null;
+    mainState: sp.spine.TrackEntry = null;
 
     baseScaleX: number = 0;
 
@@ -25,24 +22,27 @@ export default class SkeletonComponent extends cc.Component {
 
     _dir: number = 1;
 
-    public get display(): dragonBones.ArmatureDisplay {
-        if (this._display == null)
-            this._display = this.getComponent(dragonBones.ArmatureDisplay);
-        return this._display;
+    public get display(): sp.Skeleton {
+        return this.skeleton;
     }
-    public set display(value: dragonBones.ArmatureDisplay) {
-        this._display = value;
+    public set display(value: sp.Skeleton) {
+        this._skeleton = value;
     }
 
-    public get armature(): dragonBones.Armature {
-        if (this._armature == null) {
-            if (this.display)
-                this._armature = this.display.armature() as dragonBones.Armature;
-        }
-        return this._armature;
+    public get skeleton(): sp.Skeleton {
+        if (this._skeleton == null)
+            this._skeleton = this.getComponent(sp.Skeleton);
+        return this._skeleton;
     }
-    public set armature(value: dragonBones.Armature) {
-        this._armature = value;
+    public set skeleton(value: sp.Skeleton) {
+        this._skeleton = value;
+    }
+
+    public get armature(): sp.Skeleton {
+        return this.skeleton;
+    }
+    public set armature(value: sp.Skeleton) {
+        this._skeleton = value;
     }
 
     onLoad() {
@@ -50,16 +50,23 @@ export default class SkeletonComponent extends cc.Component {
         this.node.on(cc.Node.EventType.SCALE_CHANGED, this.onScaleChanged, this)
     }
 
+    _completeCallback: Function = null;
+    _completeTarget: any = null;
+
     onComplete(callback, target) {
-        this.display.addEventListener(dragonBones.EventObject.COMPLETE, callback, target);
+        // Spine에서는 TrackEntry의 complete 이벤트를 사용
+        this._completeCallback = callback;
+        this._completeTarget = target;
     }
 
     offComplete(callback, target) {
-        this.display.removeEventListener(dragonBones.EventObject.COMPLETE, callback, target)
+        this._completeCallback = null;
+        this._completeTarget = null;
     }
 
     setArmature(name) {
-        this.display.armatureName = name;
+        // Spine에서는 skeleton asset을 변경해야 함
+        // 이 메서드는 필요시 구현
     }
 
     start() {
@@ -98,13 +105,25 @@ export default class SkeletonComponent extends cc.Component {
     }
 
     play(anim, times = 1) {
-        this.mainState = this.display.playAnimation(anim, times)
+        if (this.skeleton) {
+            let loop = times === 0;
+            this.mainState = this.skeleton.setAnimation(0, anim, loop);
+            if (this.mainState && this._completeCallback) {
+                this.mainState.listener = {
+                    complete: (entry: sp.spine.TrackEntry) => {
+                        if (this._completeCallback) {
+                            this._completeCallback.call(this._completeTarget, entry);
+                        }
+                    }
+                } as sp.spine.AnimationStateListener;
+            }
+        }
         return this.mainState;
     }
 
     checkIdle() {
         if (this.mainState) {
-            if (this.mainState.isCompleted) {
+            if (this.mainState.isComplete) {
                 this.play('idle', 0)
                 this.mainState = null;
                 this.recoveryEmotion();
@@ -117,22 +136,33 @@ export default class SkeletonComponent extends cc.Component {
     }
 
     stopMain() {
-        if (this.mainState) {
-            // this.mainState.resetToPose = true;
-            this.mainState.stop();
+        if (this.skeleton) {
+            this.skeleton.clearTracks();
+            this.mainState = null;
         }
     }
 
 
     mix(group: string, anim, layer, times = 1, dur = 0.2) {
-        return this.animStates[group] = this.armature.animation.fadeIn(anim, dur, times, layer, group, dragonBones.AnimationFadeOutMode.SameLayerAndGroup)
+        if (this.skeleton) {
+            let trackIndex = layer;
+            let state = this.skeleton.setAnimation(trackIndex, anim, times === 0);
+            if (dur > 0) {
+                state.mixDuration = dur;
+            }
+            this.animStates[group] = state;
+            return state;
+        }
+        return null;
     }
 
 
     stop(group: string) {
         let state = this.animStates[group]
-        if (state)
-            state.stop();
+        if (state && this.skeleton) {
+            this.skeleton.clearTrack(state.trackIndex);
+            delete this.animStates[group];
+        }
     }
 
     hold() {
@@ -221,8 +251,8 @@ export default class SkeletonComponent extends cc.Component {
 
     recoveryEmotion() {
         let emotion = this.animStates['emotion']
-        if (emotion) {
-            this.setEmotion(emotion.name);
+        if (emotion && emotion.animation) {
+            this.setEmotion(emotion.animation.name);
         }
     }
 

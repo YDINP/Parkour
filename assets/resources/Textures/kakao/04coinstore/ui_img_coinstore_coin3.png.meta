@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "6040bd7a-7f81-426c-80af-3fcea22c7f0a",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 367,
+  "height": 371,
+  "platformSettings": {},
+  "subMetas": {
+    "ui_img_coinstore_coin3": {
+      "ver": "1.0.6",
+      "uuid": "77f4e3bd-e3f7-4ebf-9ee0-2a75e262f650",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "6040bd7a-7f81-426c-80af-3fcea22c7f0a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -3,
+      "offsetY": 1,
+      "trimX": 3,
+      "trimY": 2,
+      "width": 355,
+      "height": 365,
+      "rawWidth": 367,
+      "rawHeight": 371,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

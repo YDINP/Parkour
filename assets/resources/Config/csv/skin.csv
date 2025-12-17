@@ -1,10 +1,10 @@
 天数	名字	奖励类型	数量	日期	路径
 id	name	type	number	date	path
 int	string	string	int	string	string
-1	体力	energy	5	第一天	Textures/ui/common/ui_up_heart_01
-2	钻石	diamond	5	第二天	Textures/ui/common/ui_crystal_01
-3	银币	gold	5000	第三天	Textures/ui/common/ui_silvercoin
-4	钻石	diamond	8	第四天	Textures/ui/common/ui_crystal_01
-5	体力	energy	5	第五天	Textures/ui/common/ui_up_heart_01
-6	银币	gold	8000	第六天	Textures/ui/common/ui_silvercoin
-7	钻石	diamond	10	第七天	Textures/ui/common/ui_crystal_01
+1	体力	energy	5	第一天	Textures/kakao/01lobby/ui_img_lobby_topmenu_heart
+2	钻石	diamond	5	第二天	Textures/kakao/01lobby/ui_img_lobby_topmenu_dia
+3	银币	gold	5000	第三天	Textures/kakao/01lobby/ui_img_lobby_topmenu_coin
+4	钻石	diamond	8	第四天	Textures/kakao/01lobby/ui_img_lobby_topmenu_dia
+5	体力	energy	5	第五天	Textures/kakao/01lobby/ui_img_lobby_topmenu_heart
+6	银币	gold	8000	第六天	Textures/kakao/01lobby/ui_img_lobby_topmenu_coin
+7	钻石	diamond	10	第七天	Textures/kakao/01lobby/ui_img_lobby_topmenu_dia

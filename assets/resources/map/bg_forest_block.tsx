@@ -20,14 +20,14 @@
   <properties>
    <property name="positiontype" value="1"/>
   </properties>
-  <image width="177" height="602" source="forest/bg_forest_block_up_01.png"/>
+  <image width="304" height="867" source="forest/bg_forest_block_up_01.png"/>
  </tile>
  <tile id="3">
   <properties>
    <property name="down" value="1"/>
    <property name="positiontype" value="1"/>
   </properties>
-  <image width="238" height="602" source="forest/bg_forest_block_up_02.png"/>
+  <image width="300" height="638" source="forest/bg_forest_block_up_02.png"/>
  </tile>
  <tile id="4">
   <image width="88" height="94" source="forest/bg_forest_block_down_03.png"/>

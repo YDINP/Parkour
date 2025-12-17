@@ -4,8 +4,8 @@ int	string	number	string	string
 1	巨人状态	1	giant	Textures/ui/common/icon/card_boost_01
 2	魔法保护	1	protect	Textures/ui/common/icon/card_boost_03
 3	开局加速	1	speed	Textures/ui/common/icon/card_boost_02
-4	银币	1000	gold	Textures/ui/shop/card_buy_coin_01
-5	银币	2000	gold	Textures/ui/shop/card_buy_coin_02
-6	银币	3000	gold	Textures/ui/shop/card_buy_coin_03
-7	银币	4000	gold	Textures/ui/shop/card_buy_coin_04
-8	银币	5000	gold	Textures/ui/shop/card_buy_coin_05
+4	银币	1000	gold	Textures/kakao/04coinstore/ui_img_coinstore_coin1
+5	银币	2000	gold	Textures/kakao/04coinstore/ui_img_coinstore_coin2
+6	银币	3000	gold	Textures/kakao/04coinstore/ui_img_coinstore_coin3
+7	银币	4000	gold	Textures/kakao/04coinstore/ui_img_coinstore_coin4
+8	银币	5000	gold	Textures/kakao/04coinstore/ui_img_coinstore_coin5

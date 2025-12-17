@@ -34,7 +34,7 @@ export default class UIRevive extends mvcView {
 
     private iconPath = {
         Video: "Textures/ui/common/ui_icon_video",//修改
-        Gold: "Textures/ui/common/ui_coin_01"
+        Gold: "Textures/kakao/01lobby/ui_img_lobby_topmenu_coin"
     }
     onLoad() {
         csv.HeroInfo.values.map((v, idx) => {

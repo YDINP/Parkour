@@ -31,7 +31,7 @@ export default class ReviveBuff extends cc.Component {
         //从天而降
         root.player.body.yv = 0;
         root.player.body.setPosition(root.player.body.x, cc.winSize.height + 100)
-        root.player.skeleton.play("run")
+        root.player.skeleton.play("Run")
         
         //恢复姿势
         root.player.setNormalSize();

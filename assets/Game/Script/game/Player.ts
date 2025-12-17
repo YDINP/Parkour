@@ -174,7 +174,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
 
     getHit() {
         if (pdata.hp <= 0) return;
-        this.skeleton.play("wound");
+        this.skeleton.play("Hit");
         Device.vibrate(true);
         Device.playSfx(csv.Audio.sfx_player_hurt);
     }
@@ -258,7 +258,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
         if (this.stronger) return;
         if (pdata.hp <= 0) return
         if (this.controller.is(PlayerState.Run) || this.controller.is(PlayerState.Idle)) {
-            this.skeleton.play("slide")
+            this.skeleton.play("Slide")
         }
         this.body.setShape(this.normalSize.height / 2, this.normalSize.width, 0.5, 0);
         this.isSlide = true;
@@ -274,7 +274,9 @@ export default class Player extends cc.Component implements FizzCollideInterface
     }
 
     runOrRush() {
+        this.skeleton.play("Run", 0)
         let is_rush = this.buffSystem.isEnabled("rush")
+        return;
         if (is_rush) {
             this.skeleton.play("rush", 0)
         } else {
@@ -283,7 +285,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
     }
 
 
-    attackState: dragonBones.AnimationState;
+    attackState: sp.spine.TrackEntry;
 
     onAnimation(name) {
         this.onPlayAudioFx(name);
@@ -301,9 +303,9 @@ export default class Player extends cc.Component implements FizzCollideInterface
         else if (name == 'player_jump') {
             // console.log(this.playerController.jumpCount);
             if (this.controller.jumpCount >= 2) {
-                this.skeleton.play("2jump", 2)
+                this.skeleton.play("Jump2", 2)
             } else {
-                this.skeleton.play("jump", 1)
+                this.skeleton.play("Jump", 1)
                 pos.y -= this.node.height / 2;
                 Game.instance.play_efx("jump_dust", pos, 0, this.controller.dir, 1)
             }
@@ -330,7 +332,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
 
     onPlayComplete(e) {
         if (pdata.hp <= 0) return
-        if (e.animationState.name == 'attack') {
+        if (e.animation && e.animation.name == 'attack') {
             this.runOrRush()
         }
     }
@@ -343,7 +345,7 @@ export default class Player extends cc.Component implements FizzCollideInterface
         let avatar = this.skeleton.node;
         avatar.y = - 60;
         this.body.setShape(this.normalSize.width, this.normalSize.height, 0.5, 0)
-        this.fsm.changeState(State.Scaling, 1);
+        this.fsm.changeState(State.Scaling, 0.327);
         this.stronger = false;
         this.unschedule(this.shake)
     }
@@ -356,9 +358,9 @@ export default class Player extends cc.Component implements FizzCollideInterface
         if (this.fsm.isInState(State.Scaling)) {
             let state = this.fsm.getState(State.Scaling)
             //@ts-ignore
-            state._scale = 2
+            state._scale = 0.65
         } else {
-            this.fsm.changeState(State.Scaling, 2)
+            this.fsm.changeState(State.Scaling,  0.65)
         }
         this.schedule(this.shake, 0.5)
     }

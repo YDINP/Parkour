@@ -37,7 +37,7 @@ export default class UIReviveItem extends mvcView {
 
     private iconPath = {
         Video: "Textures/ui/common/ui_icon_video",//修改
-        gem: "Textures/ui/common/ui_crystal_01"
+        gem: "Textures/kakao/01lobby/ui_img_lobby_topmenu_dia"
     }
     onLoad() {
         this.onClick(this.node, this.click_revive);

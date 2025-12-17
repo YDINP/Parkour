@@ -12,15 +12,16 @@ import { ResType } from "../game/model/BaseData";
 import LevelData from "../game/model/LevelData";
 import PetData from "../game/model/PetData";
 import UIPet from "./UIPet";
+import { TextConfirmInfo } from "./UITextConfirm";
 
 let { ccclass, property } = cc._decorator
 
 
 const starIconPath = {
-    A: "Textures/ui/common/quality/a",
-    B: "Textures/ui/common/quality/b",
-    C: "Textures/ui/common/quality/c",
-    D: "Textures/ui/common/quality/d"
+    A: "Textures/kakao/06friends/ui_img_friends_tier_a",
+    B: "Textures/kakao/06friends/ui_img_friends_tier_b",
+    C: "Textures/kakao/06friends/ui_img_friends_tier_c",
+    D: "Textures/kakao/06friends/ui_img_friends_tier_D"
 }
 
 
@@ -121,7 +122,7 @@ export default class petItem extends cc.Component {
     }
 
     up_pet(e) {
-         
+
         let lv = pdata.getPetLevel(this.data.id)
         let lvdata = this.data.lvs[lv - 1]
         if (this.data.lvs[lv] == null) {
@@ -131,6 +132,27 @@ export default class petItem extends cc.Component {
             this.switcher.index = 2
             return;
         }
+
+        // 다이아 소모 시 확인 팝업
+        if (lvdata.up_cost.type == ResType.Diamond) {
+            vm.show("UITextConfirm", {
+                title: LocalizationManager.getText("@text.confirm"),
+                content: LocalizationManager.getText("@currency.dia") + " " + lvdata.up_cost.num + LocalizationManager.getText("@text.confirm_use"),
+                confirmTxt: LocalizationManager.getText("@text.confirm"),
+                isShowCancel: true,
+                cancelIsDaley: false,
+                confirmCall: () => {
+                    this.executeUpPet(lvdata);
+                },
+                cancelCall: () => {}
+            } as TextConfirmInfo);
+            return;
+        }
+
+        this.executeUpPet(lvdata);
+    }
+
+    private executeUpPet(lvdata) {
         let canBuy = pdata.addRes(lvdata.up_cost, -1);
         if (canBuy) {
             let r = pdata.upPet(this.data.id);

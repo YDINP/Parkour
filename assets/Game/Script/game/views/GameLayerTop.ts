@@ -2,6 +2,7 @@ import Device from "../../../../framework/core/Device";
 import { evt } from "../../../../framework/core/event";
 import mvcView from "../../../../framework/ui/mvcView";
 import ccUtil from "../../../../framework/utils/ccUtil";
+import { LocalizationManager } from "../../../../Localization/LocalizationManager";
 import { ParkourType, pdata } from "../../data/PlayerInfo";
 import PlayerLoseBuff from "../behaviors/player/PlayerLoseHp";
 import LevelData from "../model/LevelData";
@@ -67,7 +68,7 @@ export default class GameLayerTop extends cc.Component {
             let lvdata = ccUtil.get(LevelData, pdata.playinglv)
             this.label_level.string = lvdata.name
         } else {
-            this.label_level.string = "无尽模式∞"
+            this.label_level.string = LocalizationManager.getText("@mode.eternal.infinity")
         }
     }
 

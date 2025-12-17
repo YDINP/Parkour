@@ -15,8 +15,8 @@ export default class Fx extends cc.Component {
     animations: cc.Animation[] = []
 
 
-    // armature:dragonBones.ArmatureDisplay = null
-    armature: dragonBones.ArmatureDisplay = null;
+    // skeleton: sp.Skeleton = null
+    skeleton: sp.Skeleton = null;
 
     defaultAnim: string = ''
 
@@ -95,12 +95,12 @@ export default class Fx extends cc.Component {
                     this.animations.push(anim);
             }
         }
-        if (typeof (dragonBones) != "undefined") {
-            this.armature = this.getComponent(dragonBones.ArmatureDisplay);
-            // if (!this.armature)
-            // this.armature = this.getComponentInChildren(dragonBones.ArmatureDisplay);
-            if (this.armature) {
-                this.defaultAnim = this.armature.animationName
+        if (typeof (sp) != "undefined") {
+            this.skeleton = this.getComponent(sp.Skeleton);
+            // if (!this.skeleton)
+            // this.skeleton = this.getComponentInChildren(sp.Skeleton);
+            if (this.skeleton && this.skeleton.defaultAnimation) {
+                this.defaultAnim = this.skeleton.defaultAnimation
             }
         }
     }
@@ -144,23 +144,34 @@ export default class Fx extends cc.Component {
             Device.playEffect(this.sfx, false);
         }
 
-        if (this.armature) {
-            this.armature.playAnimation(this.defaultAnim, this.repeatTime);
+        if (this.skeleton) {
+            let loop = this.repeatTime > 0;
+            this.skeleton.setAnimation(0, this.defaultAnim || this.skeleton.defaultAnimation, loop);
             dur = this.duration
             if (dur <= 0) {
                 return new Promise<void>((resolve, reject) => {
-                    // this.armature.addEventListener(dragonBones.EventObject.LOOP_COMPLETE, _=>{
-                    //     console.log("loop complete");
-                    //     this.fadeOnFinish(resolve)
-                    // })
-                    this.armature.addEventListener(dragonBones.EventObject.COMPLETE, _ => {
-                        console.log("armature play complete");
-                        if (this.removeAfterFinish) {
-                            this.node.removeFromParent();
-                        } else {
-                            this.fadeOnFinish(resolve)
-                        }
-                    })
+                    let state = this.skeleton.setAnimation(0, this.defaultAnim || this.skeleton.defaultAnimation, loop);
+                    if (state) {
+                        state.listener = {
+                            complete: (entry: sp.spine.TrackEntry) => {
+                                console.log("skeleton play complete");
+                                if (this.removeAfterFinish) {
+                                    this.node.removeFromParent();
+                                } else {
+                                    this.fadeOnFinish(resolve)
+                                }
+                            }
+                        };
+                    } else {
+                        // 애니메이션을 찾을 수 없으면 즉시 완료
+                        this.scheduleOnce(() => {
+                            if (this.removeAfterFinish) {
+                                this.node.removeFromParent();
+                            } else {
+                                this.fadeOnFinish(resolve)
+                            }
+                        }, 0.1);
+                    }
                 })
             }
         } else {

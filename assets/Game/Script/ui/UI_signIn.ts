@@ -45,7 +45,7 @@ export default class UI_signIn extends mvcView {
     }
 
     private signIn(node: cc.Node, data: csv.skin_Row, idx: number) {
-        let lab_date = ccUtil.find("button_main_hero_bg_01/lab_date", node, cc.Label);
+        let lab_date = ccUtil.find("lab_date", node, cc.Label);
         let img_prize = ccUtil.find("img_prize", node, cc.Sprite);
         let lab_name = ccUtil.find("lab_name", node, cc.Label);
         let lab_num = ccUtil.find("lab_num", node, cc.Label);
@@ -56,19 +56,24 @@ export default class UI_signIn extends mvcView {
         ccUtil.setDisplay(img_prize, data.path);
         this.register(lab_name, _ => LocalizationManager.getText(`@skin.${data.id}.name`));
         // this.register(lab_name, _ => data.name);
-        this.register(lab_num, _ => "X" + data.number);
+        this.register(lab_num, _ => "X" + data.number); 
         btn_isSignIn.clickEvents[0].customEventData = data.id + "";
         if (pdata.signIn.date == data.id) {
-            ccUtil.setButtonEnabled(btn_isSignIn, !pdata.signIn.isSignIn)
+            let pr = !pdata.signIn.isSignIn;
+            // ccUtil.setDisplay(btn_isSignIn, pr);
+            btn_isSignIn.node.active = pr;
+            ccUtil.setButtonEnabled(btn_isSignIn, pr);
+            lab_date.node.color = pr ? cc.Color.WHITE : new cc.Color(156,156,156,255);
             // btn_isSignIn.interactable = !pdata.signIn.isSignIn;
-            let pr = !pdata.signIn.isSignIn ? "Textures/ui/signIn/title_signIn_2" : "Textures/ui/signIn/title_signIn_1"
-            ccUtil.setDisplay(img_isSignIn, pr);
+            // let pr = !pdata.signIn.isSignIn ? "Textures/ui/signIn/title_signIn_2" : "Textures/ui/signIn/title_signIn_1"
         }
         else {
-            let pr = data.id > pdata.signIn.date ? "Textures/ui/signIn/title_signIn_2" : "Textures/ui/signIn/title_signIn_1"
-            ccUtil.setButtonEnabled(btn_isSignIn, false)
+            let pr = data.id > pdata.signIn.date;
+            // ccUtil.setDisplay(btn_isSignIn, pr);
+            ccUtil.setButtonEnabled(btn_isSignIn, false);
+            lab_date.node.color = pr ? new cc.Color(141,88,45,255): new cc.Color(141,88,45,255);
+            // let pr = data.id > pdata.signIn.date ? "Textures/ui/signIn/title_signIn_2" : "Textures/ui/signIn/title_signIn_1"
             //btn_isSignIn.interactable = false;
-            ccUtil.setDisplay(img_isSignIn, pr);
         }
     }
 
