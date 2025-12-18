@@ -1,5 +1,18 @@
 import { evt } from "./event";
 
+// 항상 localStorage 사용
+const Hi5Storage = {
+    getItem(key: string): string | null {
+        return localStorage.getItem(key);
+    },
+    setItem(key: string, value: string): void {
+        localStorage.setItem(key, value);
+    },
+    saveAll(): void {
+        // localStorage는 자동 저장되므로 별도 처리 불필요
+    }
+};
+
 
 interface FieldOption {
     propertyName: any, // 字段名
@@ -204,7 +217,7 @@ export default class DataCenter {
 
     private load() {
         for (var k in this.kvs) {
-            let fromstroage = localStorage.getItem(this._field_(k))
+            let fromstroage = Hi5Storage.getItem(this._field_(k))
             let v: any = fromstroage
             if (fromstroage) {
                 let type = this.kts[k]
@@ -243,19 +256,21 @@ export default class DataCenter {
             this.onBeforeSave(k);
             if (v != null) {
                 if (t == "object" || t == 'array') {
-                    localStorage.setItem(kk, JSON.stringify(v));
+                    Hi5Storage.setItem(kk, JSON.stringify(v));
                 } else {
-                    localStorage.setItem(kk, v.toString());
+                    Hi5Storage.setItem(kk, v.toString());
                 }
             }
             this.onAfterSave(k);
             if (CC_DEBUG)
                 console.log(kk)
         }
+        // Hi5 플랫폼인 경우 일괄 저장
+        Hi5Storage.saveAll();
     }
 
     /**
-     * 保存数据 
+     * 保存数据
      * @param keys 需要保存的key[list]，如果为空 ，则保存全部字段
      */
     save(...keys) {
@@ -280,10 +295,10 @@ export default class DataCenter {
                 let kk = this._field_(k)
                 this.onBeforeSave(k);
                 if (t == "object" || t == 'array') {
-                    localStorage.setItem(kk, JSON.stringify(v));
+                    Hi5Storage.setItem(kk, JSON.stringify(v));
                 } else {
                     if (v != null) {
-                        localStorage.setItem(kk, v.toString());
+                        Hi5Storage.setItem(kk, v.toString());
                     } else {
                         console.warn("[DataCenter] " + kk + " 保存失败")
                     }
@@ -291,6 +306,8 @@ export default class DataCenter {
                 this.onAfterSave(k);
                 // console.log(kk)
             }
+            // Hi5 플랫폼인 경우 일괄 저장
+            Hi5Storage.saveAll();
             if (CC_DEBUG)
                 console.log("[DataCenter] saved :" + keys.join(","))
         }

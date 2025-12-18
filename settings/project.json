@@ -125,7 +125,6 @@
     "PageViewIndicator",
     "RichText",
     "Slider",
-    "Spine Skeleton",
     "StudioComponent",
     "VideoPlayer",
     "WebView",
@@ -159,16 +158,18 @@
     "e_weapon",
     "e_bullet"
   ],
-  "last-module-event-record-time": 1763526237944,
+  "last-module-event-record-time": 1765954677876,
   "simulator-orientation": false,
   "simulator-resolution": {
-    "height": 640,
-    "width": 960
+    "width": 960,
+    "height": 640
   },
   "use-customize-simulator": true,
   "use-project-simulator-setting": false,
   "migrate-history": [
     "cloud-function"
   ],
-  "start-scene": "bba6ef9a-17f9-4fa6-97fc-7b8fab4297ed"
+  "start-scene": "bba6ef9a-17f9-4fa6-97fc-7b8fab4297ed",
+  "preview-port": 7456,
+  "clear-simulator-cache": true
 }

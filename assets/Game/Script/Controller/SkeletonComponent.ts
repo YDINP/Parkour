@@ -4,6 +4,10 @@ let { ccclass, property, menu } = cc._decorator
 const BODY_PART_WEIGHT = 0.5;
 const UPPERBODY_WEIGHT = 1;
 const EMOTION_WEIGHT = 0;
+
+// Spine 모듈이 로드되었는지 확인
+const spineAvailable = typeof sp !== 'undefined';
+
 @ccclass
 @menu("story/SkeletonComponent")
 export default class SkeletonComponent extends cc.Component {
@@ -30,7 +34,7 @@ export default class SkeletonComponent extends cc.Component {
     }
 
     public get skeleton(): sp.Skeleton {
-        if (this._skeleton == null)
+        if (this._skeleton == null && spineAvailable)
             this._skeleton = this.getComponent(sp.Skeleton);
         return this._skeleton;
     }

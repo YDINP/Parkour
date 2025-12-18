@@ -9,6 +9,39 @@ import { qqsdk } from "./sdks/qq/qqsdk";
 import { ttsdk } from "./sdks/ttsdk/ttsdk";
 import mmgame from "./mmcloud/mmgame";
 import { LocalizationManager } from "../../Localization/LocalizationManager";
+import _Hi5Import from "../Hi5/Hi5";
+import { Loading } from "../ui/LoadingManager";
+
+// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
+const getHi5Module = () => {
+    // 1. import된 모듈 사용
+    if (_Hi5Import && typeof _Hi5Import.showAd === 'function') {
+        return _Hi5Import;
+    }
+    // 2. 전역 _Hi5Module에서 가져오기
+    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].showAd === 'function') {
+        return window['_Hi5Module'];
+    }
+    // 3. 초기화된 Hi5 객체에서 가져오기
+    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].showAd === 'function') {
+        return window['Hi5'];
+    }
+    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
+    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].showAd === 'function') {
+        return cc['pvz']['Hi5'];
+    }
+    return null;
+};
+
+// Hi5 플랫폼 여부 확인
+const isHi5Platform = () => {
+    return typeof window !== 'undefined' && window['Hi5'] != null;
+};
+
+// Hi5 광고 콜백 저장
+let hi5AdCallback: Function = null;
+let hi5AdTarget: any = null;
+let hi5AdFailCallback: Function = null;
 
 
 enum WxCommands {
@@ -53,6 +86,9 @@ export default class Platform {
     static BannerSchedule
 
     static bannerIsShow: boolean = false;
+
+    // Hi5 광고 리스너 등록 여부
+    static _hi5AdListenerRegistered: boolean = false;
     static getOpenID() {
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             // wechat 
@@ -280,6 +316,50 @@ export default class Platform {
     static watch_video(callback, target?, fail_load_callback?, notfinish_callback?) {
         console.log("######Start watching the video")
         if (!this._videoEnabled) return;
+
+        // Hi5 플랫폼 처리
+        if (isHi5Platform()) {
+            console.log("[Hi5] Showing reward ad");
+            hi5AdCallback = callback;
+            hi5AdTarget = target;
+            hi5AdFailCallback = fail_load_callback;
+
+            // Hi5 광고 결과 이벤트 리스너 등록 (한 번만)
+            if (!Platform._hi5AdListenerRegistered) {
+                Platform._hi5AdListenerRegistered = true;
+                evt.on("Hi5.AdResult", (success: boolean) => {
+                    console.log("[Hi5] Ad result received in Platform:", success);
+                    cc.audioEngine.resumeMusic();
+                    // 로딩 인디케이터 숨기기
+                    Loading && Loading.hide();
+                    if (success) {
+                        console.log("[Hi5] Calling success callback");
+                        hi5AdCallback && hi5AdCallback.call(hi5AdTarget);
+                    } else {
+                        console.log("[Hi5] Calling fail callback");
+                        hi5AdFailCallback && hi5AdFailCallback.call(hi5AdTarget);
+                    }
+                    hi5AdCallback = null;
+                    hi5AdTarget = null;
+                    hi5AdFailCallback = null;
+                });
+            }
+
+            cc.audioEngine.pauseMusic();
+            // default_ad는 hi5Helper.js에 정의된 기본 광고 ID
+            console.log("[Hi5] Loading reward ad");
+            const _Hi5 = getHi5Module();
+            if (_Hi5) {
+                // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
+                const adConfig = { aid: 'default_ad', key: 'default_ad' };
+                _Hi5.loadAd(adConfig);
+            } else {
+                console.warn("[Hi5] SDK module not available for reward ad");
+                fail_load_callback && fail_load_callback.call(target);
+            }
+            return;
+        }
+
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             let sdk;
             if (window.qq) {
@@ -386,6 +466,47 @@ export default class Platform {
     }
     static interstitial_callback: Signal = new Signal();
     static showInterstitial(callback?, target?, errorCallback?) {
+        // Hi5 플랫폼 처리 - 전면 광고도 showAd 사용
+        if (isHi5Platform()) {
+            console.log("[Hi5] Showing interstitial ad");
+            hi5AdCallback = callback;
+            hi5AdTarget = target;
+            hi5AdFailCallback = errorCallback;
+
+            // Hi5 광고 결과 리스너는 watch_video에서 한 번만 등록됨
+            if (!Platform._hi5AdListenerRegistered) {
+                Platform._hi5AdListenerRegistered = true;
+                evt.on("Hi5.AdResult", (success: boolean) => {
+                    console.log("[Hi5] Ad result received in Platform:", success);
+                    cc.audioEngine.resumeMusic();
+                    Loading && Loading.hide();
+                    if (success) {
+                        console.log("[Hi5] Calling success callback");
+                        hi5AdCallback && hi5AdCallback.call(hi5AdTarget);
+                    } else {
+                        console.log("[Hi5] Calling fail callback");
+                        hi5AdFailCallback && hi5AdFailCallback.call(hi5AdTarget);
+                    }
+                    hi5AdCallback = null;
+                    hi5AdTarget = null;
+                    hi5AdFailCallback = null;
+                });
+            }
+
+            cc.audioEngine.pauseMusic();
+            console.log("[Hi5] Loading interstitial ad");
+            const _Hi5 = getHi5Module();
+            if (_Hi5) {
+                // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
+                const adConfig = { aid: 'default_ad', key: 'default_ad' };
+                _Hi5.loadAd(adConfig);
+            } else {
+                console.warn("[Hi5] SDK module not available for interstitial ad");
+                errorCallback && errorCallback.call(target);
+            }
+            return;
+        }
+
         if (!CC_WECHATGAME) return;
         console.log("####Display screen ads");
         // console.log("####显示插屏广告");
@@ -466,6 +587,11 @@ export default class Platform {
     }
 
     static showBannerAd(errorCallback?, style?: { top?: Function, left?: Function }) {
+        // Hi5 플랫폼은 배너 광고 미지원
+        if (isHi5Platform()) {
+            console.log("[Hi5] Banner ads not supported");
+            return;
+        }
 
         Platform.autoRefreshBanner(true);
         console.log("######Display banner ads")
@@ -590,6 +716,8 @@ export default class Platform {
 
     }
     static hideBannerAd() {
+        // Hi5 플랫폼은 배너 광고 미지원
+        if (isHi5Platform()) return;
         if (!CC_WECHATGAME) return;
         Platform.autoRefreshBanner(false);
         console.log("###### Hide Banner Ad")
@@ -614,6 +742,8 @@ export default class Platform {
     }
 
     static refreshBannerAd() {
+        // Hi5 플랫폼은 배너 광고 미지원
+        if (isHi5Platform()) return;
         if (!CC_WECHATGAME) return;
         console.log("Refresh Banner")
         if (CC_WECHATGAME) {

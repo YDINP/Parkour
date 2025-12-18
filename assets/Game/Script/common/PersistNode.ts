@@ -1,7 +1,7 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
-import { wxsdk } from "../../../framework/extension/sdks/wxsdk/sdk";
+// import { wxsdk } from "../../../framework/extension/sdks/wxsdk/sdk"; // Hi5로 대체
 import ViewManager from "../../../framework/ui/ViewManager";
 import actionUtil from "../../../framework/utils/actionUtil";
 import { GameConfig } from "./configs/GameConfigs";
@@ -11,8 +11,35 @@ import mmgame from "../../../framework/extension/mmcloud/mmgame";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import { pdata } from "../data/PlayerInfo";
+import _Hi5Import from "../../../framework/Hi5/Hi5";
 // g.js는 플러그인 스크립트로 자동 로드되므로 명시적 import 불필요
 // 에디터 환경에서는 require가 작동하지 않으므로 import 제거
+
+// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
+const getHi5Module = () => {
+    // 1. import된 모듈 사용
+    if (_Hi5Import && typeof _Hi5Import.SaveData === 'function') {
+        return _Hi5Import;
+    }
+    // 2. 전역 _Hi5Module에서 가져오기
+    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].SaveData === 'function') {
+        return window['_Hi5Module'];
+    }
+    // 3. 초기화된 Hi5 객체에서 가져오기
+    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].SaveData === 'function') {
+        return window['Hi5'];
+    }
+    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
+    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].SaveData === 'function') {
+        return cc['pvz']['Hi5'];
+    }
+    return null;
+};
+
+// Hi5 플랫폼 여부 확인
+const isHi5Platform = () => {
+    return typeof window !== 'undefined' && window['Hi5'] != null;
+};
 
 const { ccclass, property } = cc._decorator;
 
@@ -154,6 +181,15 @@ export default class PersistNode extends cc.Component {
     onHide() {
         if (!CC_DEBUG) {
             // UserInfo.save(null, true);
+        }
+
+        // Hi5 앱 숨김 시 데이터 저장
+        if (isHi5Platform()) {
+            const _Hi5 = getHi5Module();
+            if (_Hi5) {
+                _Hi5.SaveData();
+                console.log("[Hi5] SaveData called on app hide");
+            }
         }
 
         Platform.refreshBannerAd();
