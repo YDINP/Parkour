@@ -1,4 +1,4 @@
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../Hi5/Localization/LocalizationManager";
 import Signal from "../../core/Signal";
 import ccUtil from "../../utils/ccUtil";
 

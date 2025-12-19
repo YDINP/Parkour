@@ -1,11 +1,11 @@
 up_cost	name	武器	quality	skeleton	image	hp	购买条件	等级技能描述	死亡回调	被动技能	"jumpMax"	skill	等级属性	等级花费	string_info	技能音效	死亡音效
 id	name	weapon	quality	skeleton	image	hp	buycost	lvdesc	deadBuff	passiveSkill	"jumpMax"	skill	lvnum	lvcost	string_info	skillAudio	dieAudio
 number	string	string	string	string	string	number	string	string	string	string	"int"	string	string	string	string	string	string
-1	精灵射手	bow	D	hero003	003	40		连发5秒，冷却时间%d秒			"2"	skill-5	26+24+22+20+18+16	1+1.6+2.4+3.4+4.6	hero001_info	trans	dead
-2	战士	sword	C	hero004	004	45	Gold+15000	狂刀攻击2-3次，冷却时间%d秒			"2"	skill-2	16+14+12+10+8+6	7+10+13+16+19	hero004_info	sound_use_01	dead
-3	火枪手	gun	D	hero001	001	45	Gold+8000	火炮发射5秒，冷却时间%d秒			"2"	skill-5	16+14+12+10+8+6	1+1.6+2.4+3.4+4.6	hero003_info	fire_bomb	dead
-4	法师	tornado	B	hero006	006	45	Gold+45000	龙卷风2秒，冷却时间%d秒			"2"	skill-2	24+22+20+18+16+13	17+20+23+26+29	hero006_info	tornado	dead
-5	锤神	thunderHammer	A	hero002	002	55	Diamond+100	发出闪电攻击2秒; 障碍造成的伤害减少%d%	the_undead	damageReduce	"2"	skill-2	30+35+40+45+50+55	32+35+38+40+43	hero002_info	sound_bolt	dead
-6	兽战士	pigcrowd	B	hero007	007	50	Gold+45000	猪群攻击2秒，冷却时间为%d秒			"2"	skill-2-3-0.1	24+22+20+18+16+14	17+20+23+26+29	hero007_info	sound_use_01	dead
-7	烈火龙	fireball	A	hero005	005	55	Diamond+150	连续火球攻击持续3秒，冷却时间为%d秒			"2"	skill-5-5-0.1	24+22+20+18+16+14	32+35+38+40+43	hero005_info	sound_use_01	dead
+1	精灵射手	bow	D	hero001	003	40		连发5秒，冷却时间%d秒			"2"	skill-5	26+24+22+20+18+16	1+1.6+2.4+3.4+4.6	hero001_info	trans	dead
+2	战士	sword	C	hero002	004	45	Gold+15000	狂刀攻击2-3次，冷却时间%d秒			"2"	skill-2	16+14+12+10+8+6	7+10+13+16+19	hero004_info	sound_use_01	dead
+3	火枪手	gun	D	hero003	001	45	Gold+8000	火炮发射5秒，冷却时间%d秒			"2"	skill-5	16+14+12+10+8+6	1+1.6+2.4+3.4+4.6	hero003_info	fire_bomb	dead
+4	法师	tornado	B	hero004	006	45	Gold+45000	龙卷风2秒，冷却时间%d秒			"2"	skill-2	24+22+20+18+16+13	17+20+23+26+29	hero006_info	tornado	dead
+5	锤神	thunderHammer	A	hero005	002	55	Diamond+100	发出闪电攻击2秒; 障碍造成的伤害减少%d%	the_undead	damageReduce	"2"	skill-2	30+35+40+45+50+55	32+35+38+40+43	hero002_info	sound_bolt	dead
+6	兽战士	pigcrowd	B	hero006	007	50	Gold+45000	猪群攻击2秒，冷却时间为%d秒			"2"	skill-2-3-0.1	24+22+20+18+16+14	17+20+23+26+29	hero007_info	sound_use_01	dead
+7	烈火龙	fireball	A	hero007	005	55	Diamond+150	连续火球攻击持续3秒，冷却时间为%d秒			"2"	skill-5-5-0.1	24+22+20+18+16+14	32+35+38+40+43	hero005_info	sound_use_01	dead
 8	恶魔女	wands	A	hero008	008	60	Diamond+200	召唤一个黑洞持续3秒，冷却时间%d秒；拥有三段跳能力			"3"	blackhole-3	24+22+20+18+16+13	32+35+38+40+43	hero008_info	sound_use_01	dead

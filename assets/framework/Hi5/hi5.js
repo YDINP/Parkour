@@ -246,10 +246,16 @@ var Hi5 = {
     }, 100);
   },
   PostMessage: function(action, data) {
-    if (window.self != window.top) {
-      window.parent.postMessage({tohi5action: action, data: data}, "*");
-    } else {
-      window.postMessage({tohi5action: action, data: data}, "*");
+    try {
+      if (window.self != window.top && window.parent && typeof window.parent.postMessage === 'function') {
+        window.parent.postMessage({tohi5action: action, data: data}, "*");
+      } else if (typeof window.postMessage === 'function') {
+        window.postMessage({tohi5action: action, data: data}, "*");
+      } else {
+        console.log("[Hi5] PostMessage not available (editor mode?):", action);
+      }
+    } catch (e) {
+      console.log("[Hi5] PostMessage error:", e.message);
     }
   },
   log: function(text) {

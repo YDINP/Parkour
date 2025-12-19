@@ -4,7 +4,7 @@ import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import LoadingScene from "../common/LoadingScene";
 import { pdata } from "../data/PlayerInfo";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 
 let { ccclass, property } = cc._decorator
 @ccclass

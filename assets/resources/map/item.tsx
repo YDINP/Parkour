@@ -125,6 +125,6 @@
   <image width="114" height="114" source="../item/item_010.png"/>
  </tile>
  <tile id="61">
-  <image width="39" height="42" source="../item/diamond.png"/>
+  <image width="58" height="65" source="../item/diamond.png"/>
  </tile>
 </tileset>

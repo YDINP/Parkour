@@ -1,4 +1,4 @@
-import { LocalizationManager } from "../../Localization/LocalizationManager";
+import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
 import gUtil from "../core/gUtil";
 import ccUtil from "../utils/ccUtil";
 import Switcher from "./controller/Switcher";

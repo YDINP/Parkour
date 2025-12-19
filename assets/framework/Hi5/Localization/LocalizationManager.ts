@@ -11,6 +11,25 @@ interface LocalizationData {
 }
 
 /**
+ * 로컬라이징 이미지 엔트리
+ * Inspector에서 키별로 언어별 이미지를 설정
+ */
+@ccclass('LocalizedImageEntry')
+class LocalizedImageEntry {
+    @property({ tooltip: "이미지 키 (예: flag_icon, btn_start)" })
+    key: string = "";
+
+    @property({ type: cc.SpriteFrame, tooltip: "한국어 이미지 (기본값으로 사용됨)" })
+    ko: cc.SpriteFrame = null;
+
+    @property({ type: cc.SpriteFrame, tooltip: "영어 이미지 (없으면 ko 사용)" })
+    en: cc.SpriteFrame = null;
+
+    @property({ type: cc.SpriteFrame, tooltip: "중국어 이미지 (없으면 ko 사용)" })
+    cn: cc.SpriteFrame = null;
+}
+
+/**
  * 다국어 지원을 위한 LocalizationManager
  * Cocos Creator 2.x 버전
  */
@@ -40,12 +59,20 @@ export class LocalizationManager extends cc.Component {
     @property({ tooltip: "중복 키 경고" })
     warnOnDuplicate: boolean = true;
 
+    @property({ type: [LocalizedImageEntry], tooltip: "로컬라이징 이미지 목록" })
+    localizedImages: LocalizedImageEntry[] = [];
+
     // ========== Static Properties ==========
 
     private static instance: LocalizationManager | null = null;
     private static _currentLanguage: string = "ko";
     private static _data: LocalizationData | null = null;
     private static _isInitialized: boolean = false;
+
+    // 이미지 캐싱
+    private static _imageMap: Map<string, LocalizedImageEntry> = new Map();
+    // 이미지 키가 설정된 노드 추적 (언어 변경 시 자동 업데이트용)
+    private static _imageNodes: Map<cc.Node, string> = new Map();
 
     // ========== Static Methods - 초기화 체크 ==========
 
@@ -190,6 +217,125 @@ export class LocalizationManager extends cc.Component {
         return count;
     }
 
+    // ========== Static Methods - 이미지 로컬라이징 ==========
+
+    /**
+     * 키에 해당하는 로컬라이징된 이미지 가져오기
+     * @param key 이미지 키
+     * @returns 현재 언어에 맞는 SpriteFrame (없으면 ko 폴백, 그것도 없으면 null)
+     */
+    public static getImage(key: string): cc.SpriteFrame | null {
+        const entry = this._imageMap.get(key);
+        if (!entry) {
+            if (this.instance && this.instance.debugMode) {
+                console.warn('[LocalizationManager] 이미지 키를 찾을 수 없습니다:', key);
+            }
+            return null;
+        }
+
+        // 현재 언어의 이미지 가져오기
+        const langImage = entry[this._currentLanguage as keyof LocalizedImageEntry] as cc.SpriteFrame;
+
+        // 현재 언어 이미지가 있으면 반환
+        if (langImage) {
+            return langImage;
+        }
+
+        // 없으면 ko를 기본값으로 사용
+        if (entry.ko) {
+            if (this.instance && this.instance.debugMode) {
+                console.log(`[LocalizationManager] ${key}: ${this._currentLanguage} 이미지 없음, ko 사용`);
+            }
+            return entry.ko;
+        }
+
+        return null;
+    }
+
+    /**
+     * 노드의 Sprite에 로컬라이징 이미지 키 설정
+     * 언어 변경 시 자동으로 업데이트됨
+     * @param node Sprite가 있는 노드
+     * @param key 이미지 키
+     */
+    public static setImageKey(node: cc.Node, key: string): void {
+        if (!node || !node.isValid) return;
+
+        const sprite = node.getComponent(cc.Sprite);
+        if (!sprite) {
+            console.warn('[LocalizationManager] 노드에 Sprite 컴포넌트가 없습니다:', node.name);
+            return;
+        }
+
+        // 이미지 적용
+        const spriteFrame = this.getImage(key);
+        if (spriteFrame) {
+            sprite.spriteFrame = spriteFrame;
+        }
+
+        // 추적 등록 (언어 변경 시 자동 업데이트용)
+        this._imageNodes.set(node, key);
+
+        // 노드 파괴 시 추적 목록에서 제거
+        node.once('destroy', () => {
+            this._imageNodes.delete(node);
+        });
+    }
+
+    /**
+     * 노드의 이미지 키 제거 (추적 해제)
+     * @param node 대상 노드
+     */
+    public static removeImageKey(node: cc.Node): void {
+        this._imageNodes.delete(node);
+    }
+
+    /**
+     * 모든 추적된 이미지 노드 업데이트
+     */
+    private static updateAllImages(): void {
+        let count = 0;
+
+        this._imageNodes.forEach((key, node) => {
+            if (node && node.isValid) {
+                const sprite = node.getComponent(cc.Sprite);
+                if (sprite) {
+                    const spriteFrame = this.getImage(key);
+                    if (spriteFrame) {
+                        sprite.spriteFrame = spriteFrame;
+                        count++;
+                    }
+                }
+            } else {
+                // 유효하지 않은 노드는 제거
+                this._imageNodes.delete(node);
+            }
+        });
+
+        if (this.instance && this.instance.debugMode) {
+            console.log(`[LocalizationManager] ${count}개 이미지 업데이트됨`);
+        }
+    }
+
+    /**
+     * 이미지 맵 초기화 (Inspector 데이터를 Map으로 캐싱)
+     */
+    private static initImageMap(): void {
+        this._imageMap.clear();
+
+        if (!this.instance || !this.instance.localizedImages) return;
+
+        for (const entry of this.instance.localizedImages) {
+            if (entry.key) {
+                this._imageMap.set(entry.key, entry);
+            }
+        }
+
+        if (this.instance.debugMode) {
+            console.log(`[LocalizationManager] ${this._imageMap.size}개 이미지 키 로드됨`);
+        }
+    }
+
     // ========== Static Methods - 프리펩 인스턴스화 헬퍼 ==========
 
     /**
@@ -247,7 +393,11 @@ export class LocalizationManager extends cc.Component {
 
         this._currentLanguage = language;
 
+        // 텍스트 업데이트
         this.updateAllLocalizedLabels();
+
+        // 이미지 업데이트
+        this.updateAllImages();
 
         cc.sys.localStorage.setItem('game_language', language);
 
@@ -395,11 +545,15 @@ export class LocalizationManager extends cc.Component {
 
             LocalizationManager._isInitialized = true;
 
+            // 이미지 맵 초기화
+            LocalizationManager.initImageMap();
+
             if (this.debugMode) {
                 console.log('[LocalizationManager] 초기화 완료');
                 console.log(`  - 로드된 파일: ${this.localizationJsonFiles.length}개`);
                 console.log(`  - 현재 언어: ${LocalizationManager._currentLanguage}`);
                 console.log(`  - 지원 언어: ${LocalizationManager.getSupportedLanguages().join(', ')}`);
+                console.log(`  - 로컬라이징 이미지: ${LocalizationManager._imageMap.size}개`);
 
                 // 각 언어별 키 개수 출력
                 for (const lang in LocalizationManager._data) {

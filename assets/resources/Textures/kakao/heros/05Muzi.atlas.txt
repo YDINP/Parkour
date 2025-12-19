@@ -1,0 +1,181 @@
+
+05Muzi.png
+size: 1676,428
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+L_arm
+  rotate: true
+  xy: 961, 9
+  size: 99, 54
+  orig: 100, 54
+  offset: 0, 0
+  index: -1
+L_hand
+  rotate: false
+  xy: 1347, 258
+  size: 94, 168
+  orig: 94, 168
+  offset: 0, 0
+  index: -1
+L_leg
+  rotate: true
+  xy: 1443, 215
+  size: 47, 67
+  orig: 47, 67
+  offset: 0, 0
+  index: -1
+Layer 3753
+  rotate: false
+  xy: 726, 110
+  size: 253, 316
+  orig: 253, 316
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: true
+  xy: 1582, 5
+  size: 66, 78
+  orig: 66, 78
+  offset: 0, 0
+  index: -1
+R_leg
+  rotate: false
+  xy: 1464, 140
+  size: 51, 73
+  orig: 51, 73
+  offset: 0, 0
+  index: -1
+clothes
+  rotate: true
+  xy: 1190, 3
+  size: 193, 139
+  orig: 193, 139
+  offset: 0, 0
+  index: -1
+clothes_deco
+  rotate: true
+  xy: 1331, 18
+  size: 195, 131
+  orig: 195, 131
+  offset: 0, 0
+  index: -1
+ear
+  rotate: true
+  xy: 1170, 198
+  size: 228, 111
+  orig: 228, 111
+  offset: 0, 0
+  index: -1
+slide_ear
+  rotate: true
+  xy: 1170, 198
+  size: 228, 111
+  orig: 228, 111
+  offset: 0, 0
+  index: -1
+fire1
+  rotate: false
+  xy: 1464, 9
+  size: 63, 129
+  orig: 63, 129
+  offset: 0, 0
+  index: -1
+fire2
+  rotate: true
+  xy: 1529, 73
+  size: 65, 139
+  orig: 65, 139
+  offset: 0, 0
+  index: -1
+fire3
+  rotate: true
+  xy: 1521, 203
+  size: 76, 148
+  orig: 76, 148
+  offset: 0, 0
+  index: -1
+fire4
+  rotate: true
+  xy: 1521, 349
+  size: 77, 151
+  orig: 77, 151
+  offset: 0, 0
+  index: -1
+fire5
+  rotate: true
+  xy: 1521, 281
+  size: 66, 151
+  orig: 66, 151
+  offset: 0, 0
+  index: -1
+fire6
+  rotate: false
+  xy: 1443, 264
+  size: 76, 162
+  orig: 76, 162
+  offset: 0, 0
+  index: -1
+hat
+  rotate: true
+  xy: 981, 156
+  size: 270, 187
+  orig: 270, 187
+  offset: 0, 0
+  index: -1
+light
+  rotate: false
+  xy: 2, 19
+  size: 405, 407
+  orig: 405, 407
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 1283, 215
+  size: 211, 62
+  orig: 211, 62
+  offset: 0, 0
+  index: -1
+slide_L_arm
+  rotate: true
+  xy: 905, 8
+  size: 100, 54
+  orig: 100, 54
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: false
+  xy: 409, 37
+  size: 315, 389
+  orig: 315, 389
+  offset: 0, 0
+  index: -1
+slide_clothes
+  rotate: false
+  xy: 1017, 2
+  size: 171, 152
+  orig: 171, 152
+  offset: 0, 0
+  index: -1
+slide_eyes
+  rotate: false
+  xy: 726, 4
+  size: 177, 104
+  orig: 177, 104
+  offset: 0, 0
+  index: -1
+sllide_L_leg
+  rotate: true
+  xy: 1529, 3
+  size: 68, 51
+  orig: 68, 51
+  offset: 0, 0
+  index: -1
+sllide_R_leg
+  rotate: false
+  xy: 1517, 140
+  size: 70, 61
+  orig: 70, 61
+  offset: 0, 0
+  index: -1

@@ -9,7 +9,7 @@ import SFireAgent from "../../../framework/extension/shooter/SFireAgent";
 import PlayerController, { PlayerState } from "../../../framework/fizzx/components/Common/PlayerController";
 import FizzBody, { FizzCollideInterface } from "../../../framework/fizzx/components/FizzBody";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import SkeletonComponent from "../Controller/SkeletonComponent";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import Falloff from "./behaviors/Falloff";

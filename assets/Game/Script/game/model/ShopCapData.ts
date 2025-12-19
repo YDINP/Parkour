@@ -1,4 +1,4 @@
-import { LocalizationManager } from "../../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../../framework/Hi5/Localization/LocalizationManager";
 
 export default class ShopCapData {
 

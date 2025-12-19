@@ -34,8 +34,8 @@ import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import NoobLevel from "./behaviors/NoobLevel";
 import GameLayerTop from "./views/GameLayerTop";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
-import _Hi5Import from "../../../framework/Hi5/Hi5";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
+import _Hi5Import from "../../../framework/Hi5/hi5";
 
 // Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
 const getHi5Module = () => {

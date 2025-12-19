@@ -1,6 +1,6 @@
 import Platform from "../extension/Platform";
 import { Loading } from "../ui/LoadingManager";
-import { LocalizationManager } from "../../Localization/LocalizationManager";
+import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 

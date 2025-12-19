@@ -6,7 +6,7 @@ import gameUtil from "../../utils/gameUtil";
 import { Toast } from "../../ui/ToastManager";
 import Net, { net } from "../../core/Net";
 import { Loading } from "../../ui/LoadingManager";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../Hi5/Localization/LocalizationManager";
 
 
 

@@ -3,7 +3,7 @@ import { evt } from "../core/event";
 import Device from "../core/Device";
 import { Loading } from "./LoadingManager";
 import actionUtil from "../utils/actionUtil";
-import { LocalizationManager } from "../../Localization/LocalizationManager";
+import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
 
 const { ccclass, property, menu } = cc._decorator;
 

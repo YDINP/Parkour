@@ -10,7 +10,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import { root } from "../game/Game";
@@ -22,6 +22,18 @@ import QualityLevelData from "../game/model/QualityLevelData";
 import InventoryUI from "../view/TopMostInventoryUI";
 
 const { ccclass, property } = cc._decorator;
+
+// 영웅 ID -> 스파인 리소스 경로 매핑
+const heroSpinePaths: { [id: string]: string } = {
+    "1": "Textures/kakao/heros/01choonsik",
+    "2": "Textures/kakao/heros/02Ryan",
+    "3": "Textures/kakao/heros/03Apeach",
+    "4": "Textures/kakao/heros/04Tube",
+    "5": "Textures/kakao/heros/05Muzi",
+    "6": "Textures/kakao/heros/06Frodo",
+    "7": "Textures/kakao/heros/07Neo",
+    "8": "Textures/kakao/heros/08Jay-G",
+};
 
 interface LootItemData {
     type: ResType,
@@ -63,8 +75,8 @@ export default class UIEndPage extends mvcView {
     @property(cc.Node)
     node_btn_boxtip: cc.Node = null;
 
-    @property(cc.Sprite)
-    roleModel: cc.Sprite = null;
+    @property(sp.Skeleton)
+    roleModel: sp.Skeleton = null;
 
     @property(cc.Label)
     lab_level: cc.Label = null;
@@ -98,7 +110,7 @@ export default class UIEndPage extends mvcView {
         this.onClick(this.btn_next, this.click_next);
         this.onClick(this.node_btn_boxtip, this.click_boxtip);
         this.onClick(this.node_close, this.click_close);
-        this.register(this.roleModel, () => pdata.selHeroData.portrait);
+        this.updateHeroSpine(pdata.selHero);
         this.tmp = this.layout_lootlist.node.children[0]
         this.tmp.active = false;
         UIEndPage.instance = this;
@@ -350,6 +362,30 @@ export default class UIEndPage extends mvcView {
         }
         //同步数据到服务器
         pdata.sendToServer("level,normal_maxScores,energy,gold,diamond,playerlv,exp,buffs,heros")
+    }
+
+    /**
+     * 영웅 ID에 맞는 스파인 데이터 로드 및 적용
+     */
+    private updateHeroSpine(heroId: string) {
+        const spinePath = heroSpinePaths[heroId];
+
+        if (!spinePath) {
+            console.warn(`Hero spine path not found for hero ID: ${heroId}`);
+            return;
+        }
+
+        cc.loader.loadRes(spinePath, sp.SkeletonData, (err, skeletonData: sp.SkeletonData) => {
+            if (err) {
+                console.error(`Failed to load hero spine: ${spinePath}`, err);
+                return;
+            }
+
+            if (this.roleModel && skeletonData) {
+                this.roleModel.skeletonData = skeletonData;
+                this.roleModel.setAnimation(0, "Idle", true);
+            }
+        });
     }
 
 }

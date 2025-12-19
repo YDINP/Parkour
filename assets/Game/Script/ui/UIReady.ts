@@ -12,7 +12,7 @@ import { ParkourType, pdata } from "../data/PlayerInfo";
 import BuyPropsData from "../game/model/BuyPropsData";
 import ShopCapData from "../game/model/ShopCapData";
 import readyItem from "./readyItem";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 

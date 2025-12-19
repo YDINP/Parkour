@@ -11,7 +11,7 @@ import mmgame from "../../../framework/extension/mmcloud/mmgame";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import { pdata } from "../data/PlayerInfo";
-import _Hi5Import from "../../../framework/Hi5/Hi5";
+import _Hi5Import from "../../../framework/Hi5/hi5";
 // g.js는 플러그인 스크립트로 자동 로드되므로 명시적 import 불필요
 // 에디터 환경에서는 require가 작동하지 않으므로 import 제거
 

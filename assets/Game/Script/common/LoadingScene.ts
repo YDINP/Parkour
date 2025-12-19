@@ -8,7 +8,7 @@ import WeakNetGame from "../../../framework/extension/weak_net_game/WeakNetGame"
 import LoadingSceneBase from "../../../framework/misc/LoadingSceneBase";
 import { pdata } from "../data/PlayerInfo";
 import { ServerConfig } from "./ServerConfig";
-import _Hi5Import from "../../../framework/Hi5/Hi5";
+import _Hi5Import from "../../../framework/Hi5/hi5";
 
 const { ccclass, property } = cc._decorator;
 

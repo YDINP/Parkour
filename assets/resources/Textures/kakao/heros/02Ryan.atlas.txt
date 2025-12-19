@@ -1,0 +1,167 @@
+
+02Ryan.png
+size: 356,2020
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+F_hat
+  rotate: false
+  xy: 2, 938
+  size: 249, 92
+  orig: 249, 92
+  offset: 0, 0
+  index: -1
+L_arm
+  rotate: true
+  xy: 203, 138
+  size: 75, 118
+  orig: 75, 118
+  offset: 0, 0
+  index: -1
+L_hand
+  rotate: false
+  xy: 203, 215
+  size: 124, 164
+  orig: 145, 164
+  offset: 1, 0
+  index: -1
+L_leg
+  rotate: true
+  xy: 83, 8
+  size: 99, 78
+  orig: 99, 78
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: true
+  xy: 209, 605
+  size: 110, 139
+  orig: 110, 139
+  offset: 0, 0
+  index: -1
+R_leg
+  rotate: true
+  xy: 2, 2
+  size: 105, 79
+  orig: 105, 79
+  offset: 0, 0
+  index: -1
+bag
+  rotate: true
+  xy: 2, 570
+  size: 178, 205
+  orig: 178, 205
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 213
+  size: 199, 167
+  orig: 199, 167
+  offset: 0, 0
+  index: -1
+compass
+  rotate: true
+  xy: 209, 492
+  size: 111, 131
+  orig: 111, 131
+  offset: 0, 0
+  index: -1
+slide_compass
+  rotate: true
+  xy: 209, 492
+  size: 111, 131
+  orig: 111, 131
+  offset: 0, 0
+  index: -1
+ear
+  rotate: true
+  xy: 299, 1474
+  size: 59, 30
+  orig: 59, 30
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 2, 109
+  size: 159, 102
+  orig: 159, 102
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 2, 1535
+  size: 338, 153
+  orig: 338, 153
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 1032
+  size: 272, 256
+  orig: 272, 256
+  offset: 0, 0
+  index: -1
+pants
+  rotate: true
+  xy: 253, 847
+  size: 168, 101
+  orig: 168, 101
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 276, 1017
+  size: 271, 78
+  orig: 271, 78
+  offset: 0, 0
+  index: -1
+slide_L_arm
+  rotate: false
+  xy: 2, 750
+  size: 242, 186
+  orig: 242, 187
+  offset: 0, 0
+  index: -1
+slide_L_leg
+  rotate: false
+  xy: 207, 381
+  size: 127, 109
+  orig: 127, 109
+  offset: 0, 0
+  index: -1
+slide_R_arm
+  rotate: false
+  xy: 163, 45
+  size: 158, 91
+  orig: 158, 91
+  offset: 0, 0
+  index: -1
+slide_R_leg
+  rotate: true
+  xy: 246, 717
+  size: 128, 108
+  orig: 128, 108
+  offset: 0, 0
+  index: -1
+slide_bag
+  rotate: false
+  xy: 2, 1290
+  size: 295, 243
+  orig: 295, 243
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: false
+  xy: 2, 382
+  size: 203, 186
+  orig: 203, 186
+  offset: 0, 0
+  index: -1
+slide_head
+  rotate: false
+  xy: 2, 1690
+  size: 347, 328
+  orig: 347, 328
+  offset: 0, 0
+  index: -1

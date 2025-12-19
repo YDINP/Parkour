@@ -1,0 +1,132 @@
+
+04Tube.png
+size: 1608,424
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+B_wildboar_leg
+  rotate: false
+  xy: 1350, 67
+  size: 102, 112
+  orig: 102, 112
+  offset: 0, 0
+  index: -1
+L_hand
+  rotate: false
+  xy: 1350, 14
+  size: 53, 51
+  orig: 53, 51
+  offset: 0, 0
+  index: -1
+L_wildboar_leg
+  rotate: true
+  xy: 893, 4
+  size: 107, 111
+  orig: 107, 111
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: false
+  xy: 1454, 40
+  size: 112, 59
+  orig: 112, 59
+  offset: 0, 0
+  index: -1
+R_hand
+  rotate: false
+  xy: 2, 67
+  size: 311, 355
+  orig: 311, 355
+  offset: 0, 0
+  index: -1
+R_wildboar_leg
+  rotate: false
+  xy: 1491, 174
+  size: 106, 91
+  orig: 106, 91
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 315, 22
+  size: 125, 173
+  orig: 125, 173
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 1352, 267
+  size: 252, 155
+  orig: 252, 155
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 1006, 2
+  size: 236, 215
+  orig: 236, 215
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 490, 10
+  size: 401, 101
+  orig: 401, 101
+  offset: 0, 0
+  index: -1
+wildboar_body
+  rotate: false
+  xy: 1006, 240
+  size: 344, 182
+  orig: 344, 182
+  offset: 0, 0
+  index: -1
+wildboar_eyebrow
+  rotate: false
+  xy: 2, 17
+  size: 160, 48
+  orig: 160, 48
+  offset: 0, 0
+  index: -1
+wildboar_eyes
+  rotate: false
+  xy: 164, 14
+  size: 140, 51
+  orig: 140, 51
+  offset: 0, 0
+  index: -1
+wildboar_hair
+  rotate: false
+  xy: 315, 149
+  size: 368, 273
+  orig: 368, 273
+  offset: 0, 0
+  index: -1
+wildboar_head
+  rotate: false
+  xy: 685, 113
+  size: 319, 309
+  orig: 319, 309
+  offset: 0, 0
+  index: -1
+wildboar_lip
+  rotate: false
+  xy: 1352, 181
+  size: 137, 84
+  orig: 137, 84
+  offset: 0, 0
+  index: -1
+wildboar_nose
+  rotate: true
+  xy: 1223, 24
+  size: 214, 125
+  orig: 214, 125
+  offset: 0, 0
+  index: -1
+wildboar_tail
+  rotate: false
+  xy: 1454, 101
+  size: 125, 71
+  orig: 125, 71
+  offset: 0, 0
+  index: -1

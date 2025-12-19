@@ -9,7 +9,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import InventoryUI from "../view/TopMostInventoryUI";
 import { guider } from "./Guide";
@@ -45,11 +45,23 @@ export default class Home extends mvcView {
     @property(cc.Node)
     node_loc: cc.Node = null;
 
-    @property(cc.Sprite)
-    heroModel: cc.Sprite = null;
+    @property(sp.Skeleton)
+    heroModel: sp.Skeleton = null;
 
     @property(cc.Sprite)
     petModel: cc.Sprite = null;
+
+    // 영웅 ID -> 스파인 리소스 경로 매핑
+    private static heroSpinePaths: { [id: string]: string } = {
+        "1": "Textures/kakao/heros/01choonsik",
+        "2": "Textures/kakao/heros/02Ryan",
+        "3": "Textures/kakao/heros/03Apeach",
+        "4": "Textures/kakao/heros/04Tube",
+        "5": "Textures/kakao/heros/05Muzi",
+        "6": "Textures/kakao/heros/06Frodo",
+        "7": "Textures/kakao/heros/07Neo",
+        "8": "Textures/kakao/heros/08Jay-G",
+    };
 
     @property(cc.Node)
     node_btn_pet: cc.Node = null;
@@ -66,7 +78,8 @@ export default class Home extends mvcView {
         this.onVisible(this.drawBoxPoint, () => {
             return UInfo.drawResidueTime > 0;
         })
-        this.register(this.heroModel, () => pdata.selHeroData.portrait);
+        this.updateHeroSpine();
+        evt.on("pdata.selHero", this.updateHeroSpine, this);
         this.onVisible(this.petModel.node, () => pdata.selPet != "0");
         this.register(this.petModel, () => pdata.selPetData.avatar);
         this.onClick(this.node_btn_pet, this.click_pet)
@@ -133,6 +146,31 @@ export default class Home extends mvcView {
 
     onDestroy() {
         evt.off(this);
+    }
+
+    /**
+     * 선택된 영웅에 맞는 스파인 데이터 로드 및 적용
+     */
+    private updateHeroSpine() {
+        const heroId = pdata.selHero;
+        const spinePath = Home.heroSpinePaths[heroId];
+
+        if (!spinePath) {
+            console.warn(`Hero spine path not found for hero ID: ${heroId}`);
+            return;
+        }
+
+        cc.loader.loadRes(spinePath, sp.SkeletonData, (err, skeletonData: sp.SkeletonData) => {
+            if (err) {
+                console.error(`Failed to load hero spine: ${spinePath}`, err);
+                return;
+            }
+
+            if (this.heroModel && skeletonData) {
+                this.heroModel.skeletonData = skeletonData;
+                this.heroModel.setAnimation(0, "Idle", true);
+            }
+        });
     }
 
     //获取体力

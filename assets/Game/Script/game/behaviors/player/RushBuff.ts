@@ -1,6 +1,6 @@
 import FxHelpher from "../../../../../framework/extension/fxplayer/FxHelpher";
 import ccUtil from "../../../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../../../framework/Hi5/Localization/LocalizationManager";
 import { root } from "../../Game";
 import Player from "../../Player"
 

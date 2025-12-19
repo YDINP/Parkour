@@ -3,7 +3,7 @@ import gUtil from "../../../framework/core/gUtil";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import ShopCapData from "../game/model/ShopCapData";
 

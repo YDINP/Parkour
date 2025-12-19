@@ -3,7 +3,7 @@ import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import PlayerInfoDC, { pdata } from "../data/PlayerInfo";
 import { Res, ResType } from "../game/model/BaseData";
 

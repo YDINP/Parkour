@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xcopy:*)",
+      "mcp__serena__list_dir",
+      "Bash(powershell -Command \"Remove-Item -Path ''C:\\Users\\a\\Documents\\Parkour\\assets\\Localization'' -Recurse -Force\")",
+      "Bash(powershell -Command \"Remove-Item -Path ''C:\\Users\\a\\Documents\\Parkour\\tools\\localization-extractor'' -Recurse -Force\")",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\Users\\a\\Documents\\Parkour\\copy-hi5.ps1\")",
+      "mcp__serena__list_memories",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__find_symbol",
+      "mcp__serena__replace_symbol_body",
+      "mcp__serena__insert_after_symbol"
+    ]
+  }
+}

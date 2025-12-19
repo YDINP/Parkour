@@ -6,7 +6,7 @@ import Switcher from "../../../framework/ui/controller/Switcher";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ResType } from "../game/model/BaseData";
 import LevelData from "../game/model/LevelData";

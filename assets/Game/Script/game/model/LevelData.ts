@@ -3,7 +3,7 @@ import ccUtil from "../../../../framework/utils/ccUtil";
 import gameUtil from "../../../../framework/utils/gameUtil";
 import { Res, ResType } from "./BaseData";
 import MapSegData from "./MapSegData";
-import { LocalizationManager } from "../../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../../framework/Hi5/Localization/LocalizationManager";
 
 export default class LevelData {
     segments: MapSegData[] = []

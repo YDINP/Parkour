@@ -1,4 +1,4 @@
-import { LocalizationManager } from "../../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../../framework/Hi5/Localization/LocalizationManager";
 import { Res } from "./BaseData";
 
 export interface PetSkillLvData {

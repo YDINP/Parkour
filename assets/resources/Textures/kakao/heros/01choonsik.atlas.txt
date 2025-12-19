@@ -1,0 +1,153 @@
+
+01choonsik.png
+size: 460,1020
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+B_cloak
+  rotate: false
+  xy: 227, 281
+  size: 221, 76
+  orig: 221, 76
+  offset: 0, 0
+  index: -1
+B_hat
+  rotate: false
+  xy: 307, 775
+  size: 129, 90
+  orig: 129, 90
+  offset: 0, 0
+  index: -1
+F_cloak
+  rotate: false
+  xy: 2, 167
+  size: 220, 154
+  orig: 220, 154
+  offset: 0, 0
+  index: -1
+L_Leg
+  rotate: true
+  xy: 334, 91
+  size: 71, 123
+  orig: 71, 123
+  offset: 0, 0
+  index: -1
+L_arm
+  rotate: false
+  xy: 334, 8
+  size: 122, 81
+  orig: 122, 81
+  offset: 0, 0
+  index: -1
+L_hand
+  rotate: true
+  xy: 2, 323
+  size: 162, 223
+  orig: 162, 223
+  offset: 0, 0
+  index: -1
+R_Leg
+  rotate: true
+  xy: 216, 21
+  size: 87, 116
+  orig: 87, 116
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: false
+  xy: 2, 37
+  size: 93, 125
+  orig: 93, 125
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 307, 867
+  size: 150, 149
+  orig: 150, 149
+  offset: 0, 0
+  index: -1
+eyes
+  rotate: false
+  xy: 97, 110
+  size: 124, 55
+  orig: 124, 55
+  offset: 0, 0
+  index: -1
+fx
+  rotate: false
+  xy: 262, 777
+  size: 42, 77
+  orig: 42, 77
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 262, 534
+  size: 239, 186
+  orig: 239, 186
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 224, 164
+  size: 180, 54
+  orig: 180, 54
+  offset: 0, 0
+  index: -1
+pants_line
+  rotate: true
+  xy: 438, 831
+  size: 34, 14
+  orig: 34, 14
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 224, 220
+  size: 198, 59
+  orig: 198, 59
+  offset: 0, 0
+  index: -1
+slide_L_arm
+  rotate: false
+  xy: 97, 2
+  size: 117, 106
+  orig: 117, 106
+  offset: 0, 0
+  index: -1
+slide_L_hand
+  rotate: true
+  xy: 247, 359
+  size: 173, 210
+  orig: 173, 210
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: false
+  xy: 2, 856
+  size: 303, 160
+  orig: 303, 160
+  offset: 0, 0
+  index: -1
+slide_cloak
+  rotate: false
+  xy: 2, 487
+  size: 243, 128
+  orig: 243, 128
+  offset: 0, 0
+  index: -1
+slide_fx
+  rotate: true
+  xy: 424, 169
+  size: 110, 32
+  orig: 110, 32
+  offset: 0, 0
+  index: -1
+slide_head
+  rotate: true
+  xy: 2, 617
+  size: 237, 258
+  orig: 237, 258
+  offset: 0, 0
+  index: -1

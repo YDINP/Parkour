@@ -125,6 +125,16 @@ export default class SkeletonComponent extends cc.Component {
         return this.mainState;
     }
 
+
+    addPlay(anim, delay = 0, times = 1) {
+        if (this.skeleton) {
+            let loop = times === 0;
+            let state = this.skeleton.addAnimation(0, anim, loop, delay);
+            return state;
+        }
+        return null;
+    }
+
     checkIdle() {
         if (this.mainState) {
             if (this.mainState.isComplete) {

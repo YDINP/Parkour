@@ -8,8 +8,8 @@ import { GameConfig } from "../../Game/Script/common/configs/GameConfigs";
 import { qqsdk } from "./sdks/qq/qqsdk";
 import { ttsdk } from "./sdks/ttsdk/ttsdk";
 import mmgame from "./mmcloud/mmgame";
-import { LocalizationManager } from "../../Localization/LocalizationManager";
-import _Hi5Import from "../Hi5/Hi5";
+import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
+import _Hi5Import from "../Hi5/hi5";
 import { Loading } from "../ui/LoadingManager";
 
 // Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)

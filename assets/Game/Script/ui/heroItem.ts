@@ -6,7 +6,7 @@ import Switcher from "../../../framework/ui/controller/Switcher";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ResType } from "../game/model/BaseData";
 import HeroData from "../game/model/HeroData";
@@ -24,6 +24,18 @@ const starIconPath = {
     D: "Textures/kakao/06friends/ui_img_friends_tier_D"
 }
 
+// 영웅 ID -> 스파인 리소스 경로 매핑
+const heroSpinePaths: { [id: string]: string } = {
+    "1": "Textures/kakao/heros/01choonsik",
+    "2": "Textures/kakao/heros/02Ryan",
+    "3": "Textures/kakao/heros/03Apeach",
+    "4": "Textures/kakao/heros/04Tube",
+    "5": "Textures/kakao/heros/05Muzi",
+    "6": "Textures/kakao/heros/06Frodo",
+    "7": "Textures/kakao/heros/07Neo",
+    "8": "Textures/kakao/heros/08Jay-G",
+};
+
 
 @ccclass
 export default class heroItem extends cc.Component {
@@ -31,7 +43,7 @@ export default class heroItem extends cc.Component {
     nameLab: cc.Label;
     lvLab: cc.Label
     starSp: cc.Sprite
-    headIconSp: cc.Sprite;
+    headIconSp: sp.Skeleton;
     hpLab: cc.Label
     skillDisLab: cc.Label
     switcher: Switcher;
@@ -59,7 +71,7 @@ export default class heroItem extends cc.Component {
         this.nameLab = ccUtil.find("nameLab", this.node, cc.Label);
         this.lvLab = ccUtil.find("heroLv", this.node, cc.Label);
         this.starSp = ccUtil.find("starLv", this.node, cc.Sprite);
-        this.headIconSp = ccUtil.find("frame/sprite/headIcon", this.node, cc.Sprite);
+        this.headIconSp = ccUtil.find("frame/sprite/headIcon", this.node, sp.Skeleton);
         this.hpLab = ccUtil.find("lab_k/hp", this.node, cc.Label);
         this.skillDisLab = ccUtil.find("lab_k/skillDes", this.node, cc.Label);
         this.switcher = ccUtil.find("switcher", this.node, Switcher);
@@ -105,7 +117,7 @@ export default class heroItem extends cc.Component {
         this.hpLab.string = data.hp.toString();
 
         ccUtil.setDisplay(this.starSp, starIconPath[data.quality]);
-        ccUtil.setDisplay(this.headIconSp, data.avatar);
+        this.updateHeroSpine(data.id);
         //购买   所需要的资源数量
         this.label_amount.string = data.buyCost.num + "";
         //切换图标
@@ -224,5 +236,28 @@ export default class heroItem extends cc.Component {
         this.set(this.data, this.ui)
     }
 
+    /**
+     * 영웅 ID에 맞는 스파인 데이터 로드 및 적용
+     */
+    private updateHeroSpine(heroId: string) {
+        const spinePath = heroSpinePaths[heroId];
+
+        if (!spinePath) {
+            console.warn(`Hero spine path not found for hero ID: ${heroId}`);
+            return;
+        }
+
+        cc.loader.loadRes(spinePath, sp.SkeletonData, (err, skeletonData: sp.SkeletonData) => {
+            if (err) {
+                console.error(`Failed to load hero spine: ${spinePath}`, err);
+                return;
+            }
+
+            if (this.headIconSp && skeletonData) {
+                this.headIconSp.skeletonData = skeletonData;
+                this.headIconSp.setAnimation(0, "Idle", true);
+            }
+        });
+    }
 
 }

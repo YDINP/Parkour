@@ -2,7 +2,7 @@ import { evt } from "../../../framework/core/event";
 import GuiderLayer from "../../../framework/extension/guide/GuiderLayer";
 import FizzManager from "../../../framework/fizzx/components/FizzManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { ParkourType, pdata } from "../data/PlayerInfo";
 import UIEndPage from "../ui/UIEndPage";

@@ -3,7 +3,7 @@ import PoolManager from "../../core/PoolManager";
 import Platform from "../Platform";
 import { EaseType } from "../qanim/EaseType";
 import { evt } from "../../core/event";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../Hi5/Localization/LocalizationManager";
 
 const { ccclass, property, menu } = cc._decorator;
 export interface EfxOption {

@@ -13,7 +13,7 @@ import HeroData from "../game/model/HeroData";
 import PetData from "../game/model/PetData";
 import PlayerData from "../game/model/PlayerData";
 import ShopCapData from "../game/model/ShopCapData";
-import _Hi5Import from "../../../framework/Hi5/Hi5";
+import _Hi5Import from "../../../framework/Hi5/hi5";
 
 // Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
 const getHi5Module = () => {
@@ -508,7 +508,7 @@ export default class PlayerInfoDC extends DataCenter {
         }
         return true;
     }
-
+tempEne
 }
 
 export let pdata: PlayerInfoDC = DataCenter.register(PlayerInfoDC);

@@ -3,7 +3,7 @@
  * g.js가 로드되기 전에도 오류 없이 동작하도록 fallback 제공
  */
 
-import { LocalizationManager } from "../../Localization/LocalizationManager";
+import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
 
 declare var g: any;
 

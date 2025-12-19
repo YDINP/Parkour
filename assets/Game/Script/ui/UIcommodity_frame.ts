@@ -2,7 +2,7 @@ import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import SilverCoinData from "../game/model/SilverCoinData";
 

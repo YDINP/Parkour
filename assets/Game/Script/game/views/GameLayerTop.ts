@@ -2,7 +2,7 @@ import Device from "../../../../framework/core/Device";
 import { evt } from "../../../../framework/core/event";
 import mvcView from "../../../../framework/ui/mvcView";
 import ccUtil from "../../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../../framework/Hi5/Localization/LocalizationManager";
 import { ParkourType, pdata } from "../../data/PlayerInfo";
 import PlayerLoseBuff from "../behaviors/player/PlayerLoseHp";
 import LevelData from "../model/LevelData";

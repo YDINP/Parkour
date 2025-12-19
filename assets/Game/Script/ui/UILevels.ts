@@ -4,7 +4,7 @@ import { EaseType } from "../../../framework/extension/qanim/EaseType";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import LoadingScene from "../common/LoadingScene";
 import { pdata } from "../data/PlayerInfo";
 import UILevelsPage from "./UILevelsPage";

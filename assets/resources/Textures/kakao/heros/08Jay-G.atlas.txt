@@ -1,0 +1,167 @@
+
+08Jay-G.png
+size: 804,1016
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+L_arm
+  rotate: true
+  xy: 471, 188
+  size: 128, 57
+  orig: 128, 57
+  offset: 0, 0
+  index: -1
+L_hand
+  rotate: true
+  xy: 2, 4
+  size: 140, 478
+  orig: 140, 478
+  offset: 0, 0
+  index: -1
+L_leg
+  rotate: true
+  xy: 752, 605
+  size: 53, 48
+  orig: 53, 48
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: false
+  xy: 628, 75
+  size: 59, 119
+  orig: 59, 119
+  offset: 0, 0
+  index: -1
+R_leg
+  rotate: false
+  xy: 662, 15
+  size: 54, 58
+  orig: 54, 58
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 381, 318
+  size: 163, 184
+  orig: 163, 184
+  offset: 0, 0
+  index: -1
+clothes_deco1
+  rotate: false
+  xy: 482, 10
+  size: 66, 176
+  orig: 66, 176
+  offset: 0, 0
+  index: -1
+clothes_deco2
+  rotate: false
+  xy: 546, 326
+  size: 149, 176
+  orig: 149, 176
+  offset: 0, 0
+  index: -1
+grass
+  rotate: true
+  xy: 697, 300
+  size: 226, 65
+  orig: 226, 65
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 2, 318
+  size: 377, 333
+  orig: 377, 333
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 420, 504
+  size: 257, 251
+  orig: 257, 251
+  offset: 0, 0
+  index: -1
+nose
+  rotate: true
+  xy: 752, 660
+  size: 60, 42
+  orig: 60, 42
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 550, 62
+  size: 262, 76
+  orig: 262, 76
+  offset: 0, 0
+  index: -1
+slide_L_arm
+  rotate: true
+  xy: 628, 196
+  size: 128, 55
+  orig: 128, 55
+  offset: 0, 0
+  index: -1
+slide_L_hand
+  rotate: true
+  xy: 2, 146
+  size: 170, 467
+  orig: 170, 467
+  offset: 0, 0
+  index: -1
+slide_L_leg
+  rotate: true
+  xy: 689, 85
+  size: 110, 81
+  orig: 110, 81
+  offset: 0, 0
+  index: -1
+slide_R_arm
+  rotate: true
+  xy: 685, 197
+  size: 101, 106
+  orig: 101, 106
+  offset: 0, 0
+  index: -1
+slide_R_leg
+  rotate: false
+  xy: 550, 2
+  size: 110, 58
+  orig: 110, 58
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: true
+  xy: 681, 786
+  size: 225, 119
+  orig: 225, 119
+  offset: 0, 0
+  index: -1
+slide_grass
+  rotate: true
+  xy: 679, 528
+  size: 227, 71
+  orig: 227, 71
+  offset: 0, 0
+  index: -1
+slide_hair
+  rotate: false
+  xy: 2, 653
+  size: 416, 358
+  orig: 416, 358
+  offset: 0, 0
+  index: -1
+slide_head
+  rotate: false
+  xy: 420, 757
+  size: 259, 254
+  orig: 259, 254
+  offset: 0, 0
+  index: -1
+slide_nose
+  rotate: true
+  xy: 752, 722
+  size: 62, 42
+  orig: 62, 42
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,167 @@
+
+06Frodo.png
+size: 796,552
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+L_arm
+  rotate: true
+  xy: 604, 165
+  size: 62, 123
+  orig: 62, 123
+  offset: 0, 0
+  index: -1
+L_ear
+  rotate: false
+  xy: 729, 62
+  size: 60, 51
+  orig: 60, 51
+  offset: 0, 0
+  index: -1
+L_ear_top
+  rotate: true
+  xy: 729, 7
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1
+L_leg
+  rotate: true
+  xy: 258, 53
+  size: 84, 76
+  orig: 86, 76
+  offset: 2, 0
+  index: -1
+R_ear
+  rotate: false
+  xy: 546, 31
+  size: 62, 53
+  orig: 62, 53
+  offset: 0, 0
+  index: -1
+R_ear_top
+  rotate: true
+  xy: 610, 29
+  size: 55, 57
+  orig: 55, 57
+  offset: 0, 0
+  index: -1
+R_hand
+  rotate: false
+  xy: 604, 229
+  size: 110, 157
+  orig: 110, 157
+  offset: 0, 0
+  index: -1
+slide_L_hand
+  rotate: false
+  xy: 604, 229
+  size: 110, 157
+  orig: 110, 157
+  offset: 0, 0
+  index: -1
+R_leg
+  rotate: false
+  xy: 451, 18
+  size: 93, 84
+  orig: 93, 84
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 624, 392
+  size: 168, 157
+  orig: 168, 157
+  offset: 0, 0
+  index: -1
+eyes
+  rotate: false
+  xy: 583, 86
+  size: 144, 77
+  orig: 144, 77
+  offset: 0, 0
+  index: -1
+hat
+  rotate: false
+  xy: 2, 12
+  size: 254, 94
+  orig: 254, 94
+  offset: 0, 0
+  index: -1
+hat2
+  rotate: true
+  xy: 210, 139
+  size: 252, 129
+  orig: 252, 129
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 341, 176
+  size: 210, 261
+  orig: 210, 261
+  offset: 0, 0
+  index: -1
+scarf
+  rotate: true
+  xy: 258, 2
+  size: 49, 56
+  orig: 49, 56
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 341, 104
+  size: 240, 70
+  orig: 240, 70
+  offset: 0, 0
+  index: -1
+slide_ scarf
+  rotate: true
+  xy: 669, 33
+  size: 51, 58
+  orig: 51, 58
+  offset: 0, 0
+  index: -1
+slide_R_arm
+  rotate: true
+  xy: 729, 115
+  size: 127, 58
+  orig: 127, 58
+  offset: 0, 0
+  index: -1
+slide__L_arm
+  rotate: false
+  xy: 336, 8
+  size: 113, 94
+  orig: 113, 94
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: false
+  xy: 343, 388
+  size: 279, 161
+  orig: 279, 161
+  offset: 0, 0
+  index: -1
+slide_eyes
+  rotate: true
+  xy: 716, 244
+  size: 146, 77
+  orig: 146, 77
+  offset: 0, 0
+  index: -1
+slide_hat
+  rotate: false
+  xy: 2, 393
+  size: 339, 156
+  orig: 339, 156
+  offset: 0, 0
+  index: -1
+slide_head
+  rotate: false
+  xy: 2, 108
+  size: 206, 283
+  orig: 206, 283
+  offset: 0, 0
+  index: -1

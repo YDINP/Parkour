@@ -196,9 +196,9 @@
         0,
         0,
         1,
-        1,
-        1,
-        1
+        0.327,
+        0.327,
+        0.327
       ]
     },
     "_eulerAngles": {
@@ -215,7 +215,7 @@
     "_id": ""
   },
   {
-    "__type__": "dragonBones.ArmatureDisplay",
+    "__type__": "sp.Skeleton",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -224,33 +224,35 @@
     "_enabled": true,
     "_materials": [
       {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+        "__uuid__": "7afd064b-113f-480e-b793-8817d19f63c3"
       }
     ],
-    "_armatureName": "armatureName",
-    "_animationName": "",
+    "paused": false,
+    "defaultSkin": "default",
+    "defaultAnimation": "Idle",
     "_preCacheMode": 0,
     "_cacheMode": 0,
-    "playTimes": -1,
-    "premultipliedAlpha": false,
-    "_armatureKey": "c3e94a70-7879-4214-9abd-4f4525e5d550#7fe4f392-a3eb-497b-967b-72803376c745",
+    "loop": true,
+    "premultipliedAlpha": true,
+    "timeScale": 1,
     "_accTime": 0,
     "_playCount": 0,
     "_frameCache": null,
     "_curFrame": null,
-    "_playing": false,
-    "_armatureCache": null,
-    "_N$dragonAsset": {
-      "__uuid__": "c3e94a70-7879-4214-9abd-4f4525e5d550"
+    "_skeletonCache": null,
+    "_animationName": "Idle",
+    "_animationQueue": [],
+    "_headAniInfo": null,
+    "_playTimes": 0,
+    "_isAniComplete": true,
+    "_N$skeletonData": {
+      "__uuid__": "78b84cae-fa03-4000-9a4c-08753e8818fe"
     },
-    "_N$dragonAtlasAsset": {
-      "__uuid__": "7fe4f392-a3eb-497b-967b-72803376c745"
-    },
-    "_N$_defaultArmatureIndex": 0,
-    "_N$_animationIndex": 0,
     "_N$_defaultCacheMode": 0,
-    "_N$timeScale": 1,
+    "_N$debugSlots": false,
     "_N$debugBones": false,
+    "_N$debugMesh": false,
+    "_N$useTint": false,
     "_N$enableBatch": false,
     "_id": ""
   },

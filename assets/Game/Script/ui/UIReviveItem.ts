@@ -5,7 +5,7 @@ import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { root } from "../game/Game";
 import HeroData from "../game/model/HeroData";
@@ -13,6 +13,18 @@ import InventoryUI from "../view/TopMostInventoryUI";
 import UIRevive from "./UIRevive";
 
 const { ccclass, property } = cc._decorator;
+
+// 영웅 ID -> 스파인 리소스 경로 매핑
+const heroSpinePaths: { [id: string]: string } = {
+    "1": "Textures/kakao/heros/01choonsik",
+    "2": "Textures/kakao/heros/02Ryan",
+    "3": "Textures/kakao/heros/03Apeach",
+    "4": "Textures/kakao/heros/04Tube",
+    "5": "Textures/kakao/heros/05Muzi",
+    "6": "Textures/kakao/heros/06Frodo",
+    "7": "Textures/kakao/heros/07Neo",
+    "8": "Textures/kakao/heros/08Jay-G",
+};
 
 @ccclass
 export default class UIReviveItem extends mvcView {
@@ -23,8 +35,8 @@ export default class UIReviveItem extends mvcView {
     @property(cc.Label)
     lab_subNum: cc.Label = null;
 
-    @property(cc.Sprite)
-    headIcon: cc.Sprite = null;
+    @property(sp.Skeleton)
+    headIcon: sp.Skeleton = null;
 
     @property(cc.Sprite)
     typeIcon: cc.Sprite = null;
@@ -50,7 +62,6 @@ export default class UIReviveItem extends mvcView {
                 return "X 3";
             }
         });
-        this.register(this.headIcon, (d: HeroData) => d.avatar);
         this.register(this.typeIcon, (d: HeroData) => {
             if (d.quality == "A" || d.quality == "B") {
                 return this.iconPath.Video;
@@ -95,5 +106,37 @@ export default class UIReviveItem extends mvcView {
     }
     onHidden() {
         pdata.sendToServer("diamond,energy");
+    }
+
+    render(d?, d2?) {
+        super.render(d, d2);
+        const data = this.getData() as HeroData;
+        if (data) {
+            this.updateHeroSpine(data.id);
+        }
+    }
+
+    /**
+     * 영웅 ID에 맞는 스파인 데이터 로드 및 적용
+     */
+    private updateHeroSpine(heroId: string) {
+        const spinePath = heroSpinePaths[heroId];
+
+        if (!spinePath) {
+            console.warn(`Hero spine path not found for hero ID: ${heroId}`);
+            return;
+        }
+
+        cc.loader.loadRes(spinePath, sp.SkeletonData, (err, skeletonData: sp.SkeletonData) => {
+            if (err) {
+                console.error(`Failed to load hero spine: ${spinePath}`, err);
+                return;
+            }
+
+            if (this.headIcon && skeletonData) {
+                this.headIcon.skeletonData = skeletonData;
+                this.headIcon.setAnimation(0, "Idle", true);
+            }
+        });
     }
 }

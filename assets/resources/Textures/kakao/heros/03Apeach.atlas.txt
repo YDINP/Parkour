@@ -1,0 +1,125 @@
+
+03Apeach.png
+size: 728,548
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+F_tunic
+  rotate: true
+  xy: 236, 17
+  size: 93, 140
+  orig: 93, 140
+  offset: 0, 0
+  index: -1
+F_tunic2
+  rotate: false
+  xy: 471, 296
+  size: 70, 138
+  orig: 70, 138
+  offset: 0, 0
+  index: -1
+Kara
+  rotate: true
+  xy: 655, 81
+  size: 144, 55
+  orig: 144, 55
+  offset: 0, 0
+  index: -1
+L_arm
+  rotate: false
+  xy: 378, 2
+  size: 86, 108
+  orig: 86, 108
+  offset: 0, 0
+  index: -1
+L_leg
+  rotate: false
+  xy: 574, 36
+  size: 52, 53
+  orig: 52, 53
+  offset: 0, 0
+  index: -1
+Layer 3747
+  rotate: false
+  xy: 543, 227
+  size: 168, 103
+  orig: 168, 103
+  offset: 0, 0
+  index: -1
+R_arm
+  rotate: true
+  xy: 466, 3
+  size: 86, 106
+  orig: 86, 106
+  offset: 0, 0
+  index: -1
+R_leg
+  rotate: false
+  xy: 628, 32
+  size: 55, 47
+  orig: 55, 47
+  offset: 0, 0
+  index: -1
+eyes
+  rotate: true
+  xy: 451, 123
+  size: 168, 65
+  orig: 168, 65
+  offset: 0, 0
+  index: -1
+hat
+  rotate: true
+  xy: 557, 332
+  size: 212, 167
+  orig: 212, 167
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 318
+  size: 241, 226
+  orig: 241, 226
+  offset: 0, 0
+  index: -1
+in_tunic
+  rotate: true
+  xy: 518, 91
+  size: 134, 135
+  orig: 134, 135
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 2, 40
+  size: 209, 62
+  orig: 209, 62
+  offset: 0, 0
+  index: -1
+slide_body
+  rotate: false
+  xy: 245, 436
+  size: 310, 108
+  orig: 310, 108
+  offset: 0, 0
+  index: -1
+slide_hat
+  rotate: false
+  xy: 236, 112
+  size: 213, 179
+  orig: 213, 179
+  offset: 0, 0
+  index: -1
+slide_head
+  rotate: false
+  xy: 2, 104
+  size: 232, 212
+  orig: 232, 212
+  offset: 0, 0
+  index: -1
+slide_tunic
+  rotate: false
+  xy: 245, 293
+  size: 224, 141
+  orig: 224, 141
+  offset: 0, 0
+  index: -1

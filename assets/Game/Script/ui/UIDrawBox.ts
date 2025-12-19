@@ -4,7 +4,7 @@ import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
 import ccUtil from "../../../framework/utils/ccUtil";
-import { LocalizationManager } from "../../../Localization/LocalizationManager";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ImgConfirmData } from "./UIImgComfirm";
 
