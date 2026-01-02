@@ -11,20 +11,9 @@ import { root } from "../game/Game";
 import HeroData from "../game/model/HeroData";
 import InventoryUI from "../view/TopMostInventoryUI";
 import UIRevive from "./UIRevive";
+import { heroSpinePaths } from "../common/HeroSpinePaths";
 
 const { ccclass, property } = cc._decorator;
-
-// 영웅 ID -> 스파인 리소스 경로 매핑
-const heroSpinePaths: { [id: string]: string } = {
-    "1": "Textures/kakao/heros/01choonsik",
-    "2": "Textures/kakao/heros/02Ryan",
-    "3": "Textures/kakao/heros/03Apeach",
-    "4": "Textures/kakao/heros/04Tube",
-    "5": "Textures/kakao/heros/05Muzi",
-    "6": "Textures/kakao/heros/06Frodo",
-    "7": "Textures/kakao/heros/07Neo",
-    "8": "Textures/kakao/heros/08Jay-G",
-};
 
 @ccclass
 export default class UIReviveItem extends mvcView {

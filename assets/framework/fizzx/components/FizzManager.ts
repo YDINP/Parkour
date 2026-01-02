@@ -31,6 +31,10 @@ export default class FizzManager extends cc.Component {
 
     _inited: boolean = false;
 
+    // Fixed timestep accumulator for frame-rate independent physics
+    private _accumulator: number = 0;
+    private readonly FIXED_DT: number = 0.016; // ~60fps physics step
+
     onLoad() {
         FizzManager.instance = this;
         this.graphics = this.graphics || this.getComponent(cc.Graphics);
@@ -99,19 +103,29 @@ export default class FizzManager extends cc.Component {
         }
     }
 
-    lateUpdate() {
-        Fizz.update(0.016);
+    lateUpdate(dt: number) {
+        // Fixed timestep: ensures physics runs at consistent speed
+        // regardless of device frame rate (60fps, 90fps, 120fps, etc.)
+        this._accumulator += dt;
+
+        // Only run 1 physics update per frame at fixed rate
+        // This prevents stuttering while maintaining consistent speed
+        if (this._accumulator >= this.FIXED_DT) {
+            Fizz.update(this.FIXED_DT);
+            this._accumulator -= this.FIXED_DT;
+
+            // Prevent accumulator from growing too large (handles lag spikes)
+            if (this._accumulator > this.FIXED_DT) {
+                this._accumulator = this.FIXED_DT * 0.5;
+            }
+        }
+
         if (this.debug) {
             this.graphics.clear()
             Fizz.statics.forEach(v => this.drawShape(v))
             Fizz.dynamics.forEach(v => this.drawShape(v))
             Fizz.kinematics.forEach(v => this.drawShape(v))
         }
-        // Fizz.statics.forEach(v=>{
-        //     if(v.node)
-        //         v.node.position = v
-        // })
-        // Fizz.kinematics.forEach(v=>v.node.position = v)
     }
 
     static getHitPoint(a: FizzBody, b: FizzBody, nx, ny) {

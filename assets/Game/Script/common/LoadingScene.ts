@@ -8,36 +8,15 @@ import WeakNetGame from "../../../framework/extension/weak_net_game/WeakNetGame"
 import LoadingSceneBase from "../../../framework/misc/LoadingSceneBase";
 import { pdata } from "../data/PlayerInfo";
 import { ServerConfig } from "./ServerConfig";
-import _Hi5Import from "../../../framework/Hi5/hi5";
+import Hi5 from "../../../framework/Hi5/Hi5";
 
 const { ccclass, property } = cc._decorator;
 
 let inited = false;
 
-// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
-const getHi5Module = () => {
-    // 1. import된 모듈 사용
-    if (_Hi5Import && typeof _Hi5Import.Init_SDK === 'function') {
-        return _Hi5Import;
-    }
-    // 2. 전역 _Hi5Module에서 가져오기
-    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].Init_SDK === 'function') {
-        return window['_Hi5Module'];
-    }
-    // 3. 초기화된 Hi5 객체에서 가져오기
-    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].Init_SDK === 'function') {
-        return window['Hi5'];
-    }
-    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
-    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].Init_SDK === 'function') {
-        return cc['pvz']['Hi5'];
-    }
-    return null;
-};
-
 // Hi5 플랫폼 여부 확인
 const isHi5Platform = () => {
-    return typeof window !== 'undefined' && window['Hi5'] != null;
+    return Hi5 != null;
 };
 
 @ccclass
@@ -52,6 +31,7 @@ export default class LoadingScene extends LoadingSceneBase {
     private hi5Initialized: boolean = false;
 
     onLoad() {
+        console.log("[LoadingScene] onLoad started");
         super.onLoad();
         this.status = 1;
 
@@ -59,18 +39,12 @@ export default class LoadingScene extends LoadingSceneBase {
         this.initHi5SDK();
 
         this.scheduleOnce(this.heartBeatReport, 2)
+        console.log("[LoadingScene] onLoad finished");
     }
 
     // Hi5 SDK 초기화
     initHi5SDK() {
-        // Hi5 모듈 가져오기
-        const _Hi5 = getHi5Module();
-
-        // _Hi5 모듈이 로드되지 않은 경우 건너뛰기
-        if (!_Hi5) {
-            console.warn("[Hi5] SDK module not loaded, skipping initialization");
-            return;
-        }
+        console.log("[Hi5] initHi5SDK called");
 
         // 초기 게임 데이터 정의 (pdata 필드와 일치해야 함)
         const initialGameData = {
@@ -104,19 +78,19 @@ export default class LoadingScene extends LoadingSceneBase {
         const onHi5Message = (data) => {
             console.log("[Hi5] Message received:", data.fromhi5action, JSON.stringify(data));
 
-            if (data.fromhi5action === _Hi5.MESSAGE.GAME_DATA) {
+            if (data.fromhi5action === Hi5.MESSAGE.GAME_DATA) {
                 // 서버에서 게임 데이터 수신
                 console.log("[Hi5] Game data loaded from server");
                 this.hi5Initialized = true;
-            } else if (data.fromhi5action === _Hi5.MESSAGE.START_GAME) {
+            } else if (data.fromhi5action === Hi5.MESSAGE.START_GAME) {
                 // 게임 시작 요청
                 console.log("[Hi5] Start game requested");
                 evt.emit("Hi5.StartGame");
-            } else if (data.fromhi5action === _Hi5.MESSAGE.RESTART_GAME) {
+            } else if (data.fromhi5action === Hi5.MESSAGE.RESTART_GAME) {
                 // 게임 재시작 요청
                 console.log("[Hi5] Restart game requested");
                 evt.emit("Hi5.RestartGame");
-            } else if (data.fromhi5action === _Hi5.MESSAGE.SOUND) {
+            } else if (data.fromhi5action === Hi5.MESSAGE.SOUND) {
                 // 사운드 설정
                 console.log("[Hi5] Sound setting:", data.data);
                 evt.emit("Hi5.Sound", data.data);
@@ -127,14 +101,14 @@ export default class LoadingScene extends LoadingSceneBase {
                 if (data.data.status === 0) {
                     // 로드 성공 → showAd 호출
                     console.log("[Hi5] Ad loaded, showing...");
-                    if (_Hi5.lastAd) {
-                        _Hi5.showAd(_Hi5.lastAd);
+                    if (Hi5.lastAd) {
+                        Hi5.showAd(Hi5.lastAd);
                     }
                 } else {
                     // 로드 실패
                     console.error("[Hi5] Ad load failed:", data.data.msg);
                     evt.emit("Hi5.AdResult", false);
-                    _Hi5.lastAd = undefined;
+                    Hi5.lastAd = undefined;
                     cc.audioEngine.resumeMusic();
                 }
             } else if (data.fromhi5action === "SHOW_AD") {
@@ -146,31 +120,31 @@ export default class LoadingScene extends LoadingSceneBase {
 
                     if (adType === "show" || adType === "userEarnedReward") {
                         // 광고가 표시되거나 보상을 받았을 때 - 플래그 설정
-                        _Hi5.lastShowAd = true;
+                        Hi5.lastShowAd = true;
                         console.log("[Hi5] Ad show/reward - lastShowAd set to true");
                     } else if (adType === "dismissed") {
                         // 광고가 닫혔을 때 - 콜백 호출
-                        const success = _Hi5.lastShowAd && _Hi5.lastAd;
+                        const success = Hi5.lastShowAd && Hi5.lastAd;
                         console.log("[Hi5] Ad dismissed - success:", success);
 
                         evt.emit("Hi5.AdResult", !!success);
 
-                        _Hi5.lastShowAd = false;
-                        _Hi5.lastAd = undefined;
+                        Hi5.lastShowAd = false;
+                        Hi5.lastAd = undefined;
                     }
                 } else {
                     // 광고 로드/표시 실패 (status !== 0)
                     console.error("[Hi5] Ad show failed:", data.data.msg);
                     evt.emit("Hi5.AdResult", false);
 
-                    _Hi5.lastShowAd = false;
-                    _Hi5.lastAd = undefined;
+                    Hi5.lastShowAd = false;
+                    Hi5.lastAd = undefined;
                 }
             }
         };
 
         // Hi5 SDK 초기화
-        _Hi5.Init_SDK(onHi5Message, initialGameData);
+        Hi5.Init_SDK(onHi5Message, initialGameData);
         console.log("[Hi5] SDK initialized");
     }
 
@@ -197,11 +171,8 @@ export default class LoadingScene extends LoadingSceneBase {
 
         // Hi5 로딩 완료 알림
         if (isHi5Platform()) {
-            const _Hi5 = getHi5Module();
-            if (_Hi5 && typeof _Hi5.LoadEnd === 'function') {
-                _Hi5.LoadEnd();
-                console.log("[Hi5] LoadEnd called");
-            }
+            Hi5.LoadEnd();
+            console.log("[Hi5] LoadEnd called");
         }
     }
     //login 
@@ -269,13 +240,15 @@ export default class LoadingScene extends LoadingSceneBase {
     }
 
     start() {
-        //do init 
+        console.log("[LoadingScene] start() called");
+        //do init
         // GameLogic.doLogin().then(v=>this.onLoadCsvs())
-        //提前下载配置文件 
+        //提前下载配置文件
         // AliEvent.aliEvent("loading", { "statu": "start" });
         if (!inited) {
+            console.log("[LoadingScene] Initializing WeakNetGame config");
             WeakNetGame.initConfig(ServerConfig);
-            //第一进入游戏 的loading 界面 
+            //第一进入游戏 的loading 界面
             if (!ServerConfig.is_local_game) {
                 WeakNetGame.downloadCsv("Config").then(v => {
                     csv.createIndex("Config", "key", "value")
@@ -283,6 +256,7 @@ export default class LoadingScene extends LoadingSceneBase {
             }
         }
         if (!inited) {
+            console.log("[LoadingScene] Calling WeakNetGame.doLogin");
             WeakNetGame.doLogin(UInfo.userId, this.loginProgress.bind(this)).then(data => {
                 this.finishLoad(data)
                 let time = data.save_timestamps

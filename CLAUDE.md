@@ -109,3 +109,26 @@ Prefab files (`.prefab`) are JSON. Key fields:
 - `_N$file.__uuid__`: Font file UUID for labels
 
 To replace sprites, update the UUID in `_spriteFrame` to the new texture's `subMetas` UUID from its `.meta` file.
+
+## MCP Servers
+
+### Puppeteer MCP
+브라우저 자동화 및 테스트를 위한 Puppeteer MCP 서버가 설정되어 있습니다.
+
+**설정 방법** (`~/.claude.json`에 추가):
+```json
+"puppeteer": {
+  "type": "stdio",
+  "command": "npx",
+  "args": ["-y", "@anthropic/mcp-puppeteer"],
+  "env": {}
+}
+```
+
+**게임 테스트 URL**: `http://localhost:7458` (Cocos Creator 에디터에서 실행 시)
+
+**주요 기능**:
+- 브라우저 자동화 테스트
+- 스크린샷 캡처
+- 터치/클릭 이벤트 시뮬레이션
+- 전체화면 기능 테스트

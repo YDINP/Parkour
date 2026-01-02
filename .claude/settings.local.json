@@ -11,7 +11,22 @@
       "mcp__serena__search_for_pattern",
       "mcp__serena__find_symbol",
       "mcp__serena__replace_symbol_body",
-      "mcp__serena__insert_after_symbol"
+      "mcp__serena__insert_after_symbol",
+      "Bash(git grep:*)",
+      "mcp__serena__get_symbols_overview",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp:*)",
+      "Bash(npx:*)",
+      "Bash(npm search:*)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "mcp__puppeteer__puppeteer_click",
+      "mcp__puppeteer__puppeteer_evaluate",
+      "WebSearch",
+      "WebFetch(domain:discuss.cocos2d-x.org)",
+      "WebFetch(domain:forum.cocosengine.org)"
     ]
   }
 }

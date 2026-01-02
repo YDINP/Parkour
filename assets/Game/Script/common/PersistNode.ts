@@ -11,34 +11,11 @@ import mmgame from "../../../framework/extension/mmcloud/mmgame";
 import AliEvent from "../../../framework/extension/AliEvent";
 import BuffSystem from "../../../framework/extension/buffs/BuffSystem";
 import { pdata } from "../data/PlayerInfo";
-import _Hi5Import from "../../../framework/Hi5/hi5";
-// g.js는 플러그인 스크립트로 자동 로드되므로 명시적 import 불필요
-// 에디터 환경에서는 require가 작동하지 않으므로 import 제거
-
-// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
-const getHi5Module = () => {
-    // 1. import된 모듈 사용
-    if (_Hi5Import && typeof _Hi5Import.SaveData === 'function') {
-        return _Hi5Import;
-    }
-    // 2. 전역 _Hi5Module에서 가져오기
-    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].SaveData === 'function') {
-        return window['_Hi5Module'];
-    }
-    // 3. 초기화된 Hi5 객체에서 가져오기
-    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].SaveData === 'function') {
-        return window['Hi5'];
-    }
-    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
-    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].SaveData === 'function') {
-        return cc['pvz']['Hi5'];
-    }
-    return null;
-};
+import Hi5 from "../../../framework/Hi5/Hi5";
 
 // Hi5 플랫폼 여부 확인
 const isHi5Platform = () => {
-    return typeof window !== 'undefined' && window['Hi5'] != null;
+    return Hi5 != null;
 };
 
 const { ccclass, property } = cc._decorator;
@@ -69,6 +46,9 @@ export default class PersistNode extends cc.Component {
         cc.game.addPersistRootNode(this.node)
         cc.game.on(cc.game.EVENT_SHOW, this.onShow, this);
         cc.game.on(cc.game.EVENT_HIDE, this.onHide, this)
+
+        // 전체화면 로직 초기화 (Canvas 준비 후 실행)
+        this.scheduleOnce(this.initFullScreen.bind(this), 0.5);
         cc.view.enableAntiAlias(false);
         ViewManager.setHideFunc(closeUI)
         ViewManager.setShowFunc(openUI)
@@ -185,11 +165,8 @@ export default class PersistNode extends cc.Component {
 
         // Hi5 앱 숨김 시 데이터 저장
         if (isHi5Platform()) {
-            const _Hi5 = getHi5Module();
-            if (_Hi5) {
-                _Hi5.SaveData();
-                console.log("[Hi5] SaveData called on app hide");
-            }
+            Hi5.SaveData();
+            console.log("[Hi5] SaveData called on app hide");
         }
 
         Platform.refreshBannerAd();
@@ -231,5 +208,30 @@ export default class PersistNode extends cc.Component {
 
     time60() {
         //StatHepler.userAction("新玩家-60s未退出")
+    }
+
+    /**
+     * 전체화면 로직 초기화
+     * cc.view.enableAutoFullScreen 사용 (공식 권장 방식)
+     */
+    private initFullScreen() {
+        // 자동 전체화면 활성화 (터치 시 자동으로 전체화면 전환)
+        cc.view.enableAutoFullScreen(true);
+        console.log("[FullScreen] enableAutoFullScreen 활성화");
+
+        // 전체화면 상태 변화 감지 (ESC 등으로 전체화면 해제 시 재활성화)
+        if (typeof document !== 'undefined') {
+            const onFullScreenChange = () => {
+                const isFullScreen = (cc.screen as any).fullScreen();
+                console.log(`[FullScreen] 상태 변경: ${isFullScreen}`);
+                if (!isFullScreen) {
+                    // 전체화면에서 나가면 다시 활성화
+                    cc.view.enableAutoFullScreen(true);
+                    console.log("[FullScreen] enableAutoFullScreen 재활성화");
+                }
+            };
+            document.addEventListener('fullscreenchange', onFullScreenChange);
+            document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+        }
     }
 }

@@ -9,33 +9,12 @@ import { qqsdk } from "./sdks/qq/qqsdk";
 import { ttsdk } from "./sdks/ttsdk/ttsdk";
 import mmgame from "./mmcloud/mmgame";
 import { LocalizationManager } from "../Hi5/Localization/LocalizationManager";
-import _Hi5Import from "../Hi5/hi5";
+import Hi5 from "../Hi5/Hi5";
 import { Loading } from "../ui/LoadingManager";
-
-// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
-const getHi5Module = () => {
-    // 1. import된 모듈 사용
-    if (_Hi5Import && typeof _Hi5Import.showAd === 'function') {
-        return _Hi5Import;
-    }
-    // 2. 전역 _Hi5Module에서 가져오기
-    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].showAd === 'function') {
-        return window['_Hi5Module'];
-    }
-    // 3. 초기화된 Hi5 객체에서 가져오기
-    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].showAd === 'function') {
-        return window['Hi5'];
-    }
-    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
-    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].showAd === 'function') {
-        return cc['pvz']['Hi5'];
-    }
-    return null;
-};
 
 // Hi5 플랫폼 여부 확인
 const isHi5Platform = () => {
-    return typeof window !== 'undefined' && window['Hi5'] != null;
+    return Hi5 != null;
 };
 
 // Hi5 광고 콜백 저장
@@ -348,15 +327,9 @@ export default class Platform {
             cc.audioEngine.pauseMusic();
             // default_ad는 hi5Helper.js에 정의된 기본 광고 ID
             console.log("[Hi5] Loading reward ad");
-            const _Hi5 = getHi5Module();
-            if (_Hi5) {
-                // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
-                const adConfig = { aid: 'default_ad', key: 'default_ad' };
-                _Hi5.loadAd(adConfig);
-            } else {
-                console.warn("[Hi5] SDK module not available for reward ad");
-                fail_load_callback && fail_load_callback.call(target);
-            }
+            // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
+            const adConfig = { aid: 'default_ad', key: 'default_ad' };
+            Hi5.loadAd(adConfig);
             return;
         }
 
@@ -495,15 +468,9 @@ export default class Platform {
 
             cc.audioEngine.pauseMusic();
             console.log("[Hi5] Loading interstitial ad");
-            const _Hi5 = getHi5Module();
-            if (_Hi5) {
-                // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
-                const adConfig = { aid: 'default_ad', key: 'default_ad' };
-                _Hi5.loadAd(adConfig);
-            } else {
-                console.warn("[Hi5] SDK module not available for interstitial ad");
-                errorCallback && errorCallback.call(target);
-            }
+            // loadAd 호출 → 내부에서 lastAd 설정 → LOAD_AD 응답 후 showAd 호출됨
+            const adConfig = { aid: 'default_ad', key: 'default_ad' };
+            Hi5.loadAd(adConfig);
             return;
         }
 

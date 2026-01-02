@@ -12,6 +12,7 @@ import ccUtil from "../../../framework/utils/ccUtil";
 import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import SkeletonComponent from "../Controller/SkeletonComponent";
 import { ParkourType, pdata } from "../data/PlayerInfo";
+import { heroSpinePaths } from "../common/HeroSpinePaths";
 import Falloff from "./behaviors/Falloff";
 import PlayerDeadDetector from "./behaviors/player/logic/PlayerDeadDetector";
 import Game, { root } from "./Game";
@@ -200,11 +201,11 @@ export default class Player extends cc.Component implements FizzCollideInterface
 
         // this.buffSystem.broadcast("changeHero", id)
         // this.setNormalSize()
-        return this.setSkeleton(this.data.prefabPath);
+        return this.setSkeleton(this.data.prefabPath, id);
     }
 
     /**set skeleton from template */
-    async setSkeleton(prefabPath) {
+    async setSkeleton(prefabPath, heroId: string) {
         let res = await ccUtil.getRes(prefabPath, cc.Prefab)
         let node = LocalizationManager.instantiatePrefab(res as unknown as cc.Prefab);
         if (node == null) return;
@@ -220,6 +221,21 @@ export default class Player extends cc.Component implements FizzCollideInterface
         }
         this.node.setContentSize(node.getContentSize())
         this.setNormalSize();
+
+        // 카카오 스파인 데이터로 교체
+        const kakaoSpinePath = heroSpinePaths[heroId];
+        if (kakaoSpinePath) {
+            cc.loader.loadRes(kakaoSpinePath, sp.SkeletonData, (err, skeletonData: sp.SkeletonData) => {
+                if (err) {
+                    console.error(`Failed to load kakao spine: ${kakaoSpinePath}`, err);
+                    return;
+                }
+                if (this.skeleton && this.skeleton.skeleton && skeletonData) {
+                    this.skeleton.skeleton.skeletonData = skeletonData;
+                    this.skeleton.skeleton.setAnimation(0, "Idle", true);
+                }
+            });
+        }
     }
 
     setPassiveSkill() {
@@ -255,22 +271,29 @@ export default class Player extends cc.Component implements FizzCollideInterface
     }
 
     slide() {
-        if (this.stronger) return;
         if (pdata.hp <= 0) return
         if (this.controller.is(PlayerState.Run) || this.controller.is(PlayerState.Idle)) {
             this.skeleton.play("Slide")
         }
-        this.body.setShape(this.normalSize.height / 2, this.normalSize.width, 0.5, 0);
+        // 거인 상태면 doubleSize 기준, 아니면 normalSize 기준
+        if (this.stronger) {
+            this.body.setShape(this.doubleSize.height / 2, this.doubleSize.width, 0.5, 0);
+        } else {
+            this.body.setShape(this.normalSize.height / 2, this.normalSize.width, 0.5, 0);
+        }
         this.isSlide = true;
-
     }
 
     endSlide() {
-        if (this.stronger) return;
         if (pdata.hp <= 0) return
         this.isSlide = false;
         this.runOrRush()
-        this.body.setShape(this.normalSize.width, this.normalSize.height, 0.5, 0);
+        // 거인 상태면 doubleSize 기준, 아니면 normalSize 기준
+        if (this.stronger) {
+            this.body.setShape(this.doubleSize.width, this.doubleSize.height, 0.5, 0);
+        } else {
+            this.body.setShape(this.normalSize.width, this.normalSize.height, 0.5, 0);
+        }
     }
 
     runOrRush() {

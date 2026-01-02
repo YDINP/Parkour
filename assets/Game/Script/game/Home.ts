@@ -14,6 +14,7 @@ import { ParkourType, pdata } from "../data/PlayerInfo";
 import InventoryUI from "../view/TopMostInventoryUI";
 import { guider } from "./Guide";
 import PlayerData from "./model/PlayerData";
+import { heroSpinePaths } from "../common/HeroSpinePaths";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,18 +51,6 @@ export default class Home extends mvcView {
 
     @property(cc.Sprite)
     petModel: cc.Sprite = null;
-
-    // 영웅 ID -> 스파인 리소스 경로 매핑
-    private static heroSpinePaths: { [id: string]: string } = {
-        "1": "Textures/kakao/heros/01choonsik",
-        "2": "Textures/kakao/heros/02Ryan",
-        "3": "Textures/kakao/heros/03Apeach",
-        "4": "Textures/kakao/heros/04Tube",
-        "5": "Textures/kakao/heros/05Muzi",
-        "6": "Textures/kakao/heros/06Frodo",
-        "7": "Textures/kakao/heros/07Neo",
-        "8": "Textures/kakao/heros/08Jay-G",
-    };
 
     @property(cc.Node)
     node_btn_pet: cc.Node = null;
@@ -153,7 +142,7 @@ export default class Home extends mvcView {
      */
     private updateHeroSpine() {
         const heroId = pdata.selHero;
-        const spinePath = Home.heroSpinePaths[heroId];
+        const spinePath = heroSpinePaths[heroId];
 
         if (!spinePath) {
             console.warn(`Hero spine path not found for hero ID: ${heroId}`);
@@ -284,5 +273,7 @@ export default class Home extends mvcView {
         console.log(count)
         console.log(exp)
     }
-
+    debug_click_chargeEnergy(){
+        pdata.energy += 5;
+    }
 }

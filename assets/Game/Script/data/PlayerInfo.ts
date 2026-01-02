@@ -13,32 +13,11 @@ import HeroData from "../game/model/HeroData";
 import PetData from "../game/model/PetData";
 import PlayerData from "../game/model/PlayerData";
 import ShopCapData from "../game/model/ShopCapData";
-import _Hi5Import from "../../../framework/Hi5/hi5";
-
-// Hi5 모듈 가져오기 (import 실패 시 전역 객체에서 가져옴)
-const getHi5Module = () => {
-    // 1. import된 모듈 사용
-    if (_Hi5Import && typeof _Hi5Import.GameEnd === 'function') {
-        return _Hi5Import;
-    }
-    // 2. 전역 _Hi5Module에서 가져오기
-    if (typeof window !== 'undefined' && window['_Hi5Module'] && typeof window['_Hi5Module'].GameEnd === 'function') {
-        return window['_Hi5Module'];
-    }
-    // 3. 초기화된 Hi5 객체에서 가져오기
-    if (typeof window !== 'undefined' && window['Hi5'] && typeof window['Hi5'].GameEnd === 'function') {
-        return window['Hi5'];
-    }
-    // 4. cc.pvz.Hi5에서 가져오기 (hi5.js fallback)
-    if (typeof cc !== 'undefined' && cc['pvz'] && cc['pvz']['Hi5'] && typeof cc['pvz']['Hi5'].GameEnd === 'function') {
-        return cc['pvz']['Hi5'];
-    }
-    return null;
-};
+import Hi5 from "../../../framework/Hi5/Hi5";
 
 // Hi5 플랫폼 여부 확인
 const isHi5Platform = () => {
-    return typeof window !== 'undefined' && window['Hi5'] != null;
+    return Hi5 != null;
 };
 
 export enum ParkourType {
@@ -251,13 +230,10 @@ export default class PlayerInfoDC extends DataCenter {
 
         // Hi5 게임 종료 및 점수 제출
         if (isHi5Platform()) {
-            const _Hi5 = getHi5Module();
-            if (_Hi5) {
-                _Hi5.GameEnd();
-                _Hi5.submitScore(this.tmpScore);
-                _Hi5.SaveData();
-                console.log("[Hi5] GameEnd called, score submitted:", this.tmpScore);
-            }
+            Hi5.GameEnd();
+            Hi5.submitScore(this.tmpScore);
+            Hi5.SaveData();
+            console.log("[Hi5] GameEnd called, score submitted:", this.tmpScore);
         }
     }
 
