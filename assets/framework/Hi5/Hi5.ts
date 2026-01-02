@@ -60,8 +60,13 @@ const _Hi5: any = {
     lastProductId: '',
     lastShowAd: false,
 
-    lastProduct: undefined,
-    lastAd: undefined,
+    lastProduct: undefined as any,
+    lastAd: undefined as any,
+
+    // v1.0.12 추가: 콜백 지원
+    lastPurchaseCallback: undefined as ((data: any) => void) | undefined,
+    lastAdCallback: null as ((data: any) => void) | null,
+    onlyLoad: false,
 
     // 실제 Hi5 플랫폼에서 실행 중인지 확인
     isRealPlatform() {
@@ -214,7 +219,7 @@ const _Hi5: any = {
     getProductItemList() {
         this.PostMessage(this.MESSAGE.ITEM_LIST, {});
     },
-    purchaseProduct(product) {
+    purchaseProduct(product: any, callback?: (data: any) => void) {
         if(this.lastProduct) {
             return;
         }
@@ -223,28 +228,60 @@ const _Hi5: any = {
             return;
         }
         this.lastProduct = product;
+        this.lastPurchaseCallback = callback;
         this.PostMessage(this.MESSAGE.BUY_ITEM, {productId:this.lastProduct.pid});
     },
-    loadAd(ad) {
-        if(this.lastAd) {
-            return;
+    // v1.0.12 추가: 구매 완료 콜백
+    purchaseEnd(data: any) {
+        if (this.lastPurchaseCallback) {
+            this.lastPurchaseCallback(data);
+            this.lastPurchaseCallback = undefined;
         }
+        this.lastProduct = undefined;
+    },
+    loadAd(ad: any) {
         if(!ad.hasOwnProperty('aid')){
             alert('aid not found.');
             return;
         }
         this.lastShowAd = false;
         this.lastAd = ad;
+        this.onlyLoad = true;
         this.PostMessage(this.MESSAGE.LOAD_AD, {adGroupId:this.lastAd.aid});
     },
-    showAd(ad) {
+    showAd(ad: any) {
         if(!ad.hasOwnProperty('aid')){
             alert('aid not found.');
             return;
         }
         this.lastShowAd = false;
         this.lastAd = ad;
+        this.onlyLoad = false;
         this.PostMessage(this.MESSAGE.SHOW_AD, {adGroupId:this.lastAd.aid});
+    },
+    // v1.0.12 추가: 광고 콜백 방식
+    showAdCallback(ad: any, callback: (data: any) => void) {
+        if (this.lastAd) {
+            return;
+        }
+        if (!ad.hasOwnProperty('aid')) {
+            alert('aid not found.');
+            return;
+        }
+        this.lastShowAd = false;
+        this.lastAd = ad;
+        this.onlyLoad = false;
+        this.lastAdCallback = callback;
+        this.PostMessage(this.MESSAGE.LOAD_AD, {adGroupId: this.lastAd.aid});
+    },
+    // v1.0.12 추가: 광고 종료 콜백
+    ShowAdEnd(data: any) {
+        if (this.lastAdCallback) {
+            this.lastAdCallback(data);
+            this.lastAdCallback = null;
+        }
+        this.lastShowAd = false;
+        this.lastAd = undefined;
     },
     submitScore(score) {
         this.PostMessage(this.MESSAGE.SUBMIT_SCORE, {score:score});
