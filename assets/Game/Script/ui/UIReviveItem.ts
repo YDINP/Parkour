@@ -1,6 +1,7 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
+import { AdManager, AdType } from "../../../framework/Hi5/AdManager";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
@@ -42,7 +43,7 @@ export default class UIReviveItem extends mvcView {
     }
     onLoad() {
         this.onClick(this.node, this.click_revive);
-        this.register(this.lab_name, (d: HeroData) => d.name);
+        this.register(this.lab_name, (d: HeroData) => LocalizationManager.getText(`@hero.${d.id}.name`));
         this.register(this.lab_subNum, (d: HeroData) => {
             if (d.quality == "A" || d.quality == "B") {
                 return LocalizationManager.getText("@text.watch_video");
@@ -68,14 +69,15 @@ export default class UIReviveItem extends mvcView {
 
     enterGame() {
         let d = this.getData() as HeroData;
-        Loading.show(1);
         if (d.quality == "A" || d.quality == "B") {
-            Platform.watch_video(() => {
-                vm.hide("UIRevive");
-                root.resume("revive", d.id);
-            }, this, null, () => {
-                evt.emit("UIRevive.FailVideo");
-            })
+            AdManager.showRewardAd(AdType.HERO_SUMMON, (success) => {
+                if (success) {
+                    vm.hide("UIRevive");
+                    root.resume("revive", d.id);
+                } else {
+                    evt.emit("UIRevive.FailVideo");
+                }
+            });
         } else {
             if (pdata.diamond < 3) {
                 Toast.make(LocalizationManager.getText("@text.diamond_not_enough"));

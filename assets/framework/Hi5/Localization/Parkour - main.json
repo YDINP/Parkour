@@ -1,6 +1,16 @@
 {
   "ko": {
     "loading": "로딩 중",
+    "loading.login_failed": "로그인 실패",
+    "loading.progress": "로딩 중",
+    "loading.login": "로그인 중",
+    "loading.config": "설정 로딩",
+    "loading.config_local": "로컬 설정 로딩",
+    "loading.config_network": "네트워크 설정 로딩",
+    "loading.config_share": "공유 설정 로딩",
+    "loading.entering": "게임 진입 중...",
+    "loading.subpackage": "[{0}] 로딩 중",
+    "loading.retry": "로딩 실패. 다시 시도해주세요",
     "enegy.recovery": "하트 회복 시간:",
     "mode.challenge": "챌린지 모드",
     "mode.eternal": "무한 모드",
@@ -121,10 +131,21 @@
     "challengeSuccess": "도전 성공!",
     "tip_Grow": "거인 변신!",
     "tip_magnet": "자석 파워!",
-    "tip_sprint": "대시!"
+    "tip_sprint": "대시!",
+    "text.daily_limit_reached": "일일 획득 횟수를 초과했습니다"
   },
   "en": {
     "loading": "loading",
+    "loading.login_failed": "Login failed",
+    "loading.progress": "Loading",
+    "loading.login": "Logging in",
+    "loading.config": "Loading config",
+    "loading.config_local": "Loading local config",
+    "loading.config_network": "Loading network config",
+    "loading.config_share": "Loading share config",
+    "loading.entering": "Entering game...",
+    "loading.subpackage": "Loading [{0}]",
+    "loading.retry": "Loading failed. Please try again",
     "enegy.recovery": "enegy.recovery",
     "mode.challenge": "Challenge Mode",
     "mode.eternal": "Endless Mode",
@@ -245,10 +266,21 @@
     "challengeSuccess": "challengeSuccess",
     "tip_Grow": "tip_Grow",
     "tip_magnet": "tip_magnet",
-    "tip_sprint": "tip_sprint"
+    "tip_sprint": "tip_sprint",
+    "text.daily_limit_reached": "Daily limit reached"
   },
   "cn": {
     "loading": "加载中",
+    "loading.login_failed": "登录失败",
+    "loading.progress": "加载中",
+    "loading.login": "登录中",
+    "loading.config": "加载配置",
+    "loading.config_local": "加载本地配置",
+    "loading.config_network": "加载网络配置",
+    "loading.config_share": "加载分享配置",
+    "loading.entering": "进入游戏...",
+    "loading.subpackage": "加载[{0}]中",
+    "loading.retry": "加载失败,请点击重试!",
     "enegy.recovery": "爱心恢复时间:",
     "mode.challenge": "闯关模式",
     "mode.eternal": "无尽模式",
@@ -369,6 +401,7 @@
     "challengeSuccess": "挑战成功!",
     "tip_Grow": "变大!",
     "tip_magnet": "磁力!",
-    "tip_sprint": "冲刺!"
+    "tip_sprint": "冲刺!",
+    "text.daily_limit_reached": "今日领取次数已用完"
   }
 }

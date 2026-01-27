@@ -77,8 +77,10 @@ export default class UILiftGift extends mvcView {
         let price = d.prices[pdata.abilitys[d.type]];
         let lv = pdata.abilitys[d.type];
         this.lab_Lv.string = "LV." + lv
-        this.lab_name.string = d.name;
-        this.lab_desc.string = cc.js.formatStr(d.description, d.vals[lv - 1])
+        // 언어 변경 시 실시간 반영을 위해 캐시된 d.name 대신 직접 로컬라이징 호출
+        this.lab_name.string = LocalizationManager.getText(`@shopCap.${d.id}.name`);
+        const desc = LocalizationManager.getText(`@shopCap.${d.id}.desc`);
+        this.lab_desc.string = cc.js.formatStr(desc, d.vals[lv - 1])
         this.lab_price.string = price == null ? "MAX" : price;
     }
 

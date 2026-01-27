@@ -4,6 +4,7 @@ import gUtil from "../../../framework/core/gUtil";
 import Fx from "../../../framework/extension/fxplayer/Fx";
 import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import Platform from "../../../framework/extension/Platform";
+import { AdManager, AdType } from "../../../framework/Hi5/AdManager";
 import LabelAnim from "../../../framework/extension/qanim/LabelAnim";
 import ProgressBarAnim from "../../../framework/extension/qanim/ProgressBarAnim";
 import { Loading } from "../../../framework/ui/LoadingManager";
@@ -30,6 +31,21 @@ interface LootItemData {
     num: number;
     is_lvup_reward?: boolean;
 }
+
+/**
+ * 영웅별 스파인 스케일 설정
+ * 기본값 1.0, 필요에 따라 각 영웅별 크기 조절
+ */
+const heroScales: { [heroId: string]: number } = {
+    "1": 0.55,   // 춘식이
+    "2": 0.55,   // 라이언
+    "3": 0.55,   // 프로도
+    "4": 0.55,   // 어피치
+    "5": 0.45,   // 제이지
+    "6": 0.4,  // 튜브 (크기가 커서 축소)
+    "7": 0.5,   // 무지
+    "8": 0.55,   // 네오
+};
 
 @ccclass
 export default class UIEndPage extends mvcView {
@@ -117,6 +133,17 @@ export default class UIEndPage extends mvcView {
             }
         }
         this.lab_level.string = "" + pdata.playerlv;
+
+        // btn_next 텍스트를 게임 모드에 따라 설정
+        const btnLabel = this.btn_next.getComponentInChildren(cc.Label);
+        if (btnLabel) {
+            if (pdata.gameMode == ParkourType.Infinite) {
+                btnLabel.string = LocalizationManager.getText("@Fail.continue");
+            } else {
+                btnLabel.string = LocalizationManager.getText("@receive.normal");
+            }
+        }
+
         this.anim.play()
         this.cleanup();
         this.cutBtnStyle(false);
@@ -249,8 +276,9 @@ export default class UIEndPage extends mvcView {
                 }
             }
             if (pdata.level == pdata.playinglv && pdata.isGameWin) {
-                // 关卡 +1 
+                // 关卡 +1
                 pdata.level++;
+                pdata.save("level");  // 즉시 저장
             }
 
             guider.finishLevel();
@@ -275,20 +303,24 @@ export default class UIEndPage extends mvcView {
 
 
     click_triple() {
-
-        Loading.show(1)
         this.node_close.active = false;
         this.btn_triple.active = false;
         this.btn_next.active = false;
-        Platform.watch_video(() => {
-            Loading.hide()
-            this.getReward(3);
-            this.scheduleOnce(this.gotoNextLevel, 2)
-        })
+        AdManager.showRewardAd(AdType.TRIPLE_REWARD, (success) => {
+            if (success) {
+                this.getReward(3);
+                this.scheduleOnce(this.gotoNextLevel, 2);
+            } else {
+                // 광고 실패 시 버튼 복원
+                this.node_close.active = true;
+                this.btn_triple.active = true;
+                this.btn_next.active = true;
+            }
+        });
     }
 
     click_close() {
-
+        Device.playSfx(csv.Audio.btn_click);
         this.getReward()
         Loading.show(0.5);
         this.scheduleOnce(() => {
@@ -371,6 +403,7 @@ export default class UIEndPage extends mvcView {
             }
 
             if (this.roleModel && skeletonData) {
+                const scale = heroScales[heroId] || 0.5;
                 this.roleModel.skeletonData = skeletonData;
                 this.roleModel.setAnimation(0, "Idle", true);
             }

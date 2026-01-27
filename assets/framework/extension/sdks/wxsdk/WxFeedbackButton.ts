@@ -48,8 +48,8 @@ export default class WxFeedbackButton extends cc.Component {
         topPos = (btnRect.y + btnRect.height - wxSysInfo.screenHeight) * factor + btnRect.height*2
         //(btnRect.y - btnRect.height) * factor
         console.log("************************************")
-        console.log("按钮横坐标", leftPos);
-        console.log("按钮纵坐标", topPos);
+        console.log("버튼 X좌표", leftPos);
+        console.log("버튼 Y좌표", topPos);
         console.log(wxSysInfo.screenWidth)
         console.log(wxSysInfo.screenHeight)
         console.log(wxSysInfo)

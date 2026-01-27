@@ -41,11 +41,11 @@ class TTSdk {
     public get parent() {
         if (!window.tt) return ""
         let info = tt.getLaunchOptionsSync();
-        if (info.scene == 1007 || info.scene == 1008) {//通过分享进入游戏
+        if (info.scene == 1007 || info.scene == 1008) {//공유를 통해 게임 진입
             let openId = info.query["user_id"];
             return openId
         }
-        return ""; //默认
+        return ""; //기본값
     }
 
     public set openId(v) {
@@ -102,7 +102,7 @@ class TTSdk {
 
 
     /**
-     * 打开分享
+     * 공유 열기
      * @param share_cfg {ShareInfo}
      */
     async openShare(share_cfg: ShareInfo, params?) {
@@ -200,31 +200,31 @@ class TTSdk {
         if (window.tt) {
             const recorder = tt.getGameRecorderManager();
             recorder.onStart((res) => {
-                console.log("录屏开始");
+                console.log("녹화 시작");
 
             });
             recorder.onError((res) => {
-                console.log("录屏错误");
+                console.log("녹화 오류");
 
             });
             recorder.onStop((res) => {
-                console.log("录屏结束");
+                console.log("녹화 종료");
 
                 UInfo.record_path = res.videoPath
-                console.log("录制地址:", UInfo.record_path)
+                console.log("녹화 경로:", UInfo.record_path)
             })
         }
     }
-    /* 
-    *开始录屏
+    /*
+    *녹화 시작
     */
     public start_recorder() {
         if (tt.getSystemInfoSync().platform == "devtools") {
-            console.log("********start录屏*************")
+            console.log("********녹화 시작*************")
             return;
         }
         if (window.tt) {
-            console.log("**********ttsdk->start_recorder->开始录屏*********")
+            console.log("**********ttsdk->start_recorder->녹화 시작*********")
             const recorder = tt.getGameRecorderManager();
             recorder.start({
                 duration: 30,
@@ -232,76 +232,76 @@ class TTSdk {
         }
 
     }
-    /* 
-   *暂停
+    /*
+   *일시정지
    */
     public pause_recorder() {
         if (tt.getSystemInfoSync().platform == "devtools") {
-            console.log("********暂停录屏*************")
+            console.log("********녹화 일시정지*************")
             return;
         }
         if (window.tt) {
-            console.log("**********ttsdk->pause_recorder->暂停录屏*********")
+            console.log("**********ttsdk->pause_recorder->녹화 일시정지*********")
             const recorder = tt.getGameRecorderManager();
             recorder.pause()
         }
     }
-    /* 
-   *继续
+    /*
+   *재개
    */
     public resume_recorder() {
         if (tt.getSystemInfoSync().platform == "devtools") {
-            console.log("********继续录屏*************")
+            console.log("********녹화 재개*************")
             return;
         }
         if (window.tt) {
-            console.log("**********ttsdk->resume_recorder->继续录屏*********")
+            console.log("**********ttsdk->resume_recorder->녹화 재개*********")
             const recorder = tt.getGameRecorderManager();
             recorder.resume()
         }
     }
-    /* 
-    *停止录屏
+    /*
+    *녹화 중지
     */
     public stop_recorder() {
         if (tt.getSystemInfoSync().platform == "devtools") {
-            console.log("********拉起分享成功*************")
+            console.log("********공유 호출 성공*************")
             return;
         }
         if (window.tt) {
-            console.log("**********ttsdk->stop_recorder->停止录屏*********")
+            console.log("**********ttsdk->stop_recorder->녹화 중지*********")
             const recorder = tt.getGameRecorderManager();
             recorder.stop();
         }
     }
 
-    /* 
-    *分享录屏
-    *参数：分享录屏成功回调函数
+    /*
+    *녹화 공유
+    *매개변수: 녹화 공유 성공 콜백 함수
     */
     public ShareRecord(sucCallBack, failCall, target?) {
         if (tt.getSystemInfoSync().platform == "devtools") {
-            console.log("********拉起分享成功*************")
+            console.log("********공유 호출 성공*************")
             return;
         }
         if (window.tt) {
             console.log("ttsdk->ShareRecord->UInfo.record_path", UInfo.record_path)
             tt.shareAppMessage({
                 channel: "video",
-                title: "快来帮我",
-                templateId: TTGameConfig.templateId, // 替换成通过审核的分享ID
+                title: "와서 도와줘",
+                templateId: TTGameConfig.templateId, // 승인된 공유 ID로 교체
                 desc: "",
                 imageUrl: "",
                 query: "",
                 extra: {
                     videoPath: UInfo.record_path,
-                    videoTopics: ["抖音小游戏", "逆袭大冒险"]
+                    videoTopics: ["틱톡 미니게임", "역전 대모험"]
                 },
                 success() {
                     if (sucCallBack) sucCallBack.call(target)
                 },
                 fail(e) {
-                    console.log("分享视频失败");
+                    console.log("영상 공유 실패");
                     if (failCall) failCall.call(target)
                 }
             })
@@ -432,7 +432,7 @@ class TTSdk {
         if (!window.tt) return
         let self = this;
         //tt.cloud.init({traceUser: true});
-        // this._db = tt.cloud.database({env: "release-2c87c4"});//测试环境
+        // this._db = tt.cloud.database({env: "release-2c87c4"});//테스트 환경
         //this._db = tt.cloud.database();
         self.wxLogin(isLogin => {
             if (!isLogin) return;
@@ -442,7 +442,7 @@ class TTSdk {
         })
     }
 
-    //发送消息到子域
+    //서브 도메인으로 메시지 전송
     public postMessage(cmd, data?) {
         if (window.tt) {
             let req = { cmd }
@@ -548,9 +548,9 @@ class TTSdk {
         //     if (callback) callback("load", bannerAd)
         // })
         bannerAd.onError((err) => {
-            //加载失败
+            //로드 실패
             console.log(
-                "ttsdk bannerAd onError code:" + err.errCode + " 当前次数" + Global.bannerAdLoadCount
+                "ttsdk bannerAd onError code:" + err.errCode + " 현재 횟수" + Global.bannerAdLoadCount
             );
             console.log("ttsdk bannerAd onError code:" + err.code + " msg:" + err.msg);
             Global.bannerAdLoadCount += 1;
@@ -563,13 +563,13 @@ class TTSdk {
     }
 
     public showBannerAd(errorCallback?): any {
-        console.log("ttsdk 显示banner广告", Global.bannerAd)
+        console.log("ttsdk 배너 광고 표시", Global.bannerAd)
         if (Global.bannerAd) {
             Global.bannerAd.show();
             Global.isBannerShow = true
             evt.emit("ttsdk.BannerReady")
         } else {
-            console.log("ttsdk 不存在banner资源....");
+            console.log("ttsdk 배너 리소스 없음....");
             this.loadBannerAd((v, ad) => {
                 if (v == "load") {
                     this.showBannerAd()
@@ -600,11 +600,11 @@ class TTSdk {
         }
     }
 
-    //interstitial
+    //인터스티셜
     showInterstitial(errorCallback) {
-        // 创建插屏广告实例，提前初始化
+        // 인터스티셜 광고 인스턴스 생성, 사전 초기화
         const isToutiaio = tt.getSystemInfoSync().appName === "Toutiao";
-        // 插屏广告仅今日头条安卓客户端支持
+        // 인터스티셜 광고는 진르토우탸오 안드로이드 클라이언트만 지원
         if (isToutiaio) {
             if (Global.interstitialAd) {
                 Global.interstitialAd.destroy();
@@ -631,7 +631,7 @@ class TTSdk {
 
     loadVideoAd(callback) {
         console.log("============ttsdk.loadVideoAD");
-        // if (!Global.videoAd ) { //如果没有广告资源就加载新的视频广告
+        // if (!Global.videoAd ) { //광고 리소스가 없으면 새 비디오 광고 로드
         let self = this;
         let videoAd = Global.videoAd;
         if (!videoAd) {
@@ -645,9 +645,9 @@ class TTSdk {
             videoAd.offLoad(Global.video_load_callback);
         }
         Global.video_error_callback = function () {
-            //加载失败
+            //로드 실패
             Global.videoAdLoadCount += 1;
-            //尝试4次
+            //4회 시도
             if (Global.videoAdLoadCount < 4) {
                 self.loadVideoAd(callback);
             } else {
@@ -656,21 +656,21 @@ class TTSdk {
         }
 
         Global.video_close_callback = function (ret) {
-            //播放结束
+            //재생 종료
             console.log("ttsdk onClose...");
             Global.videoAdLoadCount = 0
             if (callback) callback("close", ret.isEnded)
         }
 
         Global.video_load_callback = function () {
-            //加载成功
+            //로드 성공
             console.log("ttsdk onLoad");
             Global.videoAd = videoAd;
             Global.videoAdLoadCount = 0;
             // this.showBannerAd();
             if (callback) callback("load", videoAd)
         }
-        // 用户触发广告后，显示激励视频广告
+        // 사용자가 광고 트리거 후 보상형 비디오 광고 표시
         videoAd.show().catch(() => {
             // this.hideBannerAd();
             videoAd.load().then(() => {
@@ -706,7 +706,7 @@ class TTSdk {
             d[value] = (value == title && (val || "1")) || '0';
             console.log("*****************", d[value], value, title)
         }
-        console.log("*******************埋点", name, d);
+        console.log("*******************이벤트 추적", name, d);
         tt.reportAnalytics(name, d);
     }
 

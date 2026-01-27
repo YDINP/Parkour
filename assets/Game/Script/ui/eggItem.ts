@@ -46,7 +46,7 @@ export default class eggItem extends cc.Component {
     getRandom(idx) {
         let arr = this["oddsArr" + idx];
         let _idx: number = gUtil.getRandom(arr) || 0;
-        console.log("获取到的宠物ID：" + _idx);
+        console.log("획득한 펫 ID: " + _idx);
         return _idx;
     }
 
@@ -88,12 +88,14 @@ export default class eggItem extends cc.Component {
         cc.tween(pet)
             .to(0.5, { scale: 2 })
             .call(() => {
+                // 언어 변경 시 실시간 반영을 위해 캐시된 selectPetData.name 대신 직접 로컬라이징 호출
+                const petName = LocalizationManager.getText(`@pet.${this.selectPetData.id}.name`);
                 let confirmData: ImgConfirmData = {
                     title: LocalizationManager.getText("@text.congratulations"),
                     // title: "恭喜获得",
                     iconPath: this.selectPetData.avatar,
-                    content: LocalizationManager.getText("@PetDrawResult.content") + "“" + this.selectPetData.name + "”",
-                    // content: "获得新宠物“" + this.selectPetData.name + "”",
+                    content: LocalizationManager.getText("@PetDrawResult.content") + """ + petName + """,
+                    // content: "获得新宠物"" + this.selectPetData.name + """,
                     isShowCancel: true,
                     cancelIsDaley: false,
                     confirmCall: () => {

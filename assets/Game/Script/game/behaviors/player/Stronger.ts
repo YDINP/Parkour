@@ -22,6 +22,8 @@ export default class Stronger extends cc.Component {
 
     onDisable() {
         this.player.setNormalSize();
+        // 거인화 종료 후 2초 무적 (깜빡임 없음)
+        this.player.buffSystem.startBuff("invincible", 2, false);
     }
 
 }

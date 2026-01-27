@@ -231,9 +231,19 @@ export default class Guide {
             return;
         }
         //1 : 好的
-        // 直接打开准备界面 
+        // UIEndPage 먼저 닫기
+        guiderLayer.showMessageEx({
+            content: LocalizationManager.getText("@guide.14"),
+            // content: "点击关闭返回主界面",
+        })
+        await guiderLayer.waitClickUI("UIEndPage/k/title/btn_close")
+
+        // Home 씬 전환 대기
+        await evt.wait("Home.start")
+        await this.init();  // 새 씬에서 가이더 재초기화
+
+        // 이제 안전하게 UIReady 표시
         vm.show("UIReady")
-        guiderLayer.hideFocus();
         await evt.wait("UIReady.onShown")
         guiderLayer.showMessageEx({ content: LocalizationManager.getText("@guide.12"), y: 100 })
         // guiderLayer.showMessageEx({ content: "点击使用刚才获得的[冲刺]道具", y: 100 })

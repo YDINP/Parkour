@@ -410,7 +410,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 320.9,
+      "width": 486.56,
       "height": 130
     },
     "_anchorPoint": {
@@ -462,8 +462,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "프렌즈 소환",
-    "_N$string": "프렌즈 소환",
+    "_string": "@UIRevive.title",
+    "_N$string": "@UIRevive.title",
     "_fontSize": 64,
     "_lineHeight": 100,
     "_enableWrapText": true,

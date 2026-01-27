@@ -24,7 +24,7 @@ export default class BodyBase extends cc.Component implements FizzCollideInterfa
     onDisable() {
         if (this._inited) {
             if (this.body.y + this.body.hh < 0) {
-                console.log("跳崖!" + this.node.name)
+                console.log("낙하!" + this.node.name)
                 this.onFalloff();
             }
         }

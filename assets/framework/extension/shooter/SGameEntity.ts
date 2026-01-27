@@ -23,11 +23,11 @@ enum VisibleState {
 }
 
 enum EntityEvent {
-    Dead,  //被 干死
-    Remove,//自动remove 
-    Appear, // 第一次出现在屏幕 ,
-    Active, //激活 
-    Disapear, //消失在屏幕外
+    Dead,  // Entity died
+    Remove,// Auto remove
+    Appear, // First appeared on screen
+    Active, // Activated
+    Disapear, // Disappeared from screen
     Hurt, //
     HpChanged,
 }
@@ -52,39 +52,53 @@ enum DeadDeletePolicy {
     DelayDelete,
 }
 
+enum RotationDirection {
+    Clockwise = -1,
+    CounterClockwise = 1,
+}
+
 @ccclass
 @menu("mimgame/shooter/GameEntity")
 export default class GameEntity extends cc.Component {
 
     public uid: number = 0;
 
-    /** 最大hp值  */
-    @property({ displayName: "最大生命值" })
+    /** Max HP value  */
+    @property({ displayName: "Max HP" })
     private mHp: number = 10;
 
-    @property({ displayName: "伤害值" })
+    @property({ displayName: "Damage" })
     damage: number = 10;
 
-    @property({ displayName: "看不见后删除" })
+    @property({ displayName: "Delete When Invisible" })
     invisibleDelete: boolean = false;
 
-    @property({ displayName: "delay", tooltip: "看不见延迟删除时间", visible() { return this.invisibleDelete } })
+    @property({ displayName: "delay", tooltip: "Delay before deleting when invisible", visible() { return this.invisibleDelete } })
     invisibleDeleteDelay: number = 0;
 
-    @property({ type: cc.Enum(DeletePolicy), displayName: "删除方式" })
+    @property({ type: cc.Enum(DeletePolicy), displayName: "Delete Policy" })
     deletePolicy: DeletePolicy = DeletePolicy.RemoveNode;
 
 
-    @property({ displayName: "死亡后删除策略", type: cc.Enum(DeadDeletePolicy) })
+    @property({ displayName: "Death Delete Policy", type: cc.Enum(DeadDeletePolicy) })
     deadDeletePolicy: DeadDeletePolicy = DeadDeletePolicy.Delete;
 
     @property({ displayName: "delay", visible() { return this.deadDeletePolicy == DeadDeletePolicy.DelayDelete } })
     deadDeleteDelay: number = 0;
 
-    @property({ displayName: "看不见检测间隔" })
+    @property({ displayName: "Visibility Check Interval" })
     checkOOSInterval: number = 0.1;
 
-    /**移动引擎 */
+    @property({ displayName: "Enable Rotation" })
+    enableRotation: boolean = false;
+
+    @property({ displayName: "Rotation Speed (deg/s)", visible() { return this.enableRotation } })
+    rotationSpeed: number = 180;
+
+    @property({ type: cc.Enum(RotationDirection), displayName: "Rotation Direction", visible() { return this.enableRotation } })
+    rotationDirection: RotationDirection = RotationDirection.Clockwise;
+
+    /** Move engine */
     moveEngine: MoveEngine
     __fsm: FSM
 
@@ -96,7 +110,7 @@ export default class GameEntity extends cc.Component {
     static Event: typeof EntityEvent = EntityEvent
     static States: typeof EntityState = EntityState
 
-    /**当前值  */
+    /** Current value  */
     private _hp: number = 0;
 
     signals: Signal[] = []
@@ -152,6 +166,10 @@ export default class GameEntity extends cc.Component {
         this._hp = this.mHp;
         this.suicide = false;
         this.node.angle = 0;
+        // 풀에서 재사용 시 FSM 상태를 강제로 Default로 리셋한 후 Run으로 전환
+        if (this.__fsm && this.__fsm.isInState(EntityState.Run)) {
+            this.__fsm.changeState(EntityState.Default);
+        }
         this.run();
     }
 
@@ -188,7 +206,7 @@ export default class GameEntity extends cc.Component {
         } else {
             this._hp = this.maxHp;
         }
-        //重新激活
+        // Reactivate
         this.isActive = true;
     }
 
@@ -288,11 +306,10 @@ export default class GameEntity extends cc.Component {
         if (this.moveEngine) {
             this.moveEngine.step(dt);
         }
-        // if (this.autoDeleteDelay != -1) {
-        //     if (this.__fsm.timeElapsed >= this.autoDeleteDelay) {
-        //         this.__fsm.changeState(EntityState.Remove)
-        //     }
-        // }
+
+        if (this.enableRotation) {
+            this.node.angle += this.rotationSpeed * this.rotationDirection * dt;
+        }
     }
 
     enter_DeadState(state) {
@@ -317,7 +334,7 @@ export default class GameEntity extends cc.Component {
     }
 
     exit_DeadState(state) {
-        //删除
+        // Delete
         this.doDelete()
     }
 
@@ -394,7 +411,7 @@ export default class GameEntity extends cc.Component {
     }
 
 
-    /**默认有碰撞 */
+    /** Default collision handler */
     onCollisionEnter(other: cc.Collider, self) {
         if (!this.isActive) return;
         let entity = other.getComponent(GameEntity)

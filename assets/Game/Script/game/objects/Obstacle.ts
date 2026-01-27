@@ -52,7 +52,7 @@ export default class Obstacle extends GameEntity {
     set(name) {
         this.data = ccUtil.get(MobData, name)
         if (!this.data) {
-            console.warn(name + " not found , " + name + "可能放错了层级! 或者配置表未填，请补充" + name + "到 Mob.csv")
+            console.warn(name + " not found , " + name + " 레이어가 잘못되었을 수 있음! 또는 설정표가 비어있음, " + name + "을 Mob.csv에 추가하세요")
             return false;
         }
         return true;

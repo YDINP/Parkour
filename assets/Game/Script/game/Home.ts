@@ -15,6 +15,7 @@ import InventoryUI from "../view/TopMostInventoryUI";
 import { guider } from "./Guide";
 import PlayerData from "./model/PlayerData";
 import { heroSpinePaths } from "../common/HeroSpinePaths";
+import GameCheats from "../common/GameCheats";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,8 +50,9 @@ export default class Home extends mvcView {
     @property(sp.Skeleton)
     heroModel: sp.Skeleton = null;
 
-    @property(cc.Sprite)
-    petModel: cc.Sprite = null;
+    // 펫 모델 컨테이너 노드 (펫 prefab을 자식으로 추가)
+    @property(cc.Node)
+    petModel: cc.Node = null;
 
     @property(cc.Node)
     node_btn_pet: cc.Node = null;
@@ -69,8 +71,9 @@ export default class Home extends mvcView {
         })
         this.updateHeroSpine();
         evt.on("pdata.selHero", this.updateHeroSpine, this);
-        this.onVisible(this.petModel.node, () => pdata.selPet != "0");
-        this.register(this.petModel, () => pdata.selPetData.avatar);
+        this.onVisible(this.petModel, () => pdata.selPet != "0");
+        this.updatePetPrefab();
+        evt.on("pdata.selPet", this.updatePetPrefab, this);
         this.onClick(this.node_btn_pet, this.click_pet)
         // 第二关后 ，宠物引导 完后
         this.onVisible(this.node_btn_pet, () => pdata.level > 2)
@@ -119,6 +122,8 @@ export default class Home extends mvcView {
     start() {
         this.render();
         guider.enterHome();
+        // 치트 시스템 초기화
+        GameCheats.init();
         if (!guider.isInGuide) {
             if (gUtil.isNextDay(pdata.signInTime)) {
                 if (pdata.signIn.date >= 7) {
@@ -158,6 +163,50 @@ export default class Home extends mvcView {
             if (this.heroModel && skeletonData) {
                 this.heroModel.skeletonData = skeletonData;
                 this.heroModel.setAnimation(0, "Idle", true);
+            }
+        });
+    }
+
+    /**
+     * 선택된 펫에 맞는 prefab 로드 및 애니메이션 재생
+     */
+    private updatePetPrefab() {
+        if (!this.petModel) return;
+
+        // 기존 자식 노드 제거
+        this.petModel.removeAllChildren();
+
+        const petId = pdata.selPet;
+        if (petId === "0") return;
+
+        const petData = pdata.selPetData;
+        if (!petData || !petData.prefabPath) {
+            console.warn(`Pet prefab path not found for pet ID: ${petId}`);
+            return;
+        }
+
+        cc.loader.loadRes(petData.prefabPath, cc.Prefab, (err, prefab: cc.Prefab) => {
+            if (err) {
+                console.error(`Failed to load pet prefab: ${petData.prefabPath}`, err);
+                return;
+            }
+
+            if (this.petModel && prefab) {
+                const petNode = cc.instantiate(prefab);
+                this.petModel.addChild(petNode);
+                petNode.setPosition(0, 0);
+
+                // Follow 컴포넌트 비활성화 (로비에서는 따라다니지 않음)
+                const pet = petNode.getComponent('Pet');
+                if (pet && pet.follower) {
+                    pet.follower.enabled = false;
+                }
+
+                // DragonBones 애니메이션 재생
+                const armature = petNode.getComponent(dragonBones.ArmatureDisplay);
+                if (armature) {
+                    armature.playAnimation("run", 0);  // 0 = loop
+                }
             }
         });
     }
@@ -260,9 +309,9 @@ export default class Home extends mvcView {
         let next_require_exp = d.require_exp;
         let isSucc = false;
 
-        console.log("经验值 :", exp, next_require_exp)
+        console.log("경험치 :", exp, next_require_exp)
         while (exp >= next_require_exp) {
-            console.log("经验值1 :", exp, next_require_exp)
+            console.log("경험치1 :", exp, next_require_exp)
             exp = exp - next_require_exp;
             d = ccUtil.get(PlayerData, count + 1);
             next_require_exp = d.require_exp;
@@ -272,8 +321,5 @@ export default class Home extends mvcView {
         console.log(isSucc)
         console.log(count)
         console.log(exp)
-    }
-    debug_click_chargeEnergy(){
-        pdata.energy += 5;
     }
 }

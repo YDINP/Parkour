@@ -74,12 +74,12 @@ export default class AliEvent {
             let month = Number(date.getMonth()) + 1;
             let day = Number(date.getDate());
             let _str = month + '-' + day;
-            console.log('当前日期：', _str);
+            console.log('현재 날짜:', _str);
             cc.sys.localStorage.setItem('uuid', this.z_uuid);
             cc.sys.localStorage.setItem('uuidData', _str);
         }
         window['uuid'] = this.z_uuid;
-        console.log('获取uuid：', this.z_uuid, this.z_newuser);
+        console.log('uuid 획득:', this.z_uuid, this.z_newuser);
     }
 
     private static create_uuid() {

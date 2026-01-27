@@ -1,6 +1,6 @@
-import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
+import { AdManager, AdType } from "../../../framework/Hi5/AdManager";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
 import ccUtil from "../../../framework/utils/ccUtil";
@@ -73,9 +73,14 @@ export default class UIRevive extends mvcView {
     }
 
     click_revive() {
-        Loading.show(2)
-        ccUtil.setButtonEnabled(this.btn_revive, false)
-        Platform.watch_video(this.onWatchCallback, this, this.recovery_btn_revive, this.recovery_btn_revive);
+        ccUtil.setButtonEnabled(this.btn_revive, false);
+        AdManager.showRewardAd(AdType.REVIVE, (success) => {
+            if (success) {
+                this.onWatchCallback();
+            } else {
+                this.recovery_btn_revive();
+            }
+        });
     }
 
     recovery_btn_revive() {

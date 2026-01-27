@@ -38,10 +38,18 @@ export default class GameLayerTop extends cc.Component {
         evt.on("pdata.tmpScore", (v) => this.lab_bean.string = v, this)
         evt.on("pdata.hp", this.onHpChanged, this)
         this.redGlow.play("hp_glow");
+        cc.director.on('localization:languageChanged', this.updateLocalizedTexts, this);
     }
 
     onDestroy() {
         evt.off(this);
+        cc.director.off('localization:languageChanged', this.updateLocalizedTexts, this);
+    }
+
+    private updateLocalizedTexts(): void {
+        if (pdata.gameMode !== ParkourType.Normal) {
+            this.label_level.string = LocalizationManager.getText("@mode.eternal.infinity");
+        }
     }
 
     tmpColor: cc.Color = cc.color().fromHEX("#45FF48")
@@ -65,8 +73,13 @@ export default class GameLayerTop extends cc.Component {
 
     start() {
         if (pdata.gameMode == ParkourType.Normal) {
-            let lvdata = ccUtil.get(LevelData, pdata.playinglv)
-            this.label_level.string = lvdata.name
+            if (pdata.playinglv === 0) {
+                // 튜토리얼 맵 이름
+                this.label_level.string = LocalizationManager.getText("@map.name.tutorial");
+            } else {
+                let lvdata = ccUtil.get(LevelData, pdata.playinglv)
+                this.label_level.string = lvdata.name
+            }
         } else {
             this.label_level.string = LocalizationManager.getText("@mode.eternal.infinity")
         }

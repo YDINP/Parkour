@@ -1,7 +1,7 @@
 /******************************************
  * @author kL <klk0@qq.com>
  * @date 2019/6/6
- * @doc 列表组件.
+ * @doc List Component.
  * @end
  ******************************************/
 const { ccclass, property, disallowMultiple, menu, executionOrder, requireComponent } = cc._decorator;
@@ -14,47 +14,47 @@ enum TemplateType {
 }
 
 enum SlideType {
-    NORMAL = 1,//普通
-    ADHERING = 2,//粘附模式，将强制关闭滚动惯性
-    PAGE = 3,//页面模式，将强制关闭滚动惯性
+    NORMAL = 1,// Normal
+    ADHERING = 2,// Adhering mode, will force disable scroll inertia
+    PAGE = 3,// Page mode, will force disable scroll inertia
 }
 
 enum SelectedType {
     NONE = 0,
-    SINGLE = 1,//单选
-    MULT = 2,//多选
+    SINGLE = 1,// Single selection
+    MULT = 2,// Multiple selection
 }
 
 @ccclass
 @disallowMultiple()
-@menu('自定义组件/ListView')
+@menu('Custom Components/ListView')
 @requireComponent(cc.ScrollView)
-//脚本生命周期回调的执行优先级。小于 0 的脚本将优先执行，大于 0 的脚本将最后执行。该优先级只对 onLoad, onEnable, start, update 和 lateUpdate 有效，对 onDisable 和 onDestroy 无效。
+// Script lifecycle callback execution priority. Scripts with priority < 0 execute first, > 0 execute last. Only affects onLoad, onEnable, start, update, lateUpdate. Does not affect onDisable and onDestroy.
 @executionOrder(-5000)
 export default class ListView extends cc.Component {
-    //模板类型
-    @property({ type: cc.Enum(TemplateType), tooltip: CC_DEV && '模板类型', })
+    // Template type
+    @property({ type: cc.Enum(TemplateType), tooltip: CC_DEV && 'Template Type', })
     private templateType: TemplateType = TemplateType.NODE;
-    //模板Item（Node）
+    // Template Item (Node)
     @property({
         type: cc.Node,
-        tooltip: CC_DEV && '模板Item',
+        tooltip: CC_DEV && 'Template Item',
         visible() { return this.templateType == TemplateType.NODE; }
     })
     tmpNode: cc.Node = null;
-    //模板Item（Prefab）
+    // Template Item (Prefab)
     @property({
         type: cc.Prefab,
-        tooltip: CC_DEV && '模板Item',
+        tooltip: CC_DEV && 'Template Item',
         visible() { return this.templateType == TemplateType.PREFAB; }
     })
     tmpPrefab: cc.Prefab = null;
-    //滑动模式
+    // Slide mode
     @property()
     private _slideMode: SlideType = SlideType.NORMAL;
     @property({
         type: cc.Enum(SlideType),
-        tooltip: CC_DEV && '滑动模式'
+        tooltip: CC_DEV && 'Slide Mode'
     })
     set slideMode(val: SlideType) {
         this._slideMode = val;
@@ -62,28 +62,28 @@ export default class ListView extends cc.Component {
     get slideMode() {
         return this._slideMode;
     }
-    //翻页作用距离
+    // Page swipe distance threshold
     @property({
         type: cc.Float,
         range: [0, 1, .1],
-        tooltip: CC_DEV && '翻页作用距离',
+        tooltip: CC_DEV && 'Page Swipe Distance Threshold',
         slide: true,
         visible() { return this._slideMode == SlideType.PAGE; }
     })
     public pageDistance: number = .3;
-    //页面改变事件
+    // Page change event
     @property({
         type: cc.Component.EventHandler,
-        tooltip: CC_DEV && '页面改变事件',
+        tooltip: CC_DEV && 'Page Change Event',
         visible() { return this._slideMode == SlideType.PAGE; }
     })
     private pageChangeEvent: cc.Component.EventHandler = new cc.Component.EventHandler();
-    //是否为虚拟列表（动态列表）
+    // Is virtual list (dynamic list)
     @property()
     private _virtual: boolean = true;
     @property({
         type: cc.Boolean,
-        tooltip: CC_DEV && '是否为虚拟列表（动态列表）'
+        tooltip: CC_DEV && 'Enable Virtual List (Dynamic List)'
     })
     set virtual(val: boolean) {
         if (val != null)
@@ -95,9 +95,9 @@ export default class ListView extends cc.Component {
     get virtual() {
         return this._virtual;
     }
-    //是否为循环列表
+    // Is cyclic list
     @property({
-        tooltip: CC_DEV && '是否为循环列表',
+        tooltip: CC_DEV && 'Enable Cyclic List',
         visible() {
             let val: boolean = this.virtual && this.slideMode == SlideType.NORMAL;
             if (!val)
@@ -106,15 +106,15 @@ export default class ListView extends cc.Component {
         }
     })
     public cyclic: boolean = false;
-    //缺省居中
+    // Center when lacking items
     @property({
-        tooltip: CC_DEV && 'Item数量不足以填满Content时，是否居中显示Item（不支持Grid布局）',
+        tooltip: CC_DEV && 'Center items when not enough to fill Content (Grid layout not supported)',
         visible() { return this.virtual; }
     })
     public lackCenter: boolean = false;
-    //缺省可滑动
+    // Allow scroll when lacking items
     @property({
-        tooltip: CC_DEV && 'Item数量不足以填满Content时，是否可滑动',
+        tooltip: CC_DEV && 'Allow scrolling when items not enough to fill Content',
         visible() {
             let val: boolean = this.virtual && !this.lackCenter;
             if (!val)
@@ -123,13 +123,13 @@ export default class ListView extends cc.Component {
         }
     })
     public lackSlide: boolean = false;
-    //刷新频率
+    // Update rate
     @property({ type: cc.Integer })
     private _updateRate: number = 0;
     @property({
         type: cc.Integer,
         range: [0, 6, 1],
-        tooltip: CC_DEV && '刷新频率（值越大刷新频率越低、性能越高）',
+        tooltip: CC_DEV && 'Update Rate (higher value = lower frequency, better performance)',
         slide: true,
     })
     set updateRate(val: number) {
@@ -140,39 +140,39 @@ export default class ListView extends cc.Component {
     get updateRate() {
         return this._updateRate;
     }
-    //分帧渲染（每帧渲染的Item数量（<=0时关闭分帧渲染））
+    // Frame-by-frame rendering (items per frame, <=0 disables)
     @property({
         type: cc.Integer,
         range: [0, 12, 1],
-        tooltip: CC_DEV && '逐帧渲染时，每帧渲染的Item数量（<=0时关闭分帧渲染）',
+        tooltip: CC_DEV && 'Items rendered per frame (<=0 to disable frame-by-frame rendering)',
         slide: true,
     })
     public frameByFrameRenderNum: number = 0;
-    //渲染事件（渲染器）
+    // Render event (renderer)
     @property({
         type: cc.Component.EventHandler,
-        tooltip: CC_DEV && '渲染事件（渲染器）',
+        tooltip: CC_DEV && 'Render Event (Renderer)',
     })
     private renderEvent: cc.Component.EventHandler = new cc.Component.EventHandler();
-    //选择模式
+    // Selection mode
     @property({
         type: cc.Enum(SelectedType),
-        tooltip: CC_DEV && '选择模式'
+        tooltip: CC_DEV && 'Selection Mode'
     })
     public selectedMode: SelectedType = SelectedType.NONE;
     @property({
-        tooltip: CC_DEV && '是否重复响应单选事件',
+        tooltip: CC_DEV && 'Allow repeated single selection events',
         visible() { return this.selectedMode == SelectedType.SINGLE; }
     })
     public repeatEventSingle: boolean = false;
-    //触发选择事件
+    // Selection event trigger
     @property({
         type: cc.Component.EventHandler,
-        tooltip: CC_DEV && '触发选择事件',
+        tooltip: CC_DEV && 'Selection Event Trigger',
         visible() { return this.selectedMode > SelectedType.NONE; }
     })
     private selectedEvent: cc.Component.EventHandler = null//new cc.Component.EventHandler();
-    //当前选择id
+    // Current selected id
     private _selectedId: number = -1;
     private _lastSelectedId: number;
     private multSelected: number[];
@@ -189,7 +189,7 @@ export default class ListView extends cc.Component {
                 let listItem: ListItem;
                 if (t._selectedId >= 0)
                     t._lastSelectedId = t._selectedId;
-                else //如果＜0则取消选择，把_lastSelectedId也置空吧，如果以后有特殊需求再改吧。
+                else // If < 0, cancel selection and clear _lastSelectedId. Can be modified later if needed.
                     t._lastSelectedId = null;
                 t._selectedId = val;
                 if (item) {
@@ -248,7 +248,7 @@ export default class ListView extends cc.Component {
     private _cyclicNum: number;
     private _cyclicPos1: number;
     private _cyclicPos2: number;
-    //列表数量
+    // List item count
     @property({
         serializable: false
     })
@@ -281,7 +281,7 @@ export default class ListView extends cc.Component {
 
             t.firstListId = 0;
             if (t.frameByFrameRenderNum > 0) {
-                //先渲染几个出来
+                // Render a few items first
                 let len: number = t.frameByFrameRenderNum > t._numItems ? t._numItems : t.frameByFrameRenderNum;
                 for (let n: number = 0; n < len; n++) {
                     t._createOrUpdateItem2(n);
@@ -362,7 +362,7 @@ export default class ListView extends cc.Component {
     private _allItemSize: number;
     private _allItemSizeNoEdge: number;
 
-    private _scrollItem: any;//当前控制 ScrollView 滚动的 Item
+    private _scrollItem: any;// Current item controlling ScrollView scroll
 
     //----------------------------------------------------------------------------
 
@@ -386,16 +386,16 @@ export default class ListView extends cc.Component {
     }
 
     onEnable() {
-        // if (!CC_EDITOR) 
+        // if (!CC_EDITOR)
         this._registerEvent();
         this._init();
     }
 
     onDisable() {
-        // if (!CC_EDITOR) 
+        // if (!CC_EDITOR)
         this._unregisterEvent();
     }
-    //注册事件
+    // Register events
     _registerEvent() {
         let t: any = this;
         t.node.on(cc.Node.EventType.TOUCH_START, t._onTouchStart, t, true);
@@ -406,7 +406,7 @@ export default class ListView extends cc.Component {
         t.node.on('scrolling', t._onScrolling, t, true);
         t.node.on(cc.Node.EventType.SIZE_CHANGED, t._onSizeChanged, t);
     }
-    //卸载事件
+    // Unregister events
     _unregisterEvent() {
         let t: any = this;
         t.node.off(cc.Node.EventType.TOUCH_START, t._onTouchStart, t, true);
@@ -417,7 +417,7 @@ export default class ListView extends cc.Component {
         t.node.off('scrolling', t._onScrolling, t, true);
         t.node.off(cc.Node.EventType.SIZE_CHANGED, t._onSizeChanged, t);
     }
-    //初始化各种..
+    // Initialize various settings
     _init() {
         let t: any = this;
         if (t._inited)
@@ -433,43 +433,43 @@ export default class ListView extends cc.Component {
 
         t._layout = t.content.getComponent(cc.Layout);
 
-        t._align = t._layout.type; //排列模式
-        t._resizeMode = t._layout.resizeMode; //自适应模式
+        t._align = t._layout.type; // Layout type
+        t._resizeMode = t._layout.resizeMode; // Resize mode
         t._startAxis = t._layout.startAxis;
 
-        t._topGap = t._layout.paddingTop; //顶边距
-        t._rightGap = t._layout.paddingRight; //右边距
-        t._bottomGap = t._layout.paddingBottom; //底边距
-        t._leftGap = t._layout.paddingLeft; //左边距
+        t._topGap = t._layout.paddingTop; // Top padding
+        t._rightGap = t._layout.paddingRight; // Right padding
+        t._bottomGap = t._layout.paddingBottom; // Bottom padding
+        t._leftGap = t._layout.paddingLeft; // Left padding
 
-        t._columnGap = t._layout.spacingX; //列距
-        t._lineGap = t._layout.spacingY; //行距
+        t._columnGap = t._layout.spacingX; // Column gap
+        t._lineGap = t._layout.spacingY; // Row gap
 
-        t._colLineNum; //列数或行数（非GRID模式则=1，表示单列或单行）;
+        t._colLineNum; // Column or row count (=1 for non-GRID mode, single column or row)
 
-        t._verticalDir = t._layout.verticalDirection; //垂直排列子节点的方向
-        t._horizontalDir = t._layout.horizontalDirection; //水平排列子节点的方向
+        t._verticalDir = t._layout.verticalDirection; // Vertical direction for child nodes
+        t._horizontalDir = t._layout.horizontalDirection; // Horizontal direction for child nodes
 
         t.setTemplateItem(cc.instantiate(t.templateType == TemplateType.PREFAB ? t.tmpPrefab : t.tmpNode));
 
-        // 特定的滑动模式处理
+        // Handle specific slide modes
         if (t._slideMode == SlideType.ADHERING || t._slideMode == SlideType.PAGE) {
             t._scrollView.inertia = false;
             t._scrollView._onMouseWheel = function () {
                 return;
             };
         }
-        if (!t.virtual)         // lackCenter 仅支持 Virtual 模式
+        if (!t.virtual)         // lackCenter only supports Virtual mode
             t.lackCenter = false;
 
-        t._lastDisplayData = []; //最后一次刷新的数据
-        t.displayData = []; //当前数据
-        t._pool = new cc.NodePool();    //这是个池子..
-        t._forceUpdate = false;         //是否强制更新
-        t._updateCounter = 0;           //当前分帧渲染帧数
-        t._updateDone = true;           //分帧渲染是否完成
+        t._lastDisplayData = []; // Last refresh data
+        t.displayData = []; // Current data
+        t._pool = new cc.NodePool();    // This is a pool
+        t._forceUpdate = false;         // Force update flag
+        t._updateCounter = 0;           // Current frame-by-frame render count
+        t._updateDone = true;           // Frame-by-frame render complete flag
 
-        t.curPageNum = 0;               //当前页数
+        t.curPageNum = 0;               // Current page number
 
         if (t.cyclic || 0) {
             t._scrollView._processAutoScrolling = this._processAutoScrolling.bind(t);
@@ -530,7 +530,7 @@ export default class ListView extends cc.Component {
                 break;
             }
         }
-        // 清空 content
+        // Clear content
         // t.content.children.forEach((child: cc.Node) => {
         //     child.removeFromParent();
         //     if (child != t.tmpNode && child.isValid)
@@ -540,7 +540,7 @@ export default class ListView extends cc.Component {
         t._inited = true;
     }
     /**
-     * 为了实现循环列表，必须覆写cc.ScrollView的某些函数
+     * To implement cyclic list, must override some cc.ScrollView functions
      * @param {Number} dt
      */
     _processAutoScrolling(dt: number) {
@@ -596,7 +596,7 @@ export default class ListView extends cc.Component {
             this._scrollView['_dispatchEvent']('scroll-ended');
         }
     }
-    //设置模板Item
+    // Set template item
     setTemplateItem(item: any) {
         if (!item)
             return;
@@ -608,7 +608,7 @@ export default class ListView extends cc.Component {
         else
             t._itemSize = cc.size(item.width, item.height);
 
-        //获取ListItem，如果没有就取消选择模式
+        // Get ListItem, cancel selection mode if not found
         let com = item.getComponent(ListItem);
         let remove = false;
         if (!com)
@@ -640,13 +640,13 @@ export default class ListView extends cc.Component {
             case cc.Layout.Type.GRID:
                 switch (t._startAxis) {
                     case cc.Layout.AxisDirection.HORIZONTAL:
-                        //计算列数
+                        // Calculate column count
                         let trimW: number = t.content.width - t._leftGap - t._rightGap;
                         t._colLineNum = Math.floor((trimW + t._columnGap) / (t._itemSize.width + t._columnGap));
                         t._sizeType = true;
                         break;
                     case cc.Layout.AxisDirection.VERTICAL:
-                        //计算行数
+                        // Calculate row count
                         let trimH: number = t.content.height - t._topGap - t._bottomGap;
                         t._colLineNum = Math.floor((trimH + t._lineGap) / (t._itemSize.height + t._lineGap));
                         t._sizeType = false;
@@ -668,7 +668,7 @@ export default class ListView extends cc.Component {
         }
         return true;
     }
-    //禁用 Layout 组件，自行计算 Content Size
+    // Disable Layout component, calculate Content Size manually
     _resizeContent() {
         let t: any = this;
         let result: number;
@@ -693,7 +693,7 @@ export default class ListView extends cc.Component {
                 break;
             }
             case cc.Layout.Type.GRID: {
-                //网格模式不支持居中
+                // Grid mode doesn't support centering
                 if (t.lackCenter)
                     t.lackCenter = false;
                 switch (t._startAxis) {
@@ -747,7 +747,7 @@ export default class ListView extends cc.Component {
         // cc.log('_resizeContent()  numItems =', t._numItems, '，content =', t.content);
     }
 
-    //滚动进行时...
+    // On scrolling...
     _onScrolling(ev: cc.Event = null) {
         if (this.frameCount == null)
             this.frameCount = this._updateRate;
@@ -760,7 +760,7 @@ export default class ListView extends cc.Component {
         if (this._aniDelRuning)
             return;
 
-        //循环列表处理
+        // Cyclic list handling
         if (this.cyclic) {
             let scrollPos: any = this.content.getPosition();
             scrollPos = this._sizeType ? scrollPos.y : scrollPos.x;
@@ -970,7 +970,7 @@ export default class ListView extends cc.Component {
             this._calcNearestItem();
         }
     }
-    //计算可视范围
+    // Calculate visible range
     _calcViewPos() {
         let scrollPos: any = this.content.getPosition();
         switch (this._alignCalcType) {
@@ -1008,7 +1008,7 @@ export default class ListView extends cc.Component {
                 break;
         }
     }
-    //计算位置 根据id
+    // Calculate position by id
     _calcItemPos(id: number) {
         let width: number, height: number, top: number, bottom: number, left: number, right: number, itemX: number, itemY: number;
         switch (this._align) {
@@ -1201,7 +1201,7 @@ export default class ListView extends cc.Component {
             }
         }
     }
-    //计算已存在的Item的位置
+    // Calculate existing item position
     _calcExistItemPos(id: number) {
         let item: any = this.getItemByListId(id);
         if (!item)
@@ -1220,7 +1220,7 @@ export default class ListView extends cc.Component {
         }
         return data;
     }
-    //获取Item位置
+    // Get item position
     getItemPos(id: number) {
         if (this._virtual)
             return this._calcItemPos(id);
@@ -1231,7 +1231,7 @@ export default class ListView extends cc.Component {
                 return this._calcExistItemPos(id);
         }
     }
-    //获取固定尺寸
+    // Get fixed size
     _getFixedSize(listId: number) {
         if (!this._customSize)
             return null;
@@ -1250,11 +1250,11 @@ export default class ListView extends cc.Component {
             count: count,
         }
     }
-    //滚动结束时..
+    // On scroll began
     _onScrollBegan() {
         this._beganPos = this._sizeType ? this.viewTop : this.viewLeft;
     }
-    //滚动结束时..
+    // On scroll ended
     _onScrollEnded() {
         let t: any = this;
         if (t.scrollToListId != null) {
@@ -1285,7 +1285,7 @@ export default class ListView extends cc.Component {
             }
         }
     }
-    // 触摸时
+    // On touch start
     _onTouchStart(ev, captureListeners) {
         if (this._scrollView['_hasNestedViewGroup'](ev, captureListeners))
             return;
@@ -1297,7 +1297,7 @@ export default class ListView extends cc.Component {
             this._scrollItem = itemNode._listId != null ? itemNode : ev.target;
         }
     }
-    //触摸抬起时..
+    // On touch up
     _onTouchUp() {
         let t: any = this;
         t._scrollPos = null;
@@ -1334,12 +1334,12 @@ export default class ListView extends cc.Component {
         }
         this._scrollItem = null;
     }
-    //当尺寸改变
+    // On size changed
     _onSizeChanged() {
         if (this.checkInited(false))
             this._onScrolling();
     }
-    //当Item自适应
+    // On item adaptive resize
     _onItemAdaptive(item) {
         // if (this.checkInited(false)) {
         if (
@@ -1366,7 +1366,7 @@ export default class ListView extends cc.Component {
         }
         // }
     }
-    //PAGE粘附
+    // PAGE adhering
     _pageAdhere() {
         let t = this;
         if (!t.cyclic && (t.elasticTop > 0 || t.elasticRight > 0 || t.elasticBottom > 0 || t.elasticLeft > 0))
@@ -1401,7 +1401,7 @@ export default class ListView extends cc.Component {
         }
         t._beganPos = null;
     }
-    //粘附
+    // Adhering
     adhere() {
         let t: any = this;
         if (!t.checkInited())
@@ -1514,7 +1514,7 @@ export default class ListView extends cc.Component {
             this._lastDisplayData.push(data.id);
         }
     }
-    //创建或更新Item（非虚拟列表用）
+    // Create or update item (for non-virtual list)
     _createOrUpdateItem2(listId: number) {
         let item: any = this.content.children[listId];
         let listItem: ListItem;
@@ -1561,7 +1561,7 @@ export default class ListView extends cc.Component {
             }
         }
     }
-    //仅虚拟列表用
+    // For virtual list only
     _resetItemSize(item: any) {
         return;
         let size: number;
@@ -1679,7 +1679,7 @@ export default class ListView extends cc.Component {
         }
         return result;
     }
-    //删除显示区域以外的Item
+    // Delete items outside display area
     _delRedundantItem() {
         if (this._virtual) {
             let arr: any[] = this._getOutsideItem();
@@ -1702,7 +1702,7 @@ export default class ListView extends cc.Component {
             }
         }
     }
-    //删除单个Item
+    // Delete single item
     _delSingleItem(item: any) {
         // cc.log('DEL::', item['_listId'], item);
         item.removeFromParent();
@@ -1992,21 +1992,21 @@ export default class ListView extends cc.Component {
         }
         // cc.log('t.nearestListId =', t.nearestListId);
     }
-    //上一页
+    // Previous page
     prePage(timeInSecond: number = .5) {
         // cc.log('👈');
         if (!this.checkInited())
             return;
         this.skipPage(this.curPageNum - 1, timeInSecond);
     }
-    //下一页
+    // Next page
     nextPage(timeInSecond: number = .5) {
         // cc.log('👉');
         if (!this.checkInited())
             return;
         this.skipPage(this.curPageNum + 1, timeInSecond);
     }
-    //跳转到第几页
+    // Skip to page
     skipPage(pageNum: number, timeInSecond: number) {
         let t: any = this;
         if (!t.checkInited())

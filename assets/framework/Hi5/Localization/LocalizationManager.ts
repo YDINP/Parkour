@@ -1,4 +1,5 @@
 // LocalizationManager.ts (Cocos Creator 2.x)
+import { GameVersion } from '../../../Game/Script/common/GameVersion';
 const { ccclass, property } = cc._decorator;
 
 /**
@@ -10,16 +11,6 @@ interface LocalizationData {
     };
 }
 
-/**
- * CDN 로드 결과 타입
- */
-interface CDNLoadResult {
-    success: boolean;
-    source: 'cdn' | 'cache' | 'local';
-    language: string;
-    keyCount: number;
-    version?: string;
-}
 
 /**
  * 로컬라이징 이미지 엔트리
@@ -73,28 +64,13 @@ export class LocalizationManager extends cc.Component {
     @property({ type: [LocalizedImageEntry], tooltip: "로컬라이징 이미지 목록" })
     localizedImages: LocalizedImageEntry[] = [];
 
-    // ========== CDN Properties ==========
+    // ========== 로컬 JSON 로드 Properties ==========
 
-    @property({ tooltip: "CDN에서 로컬라이징 로드 사용" })
-    useCDN: boolean = true;
+    @property({ tooltip: "JSON 폴더 자동 로드 사용 여부" })
+    autoLoadJsonFolder: boolean = true;
 
-    @property({ tooltip: "CDN 프로젝트 ID (예: 47FriendsDefense)" })
-    cdnProjectId: string = "49FriendsRunner";
-
-    @property({ tooltip: "CDN 베이스 URL" })
-    cdnBaseUrl: string = "https://raw.githubusercontent.com/TinycellCorp/kakao_localization/main";
-
-    @property({ tooltip: "CDN 실패 시 로컬 폴백 사용" })
-    useFallback: boolean = true;
-
-    @property({ tooltip: "CDN 캐시 사용 (LocalStorage)" })
-    useCache: boolean = true;
-
-    @property({ tooltip: "CDN 캐시 만료 시간 (초, 0=무제한)" })
-    cacheExpireSeconds: number = 3600;
-
-    @property({ tooltip: "CDN 버전 파일 URL" })
-    cdnVersionUrl: string = "https://raw.githubusercontent.com/TinycellCorp/kakao_localization/main/version.json";
+    @property({ tooltip: "JSON 파일 폴더 경로 (resources 폴더 기준)" })
+    jsonFolderPath: string = "Localize";
 
     // ========== Static Properties ==========
 
@@ -133,6 +109,11 @@ export class LocalizationManager extends cc.Component {
 
         if (key.includes('@')) {
             key = key.replace('@', '');
+        }
+
+        // Key 모드: 키값 직접 반환 (디버깅용)
+        if (this._currentLanguage === 'key') {
+            return '@' + key;
         }
 
         let text = this._data![this._currentLanguage][key];
@@ -420,7 +401,8 @@ export class LocalizationManager extends cc.Component {
 
         if (this._currentLanguage === language) return;
 
-        if (!this._data || !this._data[language]) {
+        // 'key' 모드는 디버깅용이므로 데이터 체크 스킵
+        if (language !== 'key' && (!this._data || !this._data[language])) {
             console.error(`[LocalizationManager] ${language} 데이터가 없습니다.`);
             return;
         }
@@ -432,6 +414,9 @@ export class LocalizationManager extends cc.Component {
 
         // 이미지 업데이트
         this.updateAllImages();
+
+        // 이벤트 발행 (다른 스크립트에서 구독 가능)
+        cc.director.emit('localization:languageChanged', language);
 
         cc.sys.localStorage.setItem('game_language', language);
 
@@ -552,520 +537,6 @@ export class LocalizationManager extends cc.Component {
         this.addJsonData(jsonAsset.json as LocalizationData, overwrite);
     }
 
-    // ========== Static Methods - CDN 로딩 ==========
-
-    /**
-     * CDN에서 로컬라이징 JSON 로드
-     * @param language 언어 코드 (ko, en, cn)
-     * @returns Promise<CDNLoadResult>
-     */
-    public static async loadFromCDN(language: string): Promise<CDNLoadResult> {
-        if (!this.instance) {
-            console.error('[LocalizationManager] 인스턴스가 없습니다.');
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-
-        const { cdnProjectId, cdnBaseUrl, useCache, useFallback, cacheExpireSeconds, debugMode } = this.instance;
-
-        if (!cdnProjectId) {
-            console.error('[LocalizationManager] cdnProjectId가 설정되지 않았습니다.');
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-
-        // 캐시 먼저 확인
-        if (useCache) {
-            const cached = this.loadFromCache(cdnProjectId, language);
-            if (cached) {
-                if (debugMode) {
-                    console.log(`[LocalizationManager] 캐시에서 로드: ${language}`);
-                }
-
-                // 캐시 데이터 병합
-                if (!this._data) {
-                    this._data = { ko: {}, en: {}, cn: {} };
-                }
-                this._data[language] = cached.data;
-
-                return {
-                    success: true,
-                    source: 'cache',
-                    language,
-                    keyCount: Object.keys(cached.data).length
-                };
-            }
-        }
-
-        // CDN에서 가져오기
-        // 타임스탬프를 URL에 추가하여 브라우저/CDN 캐시 방지
-        const url = `${cdnBaseUrl}/${cdnProjectId}/${language}.json?t=${Date.now()}`;
-
-        try {
-            if (debugMode) {
-                console.log(`[LocalizationManager] CDN 로드 시도: ${url}`);
-            }
-
-            const response = await this.fetchWithTimeout(url, 10000);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            const keyCount = Object.keys(data).length;
-
-            // 데이터 병합
-            if (!this._data) {
-                this._data = { ko: {}, en: {}, cn: {} };
-            }
-            this._data[language] = data;
-
-            // 캐시에 저장
-            if (useCache) {
-                this.saveToCache(cdnProjectId, language, data, cacheExpireSeconds);
-            }
-
-            if (debugMode) {
-                console.log(`[LocalizationManager] CDN 로드 성공: ${language} (${keyCount}개 키)`);
-            }
-
-            return { success: true, source: 'cdn', language, keyCount };
-
-        } catch (error) {
-            console.warn(`[LocalizationManager] CDN 로드 실패: ${error.message}`);
-
-            // 폴백: 캐시 (만료되었더라도)
-            if (useCache) {
-                const expiredCache = this.loadFromCache(cdnProjectId, language, true);
-                if (expiredCache) {
-                    console.log(`[LocalizationManager] 만료된 캐시 사용: ${language}`);
-
-                    if (!this._data) {
-                        this._data = { ko: {}, en: {}, cn: {} };
-                    }
-                    this._data[language] = expiredCache.data;
-
-                    return {
-                        success: true,
-                        source: 'cache',
-                        language,
-                        keyCount: Object.keys(expiredCache.data).length
-                    };
-                }
-            }
-
-            // 폴백: 로컬 파일 사용 (이미 mergeJsonFiles에서 로드됨)
-            if (useFallback && this._data && this._data[language]) {
-                const keyCount = Object.keys(this._data[language]).length;
-                console.log(`[LocalizationManager] 로컬 폴백 사용: ${language} (${keyCount}개 키)`);
-
-                return { success: true, source: 'local', language, keyCount };
-            }
-
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-    }
-
-    /**
-     * 모든 언어를 CDN에서 로드
-     * @returns Promise<CDNLoadResult[]>
-     */
-    public static async loadAllFromCDN(): Promise<CDNLoadResult[]> {
-        const languages = ['ko', 'en', 'cn'];
-        const results: CDNLoadResult[] = [];
-
-        for (const lang of languages) {
-            const result = await this.loadFromCDN(lang);
-            results.push(result);
-        }
-
-        return results;
-    }
-
-    /**
-     * 타임아웃이 있는 fetch
-     */
-    private static async fetchWithTimeout(url: string, timeout: number): Promise<Response> {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-        try {
-            const response = await fetch(url, { signal: controller.signal });
-            clearTimeout(timeoutId);
-            return response;
-        } catch (error) {
-            clearTimeout(timeoutId);
-            throw error;
-        }
-    }
-
-    // ========== Static Methods - 캐시 관리 ==========
-
-    /**
-     * 캐시 키 생성
-     */
-    private static getCacheKey(projectId: string, language: string): string {
-        return `loc_${projectId}_${language}`;
-    }
-
-    /**
-     * 캐시에 저장
-     */
-    private static saveToCache(
-        projectId: string,
-        language: string,
-        data: { [key: string]: string },
-        expireSeconds: number
-    ): void {
-        try {
-            const cacheKey = this.getCacheKey(projectId, language);
-            const cacheData = {
-                data,
-                timestamp: Date.now(),
-                expireSeconds
-            };
-
-            cc.sys.localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-
-            if (this.instance && this.instance.debugMode) {
-                console.log(`[LocalizationManager] 캐시 저장: ${cacheKey}`);
-            }
-        } catch (error) {
-            console.warn('[LocalizationManager] 캐시 저장 실패:', error.message);
-        }
-    }
-
-    /**
-     * 캐시에서 로드
-     * @param ignoreExpiry true면 만료된 캐시도 반환
-     */
-    private static loadFromCache(
-        projectId: string,
-        language: string,
-        ignoreExpiry: boolean = false
-    ): { data: { [key: string]: string }, timestamp: number } | null {
-        try {
-            const cacheKey = this.getCacheKey(projectId, language);
-            const cached = cc.sys.localStorage.getItem(cacheKey);
-
-            if (!cached) return null;
-
-            const cacheData = JSON.parse(cached);
-
-            // 만료 체크 (ignoreExpiry가 false이고, expireSeconds가 0보다 클 때만)
-            if (!ignoreExpiry && cacheData.expireSeconds > 0) {
-                const elapsed = (Date.now() - cacheData.timestamp) / 1000;
-                if (elapsed > cacheData.expireSeconds) {
-                    if (this.instance && this.instance.debugMode) {
-                        console.log(`[LocalizationManager] 캐시 만료: ${cacheKey} (${Math.floor(elapsed)}s)`);
-                    }
-                    return null;
-                }
-            }
-
-            return { data: cacheData.data, timestamp: cacheData.timestamp };
-        } catch (error) {
-            console.warn('[LocalizationManager] 캐시 로드 실패:', error.message);
-            return null;
-        }
-    }
-
-    /**
-     * 캐시 삭제
-     */
-    public static clearCache(projectId?: string, language?: string): void {
-        try {
-            if (projectId && language) {
-                // 특정 언어만 삭제
-                const cacheKey = this.getCacheKey(projectId, language);
-                cc.sys.localStorage.removeItem(cacheKey);
-            } else if (projectId) {
-                // 프로젝트의 모든 언어 캐시 삭제
-                ['ko', 'en', 'cn'].forEach(lang => {
-                    const cacheKey = this.getCacheKey(projectId, lang);
-                    cc.sys.localStorage.removeItem(cacheKey);
-                });
-            }
-
-            if (this.instance && this.instance.debugMode) {
-                console.log('[LocalizationManager] 캐시 삭제 완료');
-            }
-        } catch (error) {
-            console.warn('[LocalizationManager] 캐시 삭제 실패:', error.message);
-        }
-    }
-
-    /**
-     * CDN에서 새로고침 (캐시 무시하고 다시 로드)
-     */
-    public static async refreshFromCDN(language?: string): Promise<CDNLoadResult[]> {
-        if (!this.instance) {
-            return [];
-        }
-
-        const { cdnProjectId } = this.instance;
-
-        // 캐시 삭제
-        if (language) {
-            this.clearCache(cdnProjectId, language);
-        } else {
-            this.clearCache(cdnProjectId);
-        }
-
-        // 다시 로드
-        if (language) {
-            const result = await this.loadFromCDN(language);
-            return [result];
-        } else {
-            return await this.loadAllFromCDN();
-        }
-    }
-
-    // ========== Static Methods - 버전 관리 ==========
-
-    /**
-     * CDN에서 버전 정보 가져오기
-     * @returns Promise<string | null> 버전 문자열 또는 null
-     */
-    public static async fetchVersion(): Promise<string | null> {
-        if (!this.instance) {
-            return null;
-        }
-
-        const { cdnVersionUrl, cdnProjectId, debugMode } = this.instance;
-
-        if (debugMode) {
-            console.log(`[LocalizationManager] 버전 체크: ${cdnVersionUrl}`);
-        }
-
-        try {
-            const response = await this.fetchWithTimeout(`${cdnVersionUrl}?t=${Date.now()}`, 5000);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const versionData = await response.json();
-            const version = versionData[cdnProjectId] || null;
-
-            if (debugMode) {
-                console.log(`[LocalizationManager] 서버 버전: ${version}`);
-            }
-
-            return version;
-        } catch (error) {
-            console.warn(`[LocalizationManager] 버전 fetch 실패: ${error.message}`);
-            return null;
-        }
-    }
-
-    /**
-     * 캐시된 버전 가져오기
-     */
-    public static getCachedVersion(projectId: string): string | null {
-        try {
-            const key = `loc_version_${projectId}`;
-            return cc.sys.localStorage.getItem(key);
-        } catch (error) {
-            console.warn('[LocalizationManager] 캐시 버전 로드 실패:', error.message);
-            return null;
-        }
-    }
-
-    /**
-     * 버전을 캐시에 저장
-     */
-    public static saveCachedVersion(projectId: string, version: string): void {
-        try {
-            const key = `loc_version_${projectId}`;
-            cc.sys.localStorage.setItem(key, version);
-
-            if (this.instance && this.instance.debugMode) {
-                console.log(`[LocalizationManager] 버전 저장: ${version}`);
-            }
-        } catch (error) {
-            console.warn('[LocalizationManager] 버전 저장 실패:', error.message);
-        }
-    }
-
-    /**
-     * 버전 체크 후 필요시 로드
-     * @param language 언어 코드
-     * @returns Promise<CDNLoadResult>
-     */
-    public static async checkVersionAndLoad(language: string): Promise<CDNLoadResult> {
-        if (!this.instance) {
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-
-        const { cdnProjectId, debugMode } = this.instance;
-
-        // 1. 서버 버전 가져오기
-        const serverVersion = await this.fetchVersion();
-
-        // 버전 fetch 실패 시 캐시 사용
-        if (!serverVersion) {
-            if (debugMode) {
-                console.log('[LocalizationManager] 버전 체크 실패 - 캐시 사용');
-            }
-            return this.loadFromCacheOrFallback(language);
-        }
-
-        // 2. 로컬 캐시 버전과 비교
-        const cachedVersion = this.getCachedVersion(cdnProjectId);
-
-        if (debugMode) {
-            console.log(`[LocalizationManager] 버전 비교 - 서버: ${serverVersion}, 캐시: ${cachedVersion}`);
-        }
-
-        // 3. 버전이 같으면 캐시 사용
-        if (cachedVersion === serverVersion) {
-            const cached = this.loadFromCache(cdnProjectId, language, true); // 만료 무시
-            if (cached) {
-                if (debugMode) {
-                    console.log('[LocalizationManager] 버전 동일 - 캐시 사용');
-                }
-
-                if (!this._data) {
-                    this._data = { ko: {}, en: {}, cn: {} };
-                }
-                this._data[language] = cached.data;
-
-                return {
-                    success: true,
-                    source: 'cache',
-                    language,
-                    keyCount: Object.keys(cached.data).length,
-                    version: cachedVersion
-                };
-            }
-        }
-
-        // 4. 버전이 다르면 CDN에서 새로 fetch
-        if (debugMode) {
-            console.log('[LocalizationManager] 버전 변경 - CDN에서 새로 로드');
-        }
-        return this.fetchFromCDNWithVersion(language, serverVersion);
-    }
-
-    /**
-     * 캐시에서 로드하거나 폴백
-     */
-    private static loadFromCacheOrFallback(language: string): CDNLoadResult {
-        if (!this.instance) {
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-
-        const { cdnProjectId, useFallback } = this.instance;
-
-        // 캐시에서 로드 (만료 무시)
-        const cached = this.loadFromCache(cdnProjectId, language, true);
-        if (cached) {
-            if (!this._data) {
-                this._data = { ko: {}, en: {}, cn: {} };
-            }
-            this._data[language] = cached.data;
-
-            return {
-                success: true,
-                source: 'cache',
-                language,
-                keyCount: Object.keys(cached.data).length
-            };
-        }
-
-        // 로컬 폴백
-        if (useFallback && this._data && this._data[language]) {
-            const keyCount = Object.keys(this._data[language]).length;
-            return { success: true, source: 'local', language, keyCount };
-        }
-
-        return { success: false, source: 'local', language, keyCount: 0 };
-    }
-
-    /**
-     * CDN에서 직접 fetch (버전 저장 포함)
-     */
-    private static async fetchFromCDNWithVersion(language: string, serverVersion: string): Promise<CDNLoadResult> {
-        if (!this.instance) {
-            return { success: false, source: 'local', language, keyCount: 0 };
-        }
-
-        const { cdnProjectId, cdnBaseUrl, cacheExpireSeconds, debugMode } = this.instance;
-
-        // 버전을 URL에 추가하여 브라우저/CDN 캐시 방지
-        const url = `${cdnBaseUrl}/${cdnProjectId}/${language}.json?v=${serverVersion}`;
-
-        try {
-            if (debugMode) {
-                console.log(`[LocalizationManager] CDN fetch: ${url}`);
-            }
-
-            const response = await this.fetchWithTimeout(url, 10000);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            const keyCount = Object.keys(data).length;
-
-            if (!this._data) {
-                this._data = { ko: {}, en: {}, cn: {} };
-            }
-            this._data[language] = data;
-
-            // 캐시에 저장 (버전 포함)
-            this.saveToCacheWithVersion(cdnProjectId, language, data, serverVersion, cacheExpireSeconds);
-
-            if (debugMode) {
-                console.log(`[LocalizationManager] CDN 로드 성공: ${language} (${keyCount}개 키, v${serverVersion})`);
-            }
-
-            return {
-                success: true,
-                source: 'cdn',
-                language,
-                keyCount,
-                version: serverVersion
-            };
-        } catch (error) {
-            console.warn(`[LocalizationManager] CDN 로드 실패: ${error.message}`);
-            return this.loadFromCacheOrFallback(language);
-        }
-    }
-
-    /**
-     * 캐시에 저장 (버전 포함)
-     */
-    private static saveToCacheWithVersion(
-        projectId: string,
-        language: string,
-        data: { [key: string]: string },
-        version: string,
-        expireSeconds: number
-    ): void {
-        try {
-            const cacheKey = this.getCacheKey(projectId, language);
-            const cacheData = {
-                data,
-                version,
-                timestamp: Date.now(),
-                expireSeconds
-            };
-
-            cc.sys.localStorage.setItem(cacheKey, JSON.stringify(cacheData));
-
-            // 버전 저장
-            this.saveCachedVersion(projectId, version);
-
-            if (this.instance && this.instance.debugMode) {
-                console.log(`[LocalizationManager] 캐시 저장 (v${version}): ${cacheKey}`);
-            }
-        } catch (error) {
-            console.warn('[LocalizationManager] 캐시 저장 실패:', error.message);
-        }
-    }
-
     // ========== Instance Methods - 라이프사이클 ==========
 
     onLoad(): void {
@@ -1079,35 +550,32 @@ export class LocalizationManager extends cc.Component {
 
         LocalizationManager.instance = this;
 
-        // ========== [CDN 사용으로 비활성화] 로컬 JSON 파일 병합 ==========
-        /*
-        if (this.localizationJsonFiles && this.localizationJsonFiles.length > 0) {
-            this.mergeJsonFiles();
-        }
-        */
-
-        // 저장된 언어 불러오기
-        const savedLanguage = cc.sys.localStorage.getItem('game_language');
-        if (savedLanguage && LocalizationManager._data && LocalizationManager._data[savedLanguage]) {
-            LocalizationManager._currentLanguage = savedLanguage;
-        } else {
-            LocalizationManager._currentLanguage = this.defaultLanguage;
-        }
+        // 버전 로깅
+        console.log(`[${GameVersion.projectName}] v${GameVersion.version}`);
 
         // 이미지 맵 초기화
         LocalizationManager.initImageMap();
 
-        // ========== CDN 로딩 ==========
-        if (this.useCDN && this.cdnProjectId) {
-            // CDN 로딩 시작 (비동기)
-            this.initWithCDN();
+        // ========== 로컬 JSON 로드 ==========
+        if (this.autoLoadJsonFolder && this.jsonFolderPath) {
+            // 폴더 전체 자동 로드
+            this.loadJsonFromFolder(() => {
+                this.finishInitialization();
+            });
+        } else if (this.localizationJsonFiles && this.localizationJsonFiles.length > 0) {
+            // 수동 등록된 JSON 파일 로드
+            this.mergeJsonFiles();
+            this.finishInitialization();
         } else {
-            // CDN 없이 로컬 파일만 사용
-            this.completeInitialization();
+            // JSON 로드 비활성화 - 바로 초기화 진행
+            this.finishInitialization();
         }
 
         // 씬 전환 시에도 유지
         cc.game.addPersistRootNode(this.node);
+
+        // HTML language-selector.js로부터 언어 변경 메시지 수신
+        this.setupHtmlBridge();
 
         // 씬 로드 이벤트 리스너 등록
         if (this.autoLocalizeOnSceneLoaded) {
@@ -1116,84 +584,130 @@ export class LocalizationManager extends cc.Component {
     }
 
     /**
-     * CDN을 사용한 초기화 (버전 체크 포함)
+     * JSON 폴더에서 모든 JSON 파일 자동 로드
      */
-    private async initWithCDN(): Promise<void> {
-        if (this.debugMode) {
-            console.log('[LocalizationManager] CDN 초기화 시작 (버전 체크)...');
-            console.log(`  - Project ID: ${this.cdnProjectId}`);
-            console.log(`  - Base URL: ${this.cdnBaseUrl}`);
-            console.log(`  - Version URL: ${this.cdnVersionUrl}`);
+    private loadJsonFromFolder(callback: () => void): void {
+        if (!this.jsonFolderPath || this.jsonFolderPath.trim() === '') {
+            if (this.debugMode) {
+                console.warn('[LocalizationManager] JSON 폴더 경로가 지정되지 않았습니다.');
+            }
+            if (callback) callback();
+            return;
         }
+
+        // 경로 정리
+        let folderPath = this.jsonFolderPath.trim().replace(/\\/g, '/');
+        if (folderPath.endsWith('/')) {
+            folderPath = folderPath.substring(0, folderPath.length - 1);
+        }
+
+        if (this.debugMode) {
+            console.log(`[LocalizationManager] JSON 폴더 로드 시작: ${folderPath}`);
+        }
+
+        // 타임아웃 fallback (5초 후 강제 진행)
+        let callbackCalled = false;
+        const safeCallback = () => {
+            if (callbackCalled) return;
+            callbackCalled = true;
+            if (callback) callback();
+        };
+        const timeoutId = setTimeout(() => {
+            console.warn('[LocalizationManager] JSON 로드 타임아웃 - 강제 진행');
+            safeCallback();
+        }, 5000);
 
         try {
-            // 버전 체크 후 현재 언어 로드
-            const result = await LocalizationManager.checkVersionAndLoad(LocalizationManager._currentLanguage);
+            cc.loader.loadResDir(folderPath, cc.JsonAsset, (err: Error, assets: cc.JsonAsset[], urls: string[]) => {
+                clearTimeout(timeoutId);
+                if (err) {
+                    console.error(`[LocalizationManager] JSON 폴더 로드 실패: ${folderPath}`, err);
+                    safeCallback();
+                    return;
+                }
 
-            if (this.debugMode) {
-                const versionInfo = result.version ? ` (v${result.version})` : '';
-                console.log(`[LocalizationManager] CDN 로드 결과: ${result.source} (${result.keyCount}개 키)${versionInfo}`);
-            }
+                if (!assets || assets.length === 0) {
+                    if (this.debugMode) {
+                        console.warn(`[LocalizationManager] JSON 파일을 찾을 수 없습니다: ${folderPath}`);
+                    }
+                    safeCallback();
+                    return;
+                }
 
-            // 초기화 완료
-            this.completeInitialization();
+                if (this.debugMode) {
+                    console.log(`[LocalizationManager] ${assets.length}개 JSON 파일 발견`);
+                }
 
-            // 나머지 언어는 백그라운드에서 로드 (버전 체크 사용)
-            this.loadRemainingLanguagesWithVersion();
+                // 데이터 초기화
+                if (!LocalizationManager._data) {
+                    LocalizationManager._data = { ko: {}, en: {}, cn: {} };
+                }
 
-        } catch (error) {
-            console.error('[LocalizationManager] CDN 초기화 실패:', error);
+                const totalKeys: { [key: string]: number } = { ko: 0, en: 0, cn: 0 };
 
-            // 폴백으로 초기화 완료
-            this.completeInitialization();
-        }
-    }
+                // 각 JSON 파일 병합
+                for (let i = 0; i < assets.length; i++) {
+                    const jsonAsset = assets[i];
+                    if (!jsonAsset || !jsonAsset.json) continue;
 
-    /**
-     * 나머지 언어 백그라운드 로드
-     */
-    private async loadRemainingLanguages(): Promise<void> {
-        const languages = ['ko', 'en', 'cn'];
-        const currentLang = LocalizationManager._currentLanguage;
+                    const jsonData = jsonAsset.json as LocalizationData;
+                    const fileName = jsonAsset.name || `file_${i}`;
 
-        for (const lang of languages) {
-            if (lang !== currentLang) {
-                await LocalizationManager.loadFromCDN(lang);
-            }
-        }
+                    if (this.debugMode) {
+                        console.log(`[LocalizationManager] JSON 파일 로드: ${fileName}`);
+                    }
 
-        if (this.debugMode) {
-            console.log('[LocalizationManager] 모든 언어 로드 완료');
-        }
-    }
+                    // 각 언어별로 병합
+                    for (const lang in jsonData) {
+                        if (!LocalizationManager._data![lang]) {
+                            LocalizationManager._data![lang] = {};
+                        }
 
-    /**
-     * 나머지 언어 백그라운드 로드 (버전 체크 사용)
-     */
-    private async loadRemainingLanguagesWithVersion(): Promise<void> {
-        const languages = ['ko', 'en', 'cn'];
-        const currentLang = LocalizationManager._currentLanguage;
+                        const langData = jsonData[lang];
+                        let keyCount = 0;
 
-        for (const lang of languages) {
-            if (lang !== currentLang) {
-                await LocalizationManager.checkVersionAndLoad(lang);
-            }
-        }
+                        for (const key in langData) {
+                            LocalizationManager._data![lang][key] = langData[key];
+                            keyCount++;
+                        }
 
-        if (this.debugMode) {
-            console.log('[LocalizationManager] 모든 언어 로드 완료 (버전 체크)');
+                        totalKeys[lang] = (totalKeys[lang] || 0) + keyCount;
+                    }
+                }
+
+                if (this.debugMode) {
+                    console.log('[LocalizationManager] JSON 폴더 로드 완료');
+                    console.log(`  - ko: ${totalKeys.ko}개 키`);
+                    console.log(`  - en: ${totalKeys.en}개 키`);
+                    console.log(`  - cn: ${totalKeys.cn}개 키`);
+                }
+
+                safeCallback();
+            });
+        } catch (e) {
+            console.error('[LocalizationManager] JSON 로드 중 예외 발생:', e);
+            clearTimeout(timeoutId);
+            safeCallback();
         }
     }
 
     /**
      * 초기화 완료 처리
      */
-    private completeInitialization(): void {
+    private finishInitialization(): void {
+        // 저장된 언어 불러오기
+        const savedLanguage = cc.sys.localStorage.getItem('game_language');
+        if (savedLanguage && LocalizationManager._data && LocalizationManager._data[savedLanguage]) {
+            LocalizationManager._currentLanguage = savedLanguage;
+        } else {
+            LocalizationManager._currentLanguage = this.defaultLanguage;
+        }
+
         LocalizationManager._isInitialized = true;
 
         if (this.debugMode) {
             console.log('[LocalizationManager] 초기화 완료');
-            console.log(`  - CDN 사용: ${this.useCDN}`);
+            console.log(`  - 로컬 JSON 사용`);
             console.log(`  - 현재 언어: ${LocalizationManager._currentLanguage}`);
             console.log(`  - 지원 언어: ${LocalizationManager.getSupportedLanguages().join(', ')}`);
             console.log(`  - 로컬라이징 이미지: ${LocalizationManager._imageMap.size}개`);
@@ -1205,6 +719,13 @@ export class LocalizationManager extends cc.Component {
                     console.log(`  - ${lang}: ${keyCount}개 키`);
                 }
             }
+        }
+
+        // 자동 로컬라이징
+        if (this.autoLocalizeOnStart) {
+            this.scheduleOnce(() => {
+                LocalizationManager.localizeScene();
+            }, 0);
         }
     }
 
@@ -1268,11 +789,7 @@ export class LocalizationManager extends cc.Component {
     }
 
     start(): void {
-        if (this.autoLocalizeOnStart) {
-            this.scheduleOnce(() => {
-                LocalizationManager.localizeScene();
-            }, 0);
-        }
+        // 로컬라이징은 finishInitialization에서 처리됨 (JSON 로드 완료 후)
     }
 
     // ========== 씬 로드 이벤트 ==========
@@ -1286,6 +803,44 @@ export class LocalizationManager extends cc.Component {
         this.scheduleOnce(() => {
             LocalizationManager.localizeScene();
         }, 0.1);
+    }
+
+    // ========== HTML Bridge - 웹 빌드용 언어 선택기 연동 ==========
+
+    private setupHtmlBridge(): void {
+        // window 객체에 LocalizationManager 노출 (language-selector.js에서 직접 호출용)
+        (window as any).LocalizationManager = LocalizationManager;
+
+        // Method 1: postMessage 수신
+        window.addEventListener('message', (event: MessageEvent) => {
+            if (!event.data || event.data.source === 'language-selector-cocos') return;
+
+            if (event.data.type === 'LANGUAGE_CHANGE') {
+                const lang = event.data.language;
+                console.log('[LocalizationManager] HTML에서 언어 변경 메시지 수신:', lang);
+                LocalizationManager.setLanguage(lang);
+            }
+        });
+
+        // Method 2: CustomEvent 수신
+        window.addEventListener('languageChange', ((event: CustomEvent) => {
+            const lang = event.detail?.language;
+            if (lang) {
+                console.log('[LocalizationManager] HTML에서 languageChange 이벤트 수신:', lang);
+                LocalizationManager.setLanguage(lang);
+            }
+        }) as EventListener);
+
+        // HTML에 준비 완료 알림
+        window.postMessage({
+            type: 'LANGUAGE_SYNC',
+            language: LocalizationManager._currentLanguage,
+            source: 'language-selector-cocos'
+        }, '*');
+
+        if (this.debugMode) {
+            console.log('[LocalizationManager] HTML 브릿지 설정 완료');
+        }
     }
 
     onDestroy(): void {

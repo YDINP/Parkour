@@ -133,7 +133,7 @@ export default class UInfoDC extends DataCenter {
             //上传授权信息
             await WeakNetGame.syncData(d)
         } catch (e) {
-            console.error("上传数据失败" + e);
+            console.error("데이터 업로드 실패" + e);
             return -2;
         }
         return 0;

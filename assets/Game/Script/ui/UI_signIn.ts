@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import mvcView from "../../../framework/ui/mvcView";
@@ -34,6 +33,23 @@ export default class UI_signIn extends mvcView {
         }
         this.register(this.lay_signIn, _ => skin1, this.signIn.bind(this));
         this.register(this.lay_signIn1, _ => skin2, this.signIn.bind(this));
+    }
+
+    onEnable() {
+        super.onEnable();
+        // 언어 변경 이벤트 리스너 등록
+        cc.director.on('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    onDisable() {
+        super.onDisable();
+        // 언어 변경 이벤트 리스너 해제
+        cc.director.off('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    private onLanguageChanged() {
+        // 언어 변경 시 전체 리스트 갱신 (register() 패턴 사용하므로 render() 호출)
+        this.render();
     }
 
     onShow() {
@@ -94,7 +110,6 @@ export default class UI_signIn extends mvcView {
     }
 
     private click_closes() {
-         
         vm.hide(this);
     }
 

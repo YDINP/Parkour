@@ -55,8 +55,8 @@ export default class DynamicMap extends cc.Component {
     begin(bLoadAll) {
         this.running = true;
         this.isLoadOnce = bLoadAll;
-        //开始生成关卡
-        console.warn("开始生成关卡")
+        //레벨 생성 시작
+        console.warn("레벨 생성 시작")
         let segcount = this.segments.length;
         if (bLoadAll) {
             for (var i = 0; i < segcount + 1; i++) {
@@ -88,8 +88,8 @@ export default class DynamicMap extends cc.Component {
             if (this.isInfinite) {
                 this.next();
             } else {
-                //没有关卡了
-                console.log("没有关卡段了")
+                //레벨 없음
+                console.log("레벨 세그먼트 없음")
                 this.isEnd = true;
                 this.signal.fire("end", this.cursor)
                 return;

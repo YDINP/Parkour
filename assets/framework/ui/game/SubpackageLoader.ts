@@ -1,5 +1,6 @@
 import Signal from "../../core/Signal";
 import Platform from "../../extension/Platform";
+import { LocalizationManager } from "../../Hi5/Localization/LocalizationManager";
 
 let { ccclass, property, menu } = cc._decorator
 @ccclass
@@ -61,7 +62,8 @@ export default class SubpackageLoader extends cc.Component {
         if (this.bar)
             this.bar.progress = percent / 100;
         if (this.label)
-            this.label.string = "加载[" + name + "]中"
+            this.label.string = LocalizationManager.getText("@loading");
+            // this.label.string = "加载[" + name + "]中"
     }
 
     async startLoad() {
@@ -81,7 +83,8 @@ export default class SubpackageLoader extends cc.Component {
         } catch (e) {
             console.error(e);
             if (this.label)
-                this.label.string = "加载失败,请点击重试!"
+                this.label.string = LocalizationManager.getText("@text.data_exception");
+                // this.label.string = "加载失败,请点击重试!"
             this.btn_retry.node.active = true;
             this.btn_close.node.active = true;
         }

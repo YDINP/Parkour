@@ -82,7 +82,7 @@ export default class WeakNetGame {
                     this.shareConfigs = JSON.parse(res)
                     this.shareConfig_inited = true;
                     console.log('Share configuration', this.shareConfigs)
-                    // console.log('分享配置', this.shareConfigs)
+                    // console.log('공유 설정', this.shareConfigs)
                     resolve();
                 } else {
                     resolve();
@@ -100,7 +100,7 @@ export default class WeakNetGame {
         let cache = this._configstr_cache[name]
         if (cache && time - cache.timestamp <= 1000 * 10) {
             console.log("Recently downloaded and loaded table: " + name)
-            // console.log("刚已下载并加载表： " + name)
+            // console.log("방금 다운로드 및 테이블 로드: " + name)
             return Promise.resolve()
         }
         let url = this.serverConfig.cdn_url + this.config.csv_url + name + '.csv' + "?t=" + Date.now()
@@ -147,15 +147,24 @@ export default class WeakNetGame {
         }
     }
 
-    private static downloadCsvs() {
+    private static downloadCsvs(progressCallback?: (progress: number) => void) {
         if (this.config.csv.length == 0) {
             csv.loadDir("Config/csv")
+            return Promise.resolve();
         } else {
-            let arr = []
-            this.config.csv.forEach(v => {
-                let p = this.downloadCsv(v);
-                arr.push(p);
-            })
+            let total = this.config.csv.length;
+            let loaded = 0;
+
+            let arr = this.config.csv.map(async (v) => {
+                await this.downloadCsv(v);
+                loaded++;
+                if (progressCallback) {
+                    // CSV 다운로드 진행률을 30%~50% 구간에 매핑
+                    let csvProgress = (loaded / total) * 0.2 + 0.3;
+                    progressCallback(csvProgress);
+                }
+            });
+
             return Promise.all(arr);
         }
     }
@@ -188,7 +197,7 @@ export default class WeakNetGame {
         let res = await this.client.httpPost(this.serverConfig.root_url + "/game/login", params)
         if (res == Net.Code.Timeout) {
             console.log("Login failed", this.retry_count)
-            // console.log("登陆失败", this.retry_count)
+            // console.log("로그인 실패", this.retry_count)
             return false;
         } else {
             if (res) {
@@ -197,19 +206,19 @@ export default class WeakNetGame {
                     this.client.setHeader("Authorization", ret.data.token);
                     if (CC_DEBUG)
                         console.log('Login successful', ret.data);
-                    // console.log('登陆成功', ret.data);
+                    // console.log('로그인 성공', ret.data);
                     this.logined_useId = ret.data.userId || ret.data.openId;
                     this.retry_count = 0;
                     this.userInfo = ret.data;
                     return true;
                 }
                 console.log("Login failed")
-                // console.log("登陆失败")
+                // console.log("로그인 실패")
                 return false;
             }
             else {
                 console.log("Login failed", this.retry_count)
-                // console.log("登陆失败", this.retry_count)
+                // console.log("로그인 실패", this.retry_count)
                 return false;
                 //重新登陆 
                 // if (this.retry_count <= 1) {
@@ -230,7 +239,7 @@ export default class WeakNetGame {
                 openId = this.logined_useId;
             } else {
                 return console.warn("Upload data! Not logged in and no specified user id")
-                // console.warn("上传数据！，未登陆且未指定用户id")
+                // console.warn("데이터 업로드!, 로그인하지 않았고 사용자 ID 미지정")
             }
         }
         return this.syncDataToTable(v, 'user', openId);
@@ -245,13 +254,13 @@ export default class WeakNetGame {
     static async syncDataToTable(v, table, id?) {
         if (id == null) {
             return console.warn("Upload data! No specified id!")
-            // console.warn("上传数据！未指定id !")
+            // console.warn("데이터 업로드! ID 미지정!")
         }
         try {
             let res = await this.client.httpPut(this.serverConfig.root_url + "/" + table + "/" + id, v)
             if (res == Net.Code.Timeout) {
                 console.log("Upload data timeout....")
-                // console.log("上传数据 超时....")
+                // console.log("데이터 업로드 타임아웃....")
                 return false
             } else {
                 if (res) {
@@ -260,18 +269,18 @@ export default class WeakNetGame {
                     return ret;
                 } else {
                     console.warn("Synchronization data failed")
-                    // console.warn("同步数据失败")
+                    // console.warn("데이터 동기화 실패")
                     return false
                 }
             }
         } catch (error) {
             if (error === Net.Code.Timeout) {
                 console.log("Upload data timeout....")
-                // console.log("上传数据 超时....")
+                // console.log("데이터 업로드 타임아웃....")
                 return false
             } else {
                 console.warn("Synchronization data failed:", error)
-                // console.warn("同步数据失败:", error)
+                // console.warn("데이터 동기화 실패:", error)
                 return false
             }
         }
@@ -280,12 +289,12 @@ export default class WeakNetGame {
     static async loadUserInfo() {
         //拉取用户数据
         if (!this.isLoggedIn) return console.warn("Fetching data: Not logged in");
-        // console.warn("拉取数据时：未登录");
+        // console.warn("데이터 가져오기: 미로그인");
         if (this.userInfo) {
             return this.userInfo
         }
         console.log("Fetching user data")
-        // console.log("拉取用户数据")
+        // console.log("사용자 데이터 가져오기")
         let res = await this.client.httpGet(this.serverConfig.root_url + "/user/" + this.logined_useId)
         if (res == Net.Code.Timeout) {
             return this.userInfo;
@@ -375,14 +384,14 @@ export default class WeakNetGame {
         this.serverConfig = conf;
         this.client.setTimeout(2500)
         console.log("[WeakNetGame]Load configuration file")
-        // console.log("[WeakNetGame]加载配置文件")
+        // console.log("[WeakNetGame]설정 파일 로드")
         console.log(conf);
     }
 
     static async doLogin(userId: string, progressCallback?: Function): Promise<any> {
         if (!this.isInit) {
             console.log("[WeakNetGame]Start login")
-            // console.log("[WeakNetGame]开始登陆")
+            // console.log("[WeakNetGame]로그인 시작")
             WeakNetGame.initUserData()
             if (!this.serverConfig.is_local_game) {
                 progressCallback && progressCallback("config");
@@ -392,7 +401,9 @@ export default class WeakNetGame {
                     // progressCallback && progressCallback('local_csv_loaded', _);
                 })
                 progressCallback && progressCallback("csv");
-                await WeakNetGame.downloadCsvs()
+                await WeakNetGame.downloadCsvs((progress) => {
+                    progressCallback && progressCallback("csv", progress);
+                })
 
                 if (this.serverConfig.is_normal_login) {
                     progressCallback && progressCallback("login");
@@ -454,7 +465,7 @@ export default class WeakNetGame {
                 choice = this.check(c, t1, c1, t2, c2)
             } catch (e) {
                 console.error("Configuration error: Please check the backend configuration!" + "[" + key + "] = " + val);
-                // console.error("配置错误：请检测后台配置！" + "[" + key + "] = " + val);
+                // console.error("설정 오류: 백엔드 설정을 확인하세요!" + "[" + key + "] = " + val);
                 choice = 0;
             }
         }

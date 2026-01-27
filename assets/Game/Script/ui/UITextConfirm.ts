@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import mvcView from "../../../framework/ui/mvcView";
 
 const { ccclass, property } = cc._decorator;
@@ -67,7 +66,6 @@ export default class UITextConfirm extends mvcView {
     }
 
     click_cancel() {
-
         let callback = this.confirmData.cancelCall;
         vm.hide(this);
         callback && callback();

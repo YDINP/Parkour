@@ -387,13 +387,13 @@ class QQSdk {
     }
 
     public showBannerAd(errorCallback?): any {
-        console.log("Wxsdk 显示banner广告", Global.bannerAd)
+        console.log("Wxsdk 배너 광고 표시", Global.bannerAd)
         if (Global.bannerAd) {
             Global.bannerAd.show();
             Global.isBannerShow = true
             evt.emit("wxsdk.BannerReady")
         } else {
-            console.log("Wxsdk 不存在banner资源....");
+            console.log("Wxsdk 배너 리소스 없음....");
             this.loadBannerAd((v, ad) => {
                 if (v == "load") {
                     this.showBannerAd()
@@ -416,17 +416,17 @@ class QQSdk {
         }
     }
 
-    //interstitial
+    //인터스티셜
     showInterstitial(errorCallback) {
 
-        // 创建插屏广告实例，提前初始化
+        // 인터스티셜 광고 인스턴스 생성, 사전 초기화
         if (qq.createInterstitialAd) {
             Global.interstitialAd = qq.createInterstitialAd({
                 adUnitId: QQGameConfig.interstitial_ad_id
             })
         }
         else {
-            console.log("不支持插屏广告")
+            console.log("인터스티셜 광고 미지원")
             errorCallback && errorCallback('notsupport')
         }
         // 在适合的场景显示插屏广告

@@ -80,6 +80,8 @@ export default class InventoryUI extends cc.Component {
             if (f) {
                 p = ccUtil.getWorldPosition(f)
                 p = this.node.convertToNodeSpaceAR(p)
+                p.x -= 40; // 위치 x값 조정
+                p.y += 100; // 위치 y값 조정
             }
             FxHelpher.playWithText("top", "loseDiamond", nv - v, p);
             return;
@@ -95,12 +97,13 @@ export default class InventoryUI extends cc.Component {
     onGetCoin(nv, v) {
         if (nv < v) {
             Device.playSfx(csv.Audio.sfx_subgemOrGold);
-            //扣资源 
+            //扣资源
             let f = this.getFrom();
             let p = cc.Vec2.ZERO;
             if (f) {
                 p = ccUtil.getWorldPosition(f)
                 p = this.node.convertToNodeSpaceAR(p)
+                p.y += 100; // 버튼 중앙 상단으로 위치 조정
             }
             FxHelpher.playWithText("top", "loseCoin", nv - v, p)
             return;
@@ -117,12 +120,13 @@ export default class InventoryUI extends cc.Component {
             let f = this.getFrom();
             ccUtil.flyToInventory(this.anchorNode, this.prefab_energy, this.node_energy || FlyHeartInfo, f, "heart_icon", v, nv, Math.min(5, nv - v))
         } else if (nv < v) {
-            //扣资源 
+            //扣资源
             let f = this.getFrom();
             let p = cc.Vec2.ZERO;
             if (f) {
                 p = ccUtil.getWorldPosition(f)
                 p = this.node.convertToNodeSpaceAR(p)
+                p.y += 100; // 버튼 중앙 상단으로 위치 조정
             }
             FxHelpher.playWithText("top", "loseEnergy", nv - v, p)
         }

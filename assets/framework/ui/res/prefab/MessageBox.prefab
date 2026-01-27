@@ -596,8 +596,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "取消",
-    "_N$string": "取消",
+    "_string": "@btn.cancel",
+    "_N$string": "@btn.cancel",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -913,8 +913,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "确定",
-    "_N$string": "确定",
+    "_string": "@btn.confirm",
+    "_N$string": "@btn.confirm",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -1305,8 +1305,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "确定",
-    "_N$string": "确定",
+    "_string": "@btn.confirm",
+    "_N$string": "@btn.confirm",
     "_fontSize": 30,
     "_lineHeight": 40,
     "_enableWrapText": false,

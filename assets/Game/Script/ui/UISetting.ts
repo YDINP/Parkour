@@ -44,8 +44,8 @@ export default class UISetting extends mvcView {
         this.onVisible(this.musicOff, () => SettingInfo.music);
         this.onVisible(this.musicEffectOn, () => !SettingInfo.effect);
         this.onVisible(this.musicEffectOff, () => SettingInfo.effect);
-        this.onVisible(this.hendleControlOn, () => !SettingInfo.music);
-        this.onVisible(this.hendleControlOff, () => SettingInfo.music);
+        this.onVisible(this.hendleControlOn, () => !SettingInfo.vibrate);
+        this.onVisible(this.hendleControlOff, () => SettingInfo.vibrate);
     }
 
     onShow() {
@@ -82,21 +82,18 @@ export default class UISetting extends mvcView {
     }
 
     click_hendleControlOn() {
-        // SettingInfo.music = true;
-        // SettingInfo.save("music");
-         
+        Device.setVibrateEnable(true);
+        SettingInfo.saveSettings();
         this.render();
     }
 
     click_hendleControlOff() {
-        // SettingInfo.music = true;
-        // SettingInfo.save("music");
-         
+        Device.setVibrateEnable(false);
+        SettingInfo.saveSettings();
         this.render();
     }
 
     click_close() {
-         
         vm.hide(this);
     }
 

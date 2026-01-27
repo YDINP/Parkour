@@ -382,7 +382,7 @@ class WxSdk extends SDKBase {
 
     public showBannerAd(errorCallback?, style?: { left?: Function, top?: Function }): any {
 
-        console.log("Wxsdk 显示banner广告", Global.bannerAd)
+        console.log("Wxsdk 배너 광고 표시", Global.bannerAd)
         if (Global.bannerAd) {
             let banner = Global.bannerAd;
             banner.show();
@@ -417,7 +417,7 @@ class WxSdk extends SDKBase {
             Global.isBannerShow = true
             evt.emit("wxsdk.BannerReady")
         } else {
-            console.log("Wxsdk 不存在banner资源....");
+            console.log("Wxsdk 배너 리소스 없음....");
             this.loadBannerAd((v, ad) => {
                 if (v == "load") {
                     this.showBannerAd(style)
@@ -449,7 +449,7 @@ class WxSdk extends SDKBase {
             })
         }
         else {
-            console.log("不支持插屏广告")
+            console.log("전면 광고 미지원")
             errorCallback && errorCallback('notsupport')
         }
         // 在适合的场景显示插屏广告
@@ -726,7 +726,7 @@ class WxSdk extends SDKBase {
 
 
             video.onEnded(res => {
-                console.log('播放完成')
+                console.log('재생 완료')
                 video.destroy()
                 // Game.Inst.showResult()
                 signal.fire();
@@ -766,7 +766,7 @@ class WxSdk extends SDKBase {
             video.requestFullScreen()
             let signal = new Signal();
             video.onEnded(res => {
-                console.log('播放完成')
+                console.log('재생 완료')
                 video.destroy()
                 signal.fire();
             })

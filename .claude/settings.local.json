@@ -26,7 +26,36 @@
       "mcp__puppeteer__puppeteer_evaluate",
       "WebSearch",
       "WebFetch(domain:discuss.cocos2d-x.org)",
-      "WebFetch(domain:forum.cocosengine.org)"
+      "WebFetch(domain:forum.cocosengine.org)",
+      "Bash(node:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/jia-lio/claude-notification-hook/main/install.ps1 | iex\")",
+      "mcp__serena__create_text_file",
+      "mcp__serena__replace_content",
+      "mcp__serena__find_file",
+      "mcp__serena__read_file"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\a\\.claude\\plugins\\claude-editor-activator\\activate.ps1\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\a\\.claude\\plugins\\claude-editor-activator\\activate.ps1\""
+          }
+        ]
+      }
     ]
   }
 }

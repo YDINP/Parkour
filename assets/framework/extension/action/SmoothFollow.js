@@ -170,6 +170,9 @@ cc.SmoothFollow = cc.Class({
         if (dist > 1) {
             moveVec.mulSelf(this.moveSpeed);
             oldPos.addSelf(moveVec);
+            // Fix tilemap vertical line artifacts by snapping to integer coordinates
+            oldPos.x = Math.round(oldPos.x);
+            oldPos.y = Math.round(oldPos.y);
             this.target.setPosition(oldPos);
         }
     },

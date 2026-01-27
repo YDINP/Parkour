@@ -43,35 +43,35 @@ export type UpgradeResult = "max" | "succ" | "fail"
 @dc("pdata")
 export default class PlayerInfoDC extends DataCenter {
 
-    /** 正在玩哪关 */
+    /** Currently playing level */
     @field()
     playinglv: number = 1;
 
-    //当前最高关卡
+    // Current highest level
     @field()
     level: number = 1;
 
-    //银币
+    // Silver coins
     @field()
     gold: number = 1000;
 
 
-    /**钻石 */
+    /** Diamond */
     @field()
-    diamond: number = 1000;
+    diamond: number = 0;
 
-    /** 玩家等级  */
+    /** Player level  */
     @field()
     playerlv: number = 1;
 
-    /**玩家经验 */
+    /** Player experience */
     @field()
     exp: number = 0;
 
 
-    // 0- 未获取
-    // 1- 为当前等级
-    /** 英雄 等级 */
+    // 0- Not obtained
+    // 1- Current level
+    /** Hero level */
     @field()
     heros: { [index: string]: number } = {
         ["1"]: 1,
@@ -85,26 +85,26 @@ export default class PlayerInfoDC extends DataCenter {
     @field()
     selHero: string = "1"
 
-    /** 宠物等级 */
+    /** Pet level */
     @field()
     pets: { [index: string]: number } = {}
     @field()
     selPet: string = "0"
 
-    /** 体力 */
+    /** Energy */
     @field()
     energy: number = 5;
 
-    /**buff数量 */
+    /** Buff count */
     @field()
     buffs: { [type: string]: number } = {
-        giant: 0,//巨人状态
-        protect: 0,//魔法保护
-        speed: 0,//开局加速
-        pet_hatch: 0,//孵化卷
+        giant: 0,// Giant state
+        protect: 0,// Magic protection
+        speed: 0,// Speed boost at start
+        pet_hatch: 0,// Hatch ticket
     };
 
-    /**能力等级 */
+    /** Ability level */
     @field()
     abilitys: { [type: string]: number } = {
         lifeup: 1,
@@ -123,49 +123,57 @@ export default class PlayerInfoDC extends DataCenter {
 
     avatarUrl: string = ""
 
-    /**上一次恢复的时间  */
+    /** Last recovery time  */
     @field()
     energyRecoveryT: number = 0;
 
 
-    /** 无尽关卡最高分记录 */
+    /** Endless mode highest score record */
     @field()
     score: number = 0;
 
-    /**普通  关卡最高分记录 */
+    /** Normal level highest score record */
     @field()
     normal_maxScores: { [index: number]: number } = {}
 
-    /** 玩家当湔 英雄 的生命值  */
+    /** Player's current hero HP  */
     private _hp: number = 0;
 
 
-    /** 玩家当湔 英雄 的生命值  */
+    /** Temporary score  */
     @field({ persistent: false, enumerable: false })
     tmpScore: number = 0;
 
-    /** 玩家当湔 英雄 的生命值  */
+    /** Temporary gold  */
     @field({ persistent: false, enumerable: false })
     tmpGold: number = 0;
 
     maxHp: number = 0;
     maxHp_normal: number = 0;
 
-    //跑的距离
+    // Distance run
     distance: number = 0;
 
-    //签到
+    // Sign in
     @field()
     signIn: { date: number, isSignIn: boolean } = { date: 1, isSignIn: false };
 
-    //签到时间
+    // Sign in time
     @field()
     signInTime: number = 0;
 
-    //游戏模式
+    // 무료 다이아 광고 일일 횟수 (기본 3회)
+    @field()
+    freeDiamondCount: number = 3;
+
+    // 무료 다이아 마지막 충전 날짜 (YYYY-MM-DD)
+    @field()
+    freeDiamondDate: string = "";
+
+    // Game mode
     gameMode: number = 0;
 
-    //开局buff
+    // Start buffs
     startBuffs: Array<string> = [];
 
     hpLose: number = 1;
@@ -196,14 +204,45 @@ export default class PlayerInfoDC extends DataCenter {
 
     }
 
-    /**游戏 开始 数据处理 */
+    /**
+     * 다이아 광고 일일 제한 체크 및 리셋
+     * 날짜가 바뀌면 횟수를 3으로 리셋
+     */
+    checkDailyDiamondReset(): void {
+        const today = new Date().toISOString().split('T')[0];
+        if (this.freeDiamondDate !== today) {
+            this.freeDiamondCount = 3;
+            this.freeDiamondDate = today;
+            this.save("freeDiamondCount,freeDiamondDate");
+        }
+    }
+
+    /**
+     * 다이아 광고 시청 가능 여부 확인
+     */
+    canWatchDiamondAd(): boolean {
+        this.checkDailyDiamondReset();
+        return this.freeDiamondCount > 0;
+    }
+
+    /**
+     * 다이아 광고 시청 횟수 차감
+     */
+    useDiamondAdCount(): void {
+        if (this.freeDiamondCount > 0) {
+            this.freeDiamondCount--;
+            this.save("freeDiamondCount");
+        }
+    }
+
+    /** Game start data processing */
     enterGame() {
         let hero = ccUtil.get(HeroData, this.selHero)
-        //额外血量加成
+        // Extra HP bonus
         let hpAddLevel = this.abilitys.lifeup
         let shopcap = ccUtil.get(ShopCapData, ShopCapType.lifeup)
         let shopHpAdd = shopcap.vals[hpAddLevel - 1];
-        console.log("=== 商店 hp加成" + shopHpAdd)
+        console.log("=== Shop HP bonus: " + shopHpAdd)
         this.maxHp_normal = hero.hp;
         this.maxHp = hero.hp + shopHpAdd;
         this.hp = this.maxHp;
@@ -216,13 +255,13 @@ export default class PlayerInfoDC extends DataCenter {
         this.isGameWin = false;
     }
 
-    /**游戏结束后数据 处理  */
+    /** Game end data processing  */
     endGame(isWin?) {
         this.isGameEnd = true;
         if (isWin) {
             this.isGameWin = true;
         }
-        //上传数据
+        // Upload data
         if (this.tmpScore > this.score) {
             this.score = this.tmpScore;
         }
@@ -238,7 +277,7 @@ export default class PlayerInfoDC extends DataCenter {
     }
 
 
-    /**同步指定域数据 */
+    /** Sync specified domain data */
     sendToServer(str: string) {
         let d = {}
         let n = 0
@@ -267,7 +306,7 @@ export default class PlayerInfoDC extends DataCenter {
         }
     }
 
-    /**尝试突破记录 */
+    /** Try to break record */
     breakNewRecord() {
         if (this.gameMode == ParkourType.Normal) {
             let max = this.getMaxScore(this.playinglv);
@@ -290,24 +329,24 @@ export default class PlayerInfoDC extends DataCenter {
 
     }
 
-    //获取英雄等级 
+    // Get hero level
     getHeroLevel(id) {
         let lv = this.heros[id] || 0
         return lv;
     }
 
-    /** 获取宠物等级  */
+    /** Get pet level  */
     getPetLevel(id) {
         let lv = this.pets[id] || 0
         return lv;
     }
 
-    /**当前选中的英雄的等级 */
+    /** Currently selected hero level */
     get selHeroLevel() {
         return this.getHeroLevel(this.selHero)
     }
 
-    /** 当前选中的宠物的等级  */
+    /** Currently selected pet level  */
     get selPetLevel() {
         return this.getPetLevel(this.selPet)
     }
@@ -321,19 +360,19 @@ export default class PlayerInfoDC extends DataCenter {
     }
 
 
-    /** 选择英雄 */
+    /** Select hero */
     selectHero(id) {
         this.selHero = id;
         this.save("selHero")
     }
 
-    /** 选择宠物  */
+    /** Select pet  */
     selectPet(id) {
         this.selPet = id;
         this.save("selPet")
     }
 
-    /**升级 英雄 */
+    /** Upgrade hero */
     upHero(id): UpgradeResult {
         let lv = this.getHeroLevel(id)
         let d = ccUtil.get(HeroData, lv + 1)
@@ -348,7 +387,7 @@ export default class PlayerInfoDC extends DataCenter {
         }
     }
 
-    /**升级玩家等级   */
+    /** Upgrade player level   */
     upPlayer(): UpgradeResult {
         let d = ccUtil.get(PlayerData, pdata.playerlv + 1);
         if (d == null) {
@@ -356,10 +395,10 @@ export default class PlayerInfoDC extends DataCenter {
             return "max";
         } else {
             // let next_require_exp = d.require_exp;
-            // console.log("经验值 :", pdata.exp, next_require_exp)
+            // console.log("Experience:", pdata.exp, next_require_exp)
             // if (pdata.exp >= next_require_exp) {
             //     pdata.exp = pdata.exp - next_require_exp;
-            //     //有bug,如果连续升2级
+            //     // Bug if leveling up 2 levels consecutively
             //     pdata.playerlv++;
             //     this.save("exp", 'playerlv')
             //     return "succ";
@@ -370,12 +409,16 @@ export default class PlayerInfoDC extends DataCenter {
             let next_require_exp = d.require_exp;
             let isSucc = false;
             while (pdata.exp >= next_require_exp) {
-                console.log("经验值 :", pdata.exp, next_require_exp)
+                console.log("Experience:", pdata.exp, next_require_exp)
                 pdata.exp = pdata.exp - next_require_exp;
                 pdata.playerlv++;
-                d = ccUtil.get(PlayerData, pdata.playerlv + 1);
-                next_require_exp = d.require_exp;
                 isSucc = true;
+                d = ccUtil.get(PlayerData, pdata.playerlv + 1);
+                if (d == null) {
+                    // Max level reached
+                    break;
+                }
+                next_require_exp = d.require_exp;
             }
             this.save("exp", 'playerlv');
             return isSucc ? "succ" : "fail";
@@ -426,7 +469,7 @@ export default class PlayerInfoDC extends DataCenter {
         return lv > 0;
     }
 
-    /**升级 宠物 */
+    /** Upgrade pet */
     upPet(id): UpgradeResult {
         let lv = this.getPetLevel(id)
         let d = ccUtil.get(PetData, lv + 1)
@@ -441,17 +484,17 @@ export default class PlayerInfoDC extends DataCenter {
         }
     }
 
-    //添加buff道具
+    // Add buff item
     addBuffItem(id: number, num: number) {
         this.buffs[id] += num;
         this.save("buffs");
     }
 
 
-    /**添加资源 ,res 为资源类型，和数量 ， mul是添加的倍数，-1 为减少资源
-     * 
-     *  @returns  返回 false 表示 添加/减少 失败 ,true表示添加/减少成功
-     * 
+    /** Add resource, res is resource type and amount, mul is multiplier, -1 to decrease resource
+     *
+     *  @returns  Returns false if add/decrease failed, true if successful
+     *
         */
     addRes(res: Res, mul = 1) {
         switch (res.type) {
@@ -459,7 +502,7 @@ export default class PlayerInfoDC extends DataCenter {
                 if (mul < 0) {
                     let g = this.gold + res.num * mul;
                     if (g < 0) {
-                        //数量不足
+                        // Insufficient amount
                         return false;
                     }
                 }
@@ -470,7 +513,7 @@ export default class PlayerInfoDC extends DataCenter {
                 if (mul < 0) {
                     let r = this.diamond + res.num * mul;
                     if (r < 0) {
-                        //数量 不足
+                        // Insufficient amount
                         return false;
                     }
                 }

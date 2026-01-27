@@ -122,7 +122,7 @@ export default class BuffSystem extends cc.Component {
         let cls = BuffSystem.buff_cls[buffname];
         if (cls == null) {
             if (typeof (buffname) == "string") {
-                console.error("[BuffSystem]:" + buffname + "未注册 ！")
+                console.error("[BuffSystem]:" + buffname + " 미등록!")
                 return new EmptyBuff();
             } else {
                 return new buffname;

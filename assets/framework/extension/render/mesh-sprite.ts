@@ -8,9 +8,9 @@ let { executeInEditMode, ccclass, property } = cc._decorator
 @executeInEditMode
 export default class MeshSprite extends cc.Component {
 
-    @property({ displayName: "刷新" })
+    @property({ displayName: "Refresh" })
     _temp_refresh: boolean = true;
-    @property({ displayName: "刷新" })
+    @property({ displayName: "Refresh" })
     get temp_refresh() {
         return this._temp_refresh;
     }
@@ -23,7 +23,7 @@ export default class MeshSprite extends cc.Component {
     _offset: cc.Vec2 = cc.v2();
     /**
      * !#en Position offset
-     * !#zh 位置偏移量
+     * !#zh Position offset
      * @property offset
      * @type {Vec2}
      */
@@ -41,7 +41,7 @@ export default class MeshSprite extends cc.Component {
     _spriteFrame: cc.SpriteFrame = null;
     /**
      * !#en The sprite frame of the sprite.
-     * !#zh 精灵的精灵帧
+     * !#zh Sprite's sprite frame
      * @property spriteFrame
      * @type {SpriteFrame}
      * @example
@@ -65,7 +65,7 @@ export default class MeshSprite extends cc.Component {
     ]
     /**
      * !#en Polygon points
-     * !#zh 多边形顶点数组
+     * !#zh Polygon vertex array
      * @property points
      * @type {Vec2[]}
      */
@@ -148,17 +148,17 @@ export default class MeshSprite extends cc.Component {
         // cc.log('_updateMesh');
     }
 
-    // 更新顶点
+    // Update vertices
     _applyVertexes() {
         // cc.log('_applyVertexes');
 
-        // 设置坐标
+        // Set coordinates
         const mesh = this.mesh;
         mesh.setVertices(gfx.ATTR_POSITION, this.vertexes);
 
         if (this.texture) {
             let uvs = [];
-            // 计算uv
+            // Calculate uv
             for (const pt of this.vertexes) {
                 const vx = (pt.x + this.texture.width / 2 + this.offset.x) / this.texture.width;
                 const vy = 1.0 - (pt.y + this.texture.height / 2 + this.offset.y) / this.texture.height
@@ -168,11 +168,11 @@ export default class MeshSprite extends cc.Component {
         }
 
         if (this.vertexes.length >= 3) {
-            // 计算顶点索引 
+            // Calculate vertex indices
             let ids = [];
             const vertexes = [].concat(this.vertexes);
 
-            // 多边形切割，未实现相交的复杂多边形，确保顶点按顺序且围成的线不相交
+            // Polygon cutting, complex intersecting polygons not implemented, ensure vertices are in order and lines don't intersect
             let index = 0, rootIndex = -1;
             while (vertexes.length > 3) {
                 const p1 = vertexes[index];
@@ -182,31 +182,31 @@ export default class MeshSprite extends cc.Component {
                 const v1 = p2.sub(p1);
                 const v2 = p3.sub(p2);
                 if (v1.cross(v2) >= 0) {
-                    // 是凸点
+                    // Is convex point
                     let isIn = false;
                     for (const p_t of vertexes) {
                         if (p_t !== p1 && p_t !== p2 && p_t !== p3 && this._testInTriangle(p_t, p1, p2, p3)) {
-                            // 其他点在三角形内
+                            // Other point is inside triangle
                             isIn = true;
                             break;
                         }
                     }
                     if (!isIn) {
-                        // 切耳朵，是凸点，且没有其他点在三角形内
+                        // Ear clipping, is convex and no other points inside triangle
                         ids = ids.concat([this.vertexes.indexOf(p1), this.vertexes.indexOf(p2), this.vertexes.indexOf(p3)]);
                         vertexes.splice(vertexes.indexOf(p2), 1);
                         rootIndex = index;
                     } else {
                         index = (index + 1) % vertexes.length;
                         if (index === rootIndex) {
-                            cc.log('循环一圈未发现');
+                            cc.log('Looped once without finding');
                             break;
                         }
                     }
                 } else {
                     index = (index + 1) % vertexes.length;
                     if (index === rootIndex) {
-                        cc.log('循环一圈未发现');
+                        cc.log('Looped once without finding');
                         break;
                     }
                 }
@@ -215,7 +215,7 @@ export default class MeshSprite extends cc.Component {
             mesh.setIndices(ids);
 
             if (this.renderer.mesh != mesh) {
-                // mesh 完成后再赋值给 MeshRenderer , 否则模拟器(mac)会跳出
+                // Assign to MeshRenderer after mesh is complete, otherwise simulator (mac) will crash
                 this.renderer.mesh = mesh;
             }
         } else {
@@ -223,15 +223,15 @@ export default class MeshSprite extends cc.Component {
         }
     }
 
-    // 判断一个点是否在三角形内
+    // Check if a point is inside a triangle
     _testInTriangle(point, triA, triB, triC) {
         let AB = triB.sub(triA), AC = triC.sub(triA), BC = triC.sub(triB), AD = point.sub(triA), BD = point.sub(triB);
-        return (AB.cross(AC) >= 0 ^ AB.cross(AD) < 0)  // D,C 在AB同同方向
-            && (AB.cross(AC) >= 0 ^ AC.cross(AD) >= 0) // D,B 在AC同同方向
-            && (BC.cross(AB) > 0 ^ BC.cross(BD) >= 0); // D,A 在BC同同方向
+        return (AB.cross(AC) >= 0 ^ AB.cross(AD) < 0)  // D,C are on same side of AB
+            && (AB.cross(AC) >= 0 ^ AC.cross(AD) >= 0) // D,B are on same side of AC
+            && (BC.cross(AB) > 0 ^ BC.cross(BD) >= 0); // D,A are on same side of BC
     }
 
-    // 更新图片
+    // Update sprite
     _applySpriteFrame() {
         // cc.log('_applySpriteFrame');
         if (this.spriteFrame) {

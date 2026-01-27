@@ -19,10 +19,10 @@ export default class Switcher extends cc.Component {
     private _currentIndex: number = 0;
 
 
-    @property({ displayName: "交互" })
+    @property({ displayName: "Interactable" })
     interactable: boolean = false;
 
-    @property({ displayName: "当前值" })
+    @property({ displayName: "Current Value" })
     public get currentIndex(): number {
         return this._currentIndex;
     }

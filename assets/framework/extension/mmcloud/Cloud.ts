@@ -41,7 +41,7 @@ export default class Cloud {
                         return
                     }
                     if (CC_DEBUG) {
-                        console.log("屏蔽接口返回", s);
+                        console.log("차단 인터페이스 반환", s);
                     }
                     resolve(s.data);
                 } else if (res == Net.Code.Timeout) {

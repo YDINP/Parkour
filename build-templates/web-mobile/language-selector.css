@@ -1,0 +1,276 @@
+/**
+ * Language Selector Styles
+ * Cocos Creator 2.x / 3.x web-mobile
+ */
+
+/* Container */
+#language-selector-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 99999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    align-items: stretch;
+}
+
+/* Drag Handle */
+.drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    cursor: grab;
+    color: #666;
+    font-size: 14px;
+    letter-spacing: -2px;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: all 0.2s ease;
+}
+
+.drag-handle:hover {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.drag-handle:active,
+#language-selector-container.dragging .drag-handle {
+    cursor: grabbing;
+    background: #e0e0e0;
+}
+
+/* Native Select Style */
+#language-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 10px 36px 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    min-width: 120px;
+
+    /* Custom dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+#language-select:hover {
+    background-color: #fff;
+    border-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#language-select:focus {
+    border-color: #4A90D9;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+}
+
+#language-select option {
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    #language-select {
+        color: #fff;
+        background-color: rgba(40, 40, 40, 0.95);
+        border-color: rgba(255, 255, 255, 0.15);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    }
+
+    #language-select:hover {
+        background-color: rgba(50, 50, 50, 0.95);
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 480px) {
+    #language-selector-container {
+        top: 8px;
+        right: 8px;
+    }
+
+    #language-select {
+        padding: 8px 32px 8px 12px;
+        font-size: 13px;
+        min-width: 100px;
+    }
+}
+
+/* Touch-friendly size (minimum 44px touch target) */
+@media (pointer: coarse) {
+    #language-select {
+        min-height: 44px;
+        padding: 12px 40px 12px 16px;
+    }
+}
+
+/* ===========================================
+   Custom Dropdown (Alternative to native select)
+   =========================================== */
+
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lang-dropdown-btn:hover {
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.lang-dropdown-btn .flag {
+    font-size: 18px;
+}
+
+.lang-dropdown-btn .arrow {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+}
+
+.lang-dropdown.open .lang-dropdown-btn .arrow {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 150px;
+    max-height: 240px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease;
+    z-index: 100000;
+}
+
+.lang-dropdown.open .lang-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.lang-dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.lang-dropdown-item.selected {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+}
+
+.lang-dropdown-item .flag {
+    font-size: 18px;
+}
+
+.lang-dropdown-item .check {
+    margin-left: auto;
+    opacity: 0;
+}
+
+.lang-dropdown-item.selected .check {
+    opacity: 1;
+}
+
+/* Scrollbar styling for dropdown */
+.lang-dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lang-dropdown-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lang-dropdown-menu::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.lang-dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* Hidden state for language selector */
+#language-selector-container.hidden {
+    display: none;
+}
+
+/* Fade animation */
+#language-selector-container.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#language-selector-container.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Draggable styles */
+#language-selector-container {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+#language-selector-container.dragging {
+    cursor: grabbing;
+    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+#language-selector-container #language-select,
+#language-selector-container .lang-dropdown-btn {
+    cursor: pointer;
+}

@@ -71,9 +71,11 @@ export default class HeartRecovery extends cc.Component {
         }
         if (pdata.energy < recovery_max) {
             this.target.active = true;
+            this.label.node.active = true;
             this.label.string = gameUtil.formatSeconds(timeleft);
         } else {
             this.target.active = false;
+            this.label.node.active = false;
         }
     }
 

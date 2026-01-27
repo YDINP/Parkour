@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import gUtil from "../../../framework/core/gUtil";
 import Fx from "../../../framework/extension/fxplayer/Fx";
@@ -83,6 +82,24 @@ export default class UIReady extends mvcView {
         this.shopItemList = csv.shopCap.values.map(v => ccUtil.get(ShopCapData, v.id))
         evt.on("readyItem.use", this.on_useItem, this);
 
+    }
+
+    onEnable() {
+        super.onEnable();
+        // 언어 변경 이벤트 리스너 등록
+        cc.director.on('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    onDisable() {
+        super.onDisable();
+        // 언어 변경 이벤트 리스너 해제
+        cc.director.off('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    private onLanguageChanged() {
+        // 언어 변경 시 능력 정보 갱신
+        this.skillPromote();
+        this.ability_refresh();
     }
 
     onShow() {
@@ -266,15 +283,17 @@ export default class UIReady extends mvcView {
 
         this.lab_ability_lv.string = "LV." + lv
 
-        this.lab_ability_name.string = dd.name;
+        // 언어 변경 시 실시간 반영을 위해 캐시된 dd.name 대신 직접 로컬라이징 호출
+        this.lab_ability_name.string = LocalizationManager.getText(`@shopCap.${dd.id}.name`);
 
 
-        this.lab_ability_describe.string = cc.js.formatStr(dd.description, dd.vals[lv - 1])
+        // 언어 변경 시 실시간 반영을 위해 캐시된 dd.description 대신 직접 로컬라이징 호출
+        const desc = LocalizationManager.getText(`@shopCap.${dd.id}.desc`);
+        this.lab_ability_describe.string = cc.js.formatStr(desc, dd.vals[lv - 1])
         this.lab_upgrade_price.string = price == null ? "MAX" : price;
     }
 
     private click_closes() {
-
         vm.hide(this);
     }
 

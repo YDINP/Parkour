@@ -1,9 +1,9 @@
 /******************************************
  * @author kL <klk0@qq.com>
  * @date 2019/6/6
- * @doc 列表Item组件.
- * 说明：
- *      1、此组件须配合List组件使用。（配套的配套的..）
+ * @doc List Item Component.
+ * Note:
+ *      1. This component must be used with List component.
  * @end
  ******************************************/
 const { ccclass, property, disallowMultiple, menu, executionOrder } = cc._decorator;
@@ -18,41 +18,41 @@ enum SelectedType {
 
 @ccclass
 @disallowMultiple()
-@menu('自定义组件/List Item')
-@executionOrder(-5001)          //先于List
+@menu('Custom Components/List Item')
+@executionOrder(-5001)          // Execute before List
 export default class ListItem extends cc.Component {
-    //图标
-    @property({ type: cc.Sprite, tooltip: CC_DEV && '图标' })
+    // Icon
+    @property({ type: cc.Sprite, tooltip: CC_DEV && 'Icon' })
     icon: cc.Sprite = null;
-    //标题
-    @property({ type: cc.Node, tooltip: CC_DEV && '标题' })
+    // Title
+    @property({ type: cc.Node, tooltip: CC_DEV && 'Title' })
     title: cc.Node = null;
-    //选择模式
+    // Selection mode
     @property({
         type: cc.Enum(SelectedType),
-        tooltip: CC_DEV && '选择模式'
+        tooltip: CC_DEV && 'Selection Mode'
     })
     selectedMode: SelectedType = SelectedType.NONE;
-    //被选标志
+    // Selected flag
     @property({
-        type: cc.Node, tooltip: CC_DEV && '被选标志',
+        type: cc.Node, tooltip: CC_DEV && 'Selected Flag',
         visible() { return this.selectedMode > SelectedType.NONE }
     })
     selectedFlag: cc.Node = null;
-    //被选择的SpriteFrame
+    // Selected SpriteFrame
     @property({
-        type: cc.SpriteFrame, tooltip: CC_DEV && '被选择的SpriteFrame',
+        type: cc.SpriteFrame, tooltip: CC_DEV && 'Selected SpriteFrame',
         visible() { return this.selectedMode == SelectedType.SWITCH }
     })
     selectedSpriteFrame: cc.SpriteFrame = null;
-    //未被选择的SpriteFrame
+    // Unselected SpriteFrame
     _unselectedSpriteFrame: cc.SpriteFrame = null;
-    //自适应尺寸
+    // Adaptive size
     @property({
-        tooltip: CC_DEV && '自适应尺寸（宽或高）',
+        tooltip: CC_DEV && 'Adaptive Size (width or height)',
     })
     adaptiveSize: boolean = false;
-    //选择
+    // Selected state
     _selected: boolean = false;
     set selected(val: boolean) {
         this._selected = val;
@@ -72,25 +72,25 @@ export default class ListItem extends cc.Component {
     get selected() {
         return this._selected;
     }
-    //按钮组件
+    // Button component
     private _btnCom: any;
     get btnCom() {
         if (!this._btnCom)
             this._btnCom = this.node.getComponent(cc.Button);
         return this._btnCom;
     }
-    //依赖的List组件
+    // Dependent List component
     public list: ListView;
-    //是否已经注册过事件
+    // Whether events are registered
     private _eventReg = false;
-    //序列id
+    // Sequence id
     public listId: number;
 
     onLoad() {
-        // //没有按钮组件的话，selectedFlag无效
+        // // If no button component, selectedFlag is invalid
         // if (!this.btnCom)
         //     this.selectedMode == SelectedType.NONE;
-        //有选择模式时，保存相应的东西
+        // Save corresponding data when selection mode is enabled
         if (this.selectedMode == SelectedType.SWITCH) {
             let com: cc.Sprite = this.selectedFlag.getComponent(cc.Sprite);
             this._unselectedSpriteFrame = com.spriteFrame;
@@ -117,15 +117,15 @@ export default class ListItem extends cc.Component {
         this.list._onItemAdaptive(this.node);
     }
     /**
-     * 创建事件
-     * @param {cc.Component} component 组件脚本
-     * @param {string} handlerName 触发函数名称
-     * @param {cc.Node} node 组件所在node（不传的情况下取component.node）
+     * Create event
+     * @param {cc.Component} component Component script
+     * @param {string} handlerName Handler function name
+     * @param {cc.Node} node Node where component is located (defaults to component.node if not provided)
      * @returns cc.Component.EventHandler
      */
     createEvt(component: cc.Component, handlerName: string, node: cc.Node = null) {
         if (!component.isValid)
-            return;//有些异步加载的，节点以及销毁了。
+            return;// Some async loaded nodes may already be destroyed
         component['comName'] = component['comName'] || component.name.match(/\<(.*?)\>/g).pop().replace(/\<|>/g, '');
         let evt = new cc.Component.EventHandler();
         evt.target = node || component.node;
@@ -137,31 +137,31 @@ export default class ListItem extends cc.Component {
     showAni(aniType: number, callFunc: Function, del: boolean) {
         let acts: any[];
         switch (aniType) {
-            case 0: //向上消失
+            case 0: // Disappear upward
                 acts = [
                     cc.scaleTo(.2, .7),
                     cc.moveBy(.3, 0, this.node.height * 2),
                 ];
                 break;
-            case 1: //向右消失
+            case 1: // Disappear rightward
                 acts = [
                     cc.scaleTo(.2, .7),
                     cc.moveBy(.3, this.node.width * 2, 0),
                 ];
                 break;
-            case 2: //向下消失
+            case 2: // Disappear downward
                 acts = [
                     cc.scaleTo(.2, .7),
                     cc.moveBy(.3, 0, this.node.height * -2),
                 ];
                 break;
-            case 3: //向左消失
+            case 3: // Disappear leftward
                 acts = [
                     cc.scaleTo(.2, .7),
                     cc.moveBy(.3, this.node.width * -2, 0),
                 ];
                 break;
-            default: //默认：缩小消失
+            default: // Default: shrink and disappear
                 acts = [
                     cc.scaleTo(.3, .1),
                 ];

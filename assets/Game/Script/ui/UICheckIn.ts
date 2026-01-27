@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import mvcView from "../../../framework/ui/mvcView";
 import { Toast } from "../../../framework/ui/ToastManager";
@@ -21,6 +20,23 @@ export default class UI_signIn extends mvcView {
         this.register(this.lay_signIn, _ => csv.skin.values, this.signIn.bind(this));
     }
 
+    onEnable() {
+        super.onEnable();
+        // 언어 변경 이벤트 리스너 등록
+        cc.director.on('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    onDisable() {
+        super.onDisable();
+        // 언어 변경 이벤트 리스너 해제
+        cc.director.off('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    private onLanguageChanged() {
+        // 언어 변경 시 전체 리스트 갱신
+        this.render();
+    }
+
     onShow() {
         this.render();
     }
@@ -37,9 +53,10 @@ export default class UI_signIn extends mvcView {
         let lab_num = ccUtil.find("lab_num", node, cc.Label);
         let btn_isSignIn = ccUtil.find("btn_signIn", node, cc.Button);
         let img_isSignIn = ccUtil.find("btn_signIn/img_isSignIn", node, cc.Sprite);
-        this.register(lab_date, _ => data.date);
+        // 언어 변경 시 실시간 반영을 위해 로컬라이징 키 사용
+        this.register(lab_date, _ => LocalizationManager.getText(`@skin.${data.id}.date`));
         ccUtil.setDisplay(img_prize, data.path);
-        this.register(lab_name, _ => data.name);
+        this.register(lab_name, _ => LocalizationManager.getText(`@skin.${data.id}.name`));
         this.register(lab_num, _ => "X" + data.number);
         if (pdata.signIn.date == data.id) {
             btn_isSignIn.interactable = !pdata.signIn.isSignIn;
@@ -67,7 +84,6 @@ export default class UI_signIn extends mvcView {
     }
 
     private click_closes() {
-         
         vm.hide(this);
     }
 

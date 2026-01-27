@@ -94,7 +94,7 @@ export default abstract class Buff {
         this.onRecovery();
         this.onTimeLeftChanged();
         if (CC_DEBUG)
-            console.warn("[BuffSystem]恢复buff:" + "[" + this.name + "]", this.duration);
+            console.warn("[BuffSystem]버프 복구:" + "[" + this.name + "]", this.duration);
     }
 
     /**重置 buff 生命 周期  */
@@ -113,7 +113,7 @@ export default abstract class Buff {
         this.onTimeLeftChanged()
         this._emit(EventType.Start, this)
         if (CC_DEBUG)
-            console.warn("[BuffSystem]开启buff:" + "[" + this.name + "]", this.duration);
+            console.warn("[BuffSystem]버프 활성화:" + "[" + this.name + "]", this.duration);
     }
 
     disable() {
@@ -127,7 +127,7 @@ export default abstract class Buff {
         }
         this._emit(EventType.End, this);
         if (CC_DEBUG)
-            console.warn("[BuffSystem]关闭buff:" + "[" + this.name + "]");
+            console.warn("[BuffSystem]버프 비활성화:" + "[" + this.name + "]");
     }
 
     destroy() {

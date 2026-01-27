@@ -341,7 +341,7 @@ csv.createIndex = function (path, key_field, value_field) {
      * @type {csv._CSV}
      */
     var c = this[path]
-    if (c == null) return console.warn("请先加载Config,再创建索引")
+    if (c == null) return console.warn("먼저 Config를 로드한 후 인덱스를 생성하세요")
     c.values.forEach(function (v) {
         var key = v[key_field]
         if (key == "" || key == 0) return;

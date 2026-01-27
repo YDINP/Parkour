@@ -29,8 +29,8 @@ export default class JoyStick extends cc.Component {
 
     private _isReleased = true;
 
-    /**移动到指定位置手指位置 */
-    @property({ displayName: "是否可移动", tooltip: "超过范围时，将随手指移动" })
+    /** Move to finger position */
+    @property({ displayName: "Allow Move", tooltip: "Will follow finger when out of range" })
     bmove = false;
 
     onMove: Signal = new Signal();

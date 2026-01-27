@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import FxPlayer from "../../../framework/extension/fxplayer/FxPlayer";
 import { UInfo } from "../../../framework/extension/weak_net_game/UInfo";
 import mvcView from "../../../framework/ui/mvcView";
@@ -7,6 +6,7 @@ import ccUtil from "../../../framework/utils/ccUtil";
 import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import { pdata } from "../data/PlayerInfo";
 import { ImgConfirmData } from "./UIImgComfirm";
+import InventoryUI from "../view/TopMostInventoryUI";
 
 const { ccclass, property } = cc._decorator;
 
@@ -115,16 +115,21 @@ export default class UIDrawBox extends mvcView {
             // Toast.make("正在挑选奖品！")
             return;
         }
-        if (UInfo.drawResidueTime <= 0) {
-            Toast.make(LocalizationManager.getText("@text.draw_time_used_up"));
-            // Toast.make("当日抽奖次数已用完！");
-            return;
-        }
+        // [임시 비활성화] 상자뽑기 횟수제한
+        // if (UInfo.drawResidueTime <= 0) {
+        //     Toast.make(LocalizationManager.getText("@text.draw_time_used_up"));
+        //     // Toast.make("当日抽奖次数已用完！");
+        //     return;
+        // }
         if (UInfo.drawResidueTime <= 4) {
             if (pdata.diamond < 5) {
                 Toast.make(LocalizationManager.getText("@text.diamond_not_enough"));
                 // Toast.make("钻石不足！");
                 return
+            }
+            // 다이아 차감 위치 표시를 위해 클릭한 상자를 타겟으로 설정
+            if (InventoryUI.instance) {
+                InventoryUI.instance.setTarget(e.target);
             }
             pdata.diamond -= 5;
             pdata.save("diamond");
@@ -149,7 +154,6 @@ export default class UIDrawBox extends mvcView {
     }
 
     private click_closes() {
-
         vm.hide(this);
     }
 }

@@ -88,7 +88,7 @@ export default class PersistNode extends cc.Component {
 
         BuffSystem.main.startBuff("heartRecovery", 9999999999)
 
-        console.log("*********动态合图************")
+        console.log("*********동적 아틀라스************")
         console.log(cc.macro.CLEANUP_IMAGE_CACHE)
     }
 
@@ -122,7 +122,7 @@ export default class PersistNode extends cc.Component {
             ViewManager.instance.allViews.forEach(v => {
                 if (v.node.active) {
                     if (csv.Config.BannerAdWhiteList.indexOf(v.node.name) == -1) {
-                        //没有在白名单里的要隐藏 
+                        //화이트리스트에 없으면 숨김
                         console.log("Not in the white list, close banner ad!")
                         Platform.hideBannerAd();
                     }
@@ -140,14 +140,14 @@ export default class PersistNode extends cc.Component {
         //     console.log(a.query.share_link, a.query.uuid, WeakNetGame.sharedUUIDs)
         //     if (a.query.share_link == "true" && WeakNetGame.isValidShare(a.query.uuid)) {
         //         if (a.scene == 1007) {
-        //             vm.show("Prefab/UI/UIShareLink", "点击个人的分享链接不会获得奖励哟~请分享到微信群吧！")
-        //             console.log("链接分享：个人")
+        //             vm.show("Prefab/UI/UIShareLink", "개인 공유 링크 클릭 시 보상을 받을 수 없습니다~위챗 그룹에 공유해주세요!")
+        //             console.log("링크 공유: 개인")
         //         }
         //         else {
         //             if (a.scene == 1008 || a.scene == 1044) {
-        //                 console.log("链接分享：群", a.scene)
+        //                 console.log("링크 공유: 그룹", a.scene)
         //                 if (WeakNetGame.isClaimedShare(a.query.uuid)) {
-        //                     vm.show("Prefab/UI/UIShareLink", "短时间内，不能点击相同群的分享链接！请分享到其他群吧！")
+        //                     vm.show("Prefab/UI/UIShareLink", "짧은 시간 내에 같은 그룹의 공유 링크를 클릭할 수 없습니다! 다른 그룹에 공유해주세요!")
         //                 } else {
         //                     WeakNetGame.claimShare(a.query.uuid);
         //                     vm.hide("Prefab/UI/UIShareLink")

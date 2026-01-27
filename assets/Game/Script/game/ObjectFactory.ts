@@ -138,8 +138,8 @@ const creators = {
         default(node: cc.Node, name, properties) {
             let newNode = PoolManager.get('monsters').get(name)
             if (newNode == null) {
-                //未找到骨骼，使用常规障碍
-                console.warn("未找到骨骼动画" + name + " in " + ObjectFactory.cmap.name + " ,使用常规障碍!")
+                //스켈레톤 찾지 못함, 일반 장애물 사용
+                console.warn("스켈레톤 애니메이션 찾지 못함: " + name + " in " + ObjectFactory.cmap.name + " ,일반 장애물 사용!")
                 return creators.object_obstacle.default(node, name, properties)
             }
             if (node.isValid) {

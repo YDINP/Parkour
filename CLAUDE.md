@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Parkour Hero is a 2D endless runner game built with **Cocos Creator 2.4.13**. The game features heroes, pets, buffs, and various game modes across multiple platforms (WeChat, Alipay, QQ mini-games).
+Parkour Hero(49FriendRunner) is a 2D endless runner game built with **Cocos Creator 2.4.13**. The game features heroes, pets, buffs, and various game modes across multiple platforms (WeChat, Alipay, QQ mini-games).
 
 ## Development Commands
 
@@ -132,3 +132,57 @@ To replace sprites, update the UUID in `_spriteFrame` to the new texture's `subM
 - 스크린샷 캡처
 - 터치/클릭 이벤트 시뮬레이션
 - 전체화면 기능 테스트
+
+## Claude Skills & Commands
+
+### 사용 가능한 커맨드
+
+| 커맨드 | 설명 | 사용 예시 |
+|--------|------|----------|
+| `/review` | 코드 리뷰 | `/review assets/Game/Script/game/` |
+| `/l10n` | 로컬라이제이션 관리 | `/l10n check` |
+| `/l10n-sync` | CDN 동기화 상태 확인 | `/l10n-sync 49FriendsRunner` |
+| `/l10n-bump` | 버전 업데이트 | `/l10n-bump 49FriendsRunner patch` |
+
+### 스킬 참조
+
+- `.claude/skills/SKILL-GUIDE.md` - 스킬 작성 가이드
+- `.claude/skills/localization.md` - 로컬라이제이션 스킬
+- `.claude/skills/code-review.md` - 코드 리뷰 스킬
+
+### 에이전트
+
+- `.claude/agents/runner-level-reviewer.md` - 러너 레벨 분석 에이전트
+
+### 도메인 특화 (러너 게임)
+
+밸런스 관련 요청 시 참조할 데이터:
+- CSV 설정: `resources/Config/csv/`
+- 영웅 데이터: `csv/hero.csv`
+- 펫 데이터: `csv/pet.csv`
+- 버프 시스템: `assets/framework/extension/buffs/`
+
+## Git Commit Convention
+
+커밋 메시지 형식:
+```
+# X.Y.Z
+
+- 변경사항 1
+- 변경사항 2
+
+🤖 Generated with [Claude Code](https://claude.ai/claude-code)
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+```
+
+버전 규칙 (Semantic Versioning):
+- **X (Major)**: 대규모 구조 변경, 호환성 깨지는 변경
+- **Y (Minor)**: 새 기능 추가, 레벨 대량 추가/수정
+- **Z (Patch)**: 버그 수정, 소규모 수정, 문서 업데이트
+
+현재 버전: **0.1.0**
+
+## 프로젝트 구조 참조
+
+전체 관리 프로젝트 구조: `C:\Users\a\Documents\Ben_Claude\Projects-Structure.md`

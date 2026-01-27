@@ -215,7 +215,7 @@ export default class Platform {
         if (Array.isArray(share_cfgs)) {
             share_cfg = gUtil.getRandomInArray(share_cfgs) as ShareInfo;
         }
-        console.log("######开始分享")
+        console.log("######공유 시작")
         if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             let sdk;
             if (window.qq) {
@@ -393,7 +393,7 @@ export default class Platform {
                 // jsb.reflection.callStaticMethod("MoreGameHelper", "setbgmresuse","(Ljava/lang/String;)V");
                 // if (name) {
                 //     let str = JSON.stringify({ "type": name, "result": 1 });
-                //     console.log("进入埋点上传2")
+                //     console.log("이벤트 추적 업로드2")
                 //     jsb.reflection.callStaticMethod("AppsFlyerHelper", "trackEvent:withValues:", "ad", str);
                 // }
             }
@@ -476,7 +476,7 @@ export default class Platform {
 
         if (!CC_WECHATGAME) return;
         console.log("####Display screen ads");
-        // console.log("####显示插屏广告");
+        // console.log("####인터스티셜 광고 표시");
         if (CC_DEBUG) {
             console.log("DEBUG Mode skips screen ads");
             callback && callback.call(target);
@@ -508,7 +508,7 @@ export default class Platform {
                 // jsb.reflection.callStaticMethod("MoreGameHelper", "setbgmresuse","(Ljava/lang/String;)V");
                 // if (name) {
                 //     let str = JSON.stringify({ "type": name, "result": 1 });
-                //     console.log("进入埋点上传2")
+                //     console.log("이벤트 추적 업로드2")
                 //     jsb.reflection.callStaticMethod("AppsFlyerHelper", "trackEvent:withValues:", "ad", str);
                 // }
             }
@@ -525,7 +525,7 @@ export default class Platform {
                 // jsb.reflection.callStaticMethod("MoreGameHelper", "setbgmresuse","(Ljava/lang/String;)V");
                 // if (name) {
                 //     let str = JSON.stringify({ "type": name, "result": 1 });
-                //     console.log("进入埋点上传2")
+                //     console.log("이벤트 추적 업로드2")
                 //     jsb.reflection.callStaticMethod("AppsFlyerHelper", "trackEvent:withValues:", "ad", str);
                 // }
             }
@@ -642,7 +642,7 @@ export default class Platform {
     static shareRecorder(sucCallBack, failCall?, target?) {
         if (CC_DEBUG) {
             console.log("******** Share Success *************")
-            // console.log("拉起分享")
+            // console.log("공유 호출")
             sucCallBack.call(target)
             return;
             // if (sucCallBack) sucCallBack.call(target)
@@ -827,7 +827,7 @@ export default class Platform {
     }
 
     static getRankList(callback, target?) {
-        console.log("[Platform]#获取排行榜数据");
+        console.log("[Platform]#랭킹 데이터 가져오기");
         if (cc.sys.platform == cc.sys.QQ_PLAY) {
 
         } else if (cc.sys.platform == cc.sys.WECHAT_GAME) {
@@ -835,7 +835,7 @@ export default class Platform {
         }
     }
     static uploadScores(kvs: { key: string, value: string }[]) {
-        console.log("[Platform]#上传分数");
+        console.log("[Platform]#점수 업로드");
         if (cc.sys.platform == cc.sys.QQ_PLAY) {
         } else if (cc.sys.WECHAT_GAME == cc.sys.platform) {
             // wxsdk.postMessage(WxCommands., score);
@@ -908,9 +908,9 @@ export default class Platform {
                             id_interval = 0;
                         }
                         progress && progress(res.progress, res.totalBytesWritten, res.totalBytesExpectedToWrite)
-                        // console.log('下载进度', res.progress)
-                        // console.log('已经下载的数据长度', res.totalBytesWritten)
-                        // console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+                        // console.log('다운로드 진행률', res.progress)
+                        // console.log('다운로드된 데이터 길이', res.totalBytesWritten)
+                        // console.log('예상 총 다운로드 데이터 길이', res.totalBytesExpectedToWrite)
                     })
                 })
             }

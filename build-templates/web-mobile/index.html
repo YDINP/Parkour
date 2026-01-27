@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, minimal-ui=true"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="screen-orientation" content="landscape">
+    <meta name="x5-orientation" content="landscape">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta name="xx-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>49FriendsRunner v0.1.0</title>
+    <script>
+        // 遺紐??섏씠吏 ?쒕ぉ 蹂寃?(iframe ?댁뿉??濡쒕뱶????
+        try {
+            var gameTitle = '49FriendsRunner v0.1.0';
+            document.title = gameTitle;
+            if (window.parent && window.parent !== window) {
+                window.parent.document.title = gameTitle;
+            }
+        } catch (e) {}
+
+        // Title Update - GameVersion 濡쒕뱶 ??理쒖떊 踰꾩쟾?쇰줈 媛깆떊
+        (function() {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    if (window.GameVersion) {
+                        var title = window.GameVersion.projectName + ' v' + window.GameVersion.version;
+                        document.title = title;
+                        try {
+                            if (window.parent && window.parent !== window) {
+                                window.parent.document.title = title;
+                            }
+                        } catch (e) {}
+                    }
+                }, 500);
+            });
+        })();
+    </script>
+
+    <!-- Language Selector Styles -->
+    <link rel="stylesheet" type="text/css" href="language-selector.css"/>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+        #GameCanvas {
+            width: 100%;
+            height: 100%;
+        }
+        #splash {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .progress-bar span {
+            display: block;
+            width: 0%;
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Splash Screen -->
+    <div id="splash">
+        <div class="spinner"></div>
+        <div class="progress-bar">
+            <span id="progress"></span>
+        </div>
+    </div>
+
+    <!-- Game Canvas -->
+    <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+
+    <!-- Language Selector Script -->
+    <script src="language-selector.js"></script>
+
+    <!-- Cocos Engine -->
+    <script src="src/settings.js" charset="utf-8"></script>
+    <script src="cocos2d-js-min.js" charset="utf-8"></script>
+    <script src="main.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        // Boot Cocos Engine (IMPORTANT: This must be called!)
+        if (!window.jsb && window.boot) {
+            window.boot();
+        }
+    </script>
+
+    <script type="text/javascript">
+        // Hide splash when game is ready
+        (function() {
+            function hideSplash() {
+                var splash = document.getElementById('splash');
+                if (splash) {
+                    splash.style.transition = 'opacity 0.5s';
+                    splash.style.opacity = '0';
+                    setTimeout(function() {
+                        splash.style.display = 'none';
+                    }, 500);
+                }
+            }
+
+            // Listen for game ready
+            document.addEventListener('gameReady', hideSplash);
+
+            // Alternative: hide on scene load (deferred until cc is ready)
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    if (typeof cc !== 'undefined' && cc.director) {
+                        cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, hideSplash);
+                    }
+                }, 100);
+            });
+        })();
+    </script>
+
+    <!-- HTML-Cocos Bridge Communication -->
+    <script type="text/javascript">
+        (function() {
+            // Listen for language change from HTML
+            window.addEventListener('message', function(event) {
+                if (!event.data || !event.data.type) return;
+
+                if (event.data.type === 'LANGUAGE_CHANGE') {
+                    console.log('[HTMLBridge] Language change request:', event.data.language);
+
+                    // Call Cocos LocalizationManager if available
+                    if (window.LocalizationManager && typeof window.LocalizationManager.setLanguage === 'function') {
+                        window.LocalizationManager.setLanguage(event.data.language);
+                    } else if (window.cc && window.cc.game) {
+                        // Defer until LocalizationManager is ready
+                        var checkReady = setInterval(function() {
+                            if (window.LocalizationManager) {
+                                window.LocalizationManager.setLanguage(event.data.language);
+                                clearInterval(checkReady);
+                            }
+                        }, 100);
+
+                        // Timeout after 5 seconds
+                        setTimeout(function() {
+                            clearInterval(checkReady);
+                        }, 5000);
+                    }
+                }
+
+                if (event.data.type === 'LANGUAGE_SELECTOR_READY') {
+                    console.log('[HTMLBridge] Language selector ready:', event.data.language);
+                }
+            });
+
+            // Expose sync function for Cocos to call
+            window.syncLanguageToHTML = function(langCode) {
+                window.postMessage({
+                    type: 'LANGUAGE_SYNC',
+                    language: langCode,
+                    source: 'cocos'
+                }, '*');
+            };
+
+            // Show/Hide selector functions
+            window.showLanguageSelector = function() {
+                window.postMessage({ type: 'LANGUAGE_SELECTOR_SHOW' }, '*');
+            };
+
+            window.hideLanguageSelector = function() {
+                window.postMessage({ type: 'LANGUAGE_SELECTOR_HIDE' }, '*');
+            };
+        })();
+    </script>
+</body>
+</html>

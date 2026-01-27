@@ -32,7 +32,7 @@ export default class WxgetInfoButton extends cc.Component {
         if (!wxSysInfo) {
             wxSysInfo = wx.getSystemInfoSync();
         }
-        console.log("------未授权! 调用wx.createUserInfoButton-------", wx.getSystemInfoSync().windowWidth)
+        console.log("------미인증! wx.createUserInfoButton 호출-------", wx.getSystemInfoSync().windowWidth)
         var leftPos = wxSysInfo.windowWidth * 0.5 - this.width / 2
         var topPos = wxSysInfo.windowHeight * 0.5 - this.height / 2
         var width = this.width

@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import mvcView from "../../../framework/ui/mvcView";
 import ccUtil from "../../../framework/utils/ccUtil";
@@ -47,6 +46,28 @@ export default class UIPet extends mvcView {
         evt.off(this)
     }
 
+    onEnable() {
+        super.onEnable();
+        // 언어 변경 이벤트 리스너 등록
+        cc.director.on('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    onDisable() {
+        super.onDisable();
+        // 언어 변경 이벤트 리스너 해제
+        cc.director.off('localization:languageChanged', this.onLanguageChanged, this);
+    }
+
+    private onLanguageChanged() {
+        // 언어 변경 시 텍스트만 업데이트 (이미지 재로드 없음, Kapi 패턴 적용)
+        const items = this.petList.node.getComponentsInChildren(petItem);
+        items.forEach(item => {
+            if (item.data) {
+                item.updateLabelsOnly();
+            }
+        });
+    }
+
     onShow() {
         //仅显示 已拥有的宠物 
         this.refresh()
@@ -66,8 +87,20 @@ export default class UIPet extends mvcView {
     }
 
 
-    click_close() {
+    /**
+     * 특정 펫의 선택 상태만 업데이트 (전체 리스트 재렌더링 없이)
+     */
+    updateSelectionOnly(petId: string, selected: boolean) {
+        const items = this.petList.node.getComponentsInChildren(petItem);
+        for (const item of items) {
+            if (item.data && item.data.id == petId) {
+                item.setSelected(selected);
+                break;
+            }
+        }
+    }
 
+    click_close() {
         vm.hide(this);
     }
 

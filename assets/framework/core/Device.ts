@@ -33,7 +33,10 @@ export default class Device {
         }
         if (b) {
             if (Device.tmp_bgm_url == null) return;
-            Device.playBGM(Device.tmp_bgm_url);
+            // 음악을 다시 재생하기 위해 현재 URL을 임시 저장 후 초기화
+            const urlToPlay = Device.tmp_bgm_url;
+            Device.tmp_bgm_url = null;  // playBGM 내부의 중복 체크를 우회
+            Device.playBGM(urlToPlay);
             // Device.bgm_clip && Device.bgm_clip.play();
             // cc.audioEngine.resumeMusic();
         }

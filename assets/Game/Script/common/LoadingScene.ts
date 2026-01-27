@@ -9,6 +9,7 @@ import LoadingSceneBase from "../../../framework/misc/LoadingSceneBase";
 import { pdata } from "../data/PlayerInfo";
 import { ServerConfig } from "./ServerConfig";
 import Hi5 from "../../../framework/Hi5/Hi5";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -180,12 +181,13 @@ export default class LoadingScene extends LoadingSceneBase {
 
     set status(v) {
         this._status = v;
+        
         if (v == -1) {
-            this.labelTip.string = "登录失败"
+            this.labelTip.string = LocalizationManager.getText("@loading.login_failed") || "로그인 실패"
         } else if (v == 1) {
-            this.labelTip.string = "加载中"
+            this.labelTip.string = LocalizationManager.getText("@loading.progress") || "로딩 중"
         } else {
-            this.labelTip.string = "加载中"
+            this.labelTip.string = LocalizationManager.getText("@loading.progress") || "로딩 중"
         }
     }
 
@@ -195,29 +197,32 @@ export default class LoadingScene extends LoadingSceneBase {
     }
 
     //csv config share_config complete
-    loginProgress(evt) {
+    loginProgress(evt, progressValue?: number) {
+
         switch (evt) {
             case 'login':
-                this.labelTip.string = "登录中"
+                this.labelTip.string = LocalizationManager.getText("@loading.login") || "로그인 중"
                 this.progress = 0.9;
                 break;
             case 'config':
-                this.labelTip.string = "加载配置"
+                this.labelTip.string = LocalizationManager.getText("@loading.config") || "설정 로딩"
                 this.progress = 0.1;
                 break;
             case 'local_csv':
-                this.labelTip.string = "加载本地配置"
+                this.labelTip.string = LocalizationManager.getText("@loading.config_local") || "로컬 설정 로딩"
                 this.progress = 0.3;
+                break;
             case "csv":
-                this.labelTip.string = "加载网络配置"
-                this.progress = 0.5;
+                this.labelTip.string = LocalizationManager.getText("@loading.config_network") || "네트워크 설정 로딩"
+                // Use the detailed progress value if provided, otherwise use default 0.5
+                this.progress = progressValue !== undefined ? progressValue : 0.5;
                 break;
             case 'share_config':
-                this.labelTip.string = "加载分享配置"
+                this.labelTip.string = LocalizationManager.getText("@loading.config_share") || "공유 설정 로딩"
                 this.progress = 0.7;
                 break;
             case "complete":
-                this.labelTip.string = "进入游戏..."
+                this.labelTip.string = LocalizationManager.getText("@loading.entering") || "게임 진입 중..."
                 this.progress = 1.0;
                 break;
         }
@@ -267,21 +272,21 @@ export default class LoadingScene extends LoadingSceneBase {
                             //use server data 
                             pdata.loadFromJsonObject(data);
                         } else {
-                            //使用本地数据 
-                            console.log("使用本地数据 ，服务器不是最新的")
+                            //로컬 데이터 사용
+                            console.log("로컬 데이터 사용, 서버가 최신이 아님")
                         }
                     } else {
-                        //别的玩家登陆游戏 
-                        UInfo.userId == data.openId;
+                        //다른 플레이어 게임 로그인 
+                        UInfo.userId = data.openId;
                         UInfo.save("userId")
                         pdata.loadFromJsonObject(data);
                     }
                 } else {
-                    //新玩家使用本地数据 
+                    //신규 플레이어 로컬 데이터 사용
                     UInfo.isNew = true;
                     UInfo.userId = data.openId;
                     UInfo.save('userId')
-                    console.log("新玩家使用本地数据----,更新玩家id")
+                    console.log("신규 플레이어 로컬 데이터 사용----, 플레이어 ID 업데이트")
                 }
                 !data.stime && (data.stime = new Date().getTime());
                 BuffSystem.time = data.stime / 1000;

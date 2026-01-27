@@ -89,19 +89,19 @@ export default class mmgame {
                         if (Math.random() < rate) {
                             return true
                         }
-                        console.log("[wegame]屏蔽id:" + feature_id + "未过概率")
+                        console.log("[wegame]차단 id:" + feature_id + " 확률 미통과")
                         return false;
                     } else {
                         return true;
                     }
                 }
-                console.log("[wegame]屏蔽id:" + feature_id + "次数已民达上限" + CheatInfo.getCount(feature_id))
+                console.log("[wegame]차단 id:" + feature_id + " 횟수 상한 도달" + CheatInfo.getCount(feature_id))
                 return false
             } else {
                 return true;
             }
         }
-        console.log("[wegame]屏蔽id:" + feature_id + "未开启")
+        console.log("[wegame]차단 id:" + feature_id + " 미활성화")
         return false;
     }
 
@@ -127,7 +127,7 @@ export default class mmgame {
             CheatInfo.markOpen(feature_id);
             return true
         }
-        console.log("[wegame]打开功能失败: [" + feature_id + "]，已超过今天使用次数！(" + c + "/" + max + ")");
+        console.log("[wegame]기능 열기 실패: [" + feature_id + "], 오늘 사용 횟수 초과!(" + c + "/" + max + ")");
         return false;
     }
 
@@ -152,7 +152,7 @@ export default class mmgame {
                 return true;
             }
         }
-        console.log("[wegame]打开屏蔽功能失败: [" + feature_id + "]，未开启，或者超过使用次数，或者概率")
+        console.log("[wegame]차단 기능 열기 실패: [" + feature_id + "], 미활성화, 사용 횟수 초과, 또는 확률 미통과")
         return false;
     }
 

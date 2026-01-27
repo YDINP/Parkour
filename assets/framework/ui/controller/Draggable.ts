@@ -11,13 +11,13 @@ export default class Draggable extends cc.Component {
     onDragEnd: Signal = new Signal();
     onDragCancel: Signal = new Signal();
 
-    @property({ displayName: "是否可以拖出屏幕" })
+    @property({ displayName: "Allow Drag Off Screen" })
     public oosEnabled = false;
 
-    // @property({ displayName: "是否可以拖出屏幕" })
+    // @property({ displayName: "Allow Drag Off Screen" })
     // public isDir = [horizontal,];
 
-    @property({ displayName: "是否可以拖动Y" })
+    @property({ displayName: "Allow Drag Y" })
     public yEnabled = true;
 
 

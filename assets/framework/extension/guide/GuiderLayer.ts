@@ -512,10 +512,10 @@ export default class GuiderLayer extends cc.Component {
             if (node) {
                 return this.waitClickEx(node)
             } else {
-                console.warn("waitClickLayoutUI 未找到子节点:" + uipath)
+                console.warn("waitClickLayoutUI 자식 노드를 찾을 수 없음:" + uipath)
             }
         } else {
-            console.warn("waitClickLayoutUI 未找到layout:   " + layoutpath)
+            console.warn("waitClickLayoutUI 레이아웃을 찾을 수 없음:   " + layoutpath)
         }
     }
 

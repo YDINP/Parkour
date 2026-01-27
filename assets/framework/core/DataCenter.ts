@@ -300,7 +300,7 @@ export default class DataCenter {
                     if (v != null) {
                         Hi5Storage.setItem(kk, v.toString());
                     } else {
-                        console.warn("[DataCenter] " + kk + " 保存失败")
+                        console.warn("[DataCenter] " + kk + " 저장 실패")
                     }
                 }
                 this.onAfterSave(k);

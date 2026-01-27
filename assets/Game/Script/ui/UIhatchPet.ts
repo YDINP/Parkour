@@ -1,6 +1,7 @@
 import Device from "../../../framework/core/Device";
 import { evt } from "../../../framework/core/event";
 import Platform from "../../../framework/extension/Platform";
+import { AdManager, AdType } from "../../../framework/Hi5/AdManager";
 import Switcher from "../../../framework/ui/controller/Switcher";
 import { Loading } from "../../../framework/ui/LoadingManager";
 import mvcView from "../../../framework/ui/mvcView";
@@ -105,7 +106,6 @@ export default class UIhatchPet extends mvcView {
     }
 
     click_close() {
-
         if (this.isOnhatchPet) {
             Toast.make(LocalizationManager.getText("@text.pet_hatching"));
             // Toast.make("宠物正在努力破壳，请稍后...");
@@ -132,10 +132,13 @@ export default class UIhatchPet extends mvcView {
 
         if (idx == 1) {
             this.isOnhatchPet = true;
-            Loading.show(1)
-            Platform.watch_video(() => {
-                this.openEggCall(2);
-            })
+            AdManager.showRewardAd(AdType.PET_HATCH, (success) => {
+                if (success) {
+                    this.openEggCall(2);
+                } else {
+                    this.isOnhatchPet = false;
+                }
+            });
         } else {
             //优先使用卷
             let pet_hatch_c = pdata.buffs['pet_hatch']

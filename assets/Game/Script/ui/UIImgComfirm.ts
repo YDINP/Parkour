@@ -1,4 +1,3 @@
-import Device from "../../../framework/core/Device";
 import mvcView from "../../../framework/ui/mvcView";
 
 const { ccclass, property } = cc._decorator;

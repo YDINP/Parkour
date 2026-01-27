@@ -40,7 +40,7 @@ export default class Item extends cc.Component {
     setItem(name) {
         this.data = ccUtil.get(ItemData, name)
         if (this.data == null) {
-            console.warn(name + " not found , " + name + "可能放错了层级!")
+            console.warn(name + " not found , " + name + " 레이어가 잘못되었을 수 있음!")
             return
         }
         if (this.data.anim) {

@@ -71,14 +71,24 @@ export default class petItem extends cc.Component {
         this.ui = ui;
 
         let lv = pdata.getPetLevel(data.id)
-        let isLimit = data.quality == "A" ? true : false;
-        this.node_selectFlag.active = data.id == pdata.selPet
-        if (this.node_selectFlag.active) {
-            // 播放选择动画 
+        // 한정 펫 표시 제거 (quality A 기준이 아닌 별도 관리 필요시 수정)
+        let isLimit = false;
+
+        // 상태가 변경될 때만 애니메이션 재생 (깜빡임 방지)
+        const wasSelected = this.node_selectFlag.active || false;
+        const isSelected = data.id == pdata.selPet;
+
+        this.node_selectFlag.active = isSelected;
+        // 선택 상태가 false → true로 변경될 때만 애니메이션 재생
+        if (isSelected && !wasSelected) {
             this.node_selectFlag.opacity = 0;
             cc.tween(this.node_selectFlag).to(0.2, { opacity: 255 }).start()
             this.node_selectFlag.scale = 1.3;
             cc.tween(this.node_selectFlag).to(0.2, { scale: 1 }, { easing: EaseType[EaseType.backOut] }).start()
+        } else if (isSelected) {
+            // 이미 선택된 상태면 애니메이션 없이 바로 표시
+            this.node_selectFlag.opacity = 255;
+            this.node_selectFlag.scale = 1;
         }
 
         let nextLv = data.lvs[lv]
@@ -89,7 +99,8 @@ export default class petItem extends cc.Component {
             this.switcher.index = lv == 0 ? 0 : 1;
         }
 
-        this.nameLab.string = data.name;
+        // 언어 변경 시 실시간 반영을 위해 캐시된 data.name 대신 직접 로컬라이징 호출
+        this.nameLab.string = LocalizationManager.getText(`@pet.${data.id}.name`);
         this.limitTag.active = isLimit;
         this.lvLab.string = "LV." + lv;
 
@@ -103,22 +114,34 @@ export default class petItem extends cc.Component {
         let lvdata = data.lvs[lv - 1]
         if (lvdata) {
             this.upLabel.string = lvdata.up_cost.num + ""
-            this.skillDisLab.string = cc.js.formatStr(data.lvDesc, lvdata.data)
+            // 언어 변경 시 실시간 반영을 위해 캐시된 data.lvDesc 대신 직접 로컬라이징 호출
+            const lvDesc = LocalizationManager.getText(`@pet.${data.id}.lvdesc`);
+            this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data)
         }
 
 
     }
 
     clickSelect(e) {
-         
-        let lv = pdata.getPetLevel(this.data.id)
+        let lv = pdata.getPetLevel(this.data.id);
         if (lv <= 0) {
             Toast.make(LocalizationManager.getText("@text.cannot_select_unlocked_pet"));
-            // Toast.make("无法选择未解锁的宠物！")
-            return
+            return;
         }
+
+        // 이미 선택된 펫이면 아무것도 하지 않음
+        if (this.data.id == pdata.selPet) {
+            return;
+        }
+
+        // 이전 선택 펫의 selectFlag 비활성화
+        this.ui.updateSelectionOnly(pdata.selPet, false);
+
+        // 새 펫 선택
         pdata.selectPet(this.data.id);
-        this.ui.render();
+
+        // 현재 아이템의 selectFlag 활성화 (애니메이션 포함)
+        this.setSelected(true);
     }
 
     up_pet(e) {
@@ -171,5 +194,36 @@ export default class petItem extends cc.Component {
         this.set(this.data, this.ui)
     }
 
+    /**
+     * 선택 상태 업데이트 (이미지 재로딩 없이 selectFlag만 변경)
+     */
+    setSelected(selected: boolean) {
+        this.node_selectFlag.active = selected;
+        if (selected) {
+            this.node_selectFlag.opacity = 0;
+            this.node_selectFlag.scale = 1.3;
+            cc.tween(this.node_selectFlag).to(0.2, { opacity: 255 }).start();
+            cc.tween(this.node_selectFlag).to(0.2, { scale: 1 }, { easing: EaseType[EaseType.backOut] }).start();
+        }
+    }
+
+    /**
+     * 언어 변경 시 텍스트만 업데이트 (스파인/이미지 재로드 없음)
+     * Kapi 프로젝트의 _refreshLocalizedTexts 패턴 적용
+     */
+    updateLabelsOnly() {
+        if (!this.data) return;
+
+        // 이름 라벨
+        this.nameLab.string = LocalizationManager.getText(`@pet.${this.data.id}.name`);
+
+        // 스킬 설명 라벨
+        const lv = pdata.getPetLevel(this.data.id);
+        const lvdata = this.data.lvs[lv - 1];
+        if (lvdata) {
+            const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
+            this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
+        }
+    }
 
 }
