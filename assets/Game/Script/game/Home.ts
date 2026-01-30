@@ -202,14 +202,20 @@ export default class Home extends mvcView {
                     pet.follower.enabled = false;
                 }
 
-                // DragonBones 애니메이션 재생
-                const armature = petNode.getComponent(dragonBones.ArmatureDisplay);
-                if (armature) {
-                    armature.playAnimation("run", 0);  // 0 = loop
+                // DragonBones 애니메이션 재생 (파워 버섯 제외)
+                if (petId !== "1") {
+                    const armature = petNode.getComponent(dragonBones.ArmatureDisplay);
+                    if (armature) {
+                        armature.playAnimation("run", 0);  // 0 = loop
+                    }
                 }
+
+                
             }
         });
     }
+
+    
 
     //获取体力
     private click_get_engergy() {
@@ -261,7 +267,7 @@ export default class Home extends mvcView {
     private click_breakthrough(e) {
 
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
+            // Toast.make(LocalizationManager.getText("@notEnoughHeart"));
             // Toast.make("爱心不足");
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(e.target)
@@ -286,7 +292,7 @@ export default class Home extends mvcView {
             return
         }
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
+            // Toast.make(LocalizationManager.getText("@notEnoughHeart"));
             // Toast.make("爱心不足");
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(e.target)
