@@ -11,6 +11,7 @@
 
 import { pdata } from "../data/PlayerInfo";
 import { Toast } from "../../../framework/ui/ToastManager";
+import { root } from "../game/Game";
 
 // 챌린지 모드 최대 레벨 (Level.csv 기준)
 const MAX_LEVEL = 100;
@@ -48,6 +49,7 @@ export default class GameCheats {
         this.registerCurrencyCheats();
         this.registerLevelCheats();
         this.registerMiscCheats();
+        this.registerIngameCheats();
 
         this.initialized = true;
         console.log('[GameCheats] 초기화 완료');
@@ -111,35 +113,35 @@ export default class GameCheats {
      */
     private static registerLevelCheats() {
         cheat.addGroup(['레벨', '챌린지 모드 레벨'], {
-            '레벨+10': [() => {
+            '챌린지 모드 레벨+10': [() => {
                 const newLevel = Math.min(pdata.level + 10, MAX_LEVEL);
                 pdata.level = newLevel;
                 pdata.save('level');
-                Toast.make(`레벨 → ${newLevel}`);
+                Toast.make(`챌린지 모드 레벨 → ${newLevel}`);
                 cheat.statusline.refresh();
-            }, '현재 레벨 +10'],
+            }, '챌린지 모드 현재 레벨 +10'],
 
-            '레벨+50': [() => {
+            '챌린지 모드 레벨+50': [() => {
                 const newLevel = Math.min(pdata.level + 50, MAX_LEVEL);
                 pdata.level = newLevel;
                 pdata.save('level');
-                Toast.make(`레벨 → ${newLevel}`);
+                Toast.make(`챌린지 모드 레벨 → ${newLevel}`);
                 cheat.statusline.refresh();
-            }, '현재 레벨 +50'],
+            }, '챌린지 모드 현재 레벨 +50'],
 
-            '전체해금': [() => {
+            '챌린지 모드 전체해금': [() => {
                 pdata.level = MAX_LEVEL;
                 pdata.save('level');
-                Toast.make(`모든 레벨 해금! (${MAX_LEVEL})`);
+                Toast.make(`챌린지 모드 모든 레벨 해금! (${MAX_LEVEL})`);
                 cheat.statusline.refresh();
-            }, `모든 레벨 해금 (${MAX_LEVEL})`],
+            }, `챌린지 모드 모든 레벨 해금 (${MAX_LEVEL})`],
 
-            '레벨 리셋': [() => {
+            '챌린지 모드 레벨 리셋': [() => {
                 pdata.level = 1;
                 pdata.save('level');
-                Toast.make('레벨 1로 리셋');
+                Toast.make('챌린지 모드 레벨 1로 리셋');
                 cheat.statusline.refresh();
-            }, '레벨 1로 리셋'],
+            }, '챌린지 모드 레벨 1로 리셋'],
 
             '플레이어Lv+10': [() => {
                 const newLevel = Math.min(pdata.playerlv + 10, MAX_PLAYER_LEVEL);
@@ -186,6 +188,22 @@ export default class GameCheats {
                 Toast.make('모든 영웅 레벨 MAX!');
             }, '모든 영웅 레벨 10'],
 
+            '펫 전체해금': [() => {
+                for (let i = 1; i <= 11; i++) {
+                    pdata.pets[i.toString()] = 1;
+                }
+                pdata.save('pets');
+                Toast.make('모든 펫 해금!');
+            }, '모든 펫 해금'],
+
+            '펫 MAX': [() => {
+                for (let i = 1; i <= 11; i++) {
+                    pdata.pets[i.toString()] = 5;
+                }
+                pdata.save('pets');
+                Toast.make('모든 펫 레벨 MAX!');
+            }, '모든 펫 레벨 5'],
+
             '버프 +10': [() => {
                 pdata.buffs.giant += 10;
                 pdata.buffs.protect += 10;
@@ -209,6 +227,69 @@ export default class GameCheats {
                 pdata.save('freeDiamondDate');
                 Toast.make('일일 다이아 광고 횟수 리셋');
             }, '무료 다이아 광고 횟수 리셋']
+        });
+    }
+
+    /**
+     * 인게임 버프 치트 (게임 플레이 중에만 작동)
+     */
+    private static registerIngameCheats() {
+        cheat.addGroup(['🎮인게임', '버프 아이템 (게임 중 사용)'], {
+            '🏃대시': [() => {
+                if (!root || !root.player) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                root.player.buffSystem.startBuff('rush', 5);
+                Toast.make('대시 발동! (5초)');
+            }, '대시 버프 5초'],
+
+            '💪거인화': [() => {
+                if (!root || !root.player) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                root.player.buffSystem.startBuff('strong', 5);
+                Toast.make('거인화 발동! (5초)');
+            }, '거인화 버프 5초'],
+
+            '🧲자석': [() => {
+                if (!root || !root.player || !root.pet) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                root.pet.buffSystem.startBuff('magnet', 5);
+                Toast.make('자석 발동! (5초)');
+            }, '자석 버프 5초'],
+
+            '💰골드': [() => {
+                if (!root || !root.player) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                root.player.buffSystem.startBuff('gold', 3);
+                Toast.make('골드 발동! (3초)');
+            }, '장애물→골드 3초'],
+
+            '⭐별': [() => {
+                if (!root || !root.player) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                root.player.buffSystem.startBuff('star', 10);
+                Toast.make('별 발동! (10초)');
+            }, '콩→별 10초'],
+
+            '🏆즉시클리어': [() => {
+                if (!root || !root.player) {
+                    Toast.make('게임 중에만 사용 가능');
+                    return;
+                }
+                pdata.endGame(true);
+                root.pause();
+                vm.show("UIEndPage");
+                Toast.make('맵 클리어!');
+            }, '현재 맵 즉시 클리어']
         });
     }
 }
