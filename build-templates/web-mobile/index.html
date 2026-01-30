@@ -85,7 +85,8 @@
             margin-top: 20px;
             overflow: hidden;
         }
-        .progress-bar-fill {
+        .progress-bar span {
+            display: block;
             width: 0%;
             height: 100%;
             background: #4CAF50;
@@ -97,9 +98,7 @@
     <!-- Loading Splash Screen -->
     <div id="splash">
         <div class="spinner"></div>
-        <div class="progress-bar">
-            <div class="progress-bar-fill" id="progress"></div>
-        </div>
+        <div class="progress-bar"><span id="progress"></span></div>
     </div>
 
     <!-- Game Canvas Container (required by Cocos main.js) -->
