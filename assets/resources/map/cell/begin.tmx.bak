@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="230">
+ <tileset firstgid="1" source="../item.tsx"/>
+ <tileset firstgid="62" source="../bg_cell_bg.tsx"/>
+ <layer id="1" name="bg" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AU4AIAAyAAAQ==
+  </data>
+ </layer>
+ <layer id="2" name="platform" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DggAsQu1IRewGxNxUxAIodCz8=
+  </data>
+ </layer>
+ <objectgroup id="3" name="object"/>
+ <objectgroup id="4" name="object_obstacle"/>
+ <objectgroup id="5" name="object_item"/>
+</map>

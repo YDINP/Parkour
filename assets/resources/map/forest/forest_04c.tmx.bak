@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="2020.11.25" orientation="orthogonal" renderorder="right-down" width="80" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="349">
+ <tileset firstgid="1" source="../bg_forest_bg.tsx"/>
+ <tileset firstgid="31" source="../bg_forest_block.tsx"/>
+ <tileset firstgid="38" source="../dec.tsx"/>
+ <tileset firstgid="47" source="../item.tsx"/>
+ <objectgroup id="1" name="object_bg">
+  <object id="55" gid="40" x="400" y="624" width="159" height="153" rotation="-37.0433"/>
+ </objectgroup>
+ <layer id="2" name="bg" width="80" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztziEOAAAIAzEc8P8PY5FIRJucXRYBAABc1eN6/cyn2wOTpwJh
+  </data>
+ </layer>
+ <layer id="3" name="platform" width="80" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBSMJsA5izAbEMlDMMkjN5h7EmAcpnrkGqdkAsvsFMQ==
+  </data>
+ </layer>
+ <objectgroup id="4" name="object"/>
+ <objectgroup id="5" name="object_obstacle">
+  <object id="98" gid="33" x="1322" y="320" width="177" height="602"/>
+  <object id="99" gid="34" x="512" y="448" width="238" height="602"/>
+  <object id="100" gid="34" x="1104" y="448" width="238" height="602"/>
+  <object id="101" gid="34" x="1491" y="448" width="238" height="602"/>
+  <object id="102" gid="33" x="931" y="320" width="177" height="602"/>
+  <object id="103" gid="34" x="704" y="448" width="238" height="602"/>
+  <object id="104" gid="34" x="1712" y="448" width="238" height="602"/>
+  <object id="105" gid="33" x="1946" y="448" width="177" height="602"/>
+  <object id="106" gid="34" x="2976" y="448" width="238" height="602"/>
+  <object id="107" gid="33" x="3814" y="255" width="177" height="602"/>
+  <object id="108" gid="34" x="3355" y="448" width="238" height="602"/>
+  <object id="109" gid="34" x="3584" y="447" width="238" height="602"/>
+  <object id="110" gid="33" x="2816" y="447" width="177" height="602"/>
+  <object id="111" gid="33" x="3184" y="240" width="177" height="602"/>
+  <object id="112" gid="34" x="4516" y="449" width="238" height="602"/>
+  <object id="113" gid="33" x="4744" y="257" width="177" height="602"/>
+  <object id="114" gid="34" x="4324" y="449" width="238" height="602"/>
+  <object id="115" gid="33" x="4933" y="447" width="177" height="602"/>
+  <object id="117" gid="32" x="3216" y="551" width="102" height="108"/>
+ </objectgroup>
+ <objectgroup id="6" name="object_item">
+  <object id="316" gid="52" x="2688" y="336" width="114" height="114"/>
+ </objectgroup>
+</map>

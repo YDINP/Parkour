@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="67">
+ <tileset firstgid="1" source="../bg_bush_bg.tsx"/>
+ <tileset firstgid="21" source="../item.tsx"/>
+ <layer id="1" name="bg" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DgACMQs1PRPDaoedTCAB6sAJQ=
+  </data>
+ </layer>
+ <layer id="2" name="platform" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DgACMQM1ERUxsAABWQACg=
+  </data>
+ </layer>
+ <objectgroup id="3" name="object_obstacle"/>
+ <objectgroup id="4" name="object_item"/>
+ <objectgroup id="5" name="object_monster"/>
+</map>

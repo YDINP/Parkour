@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.4" tiledversion="1.4.2" name="bg_forest_bg" tilewidth="64" tileheight="64" tilecount="30" columns="6">
- <image source="forest/bg_forest_bg.png" width="386" height="322"/>
+ <image source="forest/bg_forest_bg.png" width="384" height="320"/>
  <terraintypes>
   <terrain name="rock" tile="7"/>
   <terrain name="grass" tile="4"/>

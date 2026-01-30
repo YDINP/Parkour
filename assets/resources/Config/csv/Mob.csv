@@ -27,6 +27,7 @@
 "bg_cave_block_up_01"	"藤蔓"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_cave_block_up_02"	"龙柱"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_volcano_block_down_01"	"骨刺"	"10"	"10"	""	"$template_short"	explode	1x1	1000
+"bg_volcano_block_up_01"	"화염1"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_volcano_block_up_02"	"倒屋"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_desert_block_down_01"	"仙人球"	"10"	"10"	""	"$template_short"	explode	1x1	1000
 "bg_desert_block_down_03"	"仙人掌"	"10"	"10"	""	"$template_mid"	explode	2x3	1000
@@ -47,6 +48,7 @@
 "bg_ice_block_up_01"	"冰刺1"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_ice_block_up_02"	"冰刺2"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_dark_block_down_03"	"植物"	"10"	"10"	""	"$template_mid"	explode	2x3	1000
+"bg_dark_block_up_01"	"암흑1"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "bg_dark_block_up_02"	"毒物"	"10"	"10"	""	"$template_long"	explode	2x5	1000
 "action_001"	"刀狼"	"10"	"10"	""	"$template_mid"	monster_dead	2x3	1000
 "action_002"	"鳄"	"10"	"10"	""	"$template_mid"	monster_dead	2x3	1000

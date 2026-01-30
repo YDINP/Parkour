@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="36" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="9" nextobjectid="1998">
+ <tileset firstgid="1" source="../bg_dark_block.tsx"/>
+ <tileset firstgid="11" source="../bg_dark_bg.tsx"/>
+ <tileset firstgid="35" source="../item.tsx"/>
+ <objectgroup id="1" name="object_bg2">
+  <object id="204" gid="8" x="1180.7" y="576.437" width="837" height="249" rotation="2.02163"/>
+  <object id="205" gid="8" x="1128" y="708.66" width="837" height="249" rotation="2.02163"/>
+  <object id="206" gid="8" x="128.8" y="669.386" width="837" height="249" rotation="2.02163"/>
+  <object id="207" gid="8" x="1520" y="512" width="837" height="249" rotation="23.1805"/>
+  <object id="209" gid="8" x="879.3" y="692.755" width="837" height="249" rotation="-10.5966"/>
+  <object id="210" gid="8" x="628.4" y="689.023" width="837" height="249" rotation="2.02163"/>
+ </objectgroup>
+ <objectgroup id="2" name="object_bg">
+  <object id="290" gid="9" x="512" y="640" width="572" height="135"/>
+  <object id="291" gid="9" x="1264" y="640" width="572" height="135"/>
+ </objectgroup>
+ <layer id="3" name="bg" width="36" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMBgBAAWgAAE=
+  </data>
+ </layer>
+ <layer id="4" name="platform" width="36" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AU0BLIArEcEMsTyR5JgGeQYaFBhgE2awWh
+  </data>
+ </layer>
+ <objectgroup id="5" name="object_obstacle"/>
+ <objectgroup id="6" name="object_item">
+  <object id="312" gid="94" x="608" y="544" width="114" height="114"/>
+  <object id="1989" gid="36" x="65" y="498" width="66" height="66"/>
+  <object id="1990" gid="36" x="449" y="498" width="66" height="66"/>
+  <object id="1991" gid="36" x="257" y="498" width="66" height="66"/>
+  <object id="1992" gid="36" x="193" y="498" width="66" height="66"/>
+  <object id="1993" gid="36" x="-63" y="498" width="66" height="66"/>
+  <object id="1994" gid="36" x="385" y="498" width="66" height="66"/>
+  <object id="1995" gid="36" x="1" y="498" width="66" height="66"/>
+  <object id="1996" gid="36" x="321" y="498" width="66" height="66"/>
+  <object id="1997" gid="36" x="129" y="498" width="66" height="66"/>
+ </objectgroup>
+ <objectgroup id="8" name="object_monster">
+  <object id="313" gid="7" x="1120" y="452" width="133" height="128"/>
+  <object id="314" gid="7" x="1264" y="278" width="133" height="128"/>
+  <object id="315" gid="7" x="1120" y="340" width="133" height="128"/>
+  <object id="316" gid="7" x="1267" y="422" width="133" height="128"/>
+  <object id="317" gid="7" x="1920" y="384" width="133" height="128"/>
+  <object id="318" gid="7" x="1760" y="288" width="133" height="128"/>
+  <object id="319" gid="7" x="1744" y="526" width="133" height="128"/>
+  <object id="320" gid="7" x="1488" y="416" width="133" height="128"/>
+  <object id="321" gid="7" x="1488" y="528" width="133" height="128"/>
+ </objectgroup>
+</map>
