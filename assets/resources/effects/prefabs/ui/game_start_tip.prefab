@@ -469,8 +469,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1113.27,
-      "height": 163.2
+      "width": 1148.24,
+      "height": 188.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -524,13 +524,15 @@
     "_string": "@challengeStart",
     "_N$string": "@challengeStart",
     "_fontSize": 140,
-    "_lineHeight": 120,
+    "_lineHeight": 140,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "bdc7ca43-344a-44d5-b6b1-0fa9096ce47f"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
-    "_styleFlags": 1,
+    "_styleFlags": 0,
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,

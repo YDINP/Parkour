@@ -116,7 +116,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 214.34,
+      "width": 220.2,
       "height": 52.4
     },
     "_anchorPoint": {
@@ -176,14 +176,14 @@
     "_N$file": {
       "__uuid__": "bdc7ca43-344a-44d5-b6b1-0fa9096ce47f"
     },
-    "_isSystemFontUsed": true,
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
-    "_styleFlags": 1,
+    "_styleFlags": 0,
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
@@ -345,7 +345,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 214.34,
+      "width": 220.2,
       "height": 52.4
     },
     "_anchorPoint": {
@@ -405,14 +405,14 @@
     "_N$file": {
       "__uuid__": "bdc7ca43-344a-44d5-b6b1-0fa9096ce47f"
     },
-    "_isSystemFontUsed": true,
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_batchAsBitmap": false,
-    "_styleFlags": 1,
+    "_styleFlags": 0,
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
