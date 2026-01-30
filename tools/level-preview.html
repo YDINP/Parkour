@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkour Level Map Preview</title>
+    <!-- PixiJS and pixi-spine for Spine animations -->
+    <script src="https://pixijs.download/v7.3.2/pixi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-spine@4.0.4/dist/pixi-spine.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .control-group.row {
+            flex-direction: row;
+            align-items: center;
+        }
+        label {
+            font-size: 12px;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+        select, input[type="number"] {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #2a2a4a;
+            color: #fff;
+            font-size: 14px;
+            min-width: 150px;
+        }
+        select:focus, input:focus {
+            outline: 2px solid #00d4ff;
+        }
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        button.play-btn {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+        }
+        button.stop-btn {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+        }
+        .level-info {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .level-info h2 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        .segment-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .segment-item {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .segment-item:hover {
+            background: rgba(0, 212, 255, 0.4);
+        }
+        .segment-item.active {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.5);
+        }
+        .segment-item.begin {
+            background: rgba(0, 255, 100, 0.2);
+        }
+        .segment-item.end {
+            background: rgba(255, 100, 100, 0.2);
+        }
+        .preview-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .preview-header {
+            background: rgba(0,0,0,0.8);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .preview-title {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        .zoom-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .zoom-btn {
+            padding: 5px 15px;
+            font-size: 16px;
+        }
+        #zoomLevel, #fullZoomLevel {
+            color: #ffd700;
+            min-width: 50px;
+            text-align: center;
+        }
+        .canvas-wrapper {
+            overflow: auto;
+            max-height: 700px;
+            background: #111;
+            cursor: grab;
+        }
+        .canvas-wrapper.dragging {
+            cursor: grabbing;
+        }
+        #mapCanvas, #fullLevelCanvas {
+            display: block;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00d4ff;
+            font-size: 18px;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+        }
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        .theme-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .theme-forest { background: #228B22; }
+        .theme-castle { background: #8B4513; }
+        .theme-cave { background: #4a4a4a; }
+        .theme-volcano { background: #8B0000; }
+        .theme-desert { background: #DAA520; }
+        .theme-cell { background: #2F4F4F; }
+        .theme-maya { background: #6B8E23; }
+        .theme-bush { background: #556B2F; }
+        .theme-ice { background: #4682B4; }
+        .theme-dark { background: #1a1a1a; border: 1px solid #333; }
+        .error-msg {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid #ff5050;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .tile-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+            z-index: 1000;
+        }
+        .full-level-view {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .full-level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .segments-canvas-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            background: #000;
+            border-radius: 5px;
+            position: relative;
+            cursor: grab;
+        }
+        .segments-canvas-wrapper.dragging {
+            cursor: grabbing;
+        }
+        .layer-toggles {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 12px;
+        }
+        .layer-toggle input {
+            cursor: pointer;
+        }
+        .layer-toggle.disabled {
+            opacity: 0.5;
+        }
+        .bg-options {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .bg-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        /* Play Mode UI */
+        .play-mode-ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 200;
+            min-width: 150px;
+        }
+        .play-mode-ui.hidden {
+            display: none;
+        }
+        .play-stat {
+            margin-bottom: 8px;
+        }
+        .play-stat-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        .play-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        .game-over-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+        .game-over-overlay.hidden {
+            display: none;
+        }
+        .game-over-title {
+            font-size: 48px;
+            color: #ff4444;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+        }
+        .game-over-stats {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        /* Player indicator */
+        .player-controls-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            color: #aaa;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parkour Level Map Preview</h1>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Level</label>
+                <select id="levelSelect"></select>
+            </div>
+            <div class="control-group">
+                <label>Theme Filter</label>
+                <select id="themeFilter">
+                    <option value="all">All Themes</option>
+                </select>
+            </div>
+            <button id="loadBtn" onclick="loadLevel()">Load Level</button>
+            <button id="playBtn" class="play-btn" onclick="togglePlayMode()" style="display:none;">Play</button>
+            <div class="control-group row">
+                <input type="checkbox" id="showGrid" onchange="rerender()">
+                <label for="showGrid" style="margin-left:5px;">Grid</label>
+            </div>
+            <div class="control-group row">
+                <input type="checkbox" id="showBg" checked onchange="rerender()">
+                <label for="showBg" style="margin-left:5px;">Background</label>
+            </div>
+            <div class="control-group row">
+                <input type="checkbox" id="showSegLabels" checked onchange="rerender()">
+                <label for="showSegLabels" style="margin-left:5px;">Labels</label>
+            </div>
+            <div class="control-group row">
+                <input type="checkbox" id="showFallZones" onchange="rerender()">
+                <label for="showFallZones" style="margin-left:5px;">Fall Zones</label>
+            </div>
+        </div>
+
+        <div class="level-info" id="levelInfo" style="display:none;">
+            <h2 id="levelTitle">Level Info</h2>
+            <div id="segmentList" class="segment-list"></div>
+            <div class="stats" id="levelStats"></div>
+        </div>
+
+        <div class="full-level-view" id="fullLevelView" style="display:none;">
+            <div class="full-level-header">
+                <span class="preview-title">Full Level View</span>
+                <div class="layer-toggles" id="layerToggles"></div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="zoomFullLevel(-0.1)">-</button>
+                    <span id="fullZoomLevel">50%</span>
+                    <button class="zoom-btn" onclick="zoomFullLevel(0.1)">+</button>
+                    <button onclick="fitToScreen()" title="Fit entire level to screen">Fit</button>
+                    <button onclick="zoomFullLevel(0, 0.25)">25%</button>
+                    <button onclick="zoomFullLevel(0, 0.5)">50%</button>
+                    <button onclick="zoomFullLevel(0, 1)">100%</button>
+                </div>
+            </div>
+            <div class="segments-canvas-wrapper" id="fullCanvasWrapper">
+                <canvas id="fullLevelCanvas"></canvas>
+                <!-- Pixi Spine Player Overlay -->
+                <div id="spinePlayerContainer" style="position:absolute; top:0; left:0; pointer-events:none;"></div>
+                <!-- Play Mode UI -->
+                <div class="play-mode-ui hidden" id="playModeUI">
+                    <div class="play-stat">
+                        <div class="play-stat-label">Score</div>
+                        <div class="play-stat-value" id="playScore">0</div>
+                    </div>
+                    <div class="play-stat">
+                        <div class="play-stat-label">Distance</div>
+                        <div class="play-stat-value" id="playDistance">0m</div>
+                    </div>
+                    <div class="play-stat">
+                        <div class="play-stat-label">Items</div>
+                        <div class="play-stat-value" id="playItems">0</div>
+                    </div>
+                </div>
+                <!-- Game Over Overlay -->
+                <div class="game-over-overlay hidden" id="gameOverOverlay">
+                    <div class="game-over-title">GAME OVER</div>
+                    <div class="game-over-stats" id="gameOverStats"></div>
+                    <button onclick="togglePlayMode()">Try Again</button>
+                    <button onclick="stopPlayMode()" style="margin-top:10px;">Back to Preview</button>
+                </div>
+                <!-- Player Controls Hint -->
+                <div class="player-controls-hint" id="playerHint" style="display:none;">
+                    [Arrow Keys] Move | [Space] Jump (hold for higher) | [Down/S] Slide | [Shift] Show jump preview
+                </div>
+            </div>
+            <div class="loading" id="loadingIndicator" style="display:none;">
+                <div>Loading...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div id="loadingText">Preparing...</div>
+            </div>
+        </div>
+
+        <div class="preview-container" id="previewContainer" style="display:none;">
+            <div class="preview-header">
+                <span class="preview-title" id="segmentTitle">Segment Preview</span>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="zoom(-0.2)">-</button>
+                    <span id="zoomLevel">100%</span>
+                    <button class="zoom-btn" onclick="zoom(0.2)">+</button>
+                </div>
+            </div>
+            <div class="canvas-wrapper" id="segmentCanvasWrapper">
+                <canvas id="mapCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="tile-info" id="tileInfo"></div>
+    </div>
+
+    <script>
+        // Data storage
+        let levelData = [];
+        let mapSegData = {};
+        let mapBgData = {};
+        let localization = {};
+        let currentLevel = null;
+        let currentSegments = [];
+        let currentTheme = '';
+        let loadedTmxData = {};
+        let loadedTilesets = {};
+        let loadedImages = {};
+        let currentZoom = 1;
+        let fullZoom = 0.5;
+        let visibleLayers = {};
+        let allLayerNames = new Set();
+
+        const ASSETS_BASE = '../assets/resources/';
+        const MAP_BASE = ASSETS_BASE + 'map/';
+
+        // Normalize path to resolve .. and . components
+        function normalizePath(path) {
+            const parts = path.split('/');
+            const result = [];
+            for (const part of parts) {
+                if (part === '..') {
+                    result.pop();
+                } else if (part !== '.' && part !== '') {
+                    result.push(part);
+                }
+            }
+            return result.join('/');
+        }
+
+        // ============== TASK 1: Map Drag State ==============
+        let dragState = {
+            isDragging: false,
+            startX: 0,
+            startY: 0,
+            scrollLeft: 0,
+            scrollTop: 0
+        };
+
+        // ============== TASK 4 & 5: Player & Play Mode ==============
+        const PHYSICS = {
+            JUMP_INSTANT: 640,
+            JUMP_HOLD: 32,
+            GRAVITY: 2000,  // Reduced gravity (was 3000)
+            SPEED: 80,
+            MAX_SPEED: 200,
+            VY_MIN: -800,
+            VY_MAX: 700,
+            JUMP_MAX: 2,    // Default 2 jumps, Neo gets 3
+            SCROLL_SPEED: 250,
+            TILE_SIZE: 64
+        };
+
+        // Get max jumps for current hero (Neo = hero 7 gets 3 jumps)
+        function getMaxJumps() {
+            return currentHeroId === '7' ? 3 : PHYSICS.JUMP_MAX;
+        }
+
+        let player = {
+            x: 300,
+            y: 400,
+            vx: 0,
+            vy: 0,
+            onGround: false,
+            jumpCount: 0,
+            width: 40,
+            height: 60
+        };
+
+        let playMode = {
+            active: false,
+            score: 0,
+            distance: 0,
+            items: 0,
+            cameraX: 0,
+            gameOver: false,
+            collectedItems: new Set()
+        };
+
+        let keys = {
+            left: false,
+            right: false,
+            space: false,
+            shift: false,
+            down: false,
+            jumpPressed: false  // Prevent repeated jumps from key repeat
+        };
+
+        let lastTime = 0;
+        let animationFrameId = null;
+
+        // Platform collision cache
+        let platformRects = [];
+        let obstacleRects = [];
+        let itemRects = [];
+
+        // Dynamically load pako for zlib decompression
+        let pakoLoaded = false;
+        async function loadPako() {
+            if (pakoLoaded) return;
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js';
+                script.onload = () => {
+                    pakoLoaded = true;
+                    resolve();
+                };
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        // Decode base64 tile data with optional compression
+        async function decodeBase64Tiles(base64Data, compression, expectedTileCount) {
+            const binary = atob(base64Data);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+
+            let data = bytes;
+
+            if (compression === 'zlib' || compression === 'gzip') {
+                await loadPako();
+                try {
+                    data = pako.inflate(bytes);
+                } catch (e) {
+                    console.warn('Decompression failed:', e);
+                    return new Array(expectedTileCount).fill(0);
+                }
+            }
+
+            const tiles = [];
+            for (let i = 0; i < data.length; i += 4) {
+                const gid = data[i] | (data[i + 1] << 8) | (data[i + 2] << 16) | (data[i + 3] << 24);
+                tiles.push(gid >>> 0);
+            }
+
+            return tiles;
+        }
+
+        // Parse CSV data
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[1].split('\t').map(h => h.replace(/"/g, ''));
+            const data = [];
+
+            for (let i = 3; i < lines.length; i++) {
+                const values = lines[i].split('\t').map(v => v.replace(/"/g, ''));
+                const row = {};
+                headers.forEach((h, idx) => {
+                    row[h] = values[idx] || '';
+                });
+                data.push(row);
+            }
+            return data;
+        }
+
+        // Simple CSV parse for MapBg (different format)
+        function parseSimpleCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split('\t');
+            const data = [];
+
+            for (let i = 3; i < lines.length; i++) {
+                const values = lines[i].split('\t');
+                const row = {};
+                headers.forEach((h, idx) => {
+                    row[h] = values[idx] || '';
+                });
+                data.push(row);
+            }
+            return data;
+        }
+
+        // ============== TASK 2: Load Localization ==============
+        async function loadLocalization() {
+            try {
+                const resp = await fetch('../assets/resources/Localize/localization.json');
+                localization = await resp.json();
+                console.log('Localization loaded');
+            } catch (e) {
+                console.warn('Failed to load localization:', e);
+                localization = {};
+            }
+        }
+
+        function getKoreanText(key) {
+            if (!localization.ko) return null;
+            return localization.ko[key] || null;
+        }
+
+        function getLevelName(levelId) {
+            const koreanName = getKoreanText(`map.name.${levelId}`);
+            return koreanName || `Level ${levelId}`;
+        }
+
+        // Load CSV files
+        async function loadCSVData() {
+            try {
+                // Load localization first
+                await loadLocalization();
+
+                const levelResp = await fetch('../assets/resources/Config/csv/Level.csv');
+                const levelText = await levelResp.text();
+                levelData = parseCSV(levelText);
+
+                const segResp = await fetch('../assets/resources/Config/csv/MapSeg.csv');
+                const segText = await segResp.text();
+                const segArray = parseCSV(segText);
+
+                segArray.forEach(seg => {
+                    mapSegData[seg.id] = seg;
+                });
+
+                // Load MapBg.csv
+                const bgResp = await fetch('../assets/resources/Config/csv/MapBg.csv');
+                const bgText = await bgResp.text();
+                const bgArray = parseSimpleCSV(bgText);
+
+                bgArray.forEach(bg => {
+                    mapBgData[bg.bg_key] = {
+                        layer1: bg.layer1 + '.png',
+                        layer2: bg.layer2 + '.png'
+                    };
+                });
+
+                populateLevelSelect();
+                populateThemeFilter();
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                showError('Failed to load CSV files. Run this from a local server (e.g., npx serve .)');
+            }
+        }
+
+        function showError(msg) {
+            const info = document.getElementById('levelInfo');
+            info.style.display = 'block';
+            info.innerHTML = `<div class="error-msg">${msg}</div>`;
+        }
+
+        // ============== TASK 2: Korean Level Names ==============
+        function populateLevelSelect() {
+            const select = document.getElementById('levelSelect');
+            select.innerHTML = '';
+
+            levelData.forEach(level => {
+                const opt = document.createElement('option');
+                opt.value = level.level;
+                const theme = level.segs.split('+')[0];
+                const koreanName = getLevelName(level.level);
+                opt.textContent = `Level ${level.level}: ${koreanName} (${theme})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function populateThemeFilter() {
+            const select = document.getElementById('themeFilter');
+            const themes = new Set();
+
+            levelData.forEach(level => {
+                const theme = level.segs.split('+')[0];
+                themes.add(theme);
+            });
+
+            themes.forEach(theme => {
+                const opt = document.createElement('option');
+                opt.value = theme;
+                opt.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+                select.appendChild(opt);
+            });
+
+            select.addEventListener('change', filterLevels);
+        }
+
+        function filterLevels() {
+            const theme = document.getElementById('themeFilter').value;
+            const select = document.getElementById('levelSelect');
+            select.innerHTML = '';
+
+            levelData.forEach(level => {
+                const levelTheme = level.segs.split('+')[0];
+                if (theme === 'all' || levelTheme === theme) {
+                    const opt = document.createElement('option');
+                    opt.value = level.level;
+                    const koreanName = getLevelName(level.level);
+                    opt.textContent = `Level ${level.level}: ${koreanName} (${levelTheme})`;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        function showLoading(show, progress = 0, text = '') {
+            const indicator = document.getElementById('loadingIndicator');
+            indicator.style.display = show ? 'block' : 'none';
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('loadingText').textContent = text;
+        }
+
+        async function loadLevel() {
+            const levelId = document.getElementById('levelSelect').value;
+            const level = levelData.find(l => l.level === levelId);
+            if (!level) return;
+
+            document.getElementById('loadBtn').disabled = true;
+            currentLevel = level;
+            const segs = level.segs.split('+');
+            currentTheme = segs[0];
+            const segmentIds = segs.slice(1);
+
+            currentSegments = [currentTheme, ...segmentIds];
+            allLayerNames.clear();
+
+            displayLevelInfo(level, currentTheme, currentSegments);
+            document.getElementById('fullLevelView').style.display = 'block';
+            document.getElementById('playBtn').style.display = 'inline-block';
+            showLoading(true, 0, 'Loading segments...');
+
+            try {
+                // Preload background images
+                const bgInfo = mapBgData[currentTheme];
+                if (bgInfo) {
+                    await loadImage(bgInfo.layer1);
+                    await loadImage(bgInfo.layer2);
+                }
+
+                await loadAllSegments(currentSegments);
+                updateLayerToggles();
+                buildCollisionData();
+                showLoading(true, 90, 'Rendering...');
+                await new Promise(r => setTimeout(r, 50));
+                await renderFullLevel();
+            } catch (e) {
+                console.error(e);
+                showError('Error loading level: ' + e.message);
+            }
+
+            showLoading(false);
+            document.getElementById('loadBtn').disabled = false;
+        }
+
+        function displayLevelInfo(level, theme, segments) {
+            const info = document.getElementById('levelInfo');
+            info.style.display = 'block';
+
+            const koreanName = getLevelName(level.level);
+            document.getElementById('levelTitle').innerHTML = `
+                Level ${level.level}: ${koreanName}
+                <span class="theme-badge theme-${theme}">${theme.toUpperCase()}</span>
+            `;
+
+            const segList = document.getElementById('segmentList');
+            segList.innerHTML = '';
+
+            segments.forEach((segId, idx) => {
+                const seg = mapSegData[segId];
+                if (!seg) return;
+
+                const item = document.createElement('div');
+                item.className = 'segment-item';
+
+                if (segId === theme) {
+                    item.classList.add('begin');
+                    item.textContent = `[BEGIN] ${seg.abbr}`;
+                } else if (seg.abbr.includes('end')) {
+                    item.classList.add('end');
+                    item.textContent = `[END] ${seg.abbr}`;
+                } else {
+                    item.textContent = `${idx}. ${seg.abbr}`;
+                }
+
+                item.onclick = () => loadSegment(segId, idx);
+                segList.appendChild(item);
+            });
+
+            const stats = document.getElementById('levelStats');
+            stats.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${segments.length}</div>
+                    <div class="stat-label">Segments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${segments.length * 100}</div>
+                    <div class="stat-label">Tiles Width</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${Math.round(segments.length * 6400 / 1000)}k px</div>
+                    <div class="stat-label">Map Length</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${level.rewards || 'None'}</div>
+                    <div class="stat-label">Reward</div>
+                </div>
+            `;
+        }
+
+        async function loadAllSegments(segmentIds) {
+            loadedTmxData = {};
+            const total = segmentIds.length;
+
+            for (let i = 0; i < segmentIds.length; i++) {
+                const segId = segmentIds[i];
+                const seg = mapSegData[segId];
+                if (!seg) continue;
+
+                showLoading(true, Math.round((i / total) * 80), `Loading ${seg.abbr}...`);
+
+                try {
+                    const tmxPath = ASSETS_BASE + seg.level_tmx;
+                    const resp = await fetch(tmxPath);
+                    const text = await resp.text();
+                    const tmxData = await parseTMX(text, seg.level_tmx);
+                    loadedTmxData[segId] = tmxData;
+
+                    Object.keys(tmxData.layers).forEach(n => allLayerNames.add(n));
+                    Object.keys(tmxData.objectGroups).forEach(n => allLayerNames.add('obj:' + n));
+                } catch (error) {
+                    console.warn(`Failed to load TMX for segment ${segId}:`, error);
+                }
+            }
+        }
+
+        async function parseTMX(xmlText, tmxPath) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xmlText, 'text/xml');
+            const map = doc.querySelector('map');
+
+            const width = parseInt(map.getAttribute('width'));
+            const height = parseInt(map.getAttribute('height'));
+            const tileWidth = parseInt(map.getAttribute('tilewidth'));
+            const tileHeight = parseInt(map.getAttribute('tileheight'));
+
+            const tmxDir = tmxPath.substring(0, tmxPath.lastIndexOf('/') + 1);
+
+            const tilesets = [];
+            for (const ts of doc.querySelectorAll('tileset')) {
+                const firstgid = parseInt(ts.getAttribute('firstgid'));
+                const source = ts.getAttribute('source');
+
+                let tilesetData;
+                if (source) {
+                    tilesetData = await loadTileset(normalizePath(tmxDir + source));
+                } else {
+                    tilesetData = parseTilesetElement(ts, tmxDir);
+                }
+
+                if (tilesetData) {
+                    tilesetData.firstgid = firstgid;
+                    tilesets.push(tilesetData);
+                }
+            }
+
+            tilesets.sort((a, b) => b.firstgid - a.firstgid);
+
+            const layers = {};
+            const objectGroups = {};
+
+            for (const layer of doc.querySelectorAll('layer')) {
+                const name = layer.getAttribute('name');
+                const data = layer.querySelector('data');
+                if (data) {
+                    let tiles = [];
+                    const encoding = data.getAttribute('encoding');
+
+                    if (encoding === 'csv' || !encoding) {
+                        tiles = data.textContent.trim().split(',').map(t => parseInt(t.trim()) || 0);
+                    } else if (encoding === 'base64') {
+                        const compression = data.getAttribute('compression');
+                        const base64Data = data.textContent.trim();
+                        tiles = await decodeBase64Tiles(base64Data, compression, width * height);
+                    }
+
+                    layers[name] = { tiles, width, height };
+                }
+            }
+
+            for (const group of doc.querySelectorAll('objectgroup')) {
+                const name = group.getAttribute('name');
+                const objects = [];
+
+                for (const obj of group.querySelectorAll('object')) {
+                    objects.push({
+                        id: obj.getAttribute('id'),
+                        name: obj.getAttribute('name') || '',
+                        type: obj.getAttribute('type') || '',
+                        x: parseFloat(obj.getAttribute('x')),
+                        y: parseFloat(obj.getAttribute('y')),
+                        width: parseFloat(obj.getAttribute('width') || 0),
+                        height: parseFloat(obj.getAttribute('height') || 0),
+                        gid: parseInt(obj.getAttribute('gid') || 0)
+                    });
+                }
+
+                objectGroups[name] = objects;
+                // Debug: Log object_monster layer
+                if (name === 'object_monster' && objects.length > 0) {
+                    console.log(`Found ${objects.length} monsters in segment`);
+                }
+            }
+
+            return { width, height, tileWidth, tileHeight, layers, objectGroups, tilesets, tmxDir };
+        }
+
+        async function loadTileset(tsxPath) {
+            // Normalize path to handle .. components
+            tsxPath = normalizePath(tsxPath);
+            const cacheKey = tsxPath;
+            if (loadedTilesets[cacheKey]) {
+                return { ...loadedTilesets[cacheKey] };
+            }
+
+            try {
+                const resp = await fetch(ASSETS_BASE + tsxPath);
+                const text = await resp.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/xml');
+                const ts = doc.querySelector('tileset');
+
+                const tsxDir = tsxPath.substring(0, tsxPath.lastIndexOf('/') + 1);
+                const tilesetData = parseTilesetElement(ts, tsxDir);
+
+                loadedTilesets[cacheKey] = tilesetData;
+                // Debug: Log tileset with individual tile images
+                if (Object.keys(tilesetData.tiles).length > 0) {
+                    console.log(`Tileset loaded: ${tsxPath}, tiles:`, Object.keys(tilesetData.tiles).length);
+                }
+                return { ...tilesetData };
+            } catch (e) {
+                console.warn('Failed to load tileset:', tsxPath, e);
+                return null;
+            }
+        }
+
+        function parseTilesetElement(ts, baseDir) {
+            const name = ts.getAttribute('name');
+            const tileWidth = parseInt(ts.getAttribute('tilewidth'));
+            const tileHeight = parseInt(ts.getAttribute('tileheight'));
+            const tileCount = parseInt(ts.getAttribute('tilecount') || 0);
+            const columns = parseInt(ts.getAttribute('columns') || 0);
+
+            const imageEl = ts.querySelector(':scope > image');
+            let imageSrc = null;
+            let imageWidth = 0, imageHeight = 0;
+
+            if (imageEl) {
+                imageSrc = normalizePath(baseDir + imageEl.getAttribute('source'));
+                imageWidth = parseInt(imageEl.getAttribute('width'));
+                imageHeight = parseInt(imageEl.getAttribute('height'));
+            }
+
+            const tiles = {};
+            for (const tile of ts.querySelectorAll('tile')) {
+                const id = parseInt(tile.getAttribute('id'));
+                const tileImg = tile.querySelector('image');
+                if (tileImg) {
+                    tiles[id] = {
+                        source: normalizePath(baseDir + tileImg.getAttribute('source')),
+                        width: parseInt(tileImg.getAttribute('width')),
+                        height: parseInt(tileImg.getAttribute('height'))
+                    };
+                }
+            }
+
+            return {
+                name,
+                tileWidth,
+                tileHeight,
+                tileCount,
+                columns,
+                imageSrc,
+                imageWidth,
+                imageHeight,
+                tiles,
+                baseDir
+            };
+        }
+
+        // ============== TASK 3: Item Image Handling ==============
+        // Image path mapping for kakao items
+        function mapImagePath(src) {
+            // Alphabet items (showtime_*.png) → Gold star image
+            if (src.includes('showtime/showtime_') || src.includes('showtime/showtime1_')) {
+                return 'item/item_004.png';  // Gold star item (yellow star)
+            }
+            // Keep original coin images (no mapping)
+            return src;
+        }
+
+        async function loadImage(src) {
+            // Apply image path mapping
+            const mappedSrc = mapImagePath(src);
+
+            if (loadedImages[mappedSrc]) {
+                return loadedImages[mappedSrc];
+            }
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedImages[mappedSrc] = img;
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    console.warn('Failed to load image:', mappedSrc, 'original:', src);
+                    // Create placeholder for missing images
+                    const placeholder = createPlaceholderImage(64, 64, '#ff00ff');
+                    loadedImages[mappedSrc] = placeholder;
+                    resolve(placeholder);
+                };
+                img.src = ASSETS_BASE + mappedSrc;
+            });
+        }
+
+        function createPlaceholderImage(width, height, color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, width, height);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(2, 2, width-4, height-4);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('?', width/2, height/2);
+            return canvas;
+        }
+
+        function getTileInfo(gid, tilesets) {
+            if (gid === 0) return null;
+
+            const FLIPPED_H = 0x80000000;
+            const FLIPPED_V = 0x40000000;
+            const FLIPPED_D = 0x20000000;
+
+            const flipH = (gid & FLIPPED_H) !== 0;
+            const flipV = (gid & FLIPPED_V) !== 0;
+            const flipD = (gid & FLIPPED_D) !== 0;
+
+            gid = gid & ~(FLIPPED_H | FLIPPED_V | FLIPPED_D);
+
+            for (const ts of tilesets) {
+                if (gid >= ts.firstgid) {
+                    const localId = gid - ts.firstgid;
+
+                    if (ts.tiles && ts.tiles[localId]) {
+                        return {
+                            tileset: ts,
+                            localId,
+                            tileData: ts.tiles[localId],
+                            flipH, flipV, flipD
+                        };
+                    }
+
+                    if (ts.imageSrc && ts.columns > 0) {
+                        const col = localId % ts.columns;
+                        const row = Math.floor(localId / ts.columns);
+                        return {
+                            tileset: ts,
+                            localId,
+                            srcX: col * ts.tileWidth,
+                            srcY: row * ts.tileHeight,
+                            flipH, flipV, flipD
+                        };
+                    }
+
+                    return { tileset: ts, localId, flipH, flipV, flipD };
+                }
+            }
+            return null;
+        }
+
+        function updateLayerToggles() {
+            const container = document.getElementById('layerToggles');
+            container.innerHTML = '';
+
+            const sortedLayers = Array.from(allLayerNames).sort();
+
+            sortedLayers.forEach(name => {
+                if (!(name in visibleLayers)) {
+                    visibleLayers[name] = true;
+                }
+
+                const label = document.createElement('label');
+                label.className = 'layer-toggle' + (visibleLayers[name] ? '' : ' disabled');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = visibleLayers[name];
+                checkbox.onchange = () => {
+                    visibleLayers[name] = checkbox.checked;
+                    label.classList.toggle('disabled', !checkbox.checked);
+                    renderFullLevel();
+                };
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(name));
+                container.appendChild(label);
+            });
+        }
+
+        async function loadSegment(segId, index) {
+            const seg = mapSegData[segId];
+            if (!seg) return;
+
+            document.querySelectorAll('.segment-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx === index);
+            });
+
+            document.getElementById('previewContainer').style.display = 'block';
+            document.getElementById('segmentTitle').textContent =
+                `Segment: ${seg.abbr} (${seg.level_tmx})`;
+
+            if (loadedTmxData[segId]) {
+                await renderSegment(loadedTmxData[segId]);
+            }
+        }
+
+        async function renderSegment(tmxData) {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const width = tmxData.width * tmxData.tileWidth * currentZoom;
+            const height = tmxData.height * tmxData.tileHeight * currentZoom;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            // Draw background
+            if (document.getElementById('showBg').checked) {
+                await drawBackground(ctx, width, height, currentZoom);
+            } else {
+                ctx.fillStyle = '#1a1a2a';
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            const imagesToLoad = new Set();
+            for (const ts of tmxData.tilesets) {
+                if (ts.imageSrc) imagesToLoad.add(ts.imageSrc);
+                if (ts.tiles) {
+                    Object.values(ts.tiles).forEach(t => imagesToLoad.add(t.source));
+                }
+            }
+
+            await Promise.all(Array.from(imagesToLoad).map(loadImage));
+
+            // Rendering order (matches project's layer hierarchy):
+            // 1. Parallax backgrounds (already drawn above)
+            // 2. object_bg (background decorations like bushes, stones)
+            // 3. Tile layers (bg, platform)
+            // 4. Other object groups (object_item, object_obs, object_monster)
+
+            // Draw object_bg first (before tile layers)
+            if (tmxData.objectGroups['object_bg'] && visibleLayers['obj:object_bg'] !== false) {
+                await renderObjectGroup(ctx, tmxData.objectGroups['object_bg'], tmxData, currentZoom);
+            }
+
+            // Draw tile layers
+            for (const [layerName, layer] of Object.entries(tmxData.layers)) {
+                if (visibleLayers[layerName] === false) continue;
+                await renderTileLayer(ctx, layer, tmxData, currentZoom);
+            }
+
+            // Draw other object groups (skip object_bg, already drawn)
+            for (const [groupName, objects] of Object.entries(tmxData.objectGroups)) {
+                if (groupName === 'object_bg') continue;  // Already drawn
+                if (visibleLayers['obj:' + groupName] === false) continue;
+                await renderObjectGroup(ctx, objects, tmxData, currentZoom);
+            }
+
+            if (document.getElementById('showGrid').checked) {
+                renderGrid(ctx, tmxData, currentZoom);
+            }
+
+            // Render fall zones (empty platform tiles)
+            if (document.getElementById('showFallZones').checked) {
+                renderFallZones(ctx, tmxData, currentZoom);
+            }
+        }
+
+        // Background rendering follows project logic:
+        // - Design resolution: 1334x750 (width x height)
+        // - Map height: 640px (10 tiles * 64)
+        // - Background images are scaled to fill design height (750px)
+        // - Backgrounds are CENTERED vertically (anchor 0.5, 0.5, Y=0)
+        // - Horizontal tiling for seamless scrolling
+        //
+        // Project layer mapping:
+        // - layer1 (MapBg.csv) = bgLayer1 = parallax00 (back layer, rendered first)
+        // - layer2 (MapBg.csv) = bgLayer2 = parallax01 (front layer, rendered second/on top)
+        const DESIGN_HEIGHT = 750;  // Original design resolution height
+        const MAP_HEIGHT = 640;      // 10 tiles * 64px
+
+        async function drawBackground(ctx, canvasWidth, canvasHeight, zoom) {
+            const bgInfo = mapBgData[currentTheme];
+            if (!bgInfo) {
+                ctx.fillStyle = '#1a1a2a';
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                return;
+            }
+
+            // Fill with sky color first
+            ctx.fillStyle = getThemeSkyColor(currentTheme);
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            // In the project:
+            // - Map is 640px tall (10 tiles)
+            // - Background container is 750px tall (design height)
+            // - Both are centered at Y=0 with anchor (0.5, 0.5)
+            // - This means background extends 55px above and 55px below the map
+            // For the preview, we need to center the scaled background in the canvas
+
+            const mapHeight = MAP_HEIGHT * zoom;  // Scaled map height
+
+            console.log('Background loading:', bgInfo.layer1, bgInfo.layer2);
+
+            // Draw parallax00 (layer1 - back layer, farther/slower parallax in game)
+            const layer1Img = await loadImage(bgInfo.layer1);
+            console.log('Layer1 loaded:', layer1Img ? 'success' : 'failed', bgInfo.layer1);
+            if (layer1Img && !(layer1Img instanceof HTMLCanvasElement)) {  // Skip placeholders
+                // Scale to fill canvas height fully (back sky should cover everything)
+                const scale = (canvasHeight / layer1Img.height) * 1.1;  // 10% extra to ensure full coverage
+                const imgHeight = layer1Img.height * scale;
+                const imgWidth = layer1Img.width * scale;
+
+                // Center vertically in canvas
+                const y = (canvasHeight - imgHeight) / 2;
+
+                console.log('Layer1 rendering:', { imgWidth, imgHeight, y, canvasHeight, originalSize: { w: layer1Img.width, h: layer1Img.height } });
+
+                for (let x = 0; x < canvasWidth; x += imgWidth) {
+                    ctx.drawImage(layer1Img, x, y, imgWidth, imgHeight);
+                }
+            }
+
+            // Draw parallax01 (layer2 - front layer, closer/faster parallax in game)
+            // Layer2 is typically trees/ground decoration that sits at the BOTTOM of the map
+            const layer2Img = await loadImage(bgInfo.layer2);
+            console.log('Layer2 loaded:', layer2Img ? 'success' : 'failed', bgInfo.layer2);
+            if (layer2Img && !(layer2Img instanceof HTMLCanvasElement)) {  // Skip placeholders
+                // Scale layer2 to match design proportions - should fill most of map height
+                // In the actual game, layer2 uses same sizing as layer1 but positioned at bottom
+                const scale = (DESIGN_HEIGHT / layer2Img.height) * zoom * 0.8;  // 80% of full scale
+                const imgHeight = layer2Img.height * scale;
+                const imgWidth = layer2Img.width * scale;
+
+                // Position at bottom of canvas (trees grow up from ground)
+                const y = canvasHeight - imgHeight;
+
+                console.log('Layer2 rendering:', { imgWidth, imgHeight, y, canvasHeight });
+
+                for (let x = 0; x < canvasWidth; x += imgWidth) {
+                    ctx.drawImage(layer2Img, x, y, imgWidth, imgHeight);
+                }
+            }
+        }
+
+        function getThemeSkyColor(theme) {
+            const skyColors = {
+                'forest': '#87CEEB',
+                'castle': '#B0C4DE',
+                'cave': '#2F4F4F',
+                'volcano': '#FF6B35',
+                'desert': '#F4A460',
+                'cell': '#1a1a1a',
+                'maya': '#87CEEB',
+                'bush': '#87CEEB',
+                'ice': '#ADD8E6',
+                'dark': '#0a0a0a',
+                'showtime': '#87CEEB'
+            };
+            return skyColors[theme] || '#1a1a2a';
+        }
+
+        async function renderTileLayer(ctx, layer, tmxData, zoom) {
+            const { tiles, width, height } = layer;
+            const tw = tmxData.tileWidth;
+            const th = tmxData.tileHeight;
+
+            for (let i = 0; i < tiles.length; i++) {
+                const gid = tiles[i];
+                if (gid === 0) continue;
+
+                const tileInfo = getTileInfo(gid, tmxData.tilesets);
+                if (!tileInfo) continue;
+
+                const x = (i % width) * tw * zoom;
+                const y = Math.floor(i / width) * th * zoom;
+
+                await drawTile(ctx, tileInfo, x, y, tw * zoom, th * zoom, zoom);
+            }
+        }
+
+        // Render fall zones (empty tiles in platform layer where player can fall)
+        function renderFallZones(ctx, tmxData, zoom, offsetX = 0) {
+            const platformLayer = tmxData.layers['platform'];
+            if (!platformLayer) return;
+
+            const { tiles, width, height } = platformLayer;
+            const tw = tmxData.tileWidth;
+            const th = tmxData.tileHeight;
+
+            // Only show fall zones for bottom rows where falling is possible
+            // Find the lowest row that has any platform tiles
+            let lowestPlatformRow = 0;
+            for (let row = 0; row < height; row++) {
+                for (let col = 0; col < width; col++) {
+                    if (tiles[row * width + col] !== 0) {
+                        lowestPlatformRow = Math.max(lowestPlatformRow, row);
+                    }
+                }
+            }
+
+            ctx.fillStyle = 'rgba(255, 50, 50, 0.3)';  // Transparent red
+            ctx.strokeStyle = 'rgba(255, 50, 50, 0.6)';
+            ctx.lineWidth = 1;
+
+            // Mark empty tiles that are at or below platforms (potential fall zones)
+            for (let row = 0; row < height; row++) {
+                for (let col = 0; col < width; col++) {
+                    const gid = tiles[row * width + col];
+                    if (gid === 0) {
+                        // Check if there's a platform somewhere above or at this level
+                        // (meaning this could be a gap the player can fall through)
+                        let hasPlatformAboveOrLevel = false;
+                        for (let checkRow = 0; checkRow <= row; checkRow++) {
+                            // Check same column and adjacent columns
+                            for (let checkCol = Math.max(0, col - 1); checkCol <= Math.min(width - 1, col + 1); checkCol++) {
+                                if (tiles[checkRow * width + checkCol] !== 0) {
+                                    hasPlatformAboveOrLevel = true;
+                                    break;
+                                }
+                            }
+                            if (hasPlatformAboveOrLevel) break;
+                        }
+
+                        // Only mark as fall zone if it's in a region with nearby platforms
+                        if (hasPlatformAboveOrLevel || row >= height - 3) {
+                            const x = offsetX + col * tw * zoom;
+                            const y = row * th * zoom;
+                            ctx.fillRect(x, y, tw * zoom, th * zoom);
+                            ctx.strokeRect(x + 0.5, y + 0.5, tw * zoom - 1, th * zoom - 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        async function renderObjectGroup(ctx, objects, tmxData, zoom) {
+            for (const obj of objects) {
+                if (obj.gid > 0) {
+                    const tileInfo = getTileInfo(obj.gid, tmxData.tilesets);
+                    if (tileInfo) {
+                        const x = obj.x * zoom;
+                        const y = obj.y * zoom;
+
+                        let w, h;
+                        if (tileInfo.tileData) {
+                            w = tileInfo.tileData.width * zoom;
+                            h = tileInfo.tileData.height * zoom;
+                        } else {
+                            w = tileInfo.tileset.tileWidth * zoom;
+                            h = tileInfo.tileset.tileHeight * zoom;
+                        }
+
+                        await drawTile(ctx, tileInfo, x, y - h, w, h, zoom);
+                    }
+                }
+            }
+        }
+
+        async function drawTile(ctx, tileInfo, x, y, w, h, zoom) {
+            const ts = tileInfo.tileset;
+
+            ctx.save();
+
+            if (tileInfo.flipH || tileInfo.flipV || tileInfo.flipD) {
+                ctx.translate(x + w / 2, y + h / 2);
+                if (tileInfo.flipH) ctx.scale(-1, 1);
+                if (tileInfo.flipV) ctx.scale(1, -1);
+                if (tileInfo.flipD) {
+                    ctx.rotate(Math.PI / 2);
+                    ctx.scale(1, -1);
+                }
+                ctx.translate(-w / 2, -h / 2);
+                x = 0;
+                y = 0;
+            }
+
+            if (tileInfo.tileData) {
+                const img = await loadImage(tileInfo.tileData.source);
+                if (img) {
+                    const imgW = tileInfo.tileData.width * zoom;
+                    const imgH = tileInfo.tileData.height * zoom;
+                    ctx.drawImage(img, x, y, imgW, imgH);
+                }
+            }
+            else if (ts.imageSrc && tileInfo.srcX !== undefined) {
+                const img = await loadImage(ts.imageSrc);
+                if (img) {
+                    ctx.drawImage(
+                        img,
+                        tileInfo.srcX, tileInfo.srcY,
+                        ts.tileWidth, ts.tileHeight,
+                        x, y,
+                        ts.tileWidth * zoom, ts.tileHeight * zoom
+                    );
+                }
+            }
+
+            ctx.restore();
+        }
+
+        function renderGrid(ctx, tmxData, zoom) {
+            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+            ctx.lineWidth = 1;
+
+            const tw = tmxData.tileWidth * zoom;
+            const th = tmxData.tileHeight * zoom;
+
+            for (let x = 0; x <= tmxData.width; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * tw, 0);
+                ctx.lineTo(x * tw, tmxData.height * th);
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= tmxData.height; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * th);
+                ctx.lineTo(tmxData.width * tw, y * th);
+                ctx.stroke();
+            }
+        }
+
+        async function renderFullLevel() {
+            if (currentSegments.length === 0) return;
+
+            const canvas = document.getElementById('fullLevelCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let totalWidth = 0;
+            let maxHeight = 0;
+
+            currentSegments.forEach(segId => {
+                const tmx = loadedTmxData[segId];
+                if (tmx) {
+                    totalWidth += tmx.width * tmx.tileWidth;
+                    maxHeight = Math.max(maxHeight, tmx.height * tmx.tileHeight);
+                }
+            });
+
+            canvas.width = totalWidth * fullZoom;
+            canvas.height = maxHeight * fullZoom;
+
+            if (document.getElementById('showBg').checked) {
+                await drawBackground(ctx, canvas.width, canvas.height, fullZoom);
+            } else {
+                ctx.fillStyle = '#0a0a15';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            const imagesToLoad = new Set();
+            for (const segId of currentSegments) {
+                const tmx = loadedTmxData[segId];
+                if (!tmx) continue;
+                for (const ts of tmx.tilesets) {
+                    if (ts.imageSrc) imagesToLoad.add(ts.imageSrc);
+                    if (ts.tiles) {
+                        Object.values(ts.tiles).forEach(t => imagesToLoad.add(t.source));
+                    }
+                }
+            }
+
+            await Promise.all(Array.from(imagesToLoad).map(loadImage));
+
+            // Rendering order (matches project's layer hierarchy):
+            // 1. Parallax backgrounds (already drawn above)
+            // 2. object_bg (background decorations like bushes, stones)
+            // 3. Tile layers (bg, platform)
+            // 4. Other object groups (object_item, object_obs, object_monster)
+
+            let offsetX = 0;
+
+            // First pass: Draw object_bg (background decorations) for all segments
+            for (let segIdx = 0; segIdx < currentSegments.length; segIdx++) {
+                const segId = currentSegments[segIdx];
+                const tmx = loadedTmxData[segId];
+                if (!tmx) continue;
+
+                const segWidth = tmx.width * tmx.tileWidth * fullZoom;
+
+                // Draw object_bg first (before tile layers)
+                if (tmx.objectGroups['object_bg'] && visibleLayers['obj:object_bg'] !== false) {
+                    for (const obj of tmx.objectGroups['object_bg']) {
+                        if (obj.gid > 0) {
+                            const tileInfo = getTileInfo(obj.gid, tmx.tilesets);
+                            if (tileInfo) {
+                                const x = offsetX + obj.x * fullZoom;
+                                const y = obj.y * fullZoom;
+
+                                let w, h;
+                                if (tileInfo.tileData) {
+                                    w = tileInfo.tileData.width * fullZoom;
+                                    h = tileInfo.tileData.height * fullZoom;
+                                } else {
+                                    w = tileInfo.tileset.tileWidth * fullZoom;
+                                    h = tileInfo.tileset.tileHeight * fullZoom;
+                                }
+
+                                await drawTile(ctx, tileInfo, x, y - h, w, h, fullZoom);
+                            }
+                        }
+                    }
+                }
+
+                offsetX += segWidth;
+            }
+
+            // Second pass: Draw tile layers and remaining object groups
+            offsetX = 0;
+            for (let segIdx = 0; segIdx < currentSegments.length; segIdx++) {
+                const segId = currentSegments[segIdx];
+                const tmx = loadedTmxData[segId];
+                if (!tmx) continue;
+
+                const segWidth = tmx.width * tmx.tileWidth * fullZoom;
+
+                // Draw tile layers (bg, platform, etc.)
+                for (const [layerName, layer] of Object.entries(tmx.layers)) {
+                    if (visibleLayers[layerName] === false) continue;
+
+                    const { tiles, width, height } = layer;
+                    const tw = tmx.tileWidth;
+                    const th = tmx.tileHeight;
+
+                    for (let i = 0; i < tiles.length; i++) {
+                        const gid = tiles[i];
+                        if (gid === 0) continue;
+
+                        const tileInfo = getTileInfo(gid, tmx.tilesets);
+                        if (!tileInfo) continue;
+
+                        const x = offsetX + (i % width) * tw * fullZoom;
+                        const y = Math.floor(i / width) * th * fullZoom;
+
+                        await drawTile(ctx, tileInfo, x, y, tw * fullZoom, th * fullZoom, fullZoom);
+                    }
+                }
+
+                // Draw other object groups (items, obstacles, monsters) - skip object_bg
+                for (const [groupName, objects] of Object.entries(tmx.objectGroups)) {
+                    if (groupName === 'object_bg') continue;  // Already drawn
+                    if (visibleLayers['obj:' + groupName] === false) continue;
+
+                    for (const obj of objects) {
+                        if (obj.gid > 0) {
+                            // Skip collected items in play mode
+                            if (groupName === 'object_item' && playMode.active) {
+                                const itemId = `${segId}_${obj.id}`;
+                                if (playMode.collectedItems.has(itemId)) {
+                                    continue;  // Don't render collected items
+                                }
+                            }
+                            
+                            const tileInfo = getTileInfo(obj.gid, tmx.tilesets);
+                            if (tileInfo) {
+                                const x = offsetX + obj.x * fullZoom;
+                                const y = obj.y * fullZoom;
+
+                                let w, h;
+                                if (tileInfo.tileData) {
+                                    w = tileInfo.tileData.width * fullZoom;
+                                    h = tileInfo.tileData.height * fullZoom;
+                                } else {
+                                    w = tileInfo.tileset.tileWidth * fullZoom;
+                                    h = tileInfo.tileset.tileHeight * fullZoom;
+                                }
+
+                                await drawTile(ctx, tileInfo, x, y - h, w, h, fullZoom);
+                            }
+                        }
+                    }
+                }
+
+                ctx.strokeStyle = 'rgba(0, 212, 255, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(offsetX + segWidth, 0);
+                ctx.lineTo(offsetX + segWidth, canvas.height);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                if (document.getElementById('showSegLabels').checked) {
+                    const seg = mapSegData[segId];
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    const labelWidth = Math.max(60, seg.abbr.length * 8) * fullZoom + 10;
+                    ctx.fillRect(offsetX + 2, 2, labelWidth, 18 * fullZoom + 4);
+                    ctx.fillStyle = '#00d4ff';
+                    ctx.font = `bold ${Math.max(10, 14 * fullZoom)}px sans-serif`;
+                    ctx.fillText(seg ? seg.abbr : segId, offsetX + 5, 15 * fullZoom);
+                }
+
+                offsetX += segWidth;
+            }
+
+            if (document.getElementById('showGrid').checked) {
+                ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+                ctx.lineWidth = 1;
+                const tw = 64 * fullZoom;
+                const th = 64 * fullZoom;
+
+                for (let x = 0; x <= canvas.width; x += tw) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y <= canvas.height; y += th) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+            }
+
+            // Render fall zones for full level view
+            if (document.getElementById('showFallZones').checked) {
+                let fallZoneOffsetX = 0;
+                for (const segId of currentSegments) {
+                    const tmx = loadedTmxData[segId];
+                    if (!tmx) continue;
+                    renderFallZones(ctx, tmx, fullZoom, fallZoneOffsetX);
+                    fallZoneOffsetX += tmx.width * tmx.tileWidth * fullZoom;
+                }
+            }
+
+            // Draw player if in play mode or preview mode with player
+            if (playMode.active || keys.shift) {
+                drawPlayer(ctx);
+            }
+        }
+
+        function rerender() {
+            if (currentSegments.length > 0) {
+                renderFullLevel();
+            }
+        }
+
+        function zoom(delta) {
+            currentZoom = Math.max(0.25, Math.min(2, currentZoom + delta));
+            document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+
+            const activeItem = document.querySelector('.segment-item.active');
+            if (activeItem) {
+                const idx = Array.from(document.querySelectorAll('.segment-item')).indexOf(activeItem);
+                if (idx >= 0 && currentSegments[idx]) {
+                    loadSegment(currentSegments[idx], idx);
+                }
+            }
+        }
+
+        function zoomFullLevel(delta, absolute) {
+            if (absolute !== undefined) {
+                fullZoom = absolute;
+            } else {
+                fullZoom = Math.max(0.1, Math.min(1.5, fullZoom + delta));
+            }
+            document.getElementById('fullZoomLevel').textContent = Math.round(fullZoom * 100) + '%';
+            buildCollisionData();
+            renderFullLevel();
+        }
+
+        // Fit entire level to screen
+        function fitToScreen() {
+            if (currentSegments.length === 0) return;
+
+            // Calculate total level dimensions
+            let totalWidth = 0;
+            let maxHeight = 0;
+            for (const segId of currentSegments) {
+                const tmx = loadedTmxData[segId];
+                if (tmx) {
+                    totalWidth += tmx.width * tmx.tileWidth;
+                    maxHeight = Math.max(maxHeight, tmx.height * tmx.tileHeight);
+                }
+            }
+
+            if (totalWidth === 0 || maxHeight === 0) return;
+
+            // Get viewport size
+            const wrapper = document.getElementById('fullCanvasWrapper');
+            const viewportWidth = wrapper.clientWidth - 20;  // Subtract padding
+            const viewportHeight = wrapper.clientHeight - 20;
+
+            // Calculate zoom to fit
+            const zoomX = viewportWidth / totalWidth;
+            const zoomY = viewportHeight / maxHeight;
+            const fitZoom = Math.min(zoomX, zoomY, 1.0);  // Cap at 100%
+
+            // Apply zoom
+            fullZoom = Math.max(0.05, fitZoom);  // Minimum 5%
+            document.getElementById('fullZoomLevel').textContent = Math.round(fullZoom * 100) + '%';
+            buildCollisionData();
+            renderFullLevel();
+
+            // Scroll to start
+            wrapper.scrollLeft = 0;
+            wrapper.scrollTop = 0;
+        }
+
+        // ============== TASK 1: Map Drag Navigation ==============
+        function setupDragNavigation() {
+            const wrappers = [
+                document.getElementById('fullCanvasWrapper'),
+                document.getElementById('segmentCanvasWrapper')
+            ];
+
+            wrappers.forEach(wrapper => {
+                if (!wrapper) return;
+
+                wrapper.addEventListener('mousedown', (e) => {
+                    if (playMode.active) return;
+                    dragState.isDragging = true;
+                    dragState.startX = e.clientX;
+                    dragState.startY = e.clientY;
+                    dragState.scrollLeft = wrapper.scrollLeft;
+                    dragState.scrollTop = wrapper.scrollTop;
+                    wrapper.classList.add('dragging');
+                });
+
+                wrapper.addEventListener('mousemove', (e) => {
+                    if (!dragState.isDragging || playMode.active) return;
+                    e.preventDefault();
+                    const dx = e.clientX - dragState.startX;
+                    const dy = e.clientY - dragState.startY;
+                    wrapper.scrollLeft = dragState.scrollLeft - dx;
+                    wrapper.scrollTop = dragState.scrollTop - dy;
+                });
+
+                wrapper.addEventListener('mouseup', () => {
+                    dragState.isDragging = false;
+                    wrapper.classList.remove('dragging');
+                });
+
+                wrapper.addEventListener('mouseleave', () => {
+                    dragState.isDragging = false;
+                    wrapper.classList.remove('dragging');
+                });
+            });
+        }
+
+        // ============== TASK 4 & 5: Player & Play Mode ==============
+        function buildCollisionData() {
+            platformRects = [];
+            obstacleRects = [];
+            itemRects = [];
+
+            let offsetX = 0;
+            for (const segId of currentSegments) {
+                const tmx = loadedTmxData[segId];
+                if (!tmx) continue;
+
+                // Build platform collision from 'platform' layer
+                const platformLayer = tmx.layers['platform'];
+                if (platformLayer) {
+                    const { tiles, width, height } = platformLayer;
+                    const tw = tmx.tileWidth;
+                    const th = tmx.tileHeight;
+
+                    for (let i = 0; i < tiles.length; i++) {
+                        if (tiles[i] !== 0) {
+                            const col = i % width;
+                            const row = Math.floor(i / width);
+                            platformRects.push({
+                                x: offsetX + col * tw,
+                                y: row * th,
+                                width: tw,
+                                height: th
+                            });
+                        }
+                    }
+                }
+
+                // Build obstacle collision from object_obstacle
+                const obstacles = tmx.objectGroups['object_obstacle'];
+                if (obstacles) {
+                    obstacles.forEach(obj => {
+                        if (obj.gid > 0) {
+                            obstacleRects.push({
+                                x: offsetX + obj.x,
+                                y: obj.y - (obj.height || 64),
+                                width: obj.width || 64,
+                                height: obj.height || 64
+                            });
+                        }
+                    });
+                }
+
+                // Build monster collision from object_monster
+                const monsters = tmx.objectGroups['object_monster'];
+                if (monsters) {
+                    monsters.forEach(obj => {
+                        if (obj.gid > 0) {
+                            // Monsters have large sample images, use actual collision box
+                            const collisionWidth = Math.min(obj.width || 164, 100);
+                            const collisionHeight = Math.min(obj.height || 558, 200);
+                            const centerX = offsetX + obj.x + (obj.width || 164) / 2;
+                            obstacleRects.push({
+                                x: centerX - collisionWidth / 2,
+                                y: obj.y - collisionHeight,
+                                width: collisionWidth,
+                                height: collisionHeight,
+                                isMonster: true
+                            });
+                        }
+                    });
+                }
+
+                // Build item collision from object_item
+                const items = tmx.objectGroups['object_item'];
+                if (items) {
+                    items.forEach(obj => {
+                        if (obj.gid > 0) {
+                            itemRects.push({
+                                id: `${segId}_${obj.id}`,
+                                x: offsetX + obj.x,
+                                y: obj.y - (obj.height || 64),
+                                width: obj.width || 64,
+                                height: obj.height || 64
+                            });
+                        }
+                    });
+                }
+
+                offsetX += tmx.width * tmx.tileWidth;
+            }
+        }
+
+        function togglePlayMode() {
+            if (playMode.active) {
+                stopPlayMode();
+            } else {
+                startPlayMode();
+            }
+        }
+
+        function startPlayMode() {
+            playMode.active = true;
+            playMode.score = 0;
+            playMode.distance = 0;
+            playMode.items = 0;
+            playMode.cameraX = 0;
+            playMode.gameOver = false;
+            playMode.collectedItems.clear();
+
+            // Reset player position
+            player.x = 300;
+            player.y = 300;
+            player.vx = 0;
+            player.vy = 0;
+            player.onGround = false;
+            player.jumpCount = 0;
+
+            document.getElementById('playBtn').textContent = 'Stop';
+            document.getElementById('playBtn').classList.remove('play-btn');
+            document.getElementById('playBtn').classList.add('stop-btn');
+            document.getElementById('playModeUI').classList.remove('hidden');
+            document.getElementById('gameOverOverlay').classList.add('hidden');
+            document.getElementById('playerHint').style.display = 'block';
+
+            lastTime = performance.now();
+            gameLoop(lastTime);
+        }
+
+        function stopPlayMode() {
+            playMode.active = false;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            // Reset all play mode state
+            playMode.score = 0;
+            playMode.distance = 0;
+            playMode.items = 0;
+            playMode.cameraX = 0;
+            playMode.gameOver = false;
+            playMode.collectedItems.clear();
+            
+            // Reset player state
+            player.x = 300;
+            player.y = 300;
+            player.vx = 0;
+            player.vy = 0;
+            player.onGround = false;
+            player.jumpCount = 0;
+            
+            // Reset keys state
+            keys.jumpPressed = false;
+
+            document.getElementById('playBtn').textContent = 'Play';
+            document.getElementById('playBtn').classList.add('play-btn');
+            document.getElementById('playBtn').classList.remove('stop-btn');
+            document.getElementById('playModeUI').classList.add('hidden');
+            document.getElementById('gameOverOverlay').classList.add('hidden');
+            document.getElementById('playerHint').style.display = 'none';
+            
+            // Reset scroll position
+            const wrapper = document.getElementById('fullCanvasWrapper');
+            if (wrapper) wrapper.scrollLeft = 0;
+
+            renderFullLevel();
+        }
+
+        function gameOver() {
+            playMode.gameOver = true;
+            playMode.active = false;
+
+            document.getElementById('gameOverOverlay').classList.remove('hidden');
+            document.getElementById('gameOverStats').innerHTML = `
+                Distance: ${Math.floor(playMode.distance)}m<br>
+                Items: ${playMode.items}<br>
+                Score: ${playMode.score}
+            `;
+        }
+
+        function gameLoop(timestamp) {
+            if (!playMode.active || playMode.gameOver) return;
+
+            const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+            lastTime = timestamp;
+
+            updatePlayer(dt);
+            updateCamera();
+            updatePlayUI();
+
+            renderFullLevel();
+
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function updatePlayer(dt) {
+            // Horizontal movement
+            if (keys.left) {
+                player.vx -= PHYSICS.SPEED;
+            }
+            if (keys.right) {
+                player.vx += PHYSICS.SPEED;
+            }
+
+            // Auto-scroll in play mode
+            if (playMode.active) {
+                player.vx += PHYSICS.SPEED * 0.5;
+            }
+
+            // Friction
+            player.vx *= 0.9;
+            player.vx = Math.max(-PHYSICS.MAX_SPEED, Math.min(PHYSICS.MAX_SPEED, player.vx));
+
+            // Apply gravity
+            player.vy -= PHYSICS.GRAVITY * dt;
+            player.vy = Math.max(PHYSICS.VY_MIN, Math.min(PHYSICS.VY_MAX, player.vy));
+
+            // Jump hold force
+            if (keys.space && player.vy > 0) {
+                player.vy += PHYSICS.JUMP_HOLD * dt * 60;
+            }
+
+            // Update position
+            player.x += player.vx * dt;
+            player.y -= player.vy * dt;
+
+            // Check platform collision
+            player.onGround = false;
+            for (const rect of platformRects) {
+                if (checkCollision(player, rect)) {
+                    // Landing on top
+                    if (player.vy < 0 && player.y + player.height > rect.y && player.y < rect.y + 20) {
+                        player.y = rect.y - player.height;
+                        player.vy = 0;
+                        player.onGround = true;
+                        player.jumpCount = 0;
+                    }
+                }
+            }
+
+            // No forced ground collision - player falls if there's no platform
+            // The fall death check below handles cliff falls
+            const maxHeight = 640; // 10 tiles * 64
+
+            // Fall death
+            if (player.y > maxHeight + 100) {
+                gameOver();
+                return;
+            }
+
+            // Check obstacle collision
+            for (const rect of obstacleRects) {
+                if (checkCollision(player, rect)) {
+                    gameOver();
+                    return;
+                }
+            }
+
+            // Check item collection
+            for (const item of itemRects) {
+                if (!playMode.collectedItems.has(item.id) && checkCollision(player, item)) {
+                    playMode.collectedItems.add(item.id);
+                    playMode.items++;
+                    playMode.score += 100;
+                }
+            }
+
+            // Update distance
+            playMode.distance = player.x / 100;
+        }
+
+        function checkCollision(a, b) {
+            return a.x < b.x + b.width &&
+                   a.x + a.width > b.x &&
+                   a.y < b.y + b.height &&
+                   a.y + a.height > b.y;
+        }
+
+        function updateCamera() {
+            const wrapper = document.getElementById('fullCanvasWrapper');
+            const targetScroll = player.x * fullZoom - wrapper.clientWidth / 3;
+            wrapper.scrollLeft = Math.max(0, targetScroll);
+        }
+
+        function updatePlayUI() {
+            document.getElementById('playScore').textContent = playMode.score;
+            document.getElementById('playDistance').textContent = Math.floor(playMode.distance) + 'm';
+            document.getElementById('playItems').textContent = playMode.items;
+        }
+
+        function drawPlayer(ctx) {
+            const screenX = player.x * fullZoom;
+            const screenY = player.y * fullZoom;
+            const w = player.width * fullZoom;
+            const h = player.height * fullZoom;
+
+            // Try to draw hero from PNG atlas using body region
+            if (heroImage) {
+                const region = HERO_BODY_REGIONS[currentHeroId] || HERO_BODY_REGIONS['1'];
+
+                // Extract body region from Spine atlas and draw it
+                // Scale to fit player hitbox with some padding
+                const targetSize = Math.max(w, h) * 1.8;
+                const scale = targetSize / Math.max(region.w, region.h);
+                const drawW = region.w * scale;
+                const drawH = region.h * scale;
+
+                // Center the body sprite on player position
+                const drawX = screenX + w / 2 - drawW / 2;
+                const drawY = screenY + h - drawH;  // Align bottom of sprite with bottom of hitbox
+
+                try {
+                    ctx.drawImage(heroImage,
+                        region.x, region.y, region.w, region.h,  // Source rectangle from atlas
+                        drawX, drawY, drawW, drawH);  // Destination
+                } catch (e) {
+                    // If region extraction fails, draw full image scaled
+                    const fallbackScale = Math.min((w * 1.5) / heroImage.width, (h * 1.5) / heroImage.height);
+                    ctx.drawImage(heroImage,
+                        screenX, screenY - heroImage.height * fallbackScale + h,
+                        heroImage.width * fallbackScale, heroImage.height * fallbackScale);
+                }
+            } else {
+                // Fallback: Draw player body rectangle
+                ctx.fillStyle = '#00ff88';
+                ctx.fillRect(screenX, screenY, w, h);
+
+                // Draw player face
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(screenX + w * 0.2, screenY + h * 0.2, w * 0.2, h * 0.15);
+                ctx.fillRect(screenX + w * 0.6, screenY + h * 0.2, w * 0.2, h * 0.15);
+                ctx.fillRect(screenX + w * 0.3, screenY + h * 0.5, w * 0.4, h * 0.1);
+            }
+
+            // Draw jump arc preview - always visible (not just when shift is pressed)
+            drawJumpPreview(ctx, screenX + w/2, screenY + h);
+        }
+
+        function drawJumpPreview(ctx, startX, startY) {
+            const points = calculateJumpArc();
+
+            ctx.save();
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+
+            for (let i = 0; i < points.length; i++) {
+                const px = (player.x + points[i].x) * fullZoom;
+                const py = (player.y + player.height + points[i].y) * fullZoom;
+                if (i === 0) {
+                    ctx.moveTo(px, py);
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            ctx.stroke();
+
+            // Draw peak marker
+            const peak = points.reduce((max, p) => p.y < max.y ? p : max, points[0]);
+            const peakX = (player.x + peak.x) * fullZoom;
+            const peakY = (player.y + player.height + peak.y) * fullZoom;
+
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.arc(peakX, peakY, 8, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 255, 136, 0.5)';
+            ctx.fill();
+            ctx.strokeStyle = '#00ff88';
+            ctx.stroke();
+
+            // Draw height text
+            ctx.fillStyle = '#00ff88';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText(`${Math.abs(Math.floor(peak.y))}px`, peakX + 15, peakY);
+
+            ctx.restore();
+        }
+
+        function calculateJumpArc() {
+            const points = [];
+            let x = 0;
+            let y = 0;
+            let vy = PHYSICS.JUMP_INSTANT;
+            const vx = player.vx + PHYSICS.SPEED;
+            const dt = 0.016;
+            const holdFrames = 15;
+
+            for (let i = 0; i < 120; i++) {
+                points.push({ x, y });
+
+                if (i < holdFrames) {
+                    vy += PHYSICS.JUMP_HOLD;
+                }
+                vy -= PHYSICS.GRAVITY * dt;
+
+                x += vx * dt;
+                y -= vy * dt;
+
+                if (y > 0 && i > 10) break;
+            }
+
+            return points;
+        }
+
+        // Keyboard event handlers
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
+            if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+            if (e.key === 'ArrowDown' || e.key === 's') keys.down = true;
+            if (e.key === ' ') {
+                // Ignore key repeat events from holding down space
+                if (e.repeat) {
+                    e.preventDefault();
+                    return;
+                }
+                keys.space = true;
+                // Only trigger jump once per key press
+                if (playMode.active && player.jumpCount < getMaxJumps()) {
+                    player.vy = PHYSICS.JUMP_INSTANT;
+                    player.jumpCount++;
+                    player.onGround = false;
+                }
+                e.preventDefault();
+            }
+            if (e.key === 'Shift') {
+                keys.shift = true;
+                if (!playMode.active) renderFullLevel();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
+            if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+            if (e.key === 'ArrowDown' || e.key === 's') keys.down = false;
+            if (e.key === ' ') { keys.space = false; keys.jumpPressed = false; }
+            if (e.key === 'Shift') {
+                keys.shift = false;
+                if (!playMode.active) renderFullLevel();
+            }
+        });
+
+        // Mouse info
+        document.getElementById('mapCanvas').addEventListener('mousemove', (e) => {
+            const canvas = e.target;
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / (64 * currentZoom));
+            const y = Math.floor((e.clientY - rect.top) / (64 * currentZoom));
+
+            const info = document.getElementById('tileInfo');
+            info.style.display = 'block';
+            info.textContent = `Tile: (${x}, ${y})`;
+        });
+
+        document.getElementById('mapCanvas').addEventListener('mouseleave', () => {
+            document.getElementById('tileInfo').style.display = 'none';
+        });
+
+        // ============== SPINE PLAYER SYSTEM ==============
+        const HERO_PATHS = {
+            '1': 'Textures/kakao/heros/01choonsik',
+            '2': 'Textures/kakao/heros/02Ryan',
+            '3': 'Textures/kakao/heros/03Apeach',
+            '4': 'Textures/kakao/heros/04Tube',
+            '5': 'Textures/kakao/heros/05Muzi',
+            '6': 'Textures/kakao/heros/06Frodo',
+            '7': 'Textures/kakao/heros/07Neo',
+            '8': 'Textures/kakao/heros/08Jay-G'
+        };
+
+        // Body sprite regions from atlas files (for displaying hero without Spine runtime)
+        // Format: { x, y, width, height } - position in PNG atlas
+        const HERO_BODY_REGIONS = {
+            '1': { x: 307, y: 867, w: 150, h: 149 },  // choonsik body
+            '2': { x: 307, y: 867, w: 150, h: 149 },  // ryan (approximate)
+            '3': { x: 307, y: 867, w: 150, h: 149 },  // apeach
+            '4': { x: 307, y: 867, w: 150, h: 149 },  // tube
+            '5': { x: 307, y: 867, w: 150, h: 149 },  // muzi
+            '6': { x: 307, y: 867, w: 150, h: 149 },  // frodo
+            '7': { x: 307, y: 867, w: 150, h: 149 },  // neo
+            '8': { x: 307, y: 867, w: 150, h: 149 }   // jay-g
+        };
+
+        let spinePlayer = null;
+        let pixiApp = null;
+        let currentHeroId = '1';
+        let spineLoaded = false;
+        let heroImage = null;  // Fallback PNG image
+
+        // Load hero PNG as fallback
+        async function loadHeroPNG(heroId) {
+            const basePath = HERO_PATHS[heroId] || HERO_PATHS['1'];
+            const pngPath = ASSETS_BASE + basePath + '.png';
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    console.log('Hero PNG loaded:', pngPath);
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    console.warn('Failed to load hero PNG:', pngPath);
+                    resolve(null);
+                };
+                img.src = pngPath;
+            });
+        }
+
+        class SpinePlayer {
+            constructor(container) {
+                this.container = container;
+                this.app = null;
+                this.spine = null;
+                this.spriteImg = null;  // Fallback sprite
+                this.currentAnim = '';
+                this.scale = 0.3;
+                this.initialized = false;
+                this.useSpine = false;  // Whether Spine is available
+            }
+
+            async init() {
+                if (this.initialized) return;
+
+                // Check if pixi-spine is available
+                if (typeof PIXI === 'undefined' || typeof PIXI.spine === 'undefined') {
+                    console.warn('PIXI or PIXI.spine not available, using fallback');
+                    this.useSpine = false;
+                    this.initialized = true;
+                    return;
+                }
+
+                try {
+                    // Create Pixi Application
+                    this.app = new PIXI.Application({
+                        width: 200,
+                        height: 200,
+                        backgroundAlpha: 0,
+                        antialias: true
+                    });
+                    this.container.appendChild(this.app.view);
+                    this.app.view.style.position = 'absolute';
+                    this.app.view.style.pointerEvents = 'none';
+
+                    pixiApp = this.app;
+                    this.useSpine = true;
+                } catch (error) {
+                    console.warn('Failed to init PIXI:', error);
+                    this.useSpine = false;
+                }
+                this.initialized = true;
+            }
+
+            async loadHero(heroId) {
+                if (!this.initialized) await this.init();
+
+                // Always load fallback PNG
+                heroImage = await loadHeroPNG(heroId);
+
+                if (!this.useSpine || !this.app) {
+                    console.log('Using PNG fallback for hero');
+                    spineLoaded = false;
+                    return heroImage !== null;
+                }
+
+                const basePath = HERO_PATHS[heroId] || HERO_PATHS['1'];
+                const jsonPath = ASSETS_BASE + basePath + '.json';
+                const atlasPath = ASSETS_BASE + basePath + '.atlas.txt';
+
+                try {
+                    // Clear previous spine
+                    if (this.spine) {
+                        this.app.stage.removeChild(this.spine);
+                        this.spine.destroy();
+                        this.spine = null;
+                    }
+
+                    // Load skeleton data
+                    const [jsonData, atlasText] = await Promise.all([
+                        fetch(jsonPath).then(r => {
+                            if (!r.ok) throw new Error('Failed to fetch JSON');
+                            return r.json();
+                        }),
+                        fetch(atlasPath).then(r => {
+                            if (!r.ok) throw new Error('Failed to fetch atlas');
+                            return r.text();
+                        })
+                    ]);
+
+                    // Create texture atlas
+                    const pngPath = ASSETS_BASE + basePath + '.png';
+                    const texture = await PIXI.Assets.load(pngPath);
+
+                    // Parse atlas - use spine-pixi API
+                    const spineAtlas = new PIXI.spine.TextureAtlas(atlasText, (line, callback) => {
+                        callback(texture.baseTexture);
+                    });
+
+                    // Create skeleton
+                    const spineAtlasLoader = new PIXI.spine.AtlasAttachmentLoader(spineAtlas);
+                    const spineJsonParser = new PIXI.spine.SkeletonJson(spineAtlasLoader);
+                    spineJsonParser.scale = this.scale;
+
+                    const skeletonData = spineJsonParser.readSkeletonData(jsonData);
+                    this.spine = new PIXI.spine.Spine(skeletonData);
+
+                    // Center the spine
+                    this.spine.x = 100;
+                    this.spine.y = 180;
+
+                    this.app.stage.addChild(this.spine);
+
+                    // Start with Idle animation
+                    this.playAnimation('Idle', true);
+                    spineLoaded = true;
+                    
+                    console.log('Spine hero loaded:', heroId);
+                    return true;
+                } catch (error) {
+                    console.warn('Failed to load Spine hero:', error);
+                    spineLoaded = false;
+                    return false;
+                }
+            }
+
+            playAnimation(animName, loop = true) {
+                if (!this.spine) return;
+                if (this.currentAnim === animName) return;
+                
+                try {
+                    // Check if animation exists
+                    const anim = this.spine.spineData.findAnimation(animName);
+                    if (!anim) {
+                        console.warn('Animation not found:', animName);
+                        return;
+                    }
+                    
+                    this.spine.state.setAnimation(0, animName, loop);
+                    this.currentAnim = animName;
+                } catch (error) {
+                    console.warn('Failed to play animation:', animName, error);
+                }
+            }
+
+            updatePosition(x, y, scale) {
+                if (!this.app || !this.spine) return;
+                
+                // Update canvas position
+                const wrapper = document.getElementById('fullCanvasWrapper');
+                const scrollLeft = wrapper.scrollLeft;
+                const scrollTop = wrapper.scrollTop;
+                
+                // Position the Pixi canvas
+                const screenX = x * scale - scrollLeft - 100;
+                const screenY = y * scale - scrollTop - 130;
+                
+                this.app.view.style.left = screenX + 'px';
+                this.app.view.style.top = screenY + 'px';
+                
+                // Flip based on direction
+                if (player.vx < -10) {
+                    this.spine.scale.x = -Math.abs(this.spine.scale.x);
+                } else if (player.vx > 10) {
+                    this.spine.scale.x = Math.abs(this.spine.scale.x);
+                }
+            }
+
+            updateAnimation(gameState) {
+                if (!this.spine) return;
+                
+                // Determine animation based on game state
+                let targetAnim = 'Idle';
+                
+                if (gameState.sliding) {
+                    targetAnim = 'Slide';
+                } else if (gameState.hit) {
+                    targetAnim = 'Hit';
+                } else if (!gameState.onGround) {
+                    if (gameState.jumpCount >= 2) {
+                        targetAnim = 'Jump2';
+                    } else {
+                        targetAnim = 'Jump';
+                    }
+                } else if (Math.abs(gameState.vx) > 10 || gameState.autoRun) {
+                    targetAnim = 'Run';
+                } else {
+                    targetAnim = 'Idle';
+                }
+                
+                this.playAnimation(targetAnim, targetAnim !== 'Hit');
+            }
+
+            setScale(scale) {
+                if (!this.spine) return;
+                const sign = this.spine.scale.x < 0 ? -1 : 1;
+                this.spine.scale.set(sign * scale * this.scale, scale * this.scale);
+            }
+
+            destroy() {
+                if (this.spine) {
+                    this.spine.destroy();
+                    this.spine = null;
+                }
+                if (this.app) {
+                    this.app.destroy(true);
+                    this.app = null;
+                }
+                this.initialized = false;
+                spineLoaded = false;
+            }
+        }
+
+        // Initialize Spine Player
+        async function initSpinePlayer() {
+            const container = document.getElementById('spinePlayerContainer');
+            if (!container) return;
+            
+            spinePlayer = new SpinePlayer(container);
+            await spinePlayer.init();
+            await spinePlayer.loadHero(currentHeroId);
+        }
+
+        // Update Spine player in game loop
+        function updateSpinePlayer() {
+            if (!spinePlayer || !spineLoaded) return;
+            
+            // Update position
+            spinePlayer.updatePosition(player.x, player.y, fullZoom);
+            
+            // Update animation
+            spinePlayer.updateAnimation({
+                onGround: player.onGround,
+                vx: player.vx,
+                vy: player.vy,
+                jumpCount: player.jumpCount,
+                sliding: keys.down || false,
+                hit: playMode.gameOver,
+                autoRun: playMode.active
+            });
+            
+            // Update scale
+            spinePlayer.setScale(fullZoom);
+        }
+
+        // Modified drawPlayer to use Spine when available
+        const originalDrawPlayer = drawPlayer;
+        drawPlayer = function(ctx) {
+            if (spineLoaded && spinePlayer) {
+                // Spine player is rendered by Pixi, just update it
+                updateSpinePlayer();
+                // Always draw jump preview even with Spine player
+                const screenX = player.x * fullZoom;
+                const screenY = player.y * fullZoom;
+                const w = player.width * fullZoom;
+                const h = player.height * fullZoom;
+                drawJumpPreview(ctx, screenX + w/2, screenY + h);
+            } else {
+                // Fallback to rectangle player (includes jump preview)
+                originalDrawPlayer(ctx);
+            }
+        };
+
+        // Add hero selector to UI
+        function addHeroSelector() {
+            const controls = document.querySelector('.controls');
+            if (!controls) return;
+            
+            const heroGroup = document.createElement('div');
+            heroGroup.className = 'control-group';
+            heroGroup.innerHTML = `
+                <label>Hero</label>
+                <select id="heroSelect">
+                    <option value="1">Choonsik</option>
+                    <option value="2">Ryan</option>
+                    <option value="3">Apeach</option>
+                    <option value="4">Tube</option>
+                    <option value="5">Muzi</option>
+                    <option value="6">Frodo</option>
+                    <option value="7">Neo</option>
+                    <option value="8">Jay-G</option>
+                </select>
+            `;
+            controls.insertBefore(heroGroup, controls.querySelector('button'));
+            
+            document.getElementById('heroSelect').addEventListener('change', async (e) => {
+                currentHeroId = e.target.value;
+                if (spinePlayer) {
+                    await spinePlayer.loadHero(currentHeroId);
+                }
+            });
+        }
+
+        // Initialize
+        loadCSVData();
+        setupDragNavigation();
+        addHeroSelector();
+        
+        // Initialize Spine after a short delay
+        setTimeout(() => {
+            initSpinePlayer();
+        }, 1000);
+    </script>
+</body>
+</html>
