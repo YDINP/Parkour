@@ -102,8 +102,12 @@
         </div>
     </div>
 
-    <!-- Game Canvas -->
-    <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+    <!-- Game Canvas Container (required by Cocos main.js) -->
+    <div id="GameDiv" style="width: 100%; height: 100%;">
+        <div id="Cocos2dGameContainer" style="width: 100%; height: 100%;">
+            <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+        </div>
+    </div>
 
     <!-- Language Selector Script -->
     <script src="language-selector.js"></script>
