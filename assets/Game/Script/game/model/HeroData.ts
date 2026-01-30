@@ -2,6 +2,21 @@ import gUtil from "../../../../framework/core/gUtil";
 import { LocalizationManager } from "../../../../framework/Hi5/Localization/LocalizationManager";
 import { Res } from "./BaseData";
 
+/**
+ * 영웅 ID -> 아바타 이미지 경로 매핑
+ * 스파인데이터 매핑(HeroSpinePaths.ts)과 동일한 패턴
+ */
+const heroAvatarPaths: { [id: string]: string } = {
+    "1": "Textures/avatars/hero/001",   // 춘식이 (01choonsik)
+    "2": "Textures/avatars/hero/002",   // 라이언 (02Ryan)
+    "3": "Textures/avatars/hero/006",   // 보안관 프로도 (06Frodo)
+    "4": "Textures/avatars/hero/003",   // 대사제 어피치 (03Apeach)
+    "5": "Textures/avatars/hero/008",   // 번개신 제이지 (08Jay-G)
+    "6": "Textures/avatars/hero/004",   // 족장 튜브 (04Tube)
+    "7": "Textures/avatars/hero/005",   // 무지 (05Muzi)
+    "8": "Textures/avatars/hero/007",   // 네오 (07Neo)
+};
+
 export interface HeroSkillLvData {
     lv: number;
     data: number;
@@ -55,7 +70,8 @@ export default class HeroData {
         this.prefabPath = "heros/" + d.skeleton;
         this.name = LocalizationManager.getText(`@hero.${id}.name`);
         this.quality = d.quality;
-        this.avatar = "Textures/avatars/hero/" + d.image;
+        // ID 기반 매핑 사용 (스파인데이터와 동일한 패턴)
+        this.avatar = heroAvatarPaths[id] || "Textures/avatars/hero/" + gUtil.padNum(id, 3);
         let paddedId = gUtil.padNum(id, 3);
         this.portrait = "Textures/avatars/portrait/portrait_" + paddedId;
         this.hp = d.hp;

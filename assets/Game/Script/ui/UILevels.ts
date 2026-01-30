@@ -51,6 +51,19 @@ export default class UILevels extends mvcView {
     onShow() {
         evt.emit("UILevel.render");
         this.setCurrentPage();
+        this.updateStartButton();
+    }
+
+    /**
+     * 최대 레벨 초과 시 시작 버튼 숨김
+     */
+    updateStartButton() {
+        let maxLevel = csv.Level.values.length - 1;
+        let isMaxLevelCleared = pdata.level > maxLevel;
+
+        if (this.btn_start) {
+            this.btn_start.active = !isMaxLevelCleared;
+        }
     }
 
     updateLvData() {
@@ -97,7 +110,11 @@ export default class UILevels extends mvcView {
     }
 
     setCurrentPage() {
-        let pageIdx = Math.floor((pdata.level - 1) / 10);
+        let maxLevel = csv.Level.values.length - 1;
+        let level = Math.min(pdata.level, maxLevel);  // 최대 레벨 초과 방지
+        let pageIdx = Math.floor((level - 1) / 10);
+        let maxPageIdx = Math.floor((maxLevel - 1) / 10);
+        pageIdx = Math.min(pageIdx, maxPageIdx);  // 페이지 인덱스 범위 제한
         this.scheduleOnce(() => {
             this.setPageByIdx(pageIdx);
         }, 0);
@@ -225,9 +242,15 @@ export default class UILevels extends mvcView {
     }
 
     enterGame() {
+        // 최대 레벨 초과 시 게임 시작 방지
+        let maxLevel = csv.Level.values.length - 1;
+        if (pdata.level > maxLevel) {
+            Toast.make(LocalizationManager.getText("@text.waitForMoreLevels"));
+            return;
+        }
 
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
+            // Toast 제거 - 팝업이 이미 충분한 정보 제공
             vm.show("UIRedHeartShop", () => {
                 pdata.playinglv = pdata.level;
                 pdata.energy--;

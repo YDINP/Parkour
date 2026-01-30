@@ -19,14 +19,21 @@ export default class LevelData {
 
     public constructor(id) {
         let d = csv.Level.get(id);
+        if (!d || !d.segs) {
+            // 레벨 데이터가 없으면 빈 상태로 초기화
+            console.warn(`${id} get failed from LevelData`);
+            this.segments = [];
+            this.level = id;
+            return;
+        }
         this.segments = d.segs.split("+").map(v => ccUtil.get(MapSegData, v))
         this.name = LocalizationManager.getText(`@map.name.${id}`);
         // this.name = d.name;
         this.level = id;
-        if (d.rewards.startsWith("random")) {
+        if (d.rewards && d.rewards.startsWith("random")) {
             this.isRandomReward = true;
         } else {
-            if (d.rewards != "") {
+            if (d.rewards && d.rewards != "") {
                 this.reward = Res.fromString(d.rewards)
             }
         }

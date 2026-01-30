@@ -119,6 +119,53 @@ export default class Game extends mvcView implements ITileObjectFactory {
         }
         this.fsm = this.addComponent(FSM);
         this.fsm.init(this, State);
+
+        // 맵 뷰포트 클리핑 설정 - 장애물이 레터박스 영역을 넘어가지 않도록
+        this.setupMapViewportClipping();
+    }
+
+    /**
+     * 맵 뷰포트 클리핑 설정
+     * 장애물이 Canvas 디자인 해상도(1136x640) 바깥으로 렌더링되지 않도록 Mask로 클리핑
+     *
+     * 주의: cc.Mask는 스텐실 버퍼를 사용하여 약간의 성능 오버헤드가 있음
+     * 필요시 obstacleLayer만 마스킹하도록 최적화 가능
+     */
+    private setupMapViewportClipping() {
+        if (!this.mapNode || !this.mapNode.parent) return;
+
+        // 이미 적용된 경우 중복 적용 방지
+        if (this.mapNode.parent.name === "mapMask") {
+            console.log("[Game] Map viewport clipping already enabled");
+            return;
+        }
+
+        // 디자인 해상도
+        const designWidth = 1136;
+        const designHeight = 640;
+
+        // Mask 래퍼 노드 생성
+        const maskWrapper = new cc.Node("mapMask");
+        maskWrapper.setContentSize(designWidth, designHeight);
+        maskWrapper.setAnchorPoint(0.5, 0.5);
+        maskWrapper.setPosition(0, 0);
+
+        // Mask 컴포넌트 추가 (RECT 타입으로 사각형 클리핑)
+        const mask = maskWrapper.addComponent(cc.Mask);
+        mask.type = cc.Mask.Type.RECT;
+
+        // mapNode의 부모와 sibling index 저장
+        const originalParent = this.mapNode.parent;
+        const siblingIndex = this.mapNode.getSiblingIndex();
+
+        // maskWrapper를 원래 부모에 삽입
+        maskWrapper.parent = originalParent;
+        maskWrapper.setSiblingIndex(siblingIndex);
+
+        // mapNode를 maskWrapper의 자식으로 이동
+        this.mapNode.parent = maskWrapper;
+
+        console.log("[Game] Map viewport clipping enabled - obstacles will be clipped at design resolution boundaries");
     }
 
 
@@ -154,6 +201,39 @@ export default class Game extends mvcView implements ITileObjectFactory {
         pdata.enterGame();
 
         this.loadMap();
+
+        // transition_gradient 위치를 가로 긴 화면에서 맵 우측에 맞춤
+        this.adjustTransitionGradient();
+    }
+
+    /**
+     * 가로로 긴 화면에서 transition_gradient가 Canvas 우측이 아닌 맵 우측에 위치하도록 조정
+     */
+    adjustTransitionGradient() {
+        let uiLayer = cc.find("Canvas/uilayer");
+        if (!uiLayer) return;
+        let transitionNode = uiLayer.getChildByName("transition_gradient");
+        if (!transitionNode) return;
+
+        // Canvas design resolution: 1136x640
+        // 맵 우측 끝: designWidth/2 = 568
+        const designWidth = 1136;
+        const mapRightEdge = designWidth / 2; // 568
+
+        // 실제 visibleRect 너비와 Canvas 너비의 차이 계산
+        // fitWidth=true, fitHeight=true (SHOW_ALL) 모드에서
+        // 가로가 더 길면 Canvas가 가로로 확장됨
+        let canvasWidth = cc.visibleRect.width;
+        let canvasRightEdge = canvasWidth / 2;
+
+        // Widget 컴포넌트의 right 값을 조정하여 맵 우측에 위치하도록
+        let widget = transitionNode.getComponent(cc.Widget);
+        if (widget) {
+            // 맵 우측과 Canvas 우측의 차이만큼 오프셋
+            let offset = canvasRightEdge - mapRightEdge;
+            widget.right = offset;
+            widget.updateAlignment();
+        }
     }
 
     onLoadFinished(params?) {
@@ -444,15 +524,30 @@ export default class Game extends mvcView implements ITileObjectFactory {
     activateBuff(buff: BuffData) {
         let dur = buff.duration;
         if (this.pet) {
-            // 特殊buff  ，添加道具持续时间 
+            // 特殊buff  ，添加道具持续时间
             if (this.pet.buffSystem.isEnabled("itemStrength")) {
                 dur += this.pet.data.lvs[pdata.selPetLevel - 1].data;
             }
         }
+        // 버프 활성화 시 현재 인덱스를 캡처하여 전달
+        // (onEnable이 다음 프레임에 호출되어 인덱스가 변경되는 문제 방지)
+        // gold 버프는 obstacleLayer, 나머지는 itemLayer 사용
+        let startIndex = buff.name === 'gold'
+            ? root.obstacleLayer.startIndex
+            : root.itemLayer.startIndex;
+        let buffData = { startIndex };
+
+        // 디버그 로그
+        console.log(`[Game.activateBuff] 버프 활성화:
+  - buff.name: ${buff.name}
+  - duration: ${dur}
+  - buffData.startIndex: ${buffData.startIndex}
+  - layer: ${buff.name === 'gold' ? 'obstacleLayer' : 'itemLayer'}`);
+
         if (this.pet && buff.name == 'magnet') {
-            this.pet.buffSystem.startBuff(buff.name, dur)
+            this.pet.buffSystem.startBuff(buff.name, dur, buffData)
         } else {
-            root.player.buffSystem.startBuff(buff.name, dur)
+            root.player.buffSystem.startBuff(buff.name, dur, buffData)
         }
     }
 

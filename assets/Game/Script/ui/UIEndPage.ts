@@ -170,7 +170,7 @@ export default class UIEndPage extends mvcView {
     cleanup() {
         let children = this.layout_lootlist.node.children
         children.filter(v => v != this.tmp).forEach(v => v.destroy())
-        this.lab_exp.string = (pdata.expPercent * 100).toFixed(2) + "%"
+        this.lab_exp.string = Math.floor(pdata.expPercent * 100) + "%"
         // this.bar_exp.progress = pdata.expPercent;
     }
 
@@ -184,8 +184,11 @@ export default class UIEndPage extends mvcView {
         for (let i = 0; i < items.length; i++) {
             let itemd = items[i]
             //仅支持金币和钻石2种资源 ，
-            if (ResType[itemd.type] == null) return console.warn("Unknown resource type");
-            if (itemd.num == 0) return;
+            if (ResType[itemd.type] == null) {
+                console.warn("Unknown resource type");
+                continue;
+            }
+            if (itemd.num == 0) continue;
             this.items_tobeAdded.push(itemd);
             let loot = LocalizationManager.instantiatePrefab(tmp);
             loot.active = true;
@@ -201,6 +204,7 @@ export default class UIEndPage extends mvcView {
             label.string = "+" + n
             loot['data'] = itemd;
             loot.parent = this.layout_lootlist.node;
+            this.layout_lootlist.updateLayout();
             fx.play();
             await evt.sleepSafe(this, interval)
         }
@@ -247,7 +251,7 @@ export default class UIEndPage extends mvcView {
         labelExpAnim.templateStr = "%s%"
         let nextExp = Math.min(1, expRatio + addExpRatio)
         Device.playSfx(csv.Audio.sfx_addgemOrGold);
-        labelExpAnim.play(0.3, expRatio * 100, nextExp * 100)
+        labelExpAnim.play(0.3, Math.floor(expRatio * 100), Math.floor(nextExp * 100))
         // await barAnim.play(0.3, expRatio, nextExp)
         pdata.exp += expGain;
         // levelup 
@@ -335,8 +339,7 @@ export default class UIEndPage extends mvcView {
         this.btn_next.active = false;
         this.btn_triple.active = false;
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
-            // Toast.make("红心不足！");
+            // Toast 제거 - 팝업이 이미 충분한 정보 제공
             vm.show("UIRedHeartShop", () => {
                 vm.hide("UIRedHeartShop");
                 this.scheduleOnce(this.gotoNextLevel, 2)

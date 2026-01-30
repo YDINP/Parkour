@@ -6,7 +6,7 @@
  */
 export const GameVersion = {
     /** 게임 버전 */
-    version: "0.1.2",
+    version: "0.1.7",
 
     /** 프로젝트 이름 */
     projectName: "49FriendsRunner"

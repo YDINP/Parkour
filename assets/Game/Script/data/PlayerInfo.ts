@@ -75,11 +75,6 @@ export default class PlayerInfoDC extends DataCenter {
     @field()
     heros: { [index: string]: number } = {
         ["1"]: 1,
-        ["2"]: 1,
-        ["3"]: 1,
-        ["4"]: 1,
-        ["5"]: 1,
-        ["6"]: 1,
     }
 
     @field()
@@ -170,6 +165,14 @@ export default class PlayerInfoDC extends DataCenter {
     @field()
     freeDiamondDate: string = "";
 
+    // 무료 펫 알 광고 일일 횟수 (기본 1회)
+    @field()
+    freePetHatchCount: number = 1;
+
+    // 무료 펫 알 마지막 충전 날짜 (YYYY-MM-DD)
+    @field()
+    freePetHatchDate: string = "";
+
     // Game mode
     gameMode: number = 0;
 
@@ -213,7 +216,7 @@ export default class PlayerInfoDC extends DataCenter {
         if (this.freeDiamondDate !== today) {
             this.freeDiamondCount = 3;
             this.freeDiamondDate = today;
-            this.save("freeDiamondCount,freeDiamondDate");
+            this.save("freeDiamondCount", "freeDiamondDate");
         }
     }
 
@@ -232,6 +235,37 @@ export default class PlayerInfoDC extends DataCenter {
         if (this.freeDiamondCount > 0) {
             this.freeDiamondCount--;
             this.save("freeDiamondCount");
+        }
+    }
+
+    /**
+     * 펫 알 광고 일일 제한 체크 및 리셋
+     * 날짜가 바뀌면 횟수를 1로 리셋
+     */
+    checkDailyPetHatchReset(): void {
+        const today = new Date().toISOString().split('T')[0];
+        if (this.freePetHatchDate !== today) {
+            this.freePetHatchCount = 1;
+            this.freePetHatchDate = today;
+            this.save("freePetHatchCount", "freePetHatchDate");
+        }
+    }
+
+    /**
+     * 펫 알 광고 시청 가능 여부 확인
+     */
+    canWatchPetHatchAd(): boolean {
+        this.checkDailyPetHatchReset();
+        return this.freePetHatchCount > 0;
+    }
+
+    /**
+     * 펫 알 광고 시청 횟수 차감
+     */
+    usePetHatchAdCount(): void {
+        if (this.freePetHatchCount > 0) {
+            this.freePetHatchCount--;
+            this.save("freePetHatchCount");
         }
     }
 

@@ -91,6 +91,74 @@ export default class TmxLayerWalker extends cc.Component {
         return cc.size(this.mw * this.tw, this.mh * this.th);
     }
 
+    /**
+     * end 맵의 바닥 타일(마지막 행)을 복사하여 추가 열을 생성
+     * @param layerName bg 레이어 이름
+     * @param extraColumns 추가할 열 수
+     */
+    extendLastColumnTiles(layerName: string, extraColumns: number) {
+        let layer = this.tiledmap.getLayer(layerName);
+        if (!layer) {
+            console.warn(`[TmxLayerWalker] Layer '${layerName}' not found`);
+            return;
+        }
+
+        // TMX 좌표계에서 마지막 행(바닥)은 mh-1
+        let bottomRow = this.mh - 1;
+        let lastCol = this.mw - 1;
+
+        // 바닥 행에서 마지막 유효 타일 찾기
+        let floorGid = 0;
+        for (let col = lastCol; col >= 0; col--) {
+            let gid = layer.getTileGIDAt(col, bottomRow);
+            if (gid !== 0) {
+                floorGid = gid;
+                break;
+            }
+        }
+
+        if (floorGid === 0) {
+            console.warn(`[TmxLayerWalker] No floor tile found in '${layerName}' layer`);
+            return;
+        }
+
+        console.log(`[TmxLayerWalker] Extending floor with GID ${floorGid}, adding ${extraColumns} columns`);
+
+        // 바닥 행에만 타일 복사
+        for (let i = 1; i <= extraColumns; i++) {
+            // 바닥 위치 계산 (TMX 좌표 → 월드 좌표)
+            // TMX의 마지막 행(bottomRow)은 월드 좌표에서 y=0 근처
+            let tileX = (lastCol + i) * this.tw + this.tw / 2;
+            let tileY = this.th / 2;  // 바닥은 y=0 근처
+            this.createExtendedTile(layer, floorGid, cc.v2(tileX, tileY));
+        }
+    }
+
+    /**
+     * 확장된 타일을 위한 스프라이트 노드 생성
+     */
+    private createExtendedTile(layer: cc.TiledLayer, gid: number, pos: cc.Vec2) {
+        // @ts-ignore - Cocos Creator 내부 API 사용
+        let texGrids = this.tiledmap['_texGrids'];
+        if (!texGrids) {
+            console.warn('[TmxLayerWalker] _texGrids not available - extended tiles will not render');
+            return;
+        }
+        if (!texGrids[gid]) {
+            console.warn(`[TmxLayerWalker] No texture grid for GID ${gid}`);
+            return;
+        }
+
+        let grid = texGrids[gid];
+        let spriteFrame = new cc.SpriteFrame(grid.texture, grid.rect);
+
+        let node = new cc.Node();
+        let sprite = node.addComponent(cc.Sprite);
+        sprite.spriteFrame = spriteFrame;
+        node.setPosition(pos);
+        node.parent = layer.node;
+    }
+
     start() {
 
     }
@@ -152,15 +220,16 @@ export default class TmxLayerWalker extends cc.Component {
 
     lazyLoad(dt) {
         if (dt > 0.017) { return }
-        // let right = cc.Camera.main.getScreenToWorldPoint(cc.visibleRect.right).x
-        // console.log(right);
-        let right = cc.visibleRect.width;
+        // 화면 오른쪽 경계(width/2) + 5개분 버퍼 = 5.5*width
+        // 카메라 고정, 맵 이동 방식이므로 고정값 사용
+        let right = cc.winSize.width / 2 + cc.winSize.width * 5.0;
         for (let k in this.group_objects) {
             let group = this.tiledmap.getObjectGroup(k);
             let objects = this.group_objects[k];
             for (let i = 0; i < TmxLayerWalker.iter; i++) {
                 let node = objects[0]
                 if (node) {
+                    // 노드의 월드 좌표 (맵 이동에 따라 변함)
                     let node_left = ccUtil.getWorldPosition(node).x;
                     if (node_left < right) {
                         let properties = group[gnpField][node.name]

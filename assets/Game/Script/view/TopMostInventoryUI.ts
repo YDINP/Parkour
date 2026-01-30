@@ -50,7 +50,7 @@ export default class InventoryUI extends cc.Component {
         evt.on("pdata.diamond", this.onGetDiamond, this);
         evt.on("pdata.gold", this.onGetCoin, this);
         evt.on("pdata.energy", this.onGetEnergy, this);
-        this.node.zIndex = 9999999;
+        this.node.zIndex = 999; // 팝업(1000)보다 낮게 설정하여 팝업 아래에 표시
 
         InventoryUI.instance = this;
 
@@ -103,6 +103,7 @@ export default class InventoryUI extends cc.Component {
             if (f) {
                 p = ccUtil.getWorldPosition(f)
                 p = this.node.convertToNodeSpaceAR(p)
+                p.x -= 80; // x값 왼쪽으로 조정
                 p.y += 100; // 버튼 중앙 상단으로 위치 조정
             }
             FxHelpher.playWithText("top", "loseCoin", nv - v, p)
@@ -116,10 +117,12 @@ export default class InventoryUI extends cc.Component {
     }
 
     onGetEnergy(nv, v) {
-        if (nv > v) {
-            let f = this.getFrom();
-            ccUtil.flyToInventory(this.anchorNode, this.prefab_energy, this.node_energy || FlyHeartInfo, f, "heart_icon", v, nv, Math.min(5, nv - v))
-        } else if (nv < v) {
+        // 에너지 증가 연출 제거 (자동 충전 시 레이어 이슈)
+        // if (nv > v) {
+        //     let f = this.getFrom();
+        //     ccUtil.flyToInventory(this.anchorNode, this.prefab_energy, this.node_energy || FlyHeartInfo, f, "heart_icon", v, nv, Math.min(5, nv - v))
+        // }
+        if (nv < v) {
             //扣资源
             let f = this.getFrom();
             let p = cc.Vec2.ZERO;

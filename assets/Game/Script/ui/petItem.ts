@@ -35,6 +35,9 @@ export default class petItem extends cc.Component {
     skillDisLab: cc.Label
     switcher: Switcher;
     limitTag: cc.Node;
+    // 동적 로컬라이징 라벨
+    selectedLabel: cc.Label;  // select/heidi/New Label
+    maxLevelLabel: cc.Label;  // switcher/maxlabel/New Label
 
     @property(Switcher)
     buyResSwitch: Switcher = null;
@@ -59,8 +62,9 @@ export default class petItem extends cc.Component {
         this.skillDisLab = ccUtil.find("lab_k/skillDes", this.node, cc.Label);
         this.switcher = ccUtil.find("switcher", this.node, Switcher);
         this.limitTag = this.node.getChildByName("limitTag");
-
-
+        // 동적 로컬라이징 라벨 참조
+        this.selectedLabel = ccUtil.find("select/heidi/New Label", this.node, cc.Label);
+        this.maxLevelLabel = ccUtil.find("switcher/maxlabel/New Label", this.node, cc.Label);
     }
 
     data: PetData;
@@ -119,7 +123,20 @@ export default class petItem extends cc.Component {
             this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data)
         }
 
+        // 동적 로컬라이징 라벨 업데이트
+        this.updateStaticLabels();
+    }
 
+    /**
+     * 정적 로컬라이징 라벨 업데이트 (select/heidi, switcher/maxlabel)
+     */
+    private updateStaticLabels() {
+        if (this.selectedLabel) {
+            this.selectedLabel.string = LocalizationManager.getText("@heroShop.item.selected");
+        }
+        if (this.maxLevelLabel) {
+            this.maxLevelLabel.string = LocalizationManager.getText("@maxLevel");
+        }
     }
 
     clickSelect(e) {
@@ -181,17 +198,48 @@ export default class petItem extends cc.Component {
             let r = pdata.upPet(this.data.id);
             this.fxPlayer.play();
             cc.tween(this.lvLab.node).to(0.1, { scale: 1.5 }).to(0.1, { scale: 1 }).start()
+            // 레벨업 후 필요한 UI만 빠르게 업데이트 (전체 refresh 대신)
+            this.refreshLevelOnly();
         } else {
             let type = lvdata.up_cost.type == ResType.Gold ? LocalizationManager.getText("@currency.silver") : LocalizationManager.getText("@currency.dia");
             // let type = lvdata.up_cost.type == ResType.Gold ? "银币" : "钻石";
             Toast.make(type + LocalizationManager.getText("@text.not_enough_resource") + "！");
         }
-        this.refresh();
     }
 
 
     refresh() {
         this.set(this.data, this.ui)
+    }
+
+    /**
+     * 레벨업 후 필요한 UI만 빠르게 업데이트 (이미지 재로드 없음)
+     * - 레벨 라벨, 업그레이드 비용, 스킬 설명, switcher 상태만 갱신
+     */
+    refreshLevelOnly() {
+        const lv = pdata.getPetLevel(this.data.id);
+
+        // 레벨 라벨 업데이트
+        this.lvLab.string = "LV." + lv;
+
+        // switcher 상태 업데이트 (최대 레벨 체크)
+        const nextLv = this.data.lvs[lv];
+        if (!nextLv) {
+            this.switcher.index = 2; // max level
+        } else {
+            this.switcher.index = lv == 0 ? 0 : 1;
+        }
+
+        // 업그레이드 비용 및 스킬 설명 업데이트
+        const lvdata = this.data.lvs[lv - 1];
+        if (lvdata) {
+            this.upLabel.string = lvdata.up_cost.num + "";
+            const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
+            this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
+        }
+
+        // 정적 로컬라이징 라벨 업데이트
+        this.updateStaticLabels();
     }
 
     /**
@@ -224,6 +272,9 @@ export default class petItem extends cc.Component {
             const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
             this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
         }
+
+        // 정적 로컬라이징 라벨 업데이트
+        this.updateStaticLabels();
     }
 
 }

@@ -84,6 +84,7 @@ export default class UIRedHeartAndDiamond extends cc.Component {
                 if (this.res == ResType.Diamond) {
                     str = "diamond";
                     pdata.useDiamondAdCount(); // 다이아 광고 횟수 차감
+                    this.updateLabels(); // 남은 횟수 UI 갱신
                 } else {
                     str = "energy";
                 }

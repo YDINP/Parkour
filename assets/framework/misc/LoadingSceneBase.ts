@@ -42,6 +42,10 @@ export default class LoadingSceneBase extends cc.Component {
             this.bar.progress = p
             this.percentLabel.string = Math.floor(p * 100) + "%"
         }
+        // HTML 스플래시 프로그레스바 업데이트 (FriendsTileMatch 스타일)
+        if (typeof window !== 'undefined' && (window as any).updateGameProgress) {
+            (window as any).updateGameProgress(Math.floor(p * 100));
+        }
     }
 
     loadNextScene(prefabTobeLoad?) {

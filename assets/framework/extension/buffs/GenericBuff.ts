@@ -14,14 +14,33 @@ export default class GenericBuff extends Buff {
 
     get bindComp() {
         if (this._bindComp == null) {
+            // 컴포넌트 생성 전에 buffData를 노드에 임시 저장
+            // (addComponent 시 onEnable이 즉시 호출되므로)
+            if (this.data) {
+                this.node['_pendingBuffData'] = this.data;
+            }
             this._bindComp = gUtil.getOrAddComponent(this.node, this.cls_data);
+            // 컴포넌트 생성 후 buffData 할당 (이미 onEnable이 호출된 후)
+            if (this.data) {
+                this._bindComp['buffData'] = this.data;
+                delete this.node['_pendingBuffData'];
+            }
         }
         return this._bindComp;
     }
 
     onEnabled() {
         if (this.bindComp) {
-            // comp 
+            // comp
+            // 버프 데이터를 컴포넌트에 전달 (startIndex 등)
+            console.log(`[GenericBuff.onEnabled] ${this.name}:
+  - this.data: ${JSON.stringify(this.data)}
+  - bindComp.buffData: ${JSON.stringify(this.bindComp['buffData'])}`);
+
+            // bindComp getter에서 이미 buffData를 할당했을 수 있음
+            if (!this.bindComp['buffData']) {
+                this.bindComp['buffData'] = this.data;
+            }
             this.bindComp.enabled = true;
         } else {
             let func = this.cls_data.onEnable;

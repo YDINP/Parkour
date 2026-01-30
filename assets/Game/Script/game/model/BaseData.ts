@@ -56,7 +56,9 @@ export class Res {
         } else {
             switch (type) {
                 case ResType.Hero:
-                    return ccUtil.get(HeroData, id).avatar;
+                    const heroData = ccUtil.get(HeroData, id);
+                    console.log(`[Res.getIconPath] Hero id=${id}, avatar=${heroData.avatar}`);
+                    return heroData.avatar;
                 case ResType.Prop:
                     return "Textures/ui/common/icon/" + csv.Prop.get(id).icon
             }

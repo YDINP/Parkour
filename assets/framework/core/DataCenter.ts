@@ -227,6 +227,10 @@ export default class DataCenter {
                     v = fromstroage == "true" ? true : false;
                 } else if (type == "object" || type == 'array') {
                     v = this.parseJson(fromstroage);
+                    if (v == null) {
+                        // JSON 파싱 실패 시 기본값 사용
+                        v = this.getData(k);
+                    }
                 }
             } else {
                 v = this.getData(k);

@@ -62,8 +62,7 @@ export default class UILevelItem extends mvcView {
 
     click_start_game() {
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@text.not_enough_heart"));
-            // Toast.make("红心不足！");
+            // Toast 제거 - 팝업이 이미 충분한 정보 제공
             vm.show("UIRedHeartShop", () => {
                 InventoryUI.instance.setTarget(this.node)
                 pdata.energy--;

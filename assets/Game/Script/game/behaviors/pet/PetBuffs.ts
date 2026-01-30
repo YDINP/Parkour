@@ -5,7 +5,9 @@ import ItemStrengthBuff from "./ItemStrengthBuff";
 import LifeLoseReduceBuff from "./LifeLoseReduceBuff";
 import MakeItemBuff from "./MakeItemBuff";
 import SpeedupBuff from "./SpeedupBuff";
+import MagnetSuck from "../player/MagnetSuck";
 
+BuffSystem.register("magnet", GenericBuff, MagnetSuck)
 BuffSystem.register("makeItem", GenericBuff, MakeItemBuff)
 BuffSystem.register("itemStrength", GenericBuff, ItemStrengthBuff)
 BuffSystem.register("lifeLoseReduce", GenericBuff, LifeLoseReduceBuff)

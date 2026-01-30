@@ -3,7 +3,7 @@ import gUtil from "../../core/gUtil";
 import WeakNetGame from "./WeakNetGame";
 import gameUtil from "../../utils/gameUtil";
 import Platform, { AuthUserInfo } from "../Platform";
-import { pdata } from "../../../Game/Script/data/PlayerInfo";
+// pdata는 순환 참조 문제로 동적으로 접근
 let firstEnterHome = true
 @dc("UInfo")
 export default class UInfoDC extends DataCenter {
@@ -88,10 +88,7 @@ export default class UInfoDC extends DataCenter {
             this.lastLoginTime = Date.now();
             this.isFirstLoginToday = true;
             this.drawResidueTime = 5;
-            let date = pdata.signIn.date;
-            if (pdata.signIn.date > 7) {
-                pdata.signIn = { date: 1, isSignIn: false };
-            }
+            // signIn 리셋은 Home.ts에서 처리 (순환 참조 방지)
         } else {
             this.isFirstLoginToday = false;
         }

@@ -19,6 +19,9 @@ export default class eggItem extends cc.Component {
     @property(eggAction)
     eggAct: eggAction = null;
 
+    @property(cc.Label)
+    lab_count: cc.Label = null;
+
     private selectPetData: PetData = null;
 
     private pageData: { [id: number]: PetData } = {};
@@ -69,6 +72,20 @@ export default class eggItem extends cc.Component {
         this.pet.stopAllActions();
         this.pet.setPosition(this.eggAct.node.getPosition());
         this.isSelect = false;
+        // 광고 횟수 표시 업데이트
+        this.updateAdCountDisplay();
+    }
+
+    /**
+     * 고급알 광고 횟수 표시 업데이트
+     * lab_count가 존재하면 "남은횟수/1" 형식으로 표시
+     */
+    updateAdCountDisplay() {
+        if (this.lab_count) {
+            pdata.checkDailyPetHatchReset();
+            const remaining = Math.max(0, pdata.freePetHatchCount);
+            this.lab_count.string = `${remaining}/1`;
+        }
     }
 
     onEggOpen() {
@@ -94,7 +111,7 @@ export default class eggItem extends cc.Component {
                     title: LocalizationManager.getText("@text.congratulations"),
                     // title: "恭喜获得",
                     iconPath: this.selectPetData.avatar,
-                    content: LocalizationManager.getText("@PetDrawResult.content") + """ + petName + """,
+                    content: LocalizationManager.getText("@PetDrawResult.content"),
                     // content: "获得新宠物"" + this.selectPetData.name + """,
                     isShowCancel: true,
                     cancelIsDaley: false,

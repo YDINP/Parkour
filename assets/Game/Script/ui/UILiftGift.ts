@@ -121,17 +121,47 @@ export default class UILiftGift extends mvcView {
         if (pdata.gold - price >= 0) {
             pdata.abilitys[d.type] += 1;
             pdata.gold -= price;
-            ccUtil.setButtonEnabled(this.btn_growUp, false)
-            this.growUpFx.play().then(v => {
-                ccUtil.setButtonEnabled(this.btn_growUp, true)
-            })
+            // 이펙트는 재생하되 버튼은 바로 사용 가능하게 유지
+            this.growUpFx.play()
             pdata.save();
+            // 레벨업 후 필요한 UI만 빠르게 업데이트 (전체 토글 리스트 새로고침 대신)
+            this.refreshLabelsOnlyAfterUpgrade();
         }
         else {
             Toast.make(LocalizationManager.getText("@text.not_enough_silver2"));
             // Toast.make("银币不足");
         }
-        this.refreshToggleList();
-        this.renderShow();
+    }
+
+    /**
+     * 레벨업 후 필요한 UI만 빠르게 업데이트 (이미지 재로드 없음)
+     * - 메인 디스플레이: 레벨, 이름, 설명, 가격 라벨만 업데이트
+     * - 토글 리스트: 선택된 항목의 레벨 라벨만 업데이트
+     */
+    private refreshLabelsOnlyAfterUpgrade() {
+        const d = ccUtil.get(ShopCapData, this.selectIdx);
+        const lv = pdata.abilitys[d.type];
+        const price = d.prices[lv];
+
+        // 메인 디스플레이 텍스트만 업데이트 (이미지는 그대로 - 같은 능력이므로)
+        this.lab_Lv.string = "LV." + lv;
+        this.lab_name.string = LocalizationManager.getText(`@shopCap.${d.id}.name`);
+        const desc = LocalizationManager.getText(`@shopCap.${d.id}.desc`);
+        this.lab_desc.string = cc.js.formatStr(desc, d.vals[lv - 1]);
+        this.lab_price.string = price == null ? "MAX" : price;
+
+        // 선택된 토글의 레벨 라벨만 업데이트 (아이콘 재로드 없음)
+        this.togLayout.node.children.forEach(child => {
+            const toggle = child.getComponent(cc.Toggle);
+            if (toggle && toggle['__data']) {
+                const dat = toggle['__data'] as ShopCapData;
+                if (dat.id === this.selectIdx) {
+                    const lvLabel = ccUtil.find("lv", child, cc.Label);
+                    if (lvLabel) {
+                        lvLabel.string = "LV." + lv;
+                    }
+                }
+            }
+        });
     }
 }

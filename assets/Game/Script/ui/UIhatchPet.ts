@@ -42,6 +42,10 @@ export default class UIhatchPet extends mvcView {
 
     @property(Switcher)
     switch_res: Switcher = null;
+    
+    @property(cc.Label)
+    lab_coin: cc.Label = null;
+
 
     private openEggNeedGold = 2000;
 
@@ -66,6 +70,11 @@ export default class UIhatchPet extends mvcView {
 
         }, this)
         this.onClick(this.btn_pet, this.click_pet)
+        
+        // 다이아 표시 등록
+        if (this.lab_coin) {
+            this.register(this.lab_coin, _ => pdata.gold);
+        }
     }
 
     isOp = false;
@@ -81,15 +90,35 @@ export default class UIhatchPet extends mvcView {
     }
 
     onShow() {
-
         this.isOp = false;
         this.render();
         this.initEggPage();
+        evt.on("pdata.gold", this.onGetCoin, this);
+    }
+    onHide() {
+        evt.off("pdata.gold", this.onGetCoin, this);
+    }
+
+    // 다이아 업데이트 콜백
+    onGetCoin(n) {
+        if (this.lab_coin) {
+            this.lab_coin.string = n;
+        }
+    }
+    onclickOpenCoinShop(){
+        vm.show("UISilverCoin");
     }
 
     initEggPage() {
         this.eggItem_1.initEggPage();
         this.eggItem_2.initEggPage();
+    }
+
+    private updateAdCountLabel() {
+        // eggItem_1의 광고 횟수 표시만 업데이트 (initEggPage는 egg 상태 리셋됨)
+        if (this.eggItem_1) {
+            this.eggItem_1.updateAdCountDisplay();
+        }
     }
 
     openEggCall(idx) {
@@ -100,7 +129,7 @@ export default class UIhatchPet extends mvcView {
 
     onHidden() {
         if (this.isOp) {
-            pdata.sendToServer("gold,pet,buffs");
+            pdata.sendToServer("gold,pets,buffs");
             this.isOp = false
         }
     }
@@ -126,25 +155,51 @@ export default class UIhatchPet extends mvcView {
             // Toast.make("宠物正在努力破壳，请稍后...");
             return
         }
-        Device.playSfx(csv.Audio.sfx_openEgg);
-        let idx = e.target.parent == this.eggPage_1 ? 1 : 2;
-        this.selectCard = e.target.parent;
+        // 클릭된 노드부터 상위로 탐색하여 eggPage_1 또는 eggPage_2를 찾음
+        let targetNode = e.target;
+        let isEggPage1 = false;
+
+        while (targetNode) {
+            if (targetNode === this.eggPage_1) {
+                isEggPage1 = true;
+                break;
+            }
+            if (targetNode === this.eggPage_2) {
+                break;
+            }
+            targetNode = targetNode.parent;
+        }
+
+        let idx = isEggPage1 ? 1 : 2;
+        this.selectCard = isEggPage1 ? this.eggPage_1 : this.eggPage_2;
 
         if (idx == 1) {
+            // 광고 횟수 체크
+            if (!pdata.canWatchPetHatchAd()) {
+                Toast.make(LocalizationManager.getText("@text.daily_limit_reached"));
+                return;
+            }
             this.isOnhatchPet = true;
             AdManager.showRewardAd(AdType.PET_HATCH, (success) => {
                 if (success) {
+                    // 광고 완료 후에만 사운드 재생
+                    Device.playSfx(csv.Audio.sfx_openEgg);
+                    pdata.usePetHatchAdCount();
                     this.openEggCall(2);
+                    // 횟수 표시 업데이트
+                    this.updateAdCountLabel();
                 } else {
                     this.isOnhatchPet = false;
                 }
             });
         } else {
+            // 유료 뽑기는 바로 사운드 재생
+            Device.playSfx(csv.Audio.sfx_openEgg);
             //优先使用卷
             let pet_hatch_c = pdata.buffs['pet_hatch']
             if (pet_hatch_c > 0) {
                 pdata.buffs['pet_hatch'] = pet_hatch_c - 1;
-                pdata.save("pdata.buffs")
+                pdata.save("buffs")
                 this.openEggCall(1);
                 this.isOnhatchPet = true;
                 this.render();

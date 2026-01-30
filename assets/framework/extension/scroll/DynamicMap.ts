@@ -122,13 +122,15 @@ export default class DynamicMap extends cc.Component {
         return node
     }
 
-    /**在camera 左边 */
+    /**在camera 左边 - 가로가 긴 기기 대응: 버퍼 추가 */
     isOutOfCameraLeft(node) {
         let camera = cc.Camera.main;
         // var rect = node.getBoundingBoxToWorld();
         var rect = ccUtil.getWorldBoundingBox(node);
         var p = camera.getWorldToCameraPoint(cc.v2(rect.xMax, 0), cc.Vec2.ZERO);
-        if (p.x < 0) {
+        // 버퍼를 추가하여 화면 밖으로 충분히 나간 후 제거 (화면 너비의 50%)
+        const buffer = cc.winSize.width * 0.5;
+        if (p.x < -buffer) {
             return true
         }
         return false
@@ -153,18 +155,20 @@ export default class DynamicMap extends cc.Component {
         // let h = cc.visibleRect.height;
         // let p = cc.Camera.main.getCameraToWorldPoint(cc.v2(0, h), cc.Vec2.ZERO);
 
-        //horizentl check
+        //horizentl check - 가로가 긴 기기 대응: 미리 생성
 
         let end
         let segEnd
+        // 버퍼를 추가하여 미리 생성 (화면 너비의 50%)
+        const buffer = cc.winSize.width * 0.5;
         if (this.dir == Direction.Horizontal) {
             let w = cc.visibleRect.width;
-            end = cc.Camera.main.getCameraToWorldPoint(cc.v2(w, 0), cc.Vec2.ZERO).x
+            end = cc.Camera.main.getCameraToWorldPoint(cc.v2(w + buffer, 0), cc.Vec2.ZERO).x
             // segEnd = this.curSeg.getBoundingBoxToWorld().xMax;
             segEnd = ccUtil.getWorldBoundingBox(this.curSeg).xMax;
         } else {
             let h = cc.visibleRect.height;
-            end = cc.Camera.main.getCameraToWorldPoint(cc.v2(0, h), cc.Vec2.ZERO).y;
+            end = cc.Camera.main.getCameraToWorldPoint(cc.v2(0, h + buffer), cc.Vec2.ZERO).y;
             // segEnd = this.curSeg.getBoundingBoxToWorld().yMax;
             segEnd = ccUtil.getWorldBoundingBox(this.curSeg).yMax;
         }

@@ -116,15 +116,60 @@ const creators = {
 
             obstacle.set(name)
             root.addToLayer(node, root.obstacleLayer)
-            // 
+            //
             node.setAnchorPoint(0.5, 1)
             node.y += node.height;
             playEnter(node, properties.down);
 
-            // set collider box 
+            // set collider box
             let bodyNode = new cc.Node();
             bodyNode.setContentSize(180, 180)
             bodyNode.setPosition(0, -500)
+            bodyNode.parent = node;
+            obstacle.setBody(bodyNode);
+            obstacle.body.isUpdateChild = true;
+            obstacle.body.response = false;
+
+            return obstacle;
+        },
+
+        // Forest block_up 특수 처리 - 충돌 박스를 이미지 하단에 배치
+        bg_forest_block_up_01(node: cc.Node, name, properties) {
+            let obstacle = gUtil.getOrAddComponent(node, Obstacle);
+            obstacle.set(name);
+            root.addToLayer(node, root.obstacleLayer);
+
+            // 앵커를 상단 중앙으로 설정
+            node.setAnchorPoint(0.5, 1);
+            node.y += node.height;
+            playEnter(node, properties.down);
+
+            // 충돌 박스를 이미지 하단(입 부분)에 배치
+            let bodyNode = new cc.Node();
+            bodyNode.setContentSize(150, 200);
+            bodyNode.setPosition(0, -node.height + 100);  // 하단에서 100px 위
+            bodyNode.parent = node;
+            obstacle.setBody(bodyNode);
+            obstacle.body.isUpdateChild = true;
+            obstacle.body.response = false;
+
+            return obstacle;
+        },
+
+        bg_forest_block_up_02(node: cc.Node, name, properties) {
+            let obstacle = gUtil.getOrAddComponent(node, Obstacle);
+            obstacle.set(name);
+            root.addToLayer(node, root.obstacleLayer);
+
+            // 앵커를 상단 중앙으로 설정
+            node.setAnchorPoint(0.5, 1);
+            node.y += node.height;
+            playEnter(node, properties.down);
+
+            // 충돌 박스를 이미지 하단(입 부분)에 배치
+            let bodyNode = new cc.Node();
+            bodyNode.setContentSize(180, 180);
+            bodyNode.setPosition(0, -node.height + 90);  // 하단에서 90px 위
             bodyNode.parent = node;
             obstacle.setBody(bodyNode);
             obstacle.body.isUpdateChild = true;
@@ -136,6 +181,10 @@ const creators = {
 
     object_monster: {
         default(node: cc.Node, name, properties) {
+            // bg_ 접두사 오브젝트는 배경 장식이므로 장애물로 처리
+            if (name && name.startsWith("bg_")) {
+                return creators.object_obstacle.default(node, name, properties)
+            }
             let newNode = PoolManager.get('monsters').get(name)
             if (newNode == null) {
                 //스켈레톤 찾지 못함, 일반 장애물 사용

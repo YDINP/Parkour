@@ -4,7 +4,7 @@ import BuffSystem from "../../../../framework/extension/buffs/BuffSystem";
 import GenericBuff, { GenericBuffConfig } from "../../../../framework/extension/buffs/GenericBuff";
 import gameUtil from "../../../../framework/utils/gameUtil";
 import { pdata } from "../../data/PlayerInfo";
-import InventoryUI from "../../view/TopMostInventoryUI";
+// import InventoryUI from "../../view/TopMostInventoryUI"; // 에너지 충전 연출 제거로 미사용
 // 恢复时间 5分
 const recovery_time = 300;
 const recovery_max = 5;
@@ -65,10 +65,11 @@ export default class HeartRecovery extends cc.Component {
 
     onUpdate(buff: Buff) {
         let timeleft = recovery_time - (buff.system.time - pdata.energyRecoveryT)
-        if (timeleft <= 0) {
-            if (InventoryUI.instance)
-                InventoryUI.instance.setTarget(this.label.node)
-        }
+        // 에너지 충전 완료 시 setTarget 연출 제거 (레이어 이슈 수정)
+        // if (timeleft <= 0) {
+        //     if (InventoryUI.instance)
+        //         InventoryUI.instance.setTarget(this.label.node)
+        // }
         if (pdata.energy < recovery_max) {
             this.target.active = true;
             this.label.node.active = true;

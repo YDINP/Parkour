@@ -79,8 +79,9 @@ export default class Obstacle extends GameEntity {
         // pdata.score += this.data.score;
         // pdata.life += this.data.life;
         // this.node.destroy();
-        //击退 
+        //击退
         let player = b.getComponent(Player)
+        console.log("[Obstacle] onFizzCollideEnter - player:", player, "stronger:", player?.stronger, "node:", b.node?.name);
         if (player) {
             let buffSystem = player.buffSystem;
             if (buffSystem.isEnabled("invincible")) {
@@ -88,7 +89,8 @@ export default class Obstacle extends GameEntity {
                 return false;
             }
             if (player.stronger || buffSystem.isEnabled("rush")) {
-                // kill self 
+                // kill self
+                console.log("[Obstacle] killing obstacle due to stronger/rush");
                 Device.playSfx(this.data.deadAudio);
                 this.kill();
                 return false;

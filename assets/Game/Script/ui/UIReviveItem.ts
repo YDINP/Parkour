@@ -16,6 +16,21 @@ import { heroSpinePaths } from "../common/HeroSpinePaths";
 
 const { ccclass, property } = cc._decorator;
 
+/**
+ * 영웅별 스파인 스케일 설정
+ * 기본값 1.0, 필요에 따라 각 영웅별 크기 조절
+ */
+const heroScales: { [heroId: string]: number } = {
+    "1": 0.6,   // 춘식이
+    "2": 0.5,   // 라이언
+    "3": 0.6,   // 프로도
+    "4": 0.6,   // 어피치
+    "5": 0.55,   // 제이지
+    "6": 0.45,  // 튜브 (크기가 커서 축소)
+    "7": 0.55,   // 무지
+    "8": 0.6,   // 네오
+};
+
 @ccclass
 export default class UIReviveItem extends mvcView {
 
@@ -125,6 +140,11 @@ export default class UIReviveItem extends mvcView {
             }
 
             if (this.headIcon && skeletonData) {
+                
+                // 영웅별 스케일 적용
+                const scale = heroScales[heroId] || 1.0;
+                this.headIcon.node.scale = scale;
+
                 this.headIcon.skeletonData = skeletonData;
                 this.headIcon.setAnimation(0, "Idle", true);
             }

@@ -48,16 +48,35 @@ export default class eggAction extends cc.Component {
     }
 
     private initEgg() {
-        this.egg_off.active = true;
+        // 대기 중인 scheduleOnce 콜백 모두 취소 (race condition 방지)
+        this.unscheduleAllCallbacks();
+
         this.egg_on.active = false;
+        this.egg_off.active = true;
+        
         this.twinkleStar.active = false;
         this.fullEgg.setPosition(this.fullEggPos);
+        this.fullEgg.angle = 0; // 알 흔들림 애니메이션 각도 초기화
         this.tear_on.active = true;
         this.egg_top.opacity = 255;
         this.egg_bottom.opacity = 255;
         this.egg_top.setPosition(this.eggTopPos);
         this.egg_bottom.setPosition(this.eggBottomPos);
+        // tear 애니메이션 정지 및 초기화 (다음 뽑기 시 마지막 프레임 보이는 이슈 수정)
+        this.tear.stop();
+        this.tear.setCurrentTime(0); // 애니메이션을 첫 프레임으로 리셋
+        // 스프라이트 프레임도 직접 null로 설정하여 마지막 프레임이 보이지 않도록 함
+        const tearSprite = this.tear.node.getComponent(cc.Sprite);
+        if (tearSprite) {
+            tearSprite.spriteFrame = null;
+        }
         this.tear.node.active = false;
+        // 이전 eggAction tween 정리
+        if (this.eggAction) {
+            this.eggAction.stop();
+            this.eggAction = null;
+        }
+
     }
 
     private eggWaggleAction() {

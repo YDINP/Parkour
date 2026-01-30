@@ -193,7 +193,8 @@ export default class Player extends cc.Component implements FizzCollideInterface
         //set passive skill
         this.setPassiveSkill();
         this.setSkill(id);
-        this.normalSize = cc.size(60, 110)
+        // 히트박스 크기 (일반: 1.25배 확대, 거인화: 원래값)
+        this.normalSize = cc.size(75, 138)
         this.doubleSize = cc.size(120, 220)
         this.controller.jumpMax = this.data.jumpMax;
 
@@ -233,6 +234,12 @@ export default class Player extends cc.Component implements FizzCollideInterface
                 if (this.skeleton && this.skeleton.skeleton && skeletonData) {
                     this.skeleton.skeleton.skeletonData = skeletonData;
                     this.skeleton.skeleton.setAnimation(0, "Idle", true);
+                    // 튜브 영웅(ID 6)일 때 스파인 스케일 0.8배
+                    if (heroId === "6") {
+                        this.skeleton.node.scale = 0.8;
+                    } else {
+                        this.skeleton.node.scale = 1.0;
+                    }
                 }
             });
         }
@@ -275,11 +282,12 @@ export default class Player extends cc.Component implements FizzCollideInterface
         if (this.controller.is(PlayerState.Run) || this.controller.is(PlayerState.Idle)) {
             this.skeleton.play("Slide")
         }
-        // 거인 상태면 doubleSize 기준, 아니면 normalSize 기준
+        // 슬라이드 시 히트박스: 원래 값 고정 (60 x 55)
+        // setShape(width, height, anchorX, anchorY) 형식
         if (this.stronger) {
-            this.body.setShape(this.doubleSize.height / 2, this.doubleSize.width, 0.5, 0);
+            this.body.setShape(this.doubleSize.width, this.doubleSize.height / 2, 0.5, 0);
         } else {
-            this.body.setShape(this.normalSize.height / 2, this.normalSize.width, 0.5, 0);
+            this.body.setShape(60, 55, 0.5, 0);
         }
         this.isSlide = true;
     }

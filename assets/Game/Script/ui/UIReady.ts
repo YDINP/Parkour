@@ -226,27 +226,55 @@ export default class UIReady extends mvcView {
             pdata.abilitys[data.type] += 1;
             pdata.gold -= price;
             //升级别成功
-            ccUtil.setButtonEnabled(this.btn_upgrade, false)
-            this.up_fx.play().then(v => {
-                ccUtil.setButtonEnabled(this.btn_upgrade, true)
-            })
+            // 이펙트는 재생하되 버튼은 바로 사용 가능하게 유지
+            this.up_fx.play()
             pdata.save();
             this.lable_coin_rest.string = pdata.gold + ""
-
+            // 레벨업 후 필요한 UI만 빠르게 업데이트 (전체 토글 리스트 새로고침 대신)
+            this.refreshLabelsOnlyAfterUpgrade();
         }
         else {
             Toast.make(LocalizationManager.getText("@text.not_enough_silver2"));
             // Toast.make("银币不足");
         }
-        this.ability_refresh();
-        this.skillPromote();
+    }
+
+    /**
+     * 레벨업 후 필요한 UI만 빠르게 업데이트 (이미지 재로드 없음)
+     * - 메인 디스플레이: 레벨, 이름, 설명, 가격 라벨만 업데이트
+     * - 토글 리스트: 선택된 항목의 레벨 라벨만 업데이트
+     */
+    private refreshLabelsOnlyAfterUpgrade() {
+        const dd = ccUtil.get(ShopCapData, this.sel_itemId);
+        const lv = pdata.abilitys[dd.type];
+        const price = dd.prices[lv];
+
+        // 메인 디스플레이 텍스트만 업데이트 (이미지는 그대로)
+        this.lab_ability_lv.string = "LV." + lv;
+        this.lab_ability_name.string = LocalizationManager.getText(`@shopCap.${dd.id}.name`);
+        const desc = LocalizationManager.getText(`@shopCap.${dd.id}.desc`);
+        this.lab_ability_describe.string = cc.js.formatStr(desc, dd.vals[lv - 1]);
+        this.lab_upgrade_price.string = price == null ? "MAX" : price;
+
+        // 선택된 토글의 레벨 라벨만 업데이트 (아이콘 재로드 없음)
+        this.Toggle_ability.node.children.forEach(child => {
+            const toggle = child.getComponent(cc.Toggle);
+            if (toggle && toggle['__data']) {
+                const dat = toggle['__data'] as ShopCapData;
+                if (dat.id === this.sel_itemId) {
+                    const lvLabel = ccUtil.find("lv", child, cc.Label);
+                    if (lvLabel) {
+                        lvLabel.string = "LV." + lv;
+                    }
+                }
+            }
+        });
     }
 
     private click_start_game() {
         pdata.gameMode = ParkourType.Infinite;
         if (pdata.energy <= 0) {
-            Toast.make(LocalizationManager.getText("@notEnoughHeart"));
-            // Toast.make("红心不足！");
+            // Toast 제거 - 팝업이 이미 충분한 정보 제공
             vm.show("UIRedHeartShop", () => {
                 pdata.energy--;
                 pdata.save("energy");

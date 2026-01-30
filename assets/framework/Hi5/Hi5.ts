@@ -66,6 +66,7 @@ const _Hi5: any = {
     // v1.0.12 추가: 콜백 지원
     lastPurchaseCallback: undefined as ((data: any) => void) | undefined,
     lastAdCallback: null as ((data: any) => void) | null,
+    lastAdTimeout: null as any,  // 광고 타임아웃 핸들러
     onlyLoad: false,
 
     // 실제 Hi5 플랫폼에서 실행 중인지 확인
@@ -261,21 +262,67 @@ const _Hi5: any = {
     },
     // v1.0.12 추가: 광고 콜백 방식
     showAdCallback(ad: any, callback: (data: any) => void) {
+        // 이전 광고 요청이 있으면 취소하고 초기화
         if (this.lastAd) {
-            return;
+            console.warn("[Hi5] Previous ad request pending, canceling...");
+            this.clearAdTimeout();
+            // 이전 콜백에 실패 알림
+            if (this.lastAdCallback) {
+                this.lastAdCallback({ success: false, type: "canceled" });
+                this.lastAdCallback = null;
+            }
+            this.lastAd = undefined;
         }
         if (!ad.hasOwnProperty('aid')) {
-            alert('aid not found.');
+            console.error('[Hi5] aid not found in ad object');
+            callback({ success: false, type: "invalid_ad" });
             return;
         }
+
+        // 실제 빌드 환경 감지 (CC_BUILD가 true면 실제 빌드)
+        // CC_BUILD: 실제 빌드 시 항상 true
+        // 실제 빌드가 아닌 경우에만 Mock 광고 처리
+        const isActualBuild = (typeof CC_BUILD !== 'undefined' && CC_BUILD);
+        console.log("[Hi5] Environment check - CC_BUILD:", typeof CC_BUILD !== 'undefined' ? CC_BUILD : 'undefined',
+                    "CC_EDITOR:", typeof CC_EDITOR !== 'undefined' ? CC_EDITOR : 'undefined',
+                    "CC_PREVIEW:", typeof CC_PREVIEW !== 'undefined' ? CC_PREVIEW : 'undefined',
+                    "isRealPlatform:", this._isRealHi5Platform);
+
+        if (!isActualBuild && !this._isRealHi5Platform) {
+            console.log("[Hi5] Mock ad mode (not actual build & not real platform) - auto success in 1s");
+            setTimeout(() => {
+                callback({ success: true, type: "mock" });
+            }, 1000);
+            return;
+        }
+
         this.lastShowAd = false;
         this.lastAd = ad;
         this.onlyLoad = false;
         this.lastAdCallback = callback;
+
+        // 10초 타임아웃 설정 - 응답 없으면 자동 실패 처리 (SDK 버그 대응)
+        this.lastAdTimeout = setTimeout(() => {
+            console.warn("[Hi5] Ad request timeout (10s) - SDK may not have responded");
+            this.ShowAdEnd({ success: false, type: "timeout" });
+        }, 10000);
+
+        console.log("[Hi5] Sending LOAD_AD message:", { adGroupId: this.lastAd.aid, isRealPlatform: this._isRealHi5Platform });
         this.PostMessage(this.MESSAGE.LOAD_AD, {adGroupId: this.lastAd.aid});
+    },
+
+    // 광고 타임아웃 해제
+    clearAdTimeout() {
+        if (this.lastAdTimeout) {
+            clearTimeout(this.lastAdTimeout);
+            this.lastAdTimeout = null;
+        }
     },
     // v1.0.12 추가: 광고 종료 콜백
     ShowAdEnd(data: any) {
+        // 타임아웃 해제
+        this.clearAdTimeout();
+
         if (this.lastAdCallback) {
             this.lastAdCallback(data);
             this.lastAdCallback = null;

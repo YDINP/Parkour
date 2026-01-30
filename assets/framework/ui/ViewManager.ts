@@ -40,6 +40,22 @@ export default class ViewManager extends cc.Component {
         this.modal.active = true;
         this.modalTouchBlocker = this.modal.getComponent(cc.BlockInputEvents);
         this.modalTouchBlocker.enabled = false;
+
+        // 가로가 긴 기기 대응: modal 크기를 화면에 맞게 설정
+        this.updateModalSize();
+    }
+
+    /**
+     * Modal 배경 크기를 화면 크기에 맞게 업데이트
+     * 가로가 긴 기기에서도 전체 화면을 덮도록 함
+     */
+    private updateModalSize() {
+        if (this.modal) {
+            // 화면보다 충분히 크게 설정 (2배, 최소 3000)
+            const width = Math.max(cc.winSize.width, cc.visibleRect.width) * 2;
+            const height = Math.max(cc.winSize.height, cc.visibleRect.height) * 2;
+            this.modal.setContentSize(Math.max(width, 3000), Math.max(height, 3000));
+        }
     }
 
     get allViews() {

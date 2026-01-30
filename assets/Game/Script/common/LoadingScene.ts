@@ -10,6 +10,7 @@ import { pdata } from "../data/PlayerInfo";
 import { ServerConfig } from "./ServerConfig";
 import Hi5 from "../../../framework/Hi5/Hi5";
 import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
+import ResolutionManager from "./ResolutionManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,11 +34,27 @@ export default class LoadingScene extends LoadingSceneBase {
 
     onLoad() {
         console.log("[LoadingScene] onLoad started");
+
+        // TiledMap 컬링 비활성화 - 배경 타일이 화면 가장자리에서 갑자기 나타나는 것 방지
+        // TMX 파일이 CSV 인코딩이어야 함 (zlib 압축 시 에러 발생)
+        cc.macro.ENABLE_TILEDMAP_CULLING = false;
+
         super.onLoad();
         this.status = 1;
 
+        // 해상도 관리자 초기화
+        ResolutionManager.init();
+        ResolutionManager.applyToCurrentScene();
+        console.log("[ResolutionManager] " + ResolutionManager.getDebugInfo());
+
         // Hi5 SDK 초기화
         this.initHi5SDK();
+
+        // Hi5 스플래시 종료 - Loading 씬 로드 완료 시점에 호출
+        if (isHi5Platform()) {
+            Hi5.LoadEnd();
+            console.log("[Hi5] LoadEnd called on Loading scene load");
+        }
 
         this.scheduleOnce(this.heartBeatReport, 2)
         console.log("[LoadingScene] onLoad finished");
@@ -108,8 +125,12 @@ export default class LoadingScene extends LoadingSceneBase {
                 } else {
                     // 로드 실패
                     console.error("[Hi5] Ad load failed:", data.data.msg);
+
+                    // v1.0.12 콜백 방식 지원: 로드 실패 콜백 호출
+                    Hi5.ShowAdEnd({ status: data.data.status, type: "load_failed", success: false });
+
+                    // 레거시 이벤트 방식도 유지
                     evt.emit("Hi5.AdResult", false);
-                    Hi5.lastAd = undefined;
                     cc.audioEngine.resumeMusic();
                 }
             } else if (data.fromhi5action === "SHOW_AD") {
@@ -125,21 +146,24 @@ export default class LoadingScene extends LoadingSceneBase {
                         console.log("[Hi5] Ad show/reward - lastShowAd set to true");
                     } else if (adType === "dismissed") {
                         // 광고가 닫혔을 때 - 콜백 호출
-                        const success = Hi5.lastShowAd && Hi5.lastAd;
+                        const success = Hi5.lastShowAd;
                         console.log("[Hi5] Ad dismissed - success:", success);
 
-                        evt.emit("Hi5.AdResult", !!success);
+                        // v1.0.12 콜백 방식 지원: AdManager.showRewardAd() 콜백 호출
+                        Hi5.ShowAdEnd({ status: 0, type: "dismissed", success: success });
 
-                        Hi5.lastShowAd = false;
-                        Hi5.lastAd = undefined;
+                        // 레거시 이벤트 방식도 유지
+                        evt.emit("Hi5.AdResult", !!success);
                     }
                 } else {
                     // 광고 로드/표시 실패 (status !== 0)
                     console.error("[Hi5] Ad show failed:", data.data.msg);
-                    evt.emit("Hi5.AdResult", false);
 
-                    Hi5.lastShowAd = false;
-                    Hi5.lastAd = undefined;
+                    // v1.0.12 콜백 방식 지원: 실패 콜백 호출
+                    Hi5.ShowAdEnd({ status: data.data.status, type: "failed", success: false });
+
+                    // 레거시 이벤트 방식도 유지
+                    evt.emit("Hi5.AdResult", false);
                 }
             }
         };
@@ -170,11 +194,7 @@ export default class LoadingScene extends LoadingSceneBase {
         // AliEvent.aliEvent("loading", { "statu": "finish" });
         evt.emit("Loading.Success")
 
-        // Hi5 로딩 완료 알림
-        if (isHi5Platform()) {
-            Hi5.LoadEnd();
-            console.log("[Hi5] LoadEnd called");
-        }
+        // Hi5 LoadEnd는 onLoad()에서 이미 호출됨 (스플래시 숨김)
     }
     //login 
     _status: number = 0;

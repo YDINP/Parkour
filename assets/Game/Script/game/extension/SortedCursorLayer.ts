@@ -1,9 +1,7 @@
 let { ccclass, property } = cc._decorator
 
-let lx: number = 0;
-let ly: number = 0;
-let rx: number = 0;
-let ry: number = 0;
+// 화면 5개분 버퍼
+const DESTROY_BUFFER_SCREENS = 5;
 
 @ccclass
 export default class SortedCursorLayer extends cc.Component {
@@ -15,14 +13,6 @@ export default class SortedCursorLayer extends cc.Component {
     endIndex: number = 0;
 
     onLoad() {
-        if (lx == 0 || rx == 0) {
-            let w = cc.winSize.width;
-            let h = cc.winSize.height;
-            lx = -w / 2;
-            rx = w / 2;
-            ly = -h / 2;
-            ry = h / 2;
-        }
     }
 
     update() {
@@ -38,17 +28,18 @@ export default class SortedCursorLayer extends cc.Component {
                 return;
             }
             if (item && item.parent) {
-                let x = item.x + item.parent.parent.x + item.width / 2;
-                if (x < lx) {
+                // 화면 왼쪽 경계(-width/2) - 5개분 버퍼 = -5.5*width
+                // 카메라 고정, 맵 이동 방식이므로 고정값 사용
+                let lx = -cc.winSize.width / 2 - cc.winSize.width * DESTROY_BUFFER_SCREENS;
+                // 아이템의 월드 x 좌표 (item.x + mapNode.x)
+                let worldX = item.x + item.parent.parent.x;
+                if (worldX < lx) {
                     item.destroy();
                     this.items.delete(this.startIndex++)
                 }
             } else {
                 this.items.delete(this.startIndex++)
             }
-            // if (this.func_isInValid && this.func_isInValid(item)) {
-            //     this.startIndex++;
-            // }
         }
     }
 

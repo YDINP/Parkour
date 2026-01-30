@@ -37,24 +37,38 @@ export default class ParallaxNode extends cc.Component {
     //camera ->this -> content
     start() {
         this.refrecenOffset = this.refrenceNode.getPosition();
-        //copy three children
+        // 가로가 긴 기기 대응: 배경 복사 개수를 늘림 (5개: -2, -1, 0, 1, 2)
         let child = this.node.children[0]
         this.size = child.getContentSize();
         if (this.horizontal_repeat) {
-            let c1 = cc.instantiate(child)
-            let c2 = cc.instantiate(child)
-            c1.parent = this.node;
-            c2.parent = this.node;
-            c1.x = -child.width
-            c2.x = child.width
+            // 화면 너비에 맞게 복사본 개수 계산 (최소 5개)
+            const screenWidth = cc.winSize.width;
+            const copyCount = Math.max(4, Math.ceil(screenWidth / child.width) * 2);
+            const halfCount = Math.floor(copyCount / 2);
+
+            for (let i = 1; i <= halfCount; i++) {
+                let cLeft = cc.instantiate(child);
+                let cRight = cc.instantiate(child);
+                cLeft.parent = this.node;
+                cRight.parent = this.node;
+                cLeft.x = -child.width * i;
+                cRight.x = child.width * i;
+            }
             child.width += this.padding;
         } else if (this.vertical_repeat) {
-            let c1 = cc.instantiate(child)
-            let c2 = cc.instantiate(child)
-            c1.parent = this.node;
-            c2.parent = this.node;
-            c1.y = -child.height;
-            c2.y = child.height;
+            // 세로도 동일하게 확장
+            const screenHeight = cc.winSize.height;
+            const copyCount = Math.max(4, Math.ceil(screenHeight / child.height) * 2);
+            const halfCount = Math.floor(copyCount / 2);
+
+            for (let i = 1; i <= halfCount; i++) {
+                let cBottom = cc.instantiate(child);
+                let cTop = cc.instantiate(child);
+                cBottom.parent = this.node;
+                cTop.parent = this.node;
+                cBottom.y = -child.height * i;
+                cTop.y = child.height * i;
+            }
             child.height += this.padding;
         }
 

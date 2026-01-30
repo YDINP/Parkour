@@ -241,13 +241,14 @@ export default class heroItem extends cc.Component {
             let r = pdata.upHero(this.data.id);
             this.fxPlayer.play();
             cc.tween(this.lvLab.node).to(0.1, { scale: 1.5 }).to(0.1, { scale: 1 }).start()
+            // 레벨업 후 필요한 UI만 빠르게 업데이트 (전체 refresh 대신)
+            this.refreshLevelOnly();
         } else {
             let type = lvdata.up_cost.type == ResType.Gold ? LocalizationManager.getText("@currency.silver") : LocalizationManager.getText("@currency.dia");
             // let type = lvdata.up_cost.type == ResType.Gold ? "银币" : "钻石";
             Toast.make(type + LocalizationManager.getText("@text.not_enough_resource") + "！");
             // Toast.make(type + "不足！");
         }
-        this.refresh();
     }
 
     //upLabel
@@ -257,7 +258,7 @@ export default class heroItem extends cc.Component {
         if (this.data.buyCost.type == ResType.Diamond) {
             vm.show("UITextConfirm", {
                 title: LocalizationManager.getText("@text.confirm"),
-                content: LocalizationManager.getText("@currency.dia") + " " + this.data.buyCost.num + LocalizationManager.getText("@text.confirm_use"),
+                content: LocalizationManager.getText("@btn.buy"),
                 confirmTxt: LocalizationManager.getText("@text.confirm"),
                 isShowCancel: true,
                 cancelIsDaley: false,
@@ -286,6 +287,43 @@ export default class heroItem extends cc.Component {
 
     refresh() {
         this.set(this.data, this.ui)
+    }
+
+    /**
+     * 레벨업 후 필요한 UI만 빠르게 업데이트 (스파인/이미지 재로드 없음)
+     * - 레벨 라벨, 업그레이드 비용, 스킬 설명, switcher 상태만 갱신
+     */
+    refreshLevelOnly() {
+        const lv = pdata.getHeroLevel(this.data.id);
+
+        // 레벨 라벨 업데이트
+        this.lvLab.string = "LV." + lv;
+        if (this.lvLab.node) {
+            this.lvLab.node.active = lv > 0;
+        }
+
+        // switcher 상태 업데이트 (최대 레벨 체크)
+        const nextLv = this.data.lvs[lv];
+        if (!nextLv) {
+            this.switcher.index = 2; // max level
+        } else {
+            this.switcher.index = lv == 0 ? 0 : 1;
+        }
+
+        // 업그레이드 비용 및 스킬 설명 업데이트
+        const lvdata = this.data.lvs[(lv - 1) == -1 ? 0 : (lv - 1)];
+        if (lvdata) {
+            this.upLabel.string = lvdata.up_cost.num + "";
+
+            // 네오(ID 8)는 다중 스킬 전환 애니메이션 사용
+            if (this.data.id === "8") {
+                this.startNeoSkillAnimation(lvdata);
+            } else {
+                this.stopNeoSkillAnimation();
+                const lvDesc = LocalizationManager.getText(`@hero.${this.data.id}.desc`);
+                this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
+            }
+        }
     }
 
     // 네오 스킬 애니메이션 상태
