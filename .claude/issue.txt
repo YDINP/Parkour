@@ -1,0 +1,759 @@
+Game.activateBuff] 버프 활성화:
+Game.ts:494
+  - buff.name: star
+Game.ts:494
+  - duration: 10
+Game.ts:494
+  - buffData.startIndex: 6
+Game.ts:494
+  - layer: itemLayer
+Game.ts:494
+[GenericBuff.onEnabled] star:
+GenericBuff.ts:36
+  - this.data: {"startIndex":6}
+GenericBuff.ts:36
+  - bindComp.buffData: {"startIndex":6}
+GenericBuff.ts:36
+[BuffSystem]버프 활성화:[star] 10
+Buff.ts:116
+[StarBuff] 초기화 완료:
+StarBuff.ts:38
+  - buffData: {"startIndex":6}
+StarBuff.ts:38
+  - _pendingBuffData: undefined
+StarBuff.ts:38
+  - capturedIndex: 6
+StarBuff.ts:38
+  - this.idx: 7
+StarBuff.ts:38
+  - 현재 itemLayer.startIndex: 6
+StarBuff.ts:38
+  - 현재 itemLayer.endIndex: 176
+StarBuff.ts:38
+[StarBuff.tagUpdate] 콩 아님: idx=7, name=img39, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=8, name=img22, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=9, endIndex=176
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=10, endIndex=177
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=11, endIndex=177
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=12, endIndex=177
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=13, endIndex=178
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=14, endIndex=178
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=15, endIndex=179
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=16, name=img63, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=17, endIndex=179
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=18, endIndex=180
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=19, endIndex=180
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=20, endIndex=180
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=21, endIndex=181
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=22, endIndex=181
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=23, endIndex=181
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=24, endIndex=182
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=25, endIndex=182
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=26, endIndex=182
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=27, name=img27, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=28, endIndex=183
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=29, endIndex=183
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=30, endIndex=184
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=31, endIndex=184
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=32, endIndex=184
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=33, endIndex=185
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=34, endIndex=185
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=35, endIndex=186
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=36, name=img28, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=37, endIndex=186
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=38, endIndex=187
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=39, endIndex=187
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=40, endIndex=187
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=41, endIndex=188
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=42, endIndex=188
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=43, endIndex=188
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=44, endIndex=189
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=45, endIndex=189
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=46, endIndex=189
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=47, endIndex=190
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=48, name=img94, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=49, endIndex=190
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=50, endIndex=191
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=51, endIndex=191
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=52, endIndex=191
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=53, endIndex=192
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=54, endIndex=192
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=55, name=img89, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=56, name=img92, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=57, name=img51, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=58, name=img50, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=59, endIndex=194
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=60, endIndex=194
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=61, endIndex=195
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=62, endIndex=195
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=63, name=img76, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=64, endIndex=196
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=65, name=img80, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=66, name=img49, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=67, endIndex=197
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=68, endIndex=197
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=69, endIndex=197
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=70, endIndex=198
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=71, name=img73, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=72, name=img79, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=73, endIndex=199
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=74, name=img77, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=75, name=img78, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 노드 없음/무효: idx=76, endIndex=200
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=77, endIndex=200
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=78, endIndex=201
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=79, endIndex=201
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=80, endIndex=201
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=81, endIndex=202
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=82, endIndex=202
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=83, endIndex=202
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=84, endIndex=203
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=85, endIndex=203
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=86, endIndex=203
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=87, endIndex=204
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=88, endIndex=204
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=89, endIndex=204
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=90, endIndex=205
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=91, endIndex=205
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=92, endIndex=205
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=93, endIndex=206
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=94, endIndex=206
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=95, endIndex=206
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=96, endIndex=207
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=97, endIndex=207
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=98, endIndex=208
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=99, endIndex=208
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=100, endIndex=208
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=101, endIndex=209
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=102, endIndex=209
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=103, endIndex=209
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=104, endIndex=210
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=105, endIndex=210
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=106, endIndex=210
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=107, endIndex=211
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=108, endIndex=211
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=109, endIndex=211
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=110, endIndex=212
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=111, endIndex=212
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=112, endIndex=212
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=113, endIndex=213
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=114, endIndex=213
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=115, endIndex=214
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=116, endIndex=214
+StarBuff.ts:62
+[StarBuff.tagUpdate] 노드 없음/무효: idx=117, endIndex=214
+StarBuff.ts:62
+[StarBuff.tagUpdate] 콩 아님: idx=118, name=img113, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩→별 변환: idx=119, name=img132
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=120, name=img134
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=121, name=img129
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=122, name=img136
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=123, name=img131
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=124, name=img130
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=125, name=img135
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=126, name=img133
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=127, name=img139
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=128, name=img138
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=129, name=img137
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=130, name=img140
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=131, name=img141
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=132, name=img144
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=133, name=img142
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=134, name=img143
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=135, name=img145
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=136, name=img147
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=137, name=img146
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=138, name=img152
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=139, name=img151
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=140, name=img148
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=141, name=img150
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=142, name=img149
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=143, name=img163
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=144, name=img157
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=145, name=img160
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=146, name=img161
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=147, name=img159
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=148, name=img154
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=149, name=img156
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=150, name=img158
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=151, name=img162
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=152, name=img153
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=153, name=img155
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=154, name=img170
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=155, name=img171
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=156, name=img167
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=157, name=img169
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=158, name=img164
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=159, name=img168
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=160, name=img165
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=161, name=img165
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=162, name=img166
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=163, name=img166
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=164, name=img174
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=165, name=img175
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=166, name=img173
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=167, name=img172
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=168, name=img179
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=169, name=img183
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=170, name=img178
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=171, name=img177
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=172, name=img182
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=173, name=img181
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=174, name=img176
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=175, name=img180
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=176, name=img187
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=177, name=img189
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=178, name=img190
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=179, name=img193
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=180, name=img191
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=181, name=img192
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=182, name=img188
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=183, name=img200
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=184, name=img201
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=185, name=img199
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=186, name=img196
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩 아님: idx=187, name=img198, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=188, name=img195, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩→별 변환: idx=189, name=img197
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=190, name=img194
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=191, name=img208
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=192, name=img203
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=193, name=img205
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=194, name=img206
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=195, name=img204
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=196, name=img207
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=197, name=img202
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=198, name=img219
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=199, name=img217
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=200, name=img218
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=201, name=img211
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=202, name=img215
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=203, name=img210
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩 아님: idx=204, name=img213, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=205, name=img212, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩→별 변환: idx=206, name=img216
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=207, name=img214
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=208, name=img209
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=209, name=img228
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=210, name=img224
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=211, name=img226
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=212, name=img227
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=213, name=img223
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=214, name=img221
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=215, name=img222
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=216, name=img225
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=217, name=img220
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=218, name=img250
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=219, name=img251
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=220, name=img252
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=221, name=img229
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=222, name=img237
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=223, name=img244
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=224, name=img233
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=225, name=img239
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=226, name=img246
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=227, name=img230
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=228, name=img240
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=229, name=img247
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=230, name=img232
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=231, name=img238
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=232, name=img245
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=233, name=img235
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=234, name=img241
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=235, name=img248
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=236, name=img234
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=237, name=img236
+StarBuff.ts:70
+Spine: Animation not found: attack
+CCDebug.js:241
+[GenericBuff.onEnabled] skill:
+GenericBuff.ts:36
+  - this.data: null
+GenericBuff.ts:36
+  - bindComp.buffData: undefined
+GenericBuff.ts:36
+[BuffSystem]버프 활성화:[skill] 5
+Buff.ts:116
+[StarBuff.tagUpdate] 콩→별 변환: idx=238, name=img243
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=239, name=img231
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=240, name=img242
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=241, name=img249
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=242, name=img255
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=243, name=img260
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=244, name=img261
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=245, name=img259
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=246, name=img257
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=247, name=img253
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=248, name=img254
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=249, name=img258
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=250, name=img256
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=251, name=img270
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=252, name=img262
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=253, name=img264
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=254, name=img265
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=255, name=img267
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=256, name=img268
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=257, name=img269
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=258, name=img266
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=259, name=img263
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=260, name=img282
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=261, name=img285
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=262, name=img286
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=263, name=img283
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=264, name=img284
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=265, name=img276
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=266, name=img280
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=267, name=img278
+StarBuff.ts:70
+Spine: Animation not found: attack
+CCDebug.js:241
+[StarBuff.tagUpdate] 콩→별 변환: idx=268, name=img281
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=269, name=img272
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=270, name=img275
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=271, name=img277
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=272, name=img273
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=273, name=img279
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=274, name=img271
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=275, name=img274
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩→별 변환: idx=276, name=img288
+StarBuff.ts:70
+[StarBuff.tagUpdate] 콩 아님: idx=277, name=img2, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=278, name=img94, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=279, name=img95, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=280, name=img75, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=281, name=img76, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=282, name=img41, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=283, name=img31, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=284, name=img34, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=285, name=img27, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=286, name=img38, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=287, name=img77, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=288, name=img3, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=289, name=img121, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=290, name=img78, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=291, name=img37, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=292, name=img7, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=293, name=img120, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=294, name=img119, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=295, name=img79, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=296, name=img32, isBean=false
+StarBuff.ts:74
+[StarBuff.tagUpdate] 콩 아님: idx=297, name=img28, isBean=false
+StarBuff.ts:74
+[BuffSystem]버프 비활성화:[star]
+Buff.ts:130
+4
+Spine: Animation not found: attack
+CCDebug.js:241
+[BuffSystem]버프 비활성화:[skill]
+Buff.ts:130
+[Game.activateBuff] 버프 활성화:
+Game.ts:494
+  - buff.name: magnet
+Game.ts:494
+  - duration: 5
+Game.ts:494
+  - buffData.startIndex: 227
+Game.ts:494
+  - layer: itemLayer
+Game.ts:494
+[GenericBuff.onEnabled] magnet:
+GenericBuff.ts:36
+  - this.data: {"startIndex":227}
+GenericBuff.ts:36
+  - bindComp.buffData: {"startIndex":227}
+GenericBuff.ts:36
+[BuffSystem]버프 활성화:[magnet] 5
+Buff.ts:116
+[MagnetSuck] 초기화 완료:
+MagnetSuck.ts:68
+  - buffData: {"startIndex":227}
+MagnetSuck.ts:68
+  - _pendingBuffData: undefined
+MagnetSuck.ts:68
+  - this.itemIndex: 227
+MagnetSuck.ts:68
+  - 현재 itemLayer.startIndex: 227
+MagnetSuck.ts:68
+  - 현재 itemLayer.endIndex: 403
+MagnetSuck.ts:68
+[MagnetSuck.doTag] 아이템 태그됨: idx=227, name=img230, flyingBodies.length=1
+MagnetSuck.ts:100
+[MagnetSuck.doTag] 노드 isValid=false: idx=228, bfind=true
+MagnetSuck.ts:107
+[MagnetSuck.doTag] 노드 isValid=false: idx=229, bfind=true
+MagnetSuck.ts:107
+[MagnetSuck.doTag] 아이템 태그됨: idx=230, name=img232, flyingBodies.length=2
+MagnetSuck.ts:100
+[MagnetSuck.doTag] 노드 isValid=false: idx=231, bfind=true
+MagnetSuck.ts:107
+[MagnetSuck.doTag] 노드 isValid=false: idx=232, bfind=true
+MagnetSuck.ts:107
+[MagnetSuck.doTag] 아이템 태그됨: idx=233, name=img235, flyingBodies.length=3
+MagnetSuck.ts:100
+1740
+[MagnetSuck.doTag] 노드 isValid=false: idx=234, bfind=undefined
+MagnetSuck.ts:107
+[MagnetSuck.update] flyingBodies=3, targetPos=(466, 320)
+MagnetSuck.ts:151
+1230
+[MagnetSuck.doTag] 노드 isValid=false: idx=234, bfind=undefined
+MagnetSuck.ts:107
+30
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=235, endIndex=403
+MagnetSuck.ts:113
+3300
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+[Hi5] GameEnd called, score submitted: 52480
+PlayerInfo.ts:314
+1860
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+Game victory
+EndTrigger.ts:27
+loading enter----------
+LoadingManager.ts:77
+330
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+loading exit----------
+LoadingManager.ts:86
+[ViewManager] prefabs/UIEndPage loaded in 196ms
+ViewManager.ts:183
+[ViewManager] show view:prefabs/UIEndPage
+ViewManager.ts:171
+UIEndPageHide banner
+PersistNode.ts:103
+3090
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+[DataCenter] saved :exp,playerlv
+DataCenter.ts:316
+[DataCenter] saved :level
+DataCenter.ts:316
+5610
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+loading exit----------
+LoadingManager.ts:86
+10560
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+[DataCenter] saved :level
+DataCenter.ts:316
+[DataCenter] saved :normal_maxScores
+DataCenter.ts:316
+[DataCenter] saved :energy
+DataCenter.ts:316
+[DataCenter] saved :gold
+DataCenter.ts:316
+[DataCenter] saved :diamond
+DataCenter.ts:316
+[DataCenter] saved :playerlv
+DataCenter.ts:316
+[DataCenter] saved :exp
+DataCenter.ts:316
+[DataCenter] saved :buffs
+DataCenter.ts:316
+[DataCenter] saved :heros
+DataCenter.ts:316
+[DataCenter] saved :save_timestamps
+DataCenter.ts:316
+[PUT]: /user/961BC71ED606C619B465DFB61FA4E717
+Net.ts:17
+loading enter----------
+LoadingManager.ts:77
+30
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+Synchronization data failed: __status__
+WeakNetGame.ts:282
+900
+[MagnetSuck.doTag] 노드 없음: idx=234, bfind=undefined, startIndex=236, endIndex=403
+MagnetSuck.ts:113
+loading exit----------

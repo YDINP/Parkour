@@ -183,6 +183,82 @@ npm run csv-dts  # TypeScript 타입 재생성
 
 ---
 
+## 5. 빈 타일 1픽셀 아티팩트 이슈
+
+> 추가일: 2025-01-28
+
+### 문제
+
+- **발생 위치**: `bg_forest_bg` 이미지를 사용하는 맵 (forest 맵들)
+- **증상**: 낭떠러지(빈 타일, GID=0) 부분에서 인접 땅 타일의 1픽셀이 보임
+- **영향 범위**: 모든 forest_*.tmx 맵 (약 24개)
+
+### 조사 결과
+
+#### 타일셋 이미지 크기 불일치
+
+| 항목 | 값 |
+|------|-----|
+| 실제 PNG 크기 | 386×322 픽셀 |
+| 예상 크기 (6×5 타일) | 384×320 픽셀 |
+| 여분 픽셀 | 오른쪽 2px, 아래쪽 2px |
+
+**핵심 문제**: Cocos Creator는 TSX 파일의 width/height를 **무시**하고 **실제 텍스처 크기**로 UV 좌표를 계산함.
+
+```
+UV 계산:
+386 / 64 = 6.03125 (정수 아님 → UV 경계에서 여분 픽셀 샘플링)
+```
+
+#### FIX_ARTIFACTS 매크로
+
+```typescript
+// PersistNode.ts:64
+cc.macro.FIX_ARTIFACTS_BY_STRECHING_TEXEL_TMX = 1;
+```
+
+- **값 = 1**: UV를 0.5px 인셋 (타일 사이 검은 선 방지)
+- **값 = 0**: 인셋 없음 (빈 타일 경계에서 인접 픽셀 블리딩)
+
+### 시도한 해결책
+
+| 시도 | 방법 | 결과 |
+|------|------|------|
+| 1 | TSX width/height 수정 (386→384) | ❌ Cocos가 무시함 |
+| 2 | TSX margin="1" 추가 | ❌ 다른 타일에 gap 발생 |
+| 3 | FIX_ARTIFACTS = 0 | ❌ 일부 타일 gap + 원래 문제 미해결 |
+| 4 | PNG 리사이즈 (PowerShell) | ⚠️ 이미지 원본으로 복구됨 |
+
+### 권장 해결책
+
+**PNG 이미지 수정 필요**:
+
+1. `assets/resources/map/forest/bg_forest_bg.png` 열기
+2. 캔버스 크기를 **384×320**으로 크롭 (왼쪽 상단 기준)
+3. 저장 후 Cocos Creator에서 리임포트
+
+**요구사항**:
+- 정확히 384×320 픽셀 (6열 × 5행 × 64px)
+- Nearest Neighbor 보간 사용 (픽셀아트)
+- 오른쪽 2px, 아래쪽 2px 제거
+
+### 관련 파일
+
+| 파일 | 설명 |
+|------|------|
+| `assets/resources/map/forest/bg_forest_bg.png` | 타일셋 이미지 (수정 필요) |
+| `assets/resources/map/forest/bg_forest_bg.png.meta` | 텍스처 메타데이터 |
+| `assets/resources/map/bg_forest_bg.tsx` | 타일셋 정의 |
+| `assets/Game/Script/common/PersistNode.ts:64` | FIX_ARTIFACTS 설정 |
+
+### 현재 상태
+
+- **상태**: 🔴 미해결
+- **원인**: PNG 이미지 크기(386×322)가 타일 그리드(384×320)와 불일치
+- **필요 작업**: PNG 이미지를 384×320으로 정확히 수정
+
+---
+
 ## 담당자 메모
 
 추가 정보를 제공해주시면 수정 작업을 진행하겠습니다.
