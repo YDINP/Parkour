@@ -17,37 +17,30 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>49FriendsRunner v0.1.0</title>
+    <title>49FriendsRunner v0.1.7</title>
     <script>
-        // 遺紐??섏씠吏 ?쒕ぉ 蹂寃?(iframe ?댁뿉??濡쒕뱶????
+        // 부모 페이지 제목 변경 (iframe 내에서 로드될 때)
         try {
-            var gameTitle = '49FriendsRunner v0.1.0';
+            var gameTitle = '49FriendsRunner v0.1.7';
             document.title = gameTitle;
             if (window.parent && window.parent !== window) {
                 window.parent.document.title = gameTitle;
             }
         } catch (e) {}
-
-        // Title Update - GameVersion 濡쒕뱶 ??理쒖떊 踰꾩쟾?쇰줈 媛깆떊
-        (function() {
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    if (window.GameVersion) {
-                        var title = window.GameVersion.projectName + ' v' + window.GameVersion.version;
-                        document.title = title;
-                        try {
-                            if (window.parent && window.parent !== window) {
-                                window.parent.document.title = title;
-                            }
-                        } catch (e) {}
-                    }
-                }, 500);
-            });
-        })();
     </script>
 
     <!-- Language Selector Styles -->
     <link rel="stylesheet" type="text/css" href="language-selector.css"/>
+
+    <!-- Hi5 SDK Polyfill (must be before any Hi5 SDK scripts) -->
+    <script type="text/javascript">
+        // uni.$HI5 polyfill for web environment
+        window.uni = window.uni || {};
+        window.uni.$HI5 = window.uni.$HI5 || {
+            hideLoading: function() { console.log('[Hi5 Polyfill] hideLoading called'); },
+            showLoading: function() { console.log('[Hi5 Polyfill] showLoading called'); }
+        };
+    </script>
 
     <style>
         html, body {
@@ -71,7 +64,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            z-index: 1000;
+            z-index: 9999;
         }
         .spinner {
             width: 50px;
@@ -92,8 +85,7 @@
             margin-top: 20px;
             overflow: hidden;
         }
-        .progress-bar span {
-            display: block;
+        .progress-bar-fill {
             width: 0%;
             height: 100%;
             background: #4CAF50;
@@ -106,7 +98,7 @@
     <div id="splash">
         <div class="spinner"></div>
         <div class="progress-bar">
-            <span id="progress"></span>
+            <div class="progress-bar-fill" id="progress"></div>
         </div>
     </div>
 
@@ -129,9 +121,36 @@
     </script>
 
     <script type="text/javascript">
-        // Hide splash when game is ready
+        // Title Update - GameVersion 로드 후 최신 버전으로 갱신
         (function() {
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    if (window.GameVersion) {
+                        var title = window.GameVersion.projectName + ' v' + window.GameVersion.version;
+                        document.title = title;
+                        // iframe 내에서 실행 시 부모 페이지 제목도 갱신
+                        try {
+                            if (window.parent && window.parent !== window) {
+                                window.parent.document.title = title;
+                            }
+                        } catch (e) {}
+                        console.log('[Title] Updated to: ' + title);
+                    }
+                }, 500);
+            });
+        })();
+    </script>
+
+    <script type="text/javascript">
+        // Splash Screen (FriendsTileMatch 스타일)
+        (function() {
+            var splashHidden = false;
+
+            // Hide splash with fade-out animation
             function hideSplash() {
+                if (splashHidden) return;
+                splashHidden = true;
+
                 var splash = document.getElementById('splash');
                 if (splash) {
                     splash.style.transition = 'opacity 0.5s';
@@ -142,10 +161,37 @@
                 }
             }
 
-            // Listen for game ready
-            document.addEventListener('gameReady', hideSplash);
+            // Update progress bar from Cocos
+            window.updateGameProgress = function(percent) {
+                var bar = document.getElementById('progress');
+                if (bar) {
+                    bar.style.width = percent + '%';
+                }
+            };
 
-            // Alternative: hide on scene load (deferred until cc is ready)
+            // Listen for game ready event
+            document.addEventListener('gameReady', hideSplash);
+            window.addEventListener('cc-game-ready', hideSplash);
+
+            // Polling-based scene detection (FriendsTileMatch 스타일)
+            var checkGameReady = setInterval(function() {
+                if (window.cc && window.cc.director && window.cc.director.getScene()) {
+                    var scene = window.cc.director.getScene();
+                    // Home 또는 Main 씬이 로드되면 스플래시 숨김
+                    if (scene.name === 'Home' || scene.name === 'Main' || scene.name === 'home' || scene.name === 'main') {
+                        hideSplash();
+                        clearInterval(checkGameReady);
+                    }
+                }
+            }, 100);
+
+            // 10초 타임아웃 폴백 (무한 대기 방지)
+            setTimeout(function() {
+                clearInterval(checkGameReady);
+                hideSplash();
+            }, 10000);
+
+            // Alternative: hide on scene load (defer until cc is ready)
             window.addEventListener('load', function() {
                 setTimeout(function() {
                     if (typeof cc !== 'undefined' && cc.director) {
