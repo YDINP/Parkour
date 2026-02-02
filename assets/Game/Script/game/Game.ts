@@ -72,6 +72,8 @@ export default class Game extends mvcView implements ITileObjectFactory {
     itemLayer: SortedCursorLayer = null;
     obstacleLayer: SortedCursorLayer = null;
 
+    private obstacleMaskWrapper: cc.Node = null;
+
     player: Player = null;
 
     pet: Pet = null;
@@ -120,52 +122,68 @@ export default class Game extends mvcView implements ITileObjectFactory {
         this.fsm = this.addComponent(FSM);
         this.fsm.init(this, State);
 
-        // 맵 뷰포트 클리핑 설정 - 장애물이 레터박스 영역을 넘어가지 않도록
-        this.setupMapViewportClipping();
+        // 장애물 레이어 클리핑은 loadMap()에서 obstacleLayer 생성 후 호출됨
+        // this.setupObstacleLayerClipping();
     }
 
     /**
-     * 맵 뷰포트 클리핑 설정
-     * 장애물이 Canvas 디자인 해상도(1136x640) 바깥으로 렌더링되지 않도록 Mask로 클리핑
+     * 장애물 레이어 클리핑 설정
+     * 장애물만 화면 바깥에서 보이지 않도록 Mask로 클리핑
+     * 배경과 다른 요소들은 영향받지 않음
      *
      * 주의: cc.Mask는 스텐실 버퍼를 사용하여 약간의 성능 오버헤드가 있음
-     * 필요시 obstacleLayer만 마스킹하도록 최적화 가능
      */
-    private setupMapViewportClipping() {
-        if (!this.mapNode || !this.mapNode.parent) return;
-
-        // 이미 적용된 경우 중복 적용 방지
-        if (this.mapNode.parent.name === "mapMask") {
-            console.log("[Game] Map viewport clipping already enabled");
+    private setupObstacleLayerClipping() {
+        // obstacleLayer가 아직 생성되지 않은 경우
+        if (!this.obstacleLayer || !this.obstacleLayer.node) {
+            console.warn("[Game] obstacleLayer not ready for clipping");
             return;
         }
 
-        // 디자인 해상도
-        const designWidth = 1136;
-        const designHeight = 640;
+        const obstacleNode = this.obstacleLayer.node;
+
+        // 이미 적용된 경우 중복 적용 방지
+        if (obstacleNode.parent && obstacleNode.parent.name === "obstacleMask") {
+            console.log("[Game] Obstacle layer clipping already enabled");
+            return;
+        }
+
+        // 동적으로 해상도 판단: 실제 화면 크기 또는 디자인 해상도 사용
+        const canvas = cc.Canvas.instance;
+        const designSize = canvas ? canvas.designResolution : cc.size(1136, 640);
+        const visibleSize = cc.view.getVisibleSize();
+
+        // 더 큰 값을 사용하여 클리핑 영역이 화면을 벗어나지 않도록 함
+        const clipWidth = Math.max(designSize.width, visibleSize.width) * 2; // 맵이 이동하므로 넓게
+        const clipHeight = Math.max(designSize.height, visibleSize.height);
 
         // Mask 래퍼 노드 생성
-        const maskWrapper = new cc.Node("mapMask");
-        maskWrapper.setContentSize(designWidth, designHeight);
+        const maskWrapper = new cc.Node("obstacleMask");
+        maskWrapper.setContentSize(clipWidth, clipHeight);
         maskWrapper.setAnchorPoint(0.5, 0.5);
         maskWrapper.setPosition(0, 0);
+
+        console.log(`[Game] Obstacle mask size: ${clipWidth}x${clipHeight}`);
 
         // Mask 컴포넌트 추가 (RECT 타입으로 사각형 클리핑)
         const mask = maskWrapper.addComponent(cc.Mask);
         mask.type = cc.Mask.Type.RECT;
 
-        // mapNode의 부모와 sibling index 저장
-        const originalParent = this.mapNode.parent;
-        const siblingIndex = this.mapNode.getSiblingIndex();
+        // obstacleNode의 부모와 sibling index 저장
+        const originalParent = obstacleNode.parent;
+        const siblingIndex = obstacleNode.getSiblingIndex();
 
         // maskWrapper를 원래 부모에 삽입
         maskWrapper.parent = originalParent;
         maskWrapper.setSiblingIndex(siblingIndex);
 
-        // mapNode를 maskWrapper의 자식으로 이동
-        this.mapNode.parent = maskWrapper;
+        // obstacleNode를 maskWrapper의 자식으로 이동
+        obstacleNode.parent = maskWrapper;
 
-        console.log("[Game] Map viewport clipping enabled - obstacles will be clipped at design resolution boundaries");
+        // 매 프레임 위치 업데이트를 위해 참조 저장
+        this.obstacleMaskWrapper = maskWrapper;
+
+        console.log("[Game] Obstacle layer clipping enabled - obstacles will be clipped at screen boundaries");
     }
 
 
@@ -288,6 +306,9 @@ export default class Game extends mvcView implements ITileObjectFactory {
         this.obstacleLayer = node.addComponent(SortedCursorLayer)
         // this.obstacleLayer.func_isInValid = this.itemLayer.func_isInValid
 
+        // 장애물 레이어 클리핑 비활성화 - 마스크 문제로 인해 임시 비활성화
+        // this.setupObstacleLayerClipping();
+
         FxLayer.get("map").node.zIndex = 12;
 
         //fix when playinglv == 0
@@ -375,7 +396,9 @@ export default class Game extends mvcView implements ITileObjectFactory {
     enter_Pause() {
         this.player && this.player.buffSystem.pause();
         this.pet && this.pet.buffSystem.pause();
-        this.scheduleOnce(this.pauseFizz, 2)
+        // 물리 엔진 즉시 정지 (2초 딜레이 제거)
+        // 날아오는 몬스터와 플레이어가 일시정지 시 바로 멈추도록
+        this.pauseFizz();
     }
 
     enter_Resume(state, p) {
@@ -398,6 +421,12 @@ export default class Game extends mvcView implements ITileObjectFactory {
 
     update_Run() {
         this.run();
+
+        // 장애물 마스크를 화면 중앙에 고정 (맵 이동과 반대로 이동)
+        if (this.obstacleMaskWrapper) {
+            this.obstacleMaskWrapper.x = -this.mapNode.x;
+        }
+
         this.mapLoader.loadedTmxs.forEach((v, i) => {
             let px = v.node.x + v.node.width
             let ss = -this.mapNode.x - cc.winSize.width / 2;
@@ -565,6 +594,13 @@ export default class Game extends mvcView implements ITileObjectFactory {
         node.parent = this.mapNode;
         this.pet = node.getComponent(Pet);
         this.pet.set(petId)
+        
+        // 펫 초기 위치 설정 (플레이어 위치 + 펫 오프셋)
+        // 처음 장착 시 이상한 위치로 가는 버그 방지
+        const playerPos = this.player.node.getPosition();
+        const offset = this.pet.follower.offset;
+        node.setPosition(playerPos.x + offset.x, playerPos.y + offset.y);
+        
         this.pet.follower.target = this.player.node;
     }
 

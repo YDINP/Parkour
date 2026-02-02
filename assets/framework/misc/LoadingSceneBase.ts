@@ -42,10 +42,12 @@ export default class LoadingSceneBase extends cc.Component {
             this.bar.progress = p
             this.percentLabel.string = Math.floor(p * 100) + "%"
         }
-        // HTML 스플래시 프로그레스바 업데이트 (FriendsTileMatch 스타일)
-        if (typeof window !== 'undefined' && (window as any).updateGameProgress) {
-            (window as any).updateGameProgress(Math.floor(p * 100));
-        }
+        // HTML 스플래시 프로그레스바 업데이트 - 현재 비활성화 (display:none)
+        // Hi5 SDK 스플래시 → 코코스 Loading 씬 직접 전환 방식 사용
+        // 필요 시 index.html의 #splash display를 flex로 변경하면 다시 활성화 가능
+        // if (typeof window !== 'undefined' && (window as any).updateGameProgress) {
+        //     (window as any).updateGameProgress(Math.floor(p * 100));
+        // }
     }
 
     loadNextScene(prefabTobeLoad?) {

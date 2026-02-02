@@ -84,8 +84,10 @@ export default class UIRevive extends mvcView {
     }
 
     recovery_btn_revive() {
+        // 기존 스케줄러 제거 후 다시 등록 (중복 등록 방지)
+        this.unschedule(this.countDown);
         this.schedule(this.countDown, 1);
-        // ccUtil.setButtonEnabled(this.btn_revive, true);
+        ccUtil.setButtonEnabled(this.btn_revive, true);
     }
 
     onWatchCallback() {

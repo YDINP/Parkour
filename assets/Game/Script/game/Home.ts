@@ -202,11 +202,32 @@ export default class Home extends mvcView {
                     pet.follower.enabled = false;
                 }
 
-                // DragonBones 애니메이션 재생 (파워 버섯 제외)
-                if (petId !== "1") {
-                    const armature = petNode.getComponent(dragonBones.ArmatureDisplay);
-                    if (armature) {
-                        armature.playAnimation("run", 0);  // 0 = loop
+                // DragonBones 애니메이션 재생
+                // 정적 펫: 애니메이션 재생 안함 (기본 포즈 유지)
+                // 한 번만 재생 펫: 1회 재생 후 멈춤
+                // 나머지 펫: 무한 루프
+                const petsStatic = ["2", "7", "10", "11"];  // 미식가, 엔젤하트, 스톰볼, 점핑버드
+                const petsPlayOnce = ["1", "3"];  // 파워버섯, 꼬마순무 - 한 번만 재생
+                const armature = petNode.getComponent(dragonBones.ArmatureDisplay);
+                if (armature) {
+                    if (petsPlayOnce.includes(petId)) {
+                        armature.playAnimation("run", 1);  // 1회만 재생
+                    } else if (!petsStatic.includes(petId)) {
+                        armature.playAnimation("run", 0);  // 무한 루프 재생
+                    }
+                    // 정적 펫은 애니메이션 재생 안함
+                }
+
+                // Animation 컴포넌트: 특정 펫들은 비활성화, 나머지는 활성화
+                // 비활성화 대상: 파워버섯(1), 미식가(2), 순무(3), 엔젤하트(7), 스톰볼(10), 점핑버드(11)
+                const petsWithAnimDisabled = ["1", "2", "3", "7", "10", "11"];
+                const anim = petNode.getComponent(cc.Animation);
+                if (anim) {
+                    if (petsWithAnimDisabled.includes(petId)) {
+                        anim.enabled = false;
+                    } else {
+                        anim.enabled = true;
+                        anim.play();
                     }
                 }
 

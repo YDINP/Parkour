@@ -122,6 +122,20 @@ export default class GuiderLayer extends cc.Component {
         this.hideFocus()
         this.hideMessage();
         this.motionStreak = this.finger.getComponentInChildren(cc.MotionStreak);
+
+        // 해상도에 맞게 maskbg 크기 조정
+        this.updateMaskSize();
+    }
+
+    /**
+     * maskbg 크기를 화면 크기에 맞게 업데이트
+     */
+    private updateMaskSize() {
+        if (this.maskbg) {
+            const width = Math.max(cc.winSize.width, cc.visibleRect.width) * 2;
+            const height = Math.max(cc.winSize.height, cc.visibleRect.height) * 2;
+            this.maskbg.setContentSize(Math.max(width, 3000), Math.max(height, 3000));
+        }
     }
 
     onDestroy() {
@@ -195,6 +209,8 @@ export default class GuiderLayer extends cc.Component {
             this.hotRect.width = 0;
             this.hotRect.height = 0;
         }
+        // 해상도에 맞게 maskbg 크기 업데이트
+        this.updateMaskSize();
         this.maskbg.getComponent(cc.Widget).updateAlignment();
     }
 

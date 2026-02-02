@@ -811,7 +811,7 @@
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
       }
     ],
-    "_armatureName": "armatureName",
+    "_armatureName": "",
     "_animationName": "",
     "_preCacheMode": 0,
     "_cacheMode": 0,
@@ -824,12 +824,8 @@
     "_curFrame": null,
     "_playing": false,
     "_armatureCache": null,
-    "_N$dragonAsset": {
-      "__uuid__": "bdeac48e-1e6e-49c3-b675-07987448eaf3"
-    },
-    "_N$dragonAtlasAsset": {
-      "__uuid__": "deb08dc7-6e72-4ac9-8f7c-c58b2f999abf"
-    },
+    "_N$dragonAsset": null,
+    "_N$dragonAtlasAsset": null,
     "_N$_defaultArmatureIndex": 0,
     "_N$_animationIndex": 0,
     "_N$_defaultCacheMode": 0,

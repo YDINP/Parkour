@@ -97,6 +97,9 @@ export default class UIEndPage extends mvcView {
 
     private expNum: number = 100;
 
+    // 보상 지급 완료 플래그 (3배 보상 받으면 기존 보상 중복 지급 방지)
+    private rewardClaimed: boolean = false;
+
     @property(cc.Node)
     node_success: cc.Node = null;
 
@@ -127,6 +130,9 @@ export default class UIEndPage extends mvcView {
 
     onShow() {
         Device.playSfx(csv.Audio.sfx_gameWin);
+        // 보상 지급 플래그 초기화
+        this.rewardClaimed = false;
+
         if (pdata.gameMode == ParkourType.Normal) {
             if (pdata.isGameWin) {
                 this.node_success.active = true;
@@ -180,7 +186,10 @@ export default class UIEndPage extends mvcView {
     }
 
     async addLootItems(items: LootItemData[], interval = 0.1) {
-        let tmp = this.layout_lootlist.node.children[0]
+        // 템플릿 노드를 복제하여 사용
+        // 주의: LocalizationManager.instantiatePrefab()은 cc.Node를 받으면 복제하지 않고 그대로 반환함
+        // 따라서 cc.instantiate()로 직접 복제 후 로컬라이징 적용
+        let tmp = this.tmp;
         for (let i = 0; i < items.length; i++) {
             let itemd = items[i]
             //仅支持金币和钻石2种资源 ，
@@ -188,9 +197,11 @@ export default class UIEndPage extends mvcView {
                 console.warn("Unknown resource type");
                 continue;
             }
-            if (itemd.num == 0) continue;
+            if (Math.floor(itemd.num) <= 0) continue;
             this.items_tobeAdded.push(itemd);
-            let loot = LocalizationManager.instantiatePrefab(tmp);
+            // cc.instantiate로 노드 복제 후 로컬라이징 적용
+            let loot = cc.instantiate(tmp);
+            LocalizationManager.localizeNode(loot);
             loot.active = true;
             let fx = loot.getComponentInChildren(FxPlayer);
             let icon = ccUtil.find("icon", loot, cc.Sprite)
@@ -226,8 +237,9 @@ export default class UIEndPage extends mvcView {
         this.isNewRecord = pdata.breakNewRecord();
         this.render();
 
-        // get items ,游戏中获得+ 等级分数加成
-        await this.addLootItems([{ type: ResType.Gold, num: pdata.tmpGold * multi }, { type: ResType.Gold, num: score * 0.01 * multi }]);
+        // get items ,游戏中获得+ 等级分数加成 (합산하여 표시)
+        let totalGold = pdata.tmpGold * multi + score * 0.01 * multi;
+        await this.addLootItems([{ type: ResType.Gold, num: totalGold }]);
 
         if (this.isNewRecord && csv.Config.NewRecordReward_Diamond > 0) {
             //如果是新记录则给一定 数量 的钻石 ，由Config.csv配置 
@@ -305,15 +317,26 @@ export default class UIEndPage extends mvcView {
         })
     }
 
+    /**
+     * 타입만으로 루트 아이템 찾기 (ID 무관)
+     */
+    findLootItemByType(type) {
+        return this.layout_lootlist.node.children.find(v => {
+            let data = v['data'] as LootItemData
+            if (data == null) return false;
+            return data.type == type;
+        })
+    }
+
 
     click_triple() {
-        this.node_close.active = false;
+        // this.node_close.active = false;
         this.btn_triple.active = false;
-        this.btn_next.active = false;
+        // this.btn_next.active = false;
         AdManager.showRewardAd(AdType.TRIPLE_REWARD, (success) => {
             if (success) {
                 this.getReward(3);
-                this.scheduleOnce(this.gotoNextLevel, 2);
+                // this.scheduleOnce(this.gotoNextLevel, 2);
             } else {
                 // 광고 실패 시 버튼 복원
                 this.node_close.active = true;
@@ -370,6 +393,13 @@ export default class UIEndPage extends mvcView {
     }
 
     getReward(mul = 1) {
+        // 이미 보상을 받았으면 중복 지급 방지
+        if (this.rewardClaimed) {
+            console.log("[UIEndPage] Reward already claimed, skipping");
+            return;
+        }
+        this.rewardClaimed = true;
+
         for (let i = 0; i < this.items_tobeAdded.length; i++) {
             InventoryUI.instance.setTarget(this.layout_lootlist.node)
             let itmd = this.items_tobeAdded[i];

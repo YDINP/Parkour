@@ -42,7 +42,7 @@ export default class StarBuff extends cc.Component {
 
         this._initialized = true;
 
-        console.log(`[StarBuff] 초기화 완료: playerX=${playerX.toFixed(0)}, startIdx=${this.idx}`);
+        // console.log(`[StarBuff] 초기화 완료: playerX=${playerX.toFixed(0)}, startIdx=${this.idx}`);
 
         // 즉시 첫 업데이트 실행
         this.tagUpdate();
@@ -60,7 +60,7 @@ export default class StarBuff extends cc.Component {
         let node = root.itemLayer.get(this.idx)
         if (!node || !node.isValid) {
             if (this.idx < root.itemLayer.endIndex) {
-                console.log(`[StarBuff.tagUpdate] 노드 없음/무효: idx=${this.idx}, endIndex=${root.itemLayer.endIndex}`);
+                // console.log(`[StarBuff.tagUpdate] 노드 없음/무효: idx=${this.idx}, endIndex=${root.itemLayer.endIndex}`);
                 this.idx++;
             }
             return;
@@ -68,11 +68,11 @@ export default class StarBuff extends cc.Component {
         let item = node.getComponent(Item)
         if (item && item.data.isBean) {
             //所有豆子变星星
-            console.log(`[StarBuff.tagUpdate] 콩→별 변환: idx=${this.idx}, name=${node.name}`);
+            // console.log(`[StarBuff.tagUpdate] 콩→별 변환: idx=${this.idx}, name=${node.name}`);
             FxHelpher.play("map", "star_turn", node.getPosition())
             item.changeItem("item_004")
         } else {
-            console.log(`[StarBuff.tagUpdate] 콩 아님: idx=${this.idx}, name=${node.name}, isBean=${item?.data?.isBean}`);
+            // console.log(`[StarBuff.tagUpdate] 콩 아님: idx=${this.idx}, name=${node.name}, isBean=${item?.data?.isBean}`);
         }
         this.idx++;
     }

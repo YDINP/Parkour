@@ -121,6 +121,13 @@ export default class petItem extends cc.Component {
             // 언어 변경 시 실시간 반영을 위해 캐시된 data.lvDesc 대신 직접 로컬라이징 호출
             const lvDesc = LocalizationManager.getText(`@pet.${data.id}.lvdesc`);
             this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data)
+        } else {
+            // 레벨 0인 경우 (미획득 펫) - 이전 펫의 desc가 남지 않도록 초기화
+            // ListView 아이템 재사용 시 발생하는 desc 꼬임 버그 방지
+            this.upLabel.string = "";
+            const lvDesc = LocalizationManager.getText(`@pet.${data.id}.lvdesc`);
+            // lvdesc에 %d가 포함되어 있으면 0으로 대체, 없으면 그대로 표시
+            this.skillDisLab.string = lvDesc.includes('%d') ? cc.js.formatStr(lvDesc, 0) : lvDesc;
         }
 
         // 동적 로컬라이징 라벨 업데이트
@@ -236,6 +243,11 @@ export default class petItem extends cc.Component {
             this.upLabel.string = lvdata.up_cost.num + "";
             const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
             this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
+        } else {
+            // 레벨 0인 경우 - 이전 펫의 desc가 남지 않도록 초기화
+            this.upLabel.string = "";
+            const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
+            this.skillDisLab.string = lvDesc.includes('%d') ? cc.js.formatStr(lvDesc, 0) : lvDesc;
         }
 
         // 정적 로컬라이징 라벨 업데이트
@@ -271,6 +283,10 @@ export default class petItem extends cc.Component {
         if (lvdata) {
             const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
             this.skillDisLab.string = cc.js.formatStr(lvDesc, lvdata.data);
+        } else {
+            // 레벨 0인 경우 - 이전 펫의 desc가 남지 않도록 초기화
+            const lvDesc = LocalizationManager.getText(`@pet.${this.data.id}.lvdesc`);
+            this.skillDisLab.string = lvDesc.includes('%d') ? cc.js.formatStr(lvDesc, 0) : lvDesc;
         }
 
         // 정적 로컬라이징 라벨 업데이트

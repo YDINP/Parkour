@@ -34,7 +34,8 @@ export default class eggItem extends cc.Component {
 
     onLoad() {
         csv.PetInfo.values.map((v, idx) => {
-            this.pageData[v.id] = ccUtil.get(PetData, idx + 1);
+            // v.id를 사용하여 올바른 PetData 가져오기 (idx + 1 사용 시 ID 순서가 바뀌면 버그 발생)
+            this.pageData[v.id] = ccUtil.get(PetData, v.id);
             for (let i = 0; i < v.get_probability; ++i) {
                 this["oddsArr" + v.get_condition].push(v.id);
             }

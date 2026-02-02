@@ -16,9 +16,105 @@ const { ccclass, property } = cc._decorator;
 
 let inited = false;
 
+// Hi5 SDK 플래그를 window 객체에 저장하여 씬 전환 시에도 유지
+// (모듈이 다시 로드되어도 window 객체는 유지됨)
+const getHi5Flag = (key: string, defaultValue: boolean = false): boolean => {
+    if (typeof window !== 'undefined') {
+        return (window as any)[`_hi5_${key}`] ?? defaultValue;
+    }
+    return defaultValue;
+};
+const setHi5Flag = (key: string, value: boolean): void => {
+    if (typeof window !== 'undefined') {
+        (window as any)[`_hi5_${key}`] = value;
+    }
+};
+
 // Hi5 플랫폼 여부 확인
 const isHi5Platform = () => {
     return Hi5 != null;
+};
+
+// Hi5 SDK 메시지 콜백 (모듈 레벨 - 씬 전환 후에도 유효)
+const onHi5Message = (data) => {
+    console.log("[Hi5] Message received:", data.fromhi5action, JSON.stringify(data));
+
+    if (data.fromhi5action === Hi5.MESSAGE.GAME_DATA) {
+        // 서버에서 게임 데이터 수신
+        console.log("[Hi5] Game data loaded from server");
+        setHi5Flag('hi5Initialized', true);
+    } else if (data.fromhi5action === Hi5.MESSAGE.START_GAME) {
+        // 게임 시작 요청
+        console.log("[Hi5] Start game requested");
+        evt.emit("Hi5.StartGame");
+    } else if (data.fromhi5action === Hi5.MESSAGE.RESTART_GAME) {
+        // 게임 재시작 요청
+        console.log("[Hi5] Restart game requested");
+        evt.emit("Hi5.RestartGame");
+    } else if (data.fromhi5action === Hi5.MESSAGE.SOUND) {
+        // 사운드 설정
+        console.log("[Hi5] Sound setting:", data.data);
+        evt.emit("Hi5.Sound", data.data);
+    } else if (data.fromhi5action === "LOAD_AD") {
+        // 광고 로드 결과
+        console.log("[Hi5] LOAD_AD message - status:", data.data.status);
+
+        if (data.data.status === 0) {
+            // 로드 성공 → showAd 호출
+            console.log("[Hi5] Ad loaded, showing...");
+            if (Hi5.lastAd) {
+                Hi5.showAd(Hi5.lastAd);
+            } else {
+                // lastAd가 없으면 실패 처리
+                console.error("[Hi5] LOAD_AD success but lastAd is null");
+                Hi5.ShowAdEnd({ status: -1, type: "no_ad_object", success: false });
+                cc.audioEngine.resumeMusic();
+            }
+        } else {
+            // 로드 실패
+            console.error("[Hi5] Ad load failed:", data.data.msg);
+            Hi5.lastAd = undefined;  // 상태 정리
+
+            // v1.0.12 콜백 방식 지원: 로드 실패 콜백 호출
+            Hi5.ShowAdEnd({ status: data.data.status, type: "load_failed", success: false });
+
+            // 레거시 이벤트 방식도 유지
+            evt.emit("Hi5.AdResult", false);
+            cc.audioEngine.resumeMusic();
+        }
+    } else if (data.fromhi5action === "SHOW_AD") {
+        // Hi5 광고 메시지 처리
+        console.log("[Hi5] SHOW_AD message - status:", data.data.status, "type:", data.data.type);
+
+        if (data.data.status === 0) {
+            const adType = data.data.type;
+
+            if (adType === "show" || adType === "userEarnedReward") {
+                // 광고가 표시되거나 보상을 받았을 때 - 플래그 설정
+                Hi5.lastShowAd = true;
+                console.log("[Hi5] Ad show/reward - lastShowAd set to true");
+            } else if (adType === "dismissed") {
+                // 광고가 닫혔을 때 - 콜백 호출
+                const success = Hi5.lastShowAd;
+                console.log("[Hi5] Ad dismissed - success:", success);
+
+                // v1.0.12 콜백 방식 지원: AdManager.showRewardAd() 콜백 호출
+                Hi5.ShowAdEnd({ status: 0, type: "dismissed", success: success });
+
+                // 레거시 이벤트 방식도 유지
+                evt.emit("Hi5.AdResult", !!success);
+            }
+        } else {
+            // 광고 로드/표시 실패 (status !== 0)
+            console.error("[Hi5] Ad show failed:", data.data.msg);
+
+            // v1.0.12 콜백 방식 지원: 실패 콜백 호출
+            Hi5.ShowAdEnd({ status: data.data.status, type: "failed", success: false });
+
+            // 레거시 이벤트 방식도 유지
+            evt.emit("Hi5.AdResult", false);
+        }
+    }
 };
 
 @ccclass
@@ -50,8 +146,9 @@ export default class LoadingScene extends LoadingSceneBase {
         // Hi5 SDK 초기화
         this.initHi5SDK();
 
-        // Hi5 스플래시 종료 - Loading 씬 로드 완료 시점에 호출
-        if (isHi5Platform()) {
+        // Hi5 스플래시 종료 - Loading 씬 로드 완료 시점에 호출 (한 번만 실행)
+        if (isHi5Platform() && !getHi5Flag('loadEndCalled')) {
+            setHi5Flag('loadEndCalled', true);
             Hi5.LoadEnd();
             console.log("[Hi5] LoadEnd called on Loading scene load");
         }
@@ -60,8 +157,15 @@ export default class LoadingScene extends LoadingSceneBase {
         console.log("[LoadingScene] onLoad finished");
     }
 
-    // Hi5 SDK 초기화
+    // Hi5 SDK 초기화 (한 번만 실행)
     initHi5SDK() {
+        // 이미 초기화된 경우 중복 초기화 방지
+        // window 객체에 플래그를 저장하여 씬 전환/모듈 재로드 시에도 유지
+        if (getHi5Flag('sdkInited')) {
+            console.log("[Hi5] SDK already initialized, skipping");
+            return;
+        }
+        setHi5Flag('sdkInited', true);
         console.log("[Hi5] initHi5SDK called");
 
         // 초기 게임 데이터 정의 (pdata 필드와 일치해야 함)
@@ -92,83 +196,8 @@ export default class LoadingScene extends LoadingSceneBase {
             "pdata.save_timestamps": 0,
         };
 
-        // Hi5 SDK 메시지 콜백
-        const onHi5Message = (data) => {
-            console.log("[Hi5] Message received:", data.fromhi5action, JSON.stringify(data));
-
-            if (data.fromhi5action === Hi5.MESSAGE.GAME_DATA) {
-                // 서버에서 게임 데이터 수신
-                console.log("[Hi5] Game data loaded from server");
-                this.hi5Initialized = true;
-            } else if (data.fromhi5action === Hi5.MESSAGE.START_GAME) {
-                // 게임 시작 요청
-                console.log("[Hi5] Start game requested");
-                evt.emit("Hi5.StartGame");
-            } else if (data.fromhi5action === Hi5.MESSAGE.RESTART_GAME) {
-                // 게임 재시작 요청
-                console.log("[Hi5] Restart game requested");
-                evt.emit("Hi5.RestartGame");
-            } else if (data.fromhi5action === Hi5.MESSAGE.SOUND) {
-                // 사운드 설정
-                console.log("[Hi5] Sound setting:", data.data);
-                evt.emit("Hi5.Sound", data.data);
-            } else if (data.fromhi5action === "LOAD_AD") {
-                // 광고 로드 결과
-                console.log("[Hi5] LOAD_AD message - status:", data.data.status);
-
-                if (data.data.status === 0) {
-                    // 로드 성공 → showAd 호출
-                    console.log("[Hi5] Ad loaded, showing...");
-                    if (Hi5.lastAd) {
-                        Hi5.showAd(Hi5.lastAd);
-                    }
-                } else {
-                    // 로드 실패
-                    console.error("[Hi5] Ad load failed:", data.data.msg);
-
-                    // v1.0.12 콜백 방식 지원: 로드 실패 콜백 호출
-                    Hi5.ShowAdEnd({ status: data.data.status, type: "load_failed", success: false });
-
-                    // 레거시 이벤트 방식도 유지
-                    evt.emit("Hi5.AdResult", false);
-                    cc.audioEngine.resumeMusic();
-                }
-            } else if (data.fromhi5action === "SHOW_AD") {
-                // Hi5 광고 메시지 처리
-                console.log("[Hi5] SHOW_AD message - status:", data.data.status, "type:", data.data.type);
-
-                if (data.data.status === 0) {
-                    const adType = data.data.type;
-
-                    if (adType === "show" || adType === "userEarnedReward") {
-                        // 광고가 표시되거나 보상을 받았을 때 - 플래그 설정
-                        Hi5.lastShowAd = true;
-                        console.log("[Hi5] Ad show/reward - lastShowAd set to true");
-                    } else if (adType === "dismissed") {
-                        // 광고가 닫혔을 때 - 콜백 호출
-                        const success = Hi5.lastShowAd;
-                        console.log("[Hi5] Ad dismissed - success:", success);
-
-                        // v1.0.12 콜백 방식 지원: AdManager.showRewardAd() 콜백 호출
-                        Hi5.ShowAdEnd({ status: 0, type: "dismissed", success: success });
-
-                        // 레거시 이벤트 방식도 유지
-                        evt.emit("Hi5.AdResult", !!success);
-                    }
-                } else {
-                    // 광고 로드/표시 실패 (status !== 0)
-                    console.error("[Hi5] Ad show failed:", data.data.msg);
-
-                    // v1.0.12 콜백 방식 지원: 실패 콜백 호출
-                    Hi5.ShowAdEnd({ status: data.data.status, type: "failed", success: false });
-
-                    // 레거시 이벤트 방식도 유지
-                    evt.emit("Hi5.AdResult", false);
-                }
-            }
-        };
-
-        // Hi5 SDK 초기화
+        // Hi5 SDK 초기화 - 모듈 레벨 onHi5Message 콜백 사용
+        // (씬 전환 시에도 콜백이 유효하도록 모듈 레벨에 정의됨)
         Hi5.Init_SDK(onHi5Message, initialGameData);
         console.log("[Hi5] SDK initialized");
     }

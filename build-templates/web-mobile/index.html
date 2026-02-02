@@ -17,11 +17,11 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>49FriendsRunner v0.1.7</title>
+    <title>49FriendsRunner v0.1.9</title>
     <script>
         // 부모 페이지 제목 변경 (iframe 내에서 로드될 때)
         try {
-            var gameTitle = '49FriendsRunner v0.1.7';
+            var gameTitle = '49FriendsRunner v0.1.9';
             document.title = gameTitle;
             if (window.parent && window.parent !== window) {
                 window.parent.document.title = gameTitle;
@@ -31,6 +31,30 @@
 
     <!-- Language Selector Styles -->
     <link rel="stylesheet" type="text/css" href="language-selector.css"/>
+
+    <!-- Hi5 SDK Real Parent Saving (MUST be first, before Cocos overwrites window.parent) -->
+    <script type="text/javascript">
+        // 실제 window.parent 저장 (Cocos Creator가 덮어씌우기 전에!)
+        // Cocos Creator는 런타임에 window.parent를 cc_Scene 객체로 덮어씌움
+        // 이 코드는 가장 먼저 실행되어야 함
+        (function() {
+            if (window.parent && typeof window.parent.postMessage === 'function') {
+                window._hi5RealParent = window.parent;
+                console.log('[Hi5] Real window.parent saved in index.html');
+            } else {
+                console.log('[Hi5] window.parent not available in index.html');
+            }
+        })();
+    </script>
+
+    <!--
+    SPLASH FLOW 설명:
+    Hi5 SDK 스플래시 → (HTML 스플래시 건너뜀) → 코코스 Loading 씬 (GameLoading.prefab)
+
+    HTML 스플래시는 display:none으로 비활성화됨.
+    Hi5.LoadEnd() 호출 시 Hi5 SDK 스플래시가 닫히고 바로 코코스 Loading 씬이 표시됨.
+    코코스 Loading 씬의 GameLoading.prefab이 실제 로딩 프로그레스를 보여줌.
+    -->
 
     <!-- Hi5 SDK Polyfill (must be before any Hi5 SDK scripts) -->
     <script type="text/javascript">
@@ -56,11 +80,12 @@
             height: 100%;
         }
         #splash {
+            /* HTML 스플래시 비활성화 - Hi5 SDK → 코코스 Loading 씬으로 직접 전환 */
+            display: none;
             position: absolute;
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -145,63 +170,26 @@
     </script>
 
     <script type="text/javascript">
-        // Splash Screen (FriendsTileMatch 스타일)
+        // Splash Screen - HTML 스플래시는 비활성화됨
+        // Hi5 SDK 스플래시 → 코코스 Loading 씬으로 직접 전환
         (function() {
-            var splashHidden = false;
+            // HTML 스플래시는 display:none으로 비활성화되어 있음
+            // 아래 함수들은 호환성을 위해 유지 (호출해도 아무 동작 안함)
 
-            // Hide splash with fade-out animation
-            function hideSplash() {
-                if (splashHidden) return;
-                splashHidden = true;
-
-                var splash = document.getElementById('splash');
-                if (splash) {
-                    splash.style.transition = 'opacity 0.5s';
-                    splash.style.opacity = '0';
-                    setTimeout(function() {
-                        splash.style.display = 'none';
-                    }, 500);
-                }
-            }
-
-            // Update progress bar from Cocos
+            // Update progress bar from Cocos (코코스 LoadingSceneBase에서 호출)
             window.updateGameProgress = function(percent) {
-                var bar = document.getElementById('progress');
-                if (bar) {
-                    bar.style.width = percent + '%';
-                }
+                // HTML 스플래시가 비활성화되어 있으므로 실제 동작 없음
+                // 프로그레스는 코코스 Loading 씬의 GameLoading.prefab에서 표시
             };
 
-            // Listen for game ready event
+            // 레거시 호환성을 위한 빈 함수 - 호출해도 아무 동작 안함
+            function hideSplash() {
+                // HTML 스플래시가 이미 display:none이므로 아무 동작 불필요
+            }
+
+            // 이벤트 리스너 유지 (호환성)
             document.addEventListener('gameReady', hideSplash);
             window.addEventListener('cc-game-ready', hideSplash);
-
-            // Polling-based scene detection (FriendsTileMatch 스타일)
-            var checkGameReady = setInterval(function() {
-                if (window.cc && window.cc.director && window.cc.director.getScene()) {
-                    var scene = window.cc.director.getScene();
-                    // Home 또는 Main 씬이 로드되면 스플래시 숨김
-                    if (scene.name === 'Home' || scene.name === 'Main' || scene.name === 'home' || scene.name === 'main') {
-                        hideSplash();
-                        clearInterval(checkGameReady);
-                    }
-                }
-            }, 100);
-
-            // 10초 타임아웃 폴백 (무한 대기 방지)
-            setTimeout(function() {
-                clearInterval(checkGameReady);
-                hideSplash();
-            }, 10000);
-
-            // Alternative: hide on scene load (defer until cc is ready)
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    if (typeof cc !== 'undefined' && cc.director) {
-                        cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH, hideSplash);
-                    }
-                }, 100);
-            });
         })();
     </script>
 

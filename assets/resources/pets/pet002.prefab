@@ -90,7 +90,7 @@
       }
     ],
     "_armatureName": "armatureName",
-    "_animationName": "",
+    "_animationName": "run",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "playTimes": -1,
@@ -109,7 +109,7 @@
       "__uuid__": "cdfa8787-f544-47a0-a732-8d9dc5d07933"
     },
     "_N$_defaultArmatureIndex": 0,
-    "_N$_animationIndex": 0,
+    "_N$_animationIndex": 1,
     "_N$_defaultCacheMode": 0,
     "_N$timeScale": 1,
     "_N$debugBones": false,
@@ -124,7 +124,6 @@
       "__id__": 1
     },
     "_enabled": true,
-    "id": "2",
     "_id": ""
   },
   {
@@ -133,9 +132,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "a9c6f484-fb76-440c-9f71-85d74dcb08f6"
+      "__id__": 0
     },
-    "fileId": "978hsPulJCfIuXRo90InGm",
+    "fileId": "",
     "sync": false
   }
 ]

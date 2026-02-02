@@ -258,7 +258,7 @@ export default class Guide {
 
     async guide_hero() {
         if (pdata.guides['hero']) return;
-        let node = UIEndPage.instance.findLootItem(ResType.Hero, 2)
+        let node = UIEndPage.instance.findLootItemByType(ResType.Hero)
         //未获得该道具 ？？
         if (node == null) return;
         this.isInGuide = true;

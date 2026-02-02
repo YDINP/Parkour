@@ -1,4 +1,33 @@
 // Hi5 SDK 모듈 - Cocos Creator 호환 export
+
+// 실제 window.parent 저장 (Cocos Creator가 덮어씌우기 전에)
+let _realWindowParent: any = null;
+
+// 즉시 저장 시도
+if (typeof window !== 'undefined' && window.parent && typeof window.parent.postMessage === 'function') {
+    _realWindowParent = window.parent;
+    console.log("[Hi5] _realWindowParent saved at module load");
+}
+
+// 빌드 환경에서 실패 시 대안: window.top.parent 또는 frames 사용
+if (!_realWindowParent && typeof window !== 'undefined') {
+    try {
+        // iframe 내부인지 확인
+        if (window.self !== window.top) {
+            // window.top을 통해 접근 시도
+            const topWindow = window.top as any;
+            if (topWindow && topWindow.parent && typeof topWindow.parent.postMessage === 'function') {
+                _realWindowParent = topWindow.parent;
+                console.log("[Hi5] _realWindowParent saved via window.top.parent");
+            }
+        }
+    } catch (e) {
+        console.log("[Hi5] Cross-origin access blocked");
+    }
+}
+
+console.log("[Hi5] Module init - _realWindowParent exists:", !!_realWindowParent);
+
 const _Hi5: any = {
     //
     MESSAGE:{
@@ -80,7 +109,8 @@ const _Hi5: any = {
         window['Hi5'] = this;
         this.current_time = Math.round(new Date().getTime() / 1000);
 
-        // 실제 Hi5 플랫폼 여부 확인 (iframe 내부에서 실행 중인지)
+        // 실제 Hi5 플랫폼 여부 확인 (Kapi와 동일한 방식)
+        // iframe 내부에서 실행 중이면 실제 Hi5 플랫폼으로 간주
         try {
             this._isRealHi5Platform = (window.self !== window.top) && (typeof window.parent.postMessage === 'function');
         } catch (e) {
@@ -158,8 +188,6 @@ const _Hi5: any = {
     _OnMessage(event) {
         if (!event.data) return;
         if (!event.data.fromhi5action) return;
-        // console.log('Message received:', event.data);
-        // console.log('Is trusted:', event.isTrusted);
         if(event.data.fromhi5action == this.MESSAGE.GAME_DATA){
             if(event.data.data.game_data){
                 this.GameData = event.data.data.game_data;//
@@ -175,7 +203,9 @@ const _Hi5: any = {
                 this.current_time = event.data.data.current_time;//
             }
         }
-        this.callback(event.data);
+        if (this.callback) {
+            this.callback(event.data);
+        }
     },
     // localStorage
     getItem(key, defalut=undefined) {
@@ -279,23 +309,6 @@ const _Hi5: any = {
             return;
         }
 
-        // 실제 빌드 환경 감지 (CC_BUILD가 true면 실제 빌드)
-        // CC_BUILD: 실제 빌드 시 항상 true
-        // 실제 빌드가 아닌 경우에만 Mock 광고 처리
-        const isActualBuild = (typeof CC_BUILD !== 'undefined' && CC_BUILD);
-        console.log("[Hi5] Environment check - CC_BUILD:", typeof CC_BUILD !== 'undefined' ? CC_BUILD : 'undefined',
-                    "CC_EDITOR:", typeof CC_EDITOR !== 'undefined' ? CC_EDITOR : 'undefined',
-                    "CC_PREVIEW:", typeof CC_PREVIEW !== 'undefined' ? CC_PREVIEW : 'undefined',
-                    "isRealPlatform:", this._isRealHi5Platform);
-
-        if (!isActualBuild && !this._isRealHi5Platform) {
-            console.log("[Hi5] Mock ad mode (not actual build & not real platform) - auto success in 1s");
-            setTimeout(() => {
-                callback({ success: true, type: "mock" });
-            }, 1000);
-            return;
-        }
-
         this.lastShowAd = false;
         this.lastAd = ad;
         this.onlyLoad = false;
@@ -378,17 +391,31 @@ const _Hi5: any = {
     },
     
     //
-    PostMessage(action,data) {
+    // PostMessage - 실제 window.parent 사용
+    PostMessage(action, data) {
         try {
-            if(window.self != window.top && window.parent && typeof window.parent.postMessage === 'function'){
-                window.parent.postMessage({tohi5action:action,data:data},"*");
-            }else if(typeof window.postMessage === 'function'){
-                window.postMessage({tohi5action:action,data:data},"*");
-            }else{
-                console.log("[Hi5] PostMessage not available (editor mode?):", action);
+            // 저장된 parent 사용
+            if (_realWindowParent && typeof _realWindowParent.postMessage === 'function') {
+                _realWindowParent.postMessage({tohi5action: action, data: data}, "*");
+                return;
             }
+            
+            // 저장 안됐으면 직접 찾기 시도
+            if (typeof window !== 'undefined' && window.self !== window.top) {
+                // 전역에 저장된 값 확인 (index.html에서 저장 가능)
+                const savedParent = (window as any)._hi5RealParent;
+                if (savedParent && typeof savedParent.postMessage === 'function') {
+                    _realWindowParent = savedParent;
+                    _realWindowParent.postMessage({tohi5action: action, data: data}, "*");
+                    return;
+                }
+            }
+            
+            // 모두 실패시 fallback
+            console.warn("[Hi5] No valid parent, using window.postMessage");
+            window.postMessage({tohi5action: action, data: data}, "*");
         } catch (e) {
-            console.log("[Hi5] PostMessage error (editor mode?):", action, e);
+            console.warn("[Hi5] PostMessage error:", action, e);
         }
     },
 
@@ -399,11 +426,7 @@ const _Hi5: any = {
     // Hi5Game SDK 통신 End
 }
 
-// 전역 객체에 등록 (빌드 시 import 실패 대비)
-if (typeof window !== 'undefined') {
-    (window as any)['_Hi5Module'] = _Hi5;
-}
-
 // CommonJS와 ES6 모듈 모두 지원
+// window['Hi5'] 등록은 Init_GameData()에서 한 번만 수행 (FriendMaker 패턴)
 export default _Hi5;
 export { _Hi5 };
