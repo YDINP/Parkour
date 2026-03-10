@@ -1,9 +1,3 @@
 {
-  "mcpServers": {
-    "puppeteer": {
-      "type": "stdio",
-      "command": "cmd",
-      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-puppeteer"]
-    }
-  }
+  "mcpServers": {}
 }

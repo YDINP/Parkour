@@ -30,12 +30,12 @@ CDN 기반 로컬라이징 시스템을 관리합니다.
 
 | 프로젝트 | CDN ID | 버전 | 로컬 경로 |
 |----------|--------|------|-----------|
-| Kapi | 47FriendsDefense | 1.0.1 | `C:\Users\a\Documents\Kapi` |
-| Z-tangtang | 48TangTang | 1.0.0 | `C:\Users\a\Documents\Z-tangtang` |
-| Parkour | 49FriendsRunner | 1.0.0 | `C:\Users\a\Documents\Parkour` |
-| FriendMaker | 50FriendsBongBong | 1.0.0 | `C:\Users\a\Documents\FriendMaker` |
-| FriendsTileMatch | 51FriendsTileMatch | 1.0.0 | `C:\Users\a\Documents\FriendsTileMatch` |
-| FriendMatchPuzzle | 52FriendsMatchPuzzle | 1.0.1 | `C:\Users\a\Documents\FriendMatchPuzzle` |
+| 카피 (Kapi) | 47FriendsDefense | 1.0.1 | `C:\Users\a\Documents\Projects\Kapi` |
+| 탕탕 (Z-tangtang) | 48TangTang | 1.0.0 | `C:\Users\a\Documents\Projects\Z-tangtang` |
+| 러너 (Parkour) | 49FriendsRunner | 1.0.0 | `C:\Users\a\Documents\Projects\Parkour` |
+| 봉봉 (FriendMaker) | 50FriendsBongBong | 1.0.0 | `C:\Users\a\Documents\Projects\FriendMaker` |
+| 타일매치 (FriendsTileMatch) | 51FriendsTileMatch | 1.0.0 | `C:\Users\a\Documents\Projects\FriendsTileMatch` |
+| 매치퍼즐 (FriendMatchPuzzle) | 52FriendsMatchPuzzle | 1.0.1 | `C:\Users\a\Documents\Projects\FriendMatchPuzzle` |
 
 ## CDN URL
 
@@ -106,7 +106,7 @@ C:\Users\a\Documents\kakao_localization\
 
 - **Kapi**: `assets/_script/LocalizationManager.js`
 - **Z-tangtang**: `assets/localization/LocalizationManager.ts`
-- **Parkour**: `assets/framework/Hi5/Localization/LocalizationManager.ts`
+- **러너**: `assets/framework/Hi5/Localization/LocalizationManager.ts`
 - **FriendMaker**: `assets/localization/LocalizationManager.ts`
 - **FriendsTileMatch**: `assets/localization/LocalizationManager.ts`
 - **FriendMatchPuzzle**: `assets/localization/LocalizationManager.ts`

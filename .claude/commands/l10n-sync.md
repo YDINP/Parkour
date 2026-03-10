@@ -37,7 +37,7 @@ CDN과 로컬 로컬라이징 데이터의 동기화 상태를 확인합니다.
 |----|-----------|
 | 47FriendsDefense | Kapi |
 | 48TangTang | Z-tangtang |
-| 49FriendsRunner | Parkour |
+| 49FriendsRunner | 러너 |
 | 50FriendsBongBong | FriendMaker |
 | 51FriendsTileMatch | FriendsTileMatch |
 | 52FriendsMatchPuzzle | FriendMatchPuzzle |
