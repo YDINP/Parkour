@@ -62,7 +62,7 @@ export class HeartRecoveryBuff extends Buff {
             let count = Math.floor(cappedElapsed / recovery_time);
             // [방어5] 에너지 최대값 초과 방지
             pdata.energy = Math.min(pdata.energy + count, recovery_max);
-            pdata.energyRecoveryT = now;
+            pdata.energyRecoveryT = pdata.energyRecoveryT + count * recovery_time;
             pdata.save("energyRecoveryT", "energy");
         }
     }

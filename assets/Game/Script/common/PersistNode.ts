@@ -133,40 +133,21 @@ export default class PersistNode extends cc.Component {
     }
 
     onShow(a) {
-        // Cloud.reload()
-        // if (CC_WECHATGAME) {
-        //     // 个人聊天 卡片1007， 群聊天 卡片 1008 , 1044 
-        //     //点自已的卡片
-        //     console.log(a.query.share_link, a.query.uuid, WeakNetGame.sharedUUIDs)
-        //     if (a.query.share_link == "true" && WeakNetGame.isValidShare(a.query.uuid)) {
-        //         if (a.scene == 1007) {
-        //             vm.show("Prefab/UI/UIShareLink", "개인 공유 링크 클릭 시 보상을 받을 수 없습니다~위챗 그룹에 공유해주세요!")
-        //             console.log("링크 공유: 개인")
-        //         }
-        //         else {
-        //             if (a.scene == 1008 || a.scene == 1044) {
-        //                 console.log("링크 공유: 그룹", a.scene)
-        //                 if (WeakNetGame.isClaimedShare(a.query.uuid)) {
-        //                     vm.show("Prefab/UI/UIShareLink", "짧은 시간 내에 같은 그룹의 공유 링크를 클릭할 수 없습니다! 다른 그룹에 공유해주세요!")
-        //                 } else {
-        //                     WeakNetGame.claimShare(a.query.uuid);
-        //                     vm.hide("Prefab/UI/UIShareLink")
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        // 포그라운드 복귀 시 BuffSystem 시간 동기화 (오프라인 충전 계산을 위해)
+        if (BuffSystem.main) {
+            BuffSystem.time = Math.floor(Date.now() / 1000);
+        }
     }
 
     onHide() {
-        if (!CC_DEBUG) {
-            // UserInfo.save(null, true);
+        // 에너지 데이터 즉시 저장 (오프라인 충전 기준점 보존)
+        if (pdata) {
+            pdata.save("energy", "energyRecoveryT");
         }
 
         // Hi5 앱 숨김 시 데이터 저장
         if (isHi5Platform()) {
             Hi5.SaveData();
-            console.log("[Hi5] SaveData called on app hide");
         }
 
         Platform.refreshBannerAd();
