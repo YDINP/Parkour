@@ -29,9 +29,6 @@
         } catch (e) {}
     </script>
 
-    <!-- Language Selector Styles -->
-    <link rel="stylesheet" type="text/css" href="language-selector.css"/>
-
     <!-- Hi5 SDK Real Parent Saving (MUST be first, before Cocos overwrites window.parent) -->
     <script type="text/javascript">
         // 실제 window.parent 저장 (Cocos Creator가 덮어씌우기 전에!)
@@ -133,9 +130,6 @@
         </div>
     </div>
 
-    <!-- Language Selector Script -->
-    <script src="language-selector.js"></script>
-
     <!-- Cocos Engine -->
     <script src="src/settings.js" charset="utf-8"></script>
     <script src="cocos2d-js-min.js" charset="utf-8"></script>
@@ -193,58 +187,5 @@
         })();
     </script>
 
-    <!-- HTML-Cocos Bridge Communication -->
-    <script type="text/javascript">
-        (function() {
-            // Listen for language change from HTML
-            window.addEventListener('message', function(event) {
-                if (!event.data || !event.data.type) return;
-
-                if (event.data.type === 'LANGUAGE_CHANGE') {
-                    console.log('[HTMLBridge] Language change request:', event.data.language);
-
-                    // Call Cocos LocalizationManager if available
-                    if (window.LocalizationManager && typeof window.LocalizationManager.setLanguage === 'function') {
-                        window.LocalizationManager.setLanguage(event.data.language);
-                    } else if (window.cc && window.cc.game) {
-                        // Defer until LocalizationManager is ready
-                        var checkReady = setInterval(function() {
-                            if (window.LocalizationManager) {
-                                window.LocalizationManager.setLanguage(event.data.language);
-                                clearInterval(checkReady);
-                            }
-                        }, 100);
-
-                        // Timeout after 5 seconds
-                        setTimeout(function() {
-                            clearInterval(checkReady);
-                        }, 5000);
-                    }
-                }
-
-                if (event.data.type === 'LANGUAGE_SELECTOR_READY') {
-                    console.log('[HTMLBridge] Language selector ready:', event.data.language);
-                }
-            });
-
-            // Expose sync function for Cocos to call
-            window.syncLanguageToHTML = function(langCode) {
-                window.postMessage({
-                    type: 'LANGUAGE_SYNC',
-                    language: langCode,
-                    source: 'cocos'
-                }, '*');
-            };
-
-            // Show/Hide selector functions
-            window.showLanguageSelector = function() {
-                window.postMessage({ type: 'LANGUAGE_SELECTOR_SHOW' }, '*');
-            };
-
-            window.hideLanguageSelector = function() {
-                window.postMessage({ type: 'LANGUAGE_SELECTOR_HIDE' }, '*');
-            };
-        })();
-    </script>
 </body>
 </html>

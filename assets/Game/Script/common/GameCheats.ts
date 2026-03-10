@@ -12,6 +12,7 @@
 import { pdata } from "../data/PlayerInfo";
 import { Toast } from "../../../framework/ui/ToastManager";
 import { root } from "../game/Game";
+import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 
 // 챌린지 모드 최대 레벨 (Level.csv 기준)
 const MAX_LEVEL = 100;
@@ -50,6 +51,7 @@ export default class GameCheats {
         this.registerLevelCheats();
         this.registerMiscCheats();
         this.registerIngameCheats();
+        this.registerLocalizationCheats();
 
         this.initialized = true;
         console.log('[GameCheats] 초기화 완료');
@@ -290,6 +292,33 @@ export default class GameCheats {
                 vm.show("UIEndPage");
                 Toast.make('맵 클리어!');
             }, '현재 맵 즉시 클리어']
+        });
+    }
+
+    /**
+     * 언어 변경 치트
+     */
+    private static registerLocalizationCheats() {
+        cheat.addGroup(['🌐언어', '언어 변경'], {
+            '🇰🇷한국어': [() => {
+                LocalizationManager.setLanguage('ko');
+                Toast.make('언어: 한국어');
+            }, '한국어로 변경'],
+
+            '🇺🇸English': [() => {
+                LocalizationManager.setLanguage('en');
+                Toast.make('Language: English');
+            }, '영어로 변경'],
+
+            '🇨🇳中文': [() => {
+                LocalizationManager.setLanguage('cn');
+                Toast.make('语言: 中文');
+            }, '중국어로 변경'],
+
+            '🔑키 모드': [() => {
+                LocalizationManager.setLanguage('key');
+                Toast.make('언어: 키 디버그 모드');
+            }, '키값으로 표시 (디버그)']
         });
     }
 }
