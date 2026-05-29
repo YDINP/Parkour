@@ -4,6 +4,19 @@
  */
 import Hi5 from "./Hi5";
 import { Loading } from "../ui/LoadingManager";
+import { Toast } from "../ui/ToastManager";
+import { LocalizationManager } from "./Localization/LocalizationManager";
+// 카카오 광고 분기용 (vendored hi5-sdk 경유). require 로 지연 로드해 비카카오 환경 안전.
+const kakaoSdk = require("./business/kakaoSdk");
+const IndicatorManager = require("./control/indicatorManager");
+
+/** 토스트 (i18n @key). LocalizationManager 미초기화 시 키 문자열 노출. */
+function adToast(key: string): void {
+    try {
+        const msg = LocalizationManager.getText(key);
+        if (Toast) Toast.make(msg);
+    } catch (e) { console.warn("[AdManager] adToast 실패:", e); }
+}
 
 // 기본 광고 타입 (Hi5 SDK 기본값 사용)
 export const AdType = {
@@ -40,6 +53,22 @@ class AdManagerClass {
         this.wasPausedBeforeAd = cc.director.isPaused();
         console.log("[AdManager] showRewardAd:", adType.key, "wasPausedBeforeAd:", this.wasPausedBeforeAd);
 
+        // ── 카카오 분기 ──────────────────────────────────────────────
+        // 카카오 환경에서는 커스텀 Hi5 postMessage 브릿지 대신 vendored KakaoAdapter 사용.
+        //   indicator on → showAd('reward') → indicator off → 결과별 토스트 3종.
+        //   (a) 성공+보상 → ad_reward_earned + 지급(true)
+        //   (b) 성공+미보상(중도종료) → ad_reward_aborted + 미지급(false)
+        //   (c) 실패(로드/표시)        → ad_load_failed + 미지급(false)
+        try {
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                this.showKakaoRewardAd(callback);
+                return;
+            }
+        } catch (e) {
+            console.warn("[AdManager] kakao 분기 판단 예외:", e);
+        }
+        // ─────────────────────────────────────────────────────────────
+
         this.callback = callback;
         this.hasCalledCallback = false;
 
@@ -65,6 +94,50 @@ class AdManagerClass {
             console.error("[AdManager] Exception in showAdCallback:", error);
             this.callRewardCallback(false);
         }
+    }
+
+    /**
+     * 카카오 리워드 광고 (vendored KakaoAdapter).
+     * indicator show → kakaoSdk.showAd('reward') → 모든 종료 경로에서 indicator hide + 토스트.
+     */
+    private showKakaoRewardAd(callback: (success: boolean) => void): void {
+        console.log("[AdManager] showKakaoRewardAd (kakao 분기)");
+
+        // 게임 일시정지 (이미 일시정지 상태가 아닌 경우에만)
+        if (!this.wasPausedBeforeAd) {
+            cc.director.pause();
+        }
+        cc.audioEngine.pauseMusic();
+
+        // 인디케이터 표시 (코드 렌더 스피너 — 프리팹 의존 0)
+        IndicatorManager.show(null, null);
+
+        let earned = false;
+        const finish = (success: boolean, toastKey?: string) => {
+            IndicatorManager.hide();
+            if (!this.wasPausedBeforeAd) {
+                cc.director.resume();
+            }
+            cc.audioEngine.resumeMusic();
+            if (toastKey) adToast(toastKey);
+            try { callback(success); } catch (e) { console.warn("[AdManager] kakao callback 예외:", e); }
+        };
+
+        kakaoSdk.showAd("reward", () => { earned = true; })
+            .then((res: any) => {
+                const rewarded = !!(res && res.success && (res.rewarded || earned));
+                if (rewarded) {
+                    finish(true, "@ad_reward_earned");          // 보상 획득 후 광고창 닫힘
+                } else if (res && res.success) {
+                    finish(false, "@ad_reward_aborted");        // 시청했으나 미지급
+                } else {
+                    finish(false, "@ad_load_failed");           // 광고 로드/표시 실패
+                }
+            })
+            .catch((e: any) => {
+                console.warn("[AdManager] kakao reward 예외:", e);
+                finish(false, "@ad_load_failed");
+            });
     }
 
     /**

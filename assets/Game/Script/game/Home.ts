@@ -268,7 +268,18 @@ export default class Home extends mvcView {
 
     //排行
     private click_ranking() {
-
+        // 카카오 환경: native showRank 미지원 → 코드 렌더 KakaoRankView 사용.
+        // 그 외(hi5games/일반 웹): 기존 UIRank(서버 /api/rank) 경로 유지.
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                const KakaoRankView = require("../../../framework/Hi5/KakaoRankView");
+                KakaoRankView.open();
+                return;
+            }
+        } catch (e) {
+            console.warn("[Home] kakao 랭킹 분기 예외:", e);
+        }
         vm.show("UIRank");
     }
 

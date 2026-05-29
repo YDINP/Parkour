@@ -157,6 +157,14 @@ export default class LoadingScene extends LoadingSceneBase {
     onLoad() {
         console.log("[LoadingScene] onLoad started");
 
+        // 카카오/웹 빌드 GameCanvas 포커스 시 나타나는 주황 테두리(outline) 제거.
+        // 최초 실행 씬(LoadingScene)에서 1회 <style> 주입 → 재빌드에도 코드로 유지됨.
+        if (typeof document !== 'undefined' && !document.getElementById('__cc_no_outline__')) {
+            var s = document.createElement('style'); s.id = '__cc_no_outline__';
+            s.textContent = '#GameCanvas,#GameCanvas:focus,canvas,canvas:focus{outline:none!important;-webkit-tap-highlight-color:transparent;}';
+            document.head.appendChild(s);
+        }
+
         // TiledMap 컬링 비활성화 - 배경 타일이 화면 가장자리에서 갑자기 나타나는 것 방지
         // TMX 파일이 CSV 인코딩이어야 함 (zlib 압축 시 에러 발생)
         cc.macro.ENABLE_TILEDMAP_CULLING = false;

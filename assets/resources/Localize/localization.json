@@ -329,7 +329,15 @@
     "text.checkInComplete": "체크인 완료",
     "text.daily_limit_reached": "일일 획득 횟수를 초과했습니다",
     "text.exp": "경험치",
-    "text.getDia": "획득 다이아"
+    "text.getDia": "획득 다이아",
+    "ad_load_failed": "광고 로드에 실패했어요.",
+    "ad_reward_aborted": "광고를 끝까지 시청해야 보상을 받을 수 있어요.",
+    "ad_reward_earned": "보상을 받았어요!",
+    "rank_title": "랭킹",
+    "rank_loading": "불러오는 중...",
+    "rank_load_failed": "랭킹을 불러오지 못했어요.",
+    "rank_empty": "아직 랭킹이 없어요.",
+    "rank_me": "나"
   },
   "en": {
     "text.Free": "text.Free",
@@ -662,7 +670,15 @@
     "text.checkInComplete": "已签",
     "text.daily_limit_reached": "text.daily_limit_reached",
     "text.exp": "",
-    "text.getDia": ""
+    "text.getDia": "",
+    "ad_load_failed": "Failed to load the ad.",
+    "ad_reward_aborted": "Watch the full ad to get the reward.",
+    "ad_reward_earned": "Reward earned!",
+    "rank_title": "Ranking",
+    "rank_loading": "Loading...",
+    "rank_load_failed": "Failed to load ranking.",
+    "rank_empty": "No ranking yet.",
+    "rank_me": "Me"
   },
   "cn": {
     "text.Free": "text.Free",
@@ -994,6 +1010,14 @@
     "text.checkInComplete": "text.checkInComplete",
     "text.daily_limit_reached": "text.daily_limit_reached",
     "text.exp": "",
-    "text.getDia": ""
+    "text.getDia": "",
+    "ad_load_failed": "广告加载失败。",
+    "ad_reward_aborted": "需看完广告才能获得奖励。",
+    "ad_reward_earned": "已获得奖励！",
+    "rank_title": "排行榜",
+    "rank_loading": "加载中...",
+    "rank_load_failed": "无法加载排行榜。",
+    "rank_empty": "暂无排行榜。",
+    "rank_me": "我"
   }
 }
