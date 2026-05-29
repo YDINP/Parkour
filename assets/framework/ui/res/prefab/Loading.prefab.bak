@@ -283,7 +283,7 @@
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
+    "_N$fontFamily": "",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": "",
@@ -298,7 +298,7 @@
       "__uuid__": "bdc7cpDNEpE1baxD6kJbOR/"
     },
     "_N$_N$isSystemFontUsed": false,
-    "_N$_fontFamily": "Arial"
+    "_N$_fontFamily": ""
   },
   {
     "__type__": "cc.LabelOutline",

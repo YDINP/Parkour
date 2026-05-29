@@ -27,6 +27,7 @@ export default class GameCheats {
      * Home 씬 진입 시 한 번 호출
      */
     static init() {
+        if (!CC_DEBUG) return;
         if (this.initialized) return;
         if (typeof cheat === 'undefined') {
             console.warn('[GameCheats] cheat.js가 로드되지 않았습니다.');

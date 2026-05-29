@@ -12,6 +12,28 @@ import Hi5 from "../../../framework/Hi5/Hi5";
 import { LocalizationManager } from "../../../framework/Hi5/Localization/LocalizationManager";
 import ResolutionManager from "./ResolutionManager";
 
+// 로딩씬 완료 직후 미리 올려둘 리소스 목록
+// 게임 플로우 핵심 에셋만 포함 (동적 경로·CSV 의존 에셋 제외)
+const PRELOAD_LIST: Array<{ url: string; type: typeof cc.Asset }> = [
+    // 영웅 스파인 (HeroSpinePaths 전체 — Home 진입 즉시 필요)
+    { url: "Textures/kakao/heros/01choonsik", type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/02Ryan",     type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/06Frodo",    type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/03Apeach",   type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/08Jay-G",    type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/04Tube",     type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/05Muzi",     type: sp.SkeletonData as any },
+    { url: "Textures/kakao/heros/07Neo",      type: sp.SkeletonData as any },
+    // 게임 플로우 핵심 UI prefab
+    { url: "Prefabs/UIReady",    type: cc.Prefab },
+    { url: "Prefabs/UIEndPage",  type: cc.Prefab },
+    { url: "Prefabs/UIFail",     type: cc.Prefab },
+    { url: "Prefabs/UIRevive",   type: cc.Prefab },
+    // 게임 중 반복 재생되는 정적 오디오
+    { url: "Audio/pick_bean", type: cc.AudioClip },
+    { url: "Audio/eat_coin",  type: cc.AudioClip },
+];
+
 const { ccclass, property } = cc._decorator;
 
 let inited = false;
@@ -128,6 +150,10 @@ export default class LoadingScene extends LoadingSceneBase {
     private isLoadSucc: boolean = false;
     private hi5Initialized: boolean = false;
 
+    // cc-preload 이중 완료 패턴
+    private _loginReady: boolean = false;
+    private _preloadReady: boolean = false;
+
     onLoad() {
         console.log("[LoadingScene] onLoad started");
 
@@ -152,6 +178,9 @@ export default class LoadingScene extends LoadingSceneBase {
             Hi5.LoadEnd();
             console.log("[Hi5] LoadEnd called on Loading scene load");
         }
+
+        // 로그인 대기와 병렬로 리소스 프리로드 시작
+        this._startPreload();
 
         this.scheduleOnce(this.heartBeatReport, 2)
         console.log("[LoadingScene] onLoad finished");
@@ -210,7 +239,42 @@ export default class LoadingScene extends LoadingSceneBase {
         this.scheduleOnce(this.heartBeatReport, 2)
     }
 
+    // 로그인 완료 → 이중 완료 체크
     async nextScene() {
+        this._loginReady = true;
+        this._checkReady();
+    }
+
+    // 프리로드 진행 (Hi5.LoadEnd 직후 병렬 실행)
+    private _startPreload(): void {
+        const total = PRELOAD_LIST.length;
+        if (total === 0) {
+            this._onPreloadComplete();
+            return;
+        }
+        let loaded = 0;
+        for (const res of PRELOAD_LIST) {
+            cc.loader.loadRes(res.url, res.type, (err, _asset) => {
+                if (err) cc.warn('[Preload] failed: ' + res.url);
+                if (++loaded >= total) {
+                    this._onPreloadComplete();
+                }
+            });
+        }
+    }
+
+    private _onPreloadComplete(): void {
+        console.log('[Preload] all resources loaded');
+        this._preloadReady = true;
+        this._checkReady();
+    }
+
+    // 로그인 + 프리로드 둘 다 완료됐을 때만 씬 전환 (중복 호출 방지)
+    private _sceneLaunched: boolean = false;
+    private _checkReady(): void {
+        if (!this._loginReady || !this._preloadReady) return;
+        if (this._sceneLaunched) return;
+        this._sceneLaunched = true;
         if (gUtil.isNextDay(UInfo.lastLoginTime)) {
             UInfo.lastLoginTime = Date.now();
             UInfo.isFirstLoginToday = true;

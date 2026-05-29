@@ -7,8 +7,38 @@ declare global {
     // 직접 호출 API 타입
     // ========================================================
 
-    /** 액션: 함수 또는 [함수, 설명] 튜플 */
-    type CheatAction = (() => void) | [() => void, string];
+    /** 허용되는 지속 스타일 속성 */
+    interface CheatPersistentStyles {
+        backgroundColor?: string;
+        color?: string;
+        borderColor?: string;
+        borderWidth?: string;
+        borderStyle?: string;
+        opacity?: string;
+        boxShadow?: string;
+        outline?: string;
+        textDecoration?: string;
+        fontWeight?: string;
+        fontStyle?: string;
+    }
+
+    /** 버튼 반환값: 지속 상태 제어 */
+    type CheatButtonState = boolean | 'close' | string | Partial<CheatPersistentStyles>;
+
+    /** 셀렉트 액션 설정 */
+    interface CheatSelectConfig {
+        type: 'select';
+        options: string[] | (() => string[]);
+        default?: string;
+        onChange?: (value: string, index: number) => void | CheatButtonState;
+        desc?: string;
+    }
+
+    /** 액션: 함수, [함수, 설명] 튜플, 또는 셀렉트 설정 */
+    type CheatAction =
+        | (() => void | CheatButtonState)
+        | [() => void | CheatButtonState, string]
+        | CheatSelectConfig;
 
     /** 액션맵: { '버튼명': 액션 } */
     type CheatActionMap = Record<string, CheatAction>;
@@ -18,10 +48,17 @@ declare global {
 
     /** 내부 액션 데이터 구조 */
     interface CheatActionData {
-        callback: () => void;
+        callback: (() => void | CheatButtonState) | null;
         desc: string | null;
         btn: HTMLButtonElement | null;
         group: string;
+        persistentStyles: Partial<CheatPersistentStyles> | null;
+        // select 전용 필드
+        isSelect?: boolean;
+        selectValue?: string;
+        selectOptions?: string[] | (() => string[]);
+        selectOnChange?: ((value: string, index: number) => void | CheatButtonState) | null;
+        selectPopup?: HTMLDivElement | null;
     }
 
     /** 내부 그룹 데이터 구조 */
@@ -30,6 +67,7 @@ declare global {
         commands: string[];
         tab: HTMLButtonElement | null;
         content: HTMLDivElement | null;
+        dropdownItem: HTMLButtonElement | null;
     }
 
     /** 상태라인 옵션 (향후 확장용) */
@@ -83,6 +121,9 @@ declare global {
         name: string;
         key: string;
         desc?: string;
+        type?: 'select';
+        options?: string[] | (() => string[]);
+        default?: string;
     }
 
     /** init 요청 */
@@ -136,8 +177,21 @@ declare global {
         };
     }
 
+    /** select_changed 이벤트 */
+    interface CheatEventSelectChanged {
+        type: 'CHEAT_EVENT';
+        event: 'select_changed';
+        payload: {
+            key: string;
+            name: string;
+            group: string;
+            value: string;
+            index: number;
+        };
+    }
+
     /** 이벤트 메시지 유니온 타입 */
-    type CheatEvent = CheatEventActionTriggered;
+    type CheatEvent = CheatEventActionTriggered | CheatEventSelectChanged;
 
     // ========================================================
     // 전역 객체 선언

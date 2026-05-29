@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Cocos Creator 디버그",
+            "url": "http://localhost:7457",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./*": "${webRoot}/*",
+                "webpack:///src/*": "${webRoot}/*",
+                "webpack:///*": "*"
+            },
+            "preLaunchTask": null
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "TypeScript 디버그",
+            "program": "${workspaceFolder}/assets/Game/Script/common/PersistNode.ts",
+            "outFiles": [
+                "${workspaceFolder}/library/**/*.js"
+            ],
+            "sourceMaps": true,
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Chrome에 연결",
+            "port": 9222,
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true
+        }
+    ]
+}
+
