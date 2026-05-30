@@ -165,6 +165,26 @@ export default class LoadingScene extends LoadingSceneBase {
             document.head.appendChild(s);
         }
 
+        // 카카오 부팅 초기화 — 스플래시 해제.
+        // kakaoSdk.ensureInit()는 광고/랭킹 호출 시점에만 lazy 실행되어,
+        // 부팅 시 init이 안 끝나면 window.__hideKakaoSplash가 영영 호출되지 않아
+        // 흰/검은 스플래시가 사라지지 않는 버그가 있었음.
+        // 부팅(onLoad) 시점에 카카오 환경에서만 init을 강제 트리거하고,
+        // 성공/실패 무관하게 스플래시를 해제한다.
+        try {
+            const _kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (_kakaoSdk && _kakaoSdk.isKakao && _kakaoSdk.isKakao()) {
+                const _hideSplash = () => {
+                    if (typeof window !== 'undefined' && (window as any).__hideKakaoSplash) {
+                        (window as any).__hideKakaoSplash();
+                    }
+                };
+                _kakaoSdk.ensureInit().then(_hideSplash).catch(_hideSplash);
+            }
+        } catch (e) {
+            console.warn("[LoadingScene] kakao 부팅 init 예외:", e);
+        }
+
         // TiledMap 컬링 비활성화 - 배경 타일이 화면 가장자리에서 갑자기 나타나는 것 방지
         // TMX 파일이 CSV 인코딩이어야 함 (zlib 압축 시 에러 발생)
         cc.macro.ENABLE_TILEDMAP_CULLING = false;

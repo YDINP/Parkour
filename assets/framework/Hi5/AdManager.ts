@@ -10,6 +10,38 @@ import { LocalizationManager } from "./Localization/LocalizationManager";
 const kakaoSdk = require("./business/kakaoSdk");
 const IndicatorManager = require("./control/indicatorManager");
 
+declare const window: any;
+
+// ── 광고 중 오디오 정지 유틸 (114 Hi5Ad 패턴) ───────────────────────────────
+// 카카오 광고는 별도 창/포커스 전환을 유발해 CC2.x 엔진의 cc.audioEngine._onShow가
+// 자동으로 resumeAll()을 호출 → 광고 도중 게임 BGM/효과음이 다시 재생되는 버그가 있음.
+// pauseMusic()만으로는 효과음(playEffect)이 멈추지 않고, 포커스 복귀 시 음악도 되살아남.
+// 따라서 _onShow를 광고 중 no-op으로 monkey-patch하고, pauseAll()+stopAllEffects()로
+// 음악·효과음을 모두 정지한다. (Device.bgm/효과음 모두 cc.audioEngine 경유 → 단일 정지로 커버)
+function patchAudioEngineOnShow(): void {
+    const ae: any = cc.audioEngine as any;
+    if (ae.__onShowPatched) return;
+    const orig = ae._onShow ? ae._onShow.bind(ae) : null;
+    if (!orig) return;
+    ae._onShow = function () {
+        if (window.__isWatchingAd) return;  // 광고 중에는 자동 resume 차단
+        orig();
+    };
+    ae.__onShowPatched = true;
+}
+
+function pauseAudioForAd(): void {
+    patchAudioEngineOnShow();
+    window.__isWatchingAd = true;
+    cc.audioEngine.pauseAll();
+    cc.audioEngine.stopAllEffects();
+}
+
+function resumeAudioAfterAd(): void {
+    window.__isWatchingAd = false;
+    cc.audioEngine.resumeAll();
+}
+
 /** 토스트 (i18n @key). LocalizationManager 미초기화 시 키 문자열 노출. */
 function adToast(key: string): void {
     try {
@@ -107,18 +139,21 @@ class AdManagerClass {
         if (!this.wasPausedBeforeAd) {
             cc.director.pause();
         }
-        cc.audioEngine.pauseMusic();
+        // 광고 중 오디오 정지 (음악+효과음 모두 + _onShow 자동 resume 차단)
+        pauseAudioForAd();
 
         // 인디케이터 표시 (코드 렌더 스피너 — 프리팹 의존 0)
         IndicatorManager.show(null, null);
 
         let earned = false;
+        // 모든 종료 경로(.then 성공/미보상/실패, .catch 예외)에서 호출 → 오디오 재개 보장
         const finish = (success: boolean, toastKey?: string) => {
             IndicatorManager.hide();
             if (!this.wasPausedBeforeAd) {
                 cc.director.resume();
             }
-            cc.audioEngine.resumeMusic();
+            // 광고 종료 후 오디오 재개 (__isWatchingAd 해제 후 resumeAll)
+            resumeAudioAfterAd();
             if (toastKey) adToast(toastKey);
             try { callback(success); } catch (e) { console.warn("[AdManager] kakao callback 예외:", e); }
         };
