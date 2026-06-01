@@ -1,193 +1,214 @@
-/**
- * 카카오 리더보드 뷰 (CC 2.4.13) — 프리팹/외부에셋 의존 0, 코드로 직접 렌더.
+/*
+ * KakaoRankView.js  —  Cocos Creator 2.4.x 카카오 리더보드 (탭형, prefab 기반)
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 카카오SDK 샘플(cocos-kakao-leaderboard) 의 rankViewCmpt 를 CC2.x 로 포팅한 것.
+ * 이전 코드렌더(cc.Graphics) 단순뷰를 대체 [Parkour] — 이번달/지난달 탭 + 초기화 안내 라벨.
  *
- * 카카오는 showRank(native UI) 미지원 → 게임이 getRankings/getMyRanking 로 직접 그린다.
- * 프로젝트 간 prefab/폰트/이미지 UUID 결합이 깨지기 쉬워(114-shiba 파일럿 확정)
- * cc.Label + cc.Graphics 로만 구성된 자족형 다이얼로그로 렌더한다.
+ * Kakao 는 showRank(랭킹 UI postMessage)을 미지원 → 게임이 getRankings/getMyRanking
+ * 으로 데이터를 받아 prefab(rankView/rankItem)을 직접 채운다.
  *
- * i18n: Parkour 는 LocalizationManager(@key, ko/en/cn) 사용. window.LocalizationManager 가
- *   setupHtmlBridge 에서 전역 노출되므로 그것을 경유하고, 미초기화 시 fallback 문자열 사용.
- *
- * 사용:  require('KakaoRankView').open();
+ * 자산: resources/prefab/ui/kakao/{rankView,rankItem}.prefab + resources/kakao/{leaderboard,font}
+ * ⚠ lbrefresh 는 cc.RichText → settings/project.json 의 excluded-modules 에서 RichText 제거 필요(완료).
+ * 데이터: ./business/kakaoSdk (이 프로젝트의 카카오 래퍼). 시그니처:
+ *   getRankings(seasonSeq, begin, end) -> Promise<[{playerId,rank,score,nickname}]>
+ *   getMyRanking(seasonSeq)            -> Promise<{playerId,rank,score,nickname}|null>
+ * 호출:  require('<경로>/KakaoRankView').open();
+ * ─────────────────────────────────────────────────────────────────────────────
  */
+
 var kakaoSdk = require('./business/kakaoSdk');
 
 var TOP_N = 50;
-var COLOR_DIM = cc.color(0, 0, 0, 175);
-var COLOR_FRAME = cc.color(255, 255, 255);
-var COLOR_TEXT = cc.color(40, 40, 60);
-var COLOR_ME = cc.color(255, 245, 200);
+var VIEW_PREFAB = 'prefab/ui/kakao/rankView';
+var ITEM_PREFAB = 'prefab/ui/kakao/rankItem';
+var COLOR_ACTIVE = cc.color(26, 26, 46);
+var COLOR_INACTIVE = cc.color(112, 91, 80);
 
-function t(key, fallback) {
-    try {
-        var LM = window['LocalizationManager'];
-        if (LM && typeof LM.getText === 'function') {
-            var v = LM.getText(key);
-            // getText 는 미발견 시 키(접두사 제거)를 그대로 반환 → fallback 으로 대체
-            var bare = key.replace('@', '');
-            if (v && v !== bare && v !== key) return v;
-        }
-    } catch (e) {}
-    return fallback;
-}
-
-function fmt(n) { return ('' + (n || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-
-function makeLabel(parent, str, fontSize, color, x, y, anchorX) {
-    var node = new cc.Node('lb');
-    var lb = node.addComponent(cc.Label);
-    lb.string = str == null ? '' : ('' + str);
-    lb.fontSize = fontSize;
-    lb.lineHeight = fontSize + 4;
-    node.color = color || COLOR_TEXT;
-    node.anchorX = (anchorX == null ? 0.5 : anchorX);
-    node.x = x; node.y = y;
-    parent.addChild(node);
-    return lb;
-}
+// Parkour = 주간 리더보드 (실제 초기화 주기 = 카카오 어드민 설정. 라벨은 표시용).
+var DEFAULT_TEXT = {
+    title: 'RANKING',
+    curWeek: '이번주',
+    prevWeek: '지난주',
+    me: '나',
+    refresh: '매주 월요일 <color=#ef6f26>00:00</color> 초기화',
+};
 
 var KakaoRankView = cc.Class({
     extends: cc.Component,
 
     statics: {
+        TEXT: null,  // require('KakaoRankView').TEXT = { title, curWeek, prevWeek, me, refresh } 로 override
+
         open: function () {
             var canvas = (cc.Canvas.instance && cc.Canvas.instance.node) || cc.find('Canvas');
             if (!canvas) { cc.warn('[KakaoRankView] Canvas 없음'); return; }
-            if (canvas.getChildByName('kakaoRankView')) return;
-            var node = new cc.Node('kakaoRankView');
-            node.setContentSize(cc.winSize.width, cc.winSize.height);
-            node.parent = canvas;
-            node.setPosition(0, 0);
-            node.zIndex = cc.macro.MAX_ZINDEX;
-            node.addComponent(KakaoRankView);
+            if (canvas.getChildByName('rankView')) return;
+            cc.resources.load(VIEW_PREFAB, cc.Prefab, function (err, prefab) {
+                if (err || !prefab) { cc.warn('[KakaoRankView] rankView prefab 로드 실패: ' + (err && err.message)); return; }
+                if (canvas.getChildByName('rankView')) return;
+                var node = cc.instantiate(prefab);
+                node.parent = canvas;
+                node.setPosition(0, 0);
+                node.addComponent(KakaoRankView);
+            });
         },
     },
 
     onLoad: function () {
         var self = this;
-        var W = cc.winSize.width, H = cc.winSize.height;
+        var N = function (p) { return cc.find(p, self.node); };
+        var T = Object.assign({}, DEFAULT_TEXT, KakaoRankView.TEXT || {});
+        this._text = T;
 
-        // dim (바깥 클릭 닫기)
-        var dim = new cc.Node('dim');
-        dim.setContentSize(W, H);
-        var dg = dim.addComponent(cc.Graphics);
-        dg.fillColor = COLOR_DIM;
-        dg.rect(-W / 2, -H / 2, W, H);
-        dg.fill();
-        dim.addComponent(cc.BlockInputEvents);
-        dim.on(cc.Node.EventType.TOUCH_END, function () { self.close(); });
-        this.node.addChild(dim);
+        this._content = N('Frame/ScrollView/view/content');
+        this._myRank = N('Frame/bottom/myRank/lbRank');
+        this._myName = N('Frame/bottom/myRank/lbNickname');
+        this._myScore = N('Frame/bottom/myRank/lbScore');
 
-        // Frame
-        var fw = Math.min(640, W * 0.86), fh = Math.min(900, H * 0.8);
-        var frame = new cc.Node('Frame');
-        frame.setContentSize(fw, fh);
-        var fg = frame.addComponent(cc.Graphics);
-        fg.fillColor = COLOR_FRAME;
-        fg.roundRect(-fw / 2, -fh / 2, fw, fh, 24);
-        fg.fill();
-        frame.on(cc.Node.EventType.TOUCH_START, function () {}); // 안쪽 터치 스왈로
-        this.node.addChild(frame);
+        this._markCur = N('Frame/top/curWeekCheckMark');
+        this._markPrev = N('Frame/top/prevWeekCheckMark');
+        this._lbCur = N('Frame/top/lbcur');
+        this._lbPrev = N('Frame/top/lbprev');
 
-        // 타이틀
-        makeLabel(frame, t('@rank_title', 'Ranking'), 44, COLOR_TEXT, 0, fh / 2 - 56);
+        this._setLabel(N('Frame/title/titlelabel'), T.title);
+        this._setLabel(this._lbCur, T.curWeek);
+        this._setLabel(this._lbPrev, T.prevWeek);
+        // lbrefresh: RichText(BBCode <color> 보존). 색상 마크업 없으면 기본 색으로 wrap.
+        this._setText(N('Frame/top/Node/lbrefresh'), this._withRefreshColor(T.refresh));
 
-        // 닫기 버튼
-        var btnX = new cc.Node('btn_x');
-        makeLabel(btnX, 'X', 40, cc.color(120, 120, 140), 0, 0);
-        btnX.x = fw / 2 - 44; btnX.y = fh / 2 - 56;
-        btnX.setContentSize(60, 60);
-        btnX.on(cc.Node.EventType.TOUCH_END, function () { self.close(); });
-        frame.addChild(btnX);
+        // dim(blockbg): 검정 반투명 + 바깥 클릭 닫기.
+        var dim = N('blockbg');
+        if (dim) {
+            // blockbg 에 이미 Sprite(RenderComponent)가 있어 addComponent(cc.Graphics)가 null 반환
+            // → g.fillColor throw → onLoad 중단되던 버그. 기존 Sprite 를 검정 반투명으로 틴트한다.
+            try { dim.color = cc.color(0, 0, 0); dim.opacity = 175; } catch (e) {}
+            dim.on(cc.Node.EventType.TOUCH_END, function () { self.close(); });
+        }
+        var frame = N('Frame');
+        if (frame) frame.on(cc.Node.EventType.TOUCH_START, function () {});
+        var closeBtn = N('closeBtn');
+        if (closeBtn) closeBtn.on(cc.Node.EventType.TOUCH_END, function () { self.close(); });
+        var btnX = N('Frame/btn_close');
+        if (btnX) btnX.on(cc.Node.EventType.TOUCH_END, function () { self.close(); });
 
-        // 내 랭킹 (하단 고정)
-        this._myLabel = makeLabel(frame, '', 30, COLOR_TEXT, 0, -fh / 2 + 44);
+        var tabBtn = N('Frame/top/RankBtn');
+        if (tabBtn) tabBtn.on(cc.Node.EventType.TOUCH_END, function () { self._toggleTab(); });
 
-        // 리스트 ScrollView
-        var listTop = fh / 2 - 110;
-        var listH = (fh - 110 - 90);
-        var sv = new cc.Node('ScrollView');
-        sv.setContentSize(fw - 40, listH);
-        sv.y = (listTop - listH / 2);
-        var scroll = sv.addComponent(cc.ScrollView);
-        var view = new cc.Node('view');
-        view.setContentSize(fw - 40, listH);
-        view.addComponent(cc.Mask);
-        sv.addChild(view);
-        var content = new cc.Node('content');
-        content.setContentSize(fw - 40, listH);
-        content.anchorY = 1;
-        content.y = listH / 2;
-        view.addChild(content);
-        scroll.content = content;
-        scroll.vertical = true;
-        scroll.horizontal = false;
-        frame.addChild(sv);
-        this._content = content;
-        this._rowW = fw - 40;
+        this._currentTab = 'cur';
+        this._cache = {};
+        this._updateTabUI();
+        this._clearList();
 
-        makeLabel(content, t('@rank_loading', 'Loading'), 28, COLOR_TEXT, 0, -40);
-
-        this._fetchAndRender();
+        cc.resources.load(ITEM_PREFAB, cc.Prefab, function (err, prefab) {
+            if (err || !prefab) { cc.warn('[KakaoRankView] rankItem prefab 로드 실패: ' + (err && err.message)); }
+            self._itemPrefab = prefab || null;
+            self._fetchAndRender(self._currentTab);
+        });
     },
 
-    _fetchAndRender: function () {
+    _toggleTab: function () {
+        this._currentTab = this._currentTab === 'cur' ? 'prev' : 'cur';
+        this._updateTabUI();
+        if (this._cache[this._currentTab]) this._render(this._cache[this._currentTab]);
+        else this._fetchAndRender(this._currentTab);
+    },
+
+    _updateTabUI: function () {
+        var cur = this._currentTab === 'cur';
+        if (this._markCur) this._markCur.active = cur;
+        if (this._markPrev) this._markPrev.active = !cur;
+        if (this._lbCur) this._lbCur.color = cur ? COLOR_ACTIVE : COLOR_INACTIVE;
+        if (this._lbPrev) this._lbPrev.color = cur ? COLOR_INACTIVE : COLOR_ACTIVE;
+    },
+
+    _clearList: function () { if (this._content) this._content.removeAllChildren(); },
+
+    // 데이터 fetch — 이 프로젝트 래퍼(business/kakaoSdk)는 이미 평탄화된 배열/객체를 반환.
+    _fetchAndRender: function (tab) {
         var self = this;
+        var seasonSeq = tab === 'cur' ? 0 : -1;
         Promise.all([
-            kakaoSdk.getRankings(0, 1, TOP_N),
-            kakaoSdk.getMyRanking(0),
+            kakaoSdk.getRankings(seasonSeq, 1, TOP_N),
+            kakaoSdk.getMyRanking(seasonSeq),
         ]).then(function (results) {
             if (!cc.isValid(self.node)) return;
             var rows = results[0] || [];
             var my = results[1] || null;
-            self._render(rows, my);
+            var data = { rows: rows, my: my };
+            self._cache[tab] = data;
+            if (self._currentTab === tab) self._render(data);
         }).catch(function (err) {
             if (!cc.isValid(self.node)) return;
             cc.warn('[KakaoRankView] fetch 실패: ' + err);
-            self._content.removeAllChildren();
-            makeLabel(self._content, t('@rank_load_failed', 'Failed to load.'), 28, COLOR_TEXT, 0, -40);
         });
     },
 
-    _render: function (rows, my) {
-        this._content.removeAllChildren();
-        var rowH = 64;
-        var total = rows.length;
-        if (total === 0) {
-            makeLabel(this._content, t('@rank_empty', 'No ranking yet.'), 28, COLOR_TEXT, 0, -40);
-        }
-        this._content.height = Math.max(this._content.parent.height, total * rowH);
-        var myId = my && my.playerId;
+    _render: function (data) {
+        this._renderMy(data.my);
+        this._renderRows(data.rows, data.my && data.my.playerId);
+    },
 
-        for (var i = 0; i < total; i++) {
+    _renderMy: function (my) {
+        var me = this._text.me;
+        var name = my && my.nickname;
+        this._setLabel(this._myName, name ? (me + ' (' + name + ')') : me);
+        if (!my) {
+            this._setLabel(this._myRank, '-');
+            this._setLabel(this._myScore, '0');
+            return;
+        }
+        this._setLabel(this._myRank, my.rank > 0 ? ('' + my.rank) : '-');
+        this._setLabel(this._myScore, this._fmt(my.score || 0));
+    },
+
+    _renderRows: function (rows, myPlayerId) {
+        this._clearList();
+        if (!this._content || !this._itemPrefab) return;
+        for (var i = 0; i < rows.length; i++) {
             var row = rows[i] || {};
             var rank = row.rank || (i + 1);
-            var y = -(i * rowH) - rowH / 2;
+            var item = cc.instantiate(this._itemPrefab);
 
-            var rowNode = new cc.Node('row');
-            rowNode.setContentSize(this._rowW, rowH - 6);
-            rowNode.y = y;
-            if (myId && row.playerId === myId) {
-                var bg = rowNode.addComponent(cc.Graphics);
-                bg.fillColor = COLOR_ME;
-                bg.roundRect(-this._rowW / 2, -(rowH - 6) / 2, this._rowW, rowH - 6, 10);
-                bg.fill();
+            var isTop3 = rank >= 1 && rank <= 3;
+            var lnRank = cc.find('frame/lnRank', item);
+            this._setLabel(lnRank, '' + rank);
+            if (lnRank) lnRank.active = !isTop3;
+            var frame = cc.find('frame', item);
+            if (frame) for (var m = 1; m <= 3; m++) {
+                var medal = frame.getChildByName('' + m);
+                if (medal) medal.active = (rank === m);
             }
-            makeLabel(rowNode, '' + rank, 30, COLOR_TEXT, -this._rowW / 2 + 40, 0, 0.5);
-            makeLabel(rowNode, row.nickname || ('Player' + rank), 28, COLOR_TEXT, -this._rowW / 2 + 90, 0, 0);
-            makeLabel(rowNode, fmt(row.score), 28, COLOR_TEXT, this._rowW / 2 - 30, 0, 1);
-            this._content.addChild(rowNode);
-        }
 
-        // 내 랭킹 하단 라벨
-        var me = t('@rank_me', 'Me');
-        if (my) {
-            var name = my.nickname || '';
-            this._myLabel.string = (name ? (me + ' (' + name + ') ') : (me + ' ')) +
-                (my.rank > 0 ? ('#' + my.rank) : '-') + '   ' + fmt(my.score);
-        } else {
-            this._myLabel.string = me + '  -';
+            this._setLabel(cc.find('lbNickname', item), row.nickname || ('Player' + rank));
+            this._setLabel(cc.find('lbScore', item), this._fmt(row.score || 0));
+
+            if (myPlayerId && row.playerId === myPlayerId) item.color = cc.color(255, 245, 200);
+            this._content.addChild(item);
         }
+    },
+
+    _fmt: function (n) { return ('' + n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); },
+
+    _setLabel: function (node, str) {
+        if (!node) return;
+        var l = node.getComponent(cc.Label);
+        if (l) l.string = (str == null ? '' : ('' + str));
+    },
+
+    // Label / RichText 자동 감지. BBCode 마크업(<color> 등)은 RichText 로만 정상 렌더.
+    _setText: function (node, str) {
+        if (!node) return;
+        var v = (str == null ? '' : ('' + str));
+        var l = node.getComponent(cc.Label);
+        if (l) { l.string = v; return; }
+        var r = node.getComponent(cc.RichText);
+        if (r) { r.string = v; return; }
+    },
+
+    _withRefreshColor: function (text) {
+        if (!text) return text || '';
+        if (text.indexOf('<color=') >= 0) return text;
+        return '<color=#705650>' + text + '</color>';
     },
 
     close: function () { if (cc.isValid(this.node)) this.node.destroy(); },
