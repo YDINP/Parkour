@@ -142,13 +142,12 @@ class AdManagerClass {
         // 광고 중 오디오 정지 (음악+효과음 모두 + _onShow 자동 resume 차단)
         pauseAudioForAd();
 
-        // 인디케이터 표시 (코드 렌더 스피너 — 프리팹 의존 0)
-        IndicatorManager.show(null, null);
+        // 인디케이터: 프로젝트 커스텀 스피너 제거 → 카카오 광고 SDK 네이티브 로딩에 일임
+        //   (커스텀+카카오 두 개가 겹쳐 보이던 문제 → 카카오 SDK 것 하나만 노출).
 
         let earned = false;
         // 모든 종료 경로(.then 성공/미보상/실패, .catch 예외)에서 호출 → 오디오 재개 보장
         const finish = (success: boolean, toastKey?: string) => {
-            IndicatorManager.hide();
             if (!this.wasPausedBeforeAd) {
                 cc.director.resume();
             }
