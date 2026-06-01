@@ -117,6 +117,103 @@
     </style>
 </head>
 <body>
+<!-- BEGIN kakao-splash (hi5-sdk) -->
+<style id="kakao-splash-style">
+  #kakao-splash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ffffff;   /* light: 흰 배경 — fade 없음, 끝까지 유지 후 즉시 제거 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (prefers-color-scheme: dark) {
+    #kakao-splash { background-color: #000000; }   /* dark: 검은 배경 */
+  }
+  #kakao-splash.kakao-splash-hide { pointer-events: none; }
+  #kakao-splash img {
+    max-width: 60vw;
+    max-height: 40vh;
+    object-fit: contain;
+    opacity: 0;                              /* 로고는 0 으로 시작 (fade-in 대기) */
+    transition: opacity 600ms ease-out;      /* fade-in / fade-out 양쪽 모두 600ms (ready 클래스 토글) */
+    will-change: opacity;
+  }
+  #kakao-splash.kakao-splash-ready img { opacity: 1; }   /* fade-in: ready 추가, fade-out: ready 제거 */
+  #kakao-splash.kakao-splash-disabled { display: none !important; }
+</style>
+<!-- 카카오 SDK 가 띄우는 모달(GNB 오버레이) 텍스트 정렬 보정 — 카카오 측 요청.
+     게임 body 의 text-align 상속을 막아 SDK 모달이 항상 왼쪽 정렬되도록. -->
+<style id="kakao-sdk-overlay-fix">
+  #sdk-gnb-overlay { text-align: left; }
+</style>
+<div id="kakao-splash" aria-hidden="true">
+  <picture>
+    <!-- dark mode: 검은 배경 + 흰 로고 -->
+    <source srcset="splash/white.png" media="(prefers-color-scheme: dark)">
+    <!-- light mode (기본): 흰 배경 + 검은 로고 -->
+    <img src="splash/black.png" alt="" onerror="this.style.display='none'">
+  </picture>
+</div>
+<script>
+  (function () {
+    var splash = document.getElementById('kakao-splash');
+    if (!splash) return;
+    var ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
+    var qs = (typeof location !== 'undefined' && location.search) || '';
+    var host = (typeof location !== 'undefined' && location.hostname) || '';
+    var isKakao =
+        /KAKAOTALK/i.test(ua) ||
+        /game\.kakao\.com$/i.test(host) ||         /* dev-gameplay.game.kakao.com / qa-gameplay.game.kakao.com / gameplay.game.kakao.com */
+        /[?&]provider=kakao\b/i.test(qs) ||
+        /[?&]kakaoH5Id=/i.test(qs) ||
+        /[?&]h5Id=/i.test(qs) ||
+        /[?&]code=/i.test(qs);                     /* OAuth callback (?code=...&state=...) — provider 누락된 redirect 직후도 카카오로 인정 */
+    if (!isKakao) { splash.className = 'kakao-splash-disabled'; return; }
+
+    // 로고 fade-in — 한 frame 뒤에 ready 클래스 추가 → CSS transition 작동
+    var rAF = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : function (cb) { return setTimeout(cb, 16); };
+    rAF(function () { rAF(function () { splash.classList.add('kakao-splash-ready'); }); });
+
+    // 표시 시작 시각 + 최소 표시 시간 (ms)
+    var startedAt = Date.now();
+    var MIN_DISPLAY_MS = 3000;
+    var pendingTimer = null;
+
+    function _actuallyHide() {
+      if (!splash || splash.dataset.hidden) return;
+      splash.dataset.hidden = '1';
+      // 1) 로고 fade-out — ready 클래스 제거 → IMG opacity 1 → 0 (600ms ease-out)
+      //    배경은 transition 없이 끝까지 유지 (사용자 의도)
+      splash.classList.add('kakao-splash-hide');   /* pointer-events 만 차단, opacity 변경 X */
+      splash.classList.remove('kakao-splash-ready');
+      // 2) 로고 fade-out 끝난 직후 splash 자체를 일순간에 DOM 제거 (배경도 같이 사라짐)
+      setTimeout(function () {
+        if (splash.parentNode) splash.parentNode.removeChild(splash);
+      }, 620);   // CSS transition 600ms + 약간의 여유
+    }
+
+    window.__hideKakaoSplash = function () {
+      if (!splash || splash.dataset.hidden || pendingTimer) return;
+      var elapsed = Date.now() - startedAt;
+      var remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
+      if (remaining > 0) {
+        pendingTimer = setTimeout(function () { pendingTimer = null; _actuallyHide(); }, remaining);
+      } else {
+        _actuallyHide();
+      }
+    };
+
+    // 안전 타임아웃 — 30초 동안 hide 호출 없으면 강제 숨김
+    setTimeout(function () {
+      if (typeof window.__hideKakaoSplash === 'function') window.__hideKakaoSplash();
+    }, 30000);
+  })();
+</script>
+<!-- END kakao-splash (hi5-sdk) -->
     <!-- Loading Splash Screen -->
     <div id="splash">
         <div class="spinner"></div>
