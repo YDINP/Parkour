@@ -309,12 +309,13 @@ export default class PlayerInfoDC extends DataCenter {
             console.log("[Hi5] GameEnd called, score submitted:", this.tmpScore);
         }
 
-        // 카카오 리더보드 제출 — 승리 시에만 "클리어한 스테이지(playinglv)"를 제출
-        // (isHi5Platform 와 별도 분기 — 카카오는 해당 가드에서 제외됨)
+        // 카카오 리더보드 제출 — "무한모드(Infinite) 점수"를 제출 (스테이지/클리어 아님).
+        //   무한모드는 사망으로 종료되어 승패 개념이 없으므로 isWin 무관, 종료 시 이번 런 점수(tmpScore) 제출.
+        //   (isHi5Platform 와 별도 분기 — 카카오는 해당 가드에서 제외됨)
         const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
-        if (isWin && kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
-            kakaoSdk.submitScore(this.playinglv);
-            console.log("[KakaoSDK] submitScore 호출(클리어 스테이지):", this.playinglv);
+        if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao() && this.gameMode == ParkourType.Infinite) {
+            kakaoSdk.submitScore(this.tmpScore);
+            console.log("[KakaoSDK] submitScore 호출(무한모드 점수):", this.tmpScore);
         }
     }
 

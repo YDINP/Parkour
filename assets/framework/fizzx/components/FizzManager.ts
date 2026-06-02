@@ -31,9 +31,7 @@ export default class FizzManager extends cc.Component {
 
     _inited: boolean = false;
 
-    // Fixed timestep accumulator for frame-rate independent physics
-    private _accumulator: number = 0;
-    private readonly FIXED_DT: number = 0.016; // ~60fps physics step
+    private readonly FIXED_DT: number = 0.016; // ~60fps 기준 스텝 (클램프 상한 산정용)
 
     onLoad() {
         FizzManager.instance = this;
@@ -104,21 +102,13 @@ export default class FizzManager extends cc.Component {
     }
 
     lateUpdate(dt: number) {
-        // Fixed timestep: ensures physics runs at consistent speed
-        // regardless of device frame rate (60fps, 90fps, 120fps, etc.)
-        this._accumulator += dt;
-
-        // Only run 1 physics update per frame at fixed rate
-        // This prevents stuttering while maintaining consistent speed
-        if (this._accumulator >= this.FIXED_DT) {
-            Fizz.update(this.FIXED_DT);
-            this._accumulator -= this.FIXED_DT;
-
-            // Prevent accumulator from growing too large (handles lag spikes)
-            if (this._accumulator > this.FIXED_DT) {
-                this._accumulator = this.FIXED_DT * 0.5;
-            }
-        }
+        // 물리 스텝: 실제 프레임 dt로 전진 → 60/90/120Hz 어느 주사율에서도 렌더 프레임과 1:1 동기.
+        //   이전 고정스텝(accumulator)은 고주사율에서 일부 프레임 0스텝/일부 1스텝이 되어
+        //   캐릭터가 멈췄다 튀는 진동(stutter)이 발생했음. 가변 dt로 교체해 부드럽게.
+        //   상한 클램프(=2스텝치)로 탭전환/랙스파이크 시 위치 점프·터널링만 방지.
+        let step = dt > 0 ? dt : this.FIXED_DT;
+        if (step > this.FIXED_DT * 2) step = this.FIXED_DT * 2;
+        Fizz.update(step);
 
         if (this.debug) {
             this.graphics.clear()

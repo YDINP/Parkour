@@ -4,8 +4,6 @@
  */
 import Hi5 from "./Hi5";
 import { Loading } from "../ui/LoadingManager";
-import { Toast } from "../ui/ToastManager";
-import { LocalizationManager } from "./Localization/LocalizationManager";
 // 카카오 광고 분기용 (vendored hi5-sdk 경유). require 로 지연 로드해 비카카오 환경 안전.
 const kakaoSdk = require("./business/kakaoSdk");
 const IndicatorManager = require("./control/indicatorManager");
@@ -40,14 +38,6 @@ function pauseAudioForAd(): void {
 function resumeAudioAfterAd(): void {
     window.__isWatchingAd = false;
     cc.audioEngine.resumeAll();
-}
-
-/** 토스트 (i18n @key). LocalizationManager 미초기화 시 키 문자열 노출. */
-function adToast(key: string): void {
-    try {
-        const msg = LocalizationManager.getText(key);
-        if (Toast) Toast.make(msg);
-    } catch (e) { console.warn("[AdManager] adToast 실패:", e); }
 }
 
 // 기본 광고 타입 (Hi5 SDK 기본값 사용)
@@ -156,15 +146,17 @@ class AdManagerClass {
             IndicatorManager.hide();
         };
 
-        // 모든 종료 경로(.then 성공/미보상/실패, .catch 예외)에서 호출 → 오디오 재개 보장
-        const finish = (success: boolean, toastKey?: string) => {
+        // 모든 종료 경로(.then 성공/미보상/실패, .catch 예외)에서 호출 → 오디오 재개 보장.
+        //   결과 토스트는 카카오 SDK 공용 토스트(showKakaoToastPreset) 사용 — 프로젝트 자체 Toast 대체.
+        //   preset: 'adSuccess'(성공) | 'adSkipped'(시청중단/미지급) | 'adLoadFail'(로드/표시 실패).
+        const finish = (success: boolean, toastPreset?: string) => {
             hideIndicator();  // 안전망: onStarted 가 못 와도(로드 실패 등) 확실히 숨김
             if (!this.wasPausedBeforeAd) {
                 cc.director.resume();
             }
             // 광고 종료 후 오디오 재개 (__isWatchingAd 해제 후 resumeAll)
             resumeAudioAfterAd();
-            if (toastKey) adToast(toastKey);
+            if (toastPreset) kakaoSdk.showToastPreset(toastPreset);
             try { callback(success); } catch (e) { console.warn("[AdManager] kakao callback 예외:", e); }
         };
 
@@ -175,16 +167,16 @@ class AdManagerClass {
             .then((res: any) => {
                 const rewarded = !!(res && res.success && (res.rewarded || earned));
                 if (rewarded) {
-                    finish(true, "@ad_reward_earned");          // 보상 획득 후 광고창 닫힘
+                    finish(true, "adSuccess");                  // 보상 획득 후 광고창 닫힘
                 } else if (res && res.success) {
-                    finish(false, "@ad_reward_aborted");        // 시청했으나 미지급
+                    finish(false, "adSkipped");                 // 시청했으나 미지급(중도종료)
                 } else {
-                    finish(false, "@ad_load_failed");           // 광고 로드/표시 실패
+                    finish(false, "adLoadFail");                // 광고 로드/표시 실패
                 }
             })
             .catch((e: any) => {
                 console.warn("[AdManager] kakao reward 예외:", e);
-                finish(false, "@ad_load_failed");
+                finish(false, "adLoadFail");
             });
     }
 

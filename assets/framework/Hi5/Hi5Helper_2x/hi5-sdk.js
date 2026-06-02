@@ -1,7 +1,7 @@
-// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.6.15  (source: dist/cjs/index.js)
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.6.18  (source: dist/cjs/index.js)
 // Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
 // 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/index.js 를 이 파일로 복사(헤더 재삽입).
-// Exports: Hi5 (레거시 콜백 API), async (Promise/adapter API), detectPlatform, isStandalone
+// Exports: Hi5, async, detectPlatform, isStandalone, showKakaoToast, showKakaoToastPreset, KAKAO_TOAST_MESSAGES 등
 'use strict';
 
 const _Hi5 = {
@@ -2074,6 +2074,28 @@ function hideKakaoSplash() {
   }
 }
 
+function showKakaoToast(text, options) {
+  if (typeof window === "undefined") return;
+  const fn = window.__showKakaoToast;
+  if (typeof fn === "function") {
+    try {
+      fn(text, options);
+    } catch (e) {
+    }
+  }
+}
+const KAKAO_TOAST_MESSAGES = {
+  dataFee: "Wi-Fi\uAC00 \uC544\uB2CC \uD658\uACBD\uC5D0\uC11C\uB294 \uB370\uC774\uD130 \uC694\uAE08\uC774 \uBC1C\uC0DD\uD560 \uC218 \uC788\uC5B4\uC694",
+  adLoadFail: "\uAD11\uACE0\uB97C \uBD88\uB7EC\uC62C \uC218 \uC5C6\uC5B4\uC694. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574\uC8FC\uC138\uC694",
+  adSkipped: "\uAD11\uACE0\uB97C \uB05D\uAE4C\uC9C0 \uC2DC\uCCAD\uD574\uC57C \uBCF4\uC0C1\uC744 \uBC1B\uC744 \uC218 \uC788\uC5B4\uC694",
+  adSuccess: "\uAD11\uACE0 \uC2DC\uCCAD\uC774 \uC644\uB8CC\uB418\uC5B4 \uBCF4\uC0C1\uC744 \uC9C0\uAE09\uD588\uC5B4\uC694"
+};
+function showKakaoToastPreset(preset, options) {
+  const text = KAKAO_TOAST_MESSAGES[preset];
+  if (!text) return;
+  showKakaoToast(text, options);
+}
+
 var __async$6 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -2542,6 +2564,7 @@ function purchase(keyOrRawId) {
 
 var index = /*#__PURE__*/Object.freeze({
     __proto__: null,
+    KAKAO_TOAST_MESSAGES: KAKAO_TOAST_MESSAGES,
     accumulateScore: accumulateScore,
     applyCrazyGamesHtml5Fixes: applyCrazyGamesHtml5Fixes,
     clearAllBanners: clearAllBanners,
@@ -2590,6 +2613,8 @@ var index = /*#__PURE__*/Object.freeze({
     showAd: showAd,
     showAuthPrompt: showAuthPrompt,
     showBanner: showBanner,
+    showKakaoToast: showKakaoToast,
+    showKakaoToastPreset: showKakaoToastPreset,
     showResponsiveBanner: showResponsiveBanner,
     submitLeaderboardScore: submitLeaderboardScore,
     submitLeaderboardScoresServerSide: submitLeaderboardScoresServerSide,

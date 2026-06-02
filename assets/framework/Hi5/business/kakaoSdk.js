@@ -142,6 +142,26 @@ function showAd(key, callbacks) {
     });
 }
 
+/**
+ * 공용 카카오 토스트 — 스플래시 템플릿이 노출한 window.__showKakaoToast 경유(SDK 1.6.16+).
+ * 템플릿 미주입/비카카오 빌드에서는 SDK 내부에서 no-op.
+ * @param {string} text
+ * @param {object} [options] width/height/maxWidth/fontSize/color/bg/radius/blur/bottomPct/durationMs
+ */
+function showToast(text, options) {
+    try { if (sdk.showKakaoToast) sdk.showKakaoToast(text, options); }
+    catch (e) { console.warn("[KakaoSDK] showToast 예외:", e); }
+}
+
+/**
+ * 프리셋 토스트 — 'dataFee' | 'adLoadFail' | 'adSkipped' | 'adSuccess'.
+ * 문구는 sdk.KAKAO_TOAST_MESSAGES[preset] (부팅 시 덮어쓰기 가능).
+ */
+function showToastPreset(preset, options) {
+    try { if (sdk.showKakaoToastPreset) sdk.showKakaoToastPreset(preset, options); }
+    catch (e) { console.warn("[KakaoSDK] showToastPreset 예외:", e); }
+}
+
 module.exports = {
     isKakao: isKakao,
     isConfigured: isConfigured,
@@ -150,5 +170,8 @@ module.exports = {
     getMyRanking: getMyRanking,
     submitScore: submitScore,
     showAd: showAd,
+    showToast: showToast,
+    showToastPreset: showToastPreset,
+    TOAST_MESSAGES: (sdk && sdk.KAKAO_TOAST_MESSAGES) || null,
     LEADERBOARD_ID: LEADERBOARD_ID
 };
