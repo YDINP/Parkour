@@ -124,15 +124,19 @@ function submitScore(score) {
  * 광고 표시 (전면/리워드).
  * key: 'interstitial'(전면) | 'reward'(리워드). adUnit ID 는 KakaoAdapter 내부 DEFAULT_KAKAO_AD_UNITS 사용.
  * @returns {Promise<{success:boolean, rewarded?:boolean, error?:string, errorCode?:string}>}
- * @param {Function} [onEarned] 리워드 보상 획득 콜백.
+ * @param {Function|{onEarned?:Function, onStarted?:Function}} [callbacks]
+ *   - Function: 리워드 보상 획득 콜백(onEarned)으로 취급 (하위호환).
+ *   - Object: { onEarned, onStarted }. onStarted 는 광고 로드 완료 후 실제 표시 직전 호출됨
+ *     → 로딩 인디케이터를 네이티브 광고 표시 시점에 정확히 넘겨줄 때 사용.
  */
-function showAd(key, onEarned) {
+function showAd(key, callbacks) {
     var k = key || "interstitial";
     return ensureInit().then(function (ok) {
         if (!ok || !_adapter || typeof _adapter.showAd !== "function") {
             return { success: false, error: "not-ready" };
         }
-        return _adapter.showAd(k, onEarned)
+        // 함수면 onEarned 단일 콜백, 객체면 {onEarned,onStarted} 그대로 전달 (KakaoAdapter.showAd 가 양형 모두 지원).
+        return _adapter.showAd(k, callbacks)
             .then(function (res) { return res || { success: false }; })
             .catch(function (e) { console.warn("[KakaoSDK] showAd 예외:", e); return { success: false, error: String(e) }; });
     });

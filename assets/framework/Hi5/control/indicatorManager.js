@@ -52,6 +52,8 @@ var IndicatorManager = (function () {
 
     return {
         show: function (parent, callback) {
+            // stale 참조 방어: 씬 전환 등으로 노드가 파괴됐는데 참조만 남은 경우 정리 후 재생성.
+            if (indicatorNode && !cc.isValid(indicatorNode)) { indicatorNode = null; }
             if (indicatorNode) { if (callback) callback(); return; }
             indicatorNode = buildIndicator();
             var scene = cc.director.getScene && cc.director.getScene();
@@ -73,13 +75,13 @@ var IndicatorManager = (function () {
 
         hide: function () {
             if (indicatorNode) {
-                indicatorNode.destroy();
+                if (cc.isValid(indicatorNode)) indicatorNode.destroy();
                 indicatorNode = null;
             }
         },
 
         isShowing: function () {
-            return indicatorNode !== null;
+            return indicatorNode !== null && cc.isValid(indicatorNode);
         }
     };
 })();

@@ -64,3 +64,6 @@ quick_gen_project_*_autogen.sh.meta
 #//////////////////////////
 
 .vscode/nul
+
+# 스플래시 적용 스크립트 백업
+*.bak

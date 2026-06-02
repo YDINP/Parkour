@@ -111,3 +111,26 @@ QA URL(빌드/업로드 후): https://qa-gameplay.game.kakao.com/h5/TS/QA/niopwg
 
 ## blockers
 - 현재 없음(코드 단계 전부 PASS). Phase B 의 빌드/splash/업로드는 별도 세션에서 위 명령으로 진행.
+
+---
+
+## 추가 작업 (2026-06-01) — 인디케이터를 SDK-native(cocos-loading-indicator 샘플)로 통일
+
+### 배경
+- "카카오 SDK native 인디케이터" = hi5-sdk 저장소의 공식 샘플 **`samples/cocos-loading-indicator`**
+  (반투명 dim + 회전 스피너, 봉봉/FriendMaker 검증 구조). 런타임 `window.HF` 에는 호출 가능한
+  인디케이터 API 없음(HF 멤버: Application/Player/Tracer/Share/Leaderboard/System/Web/Log/Ad/KakaoTalk + enum).
+  → 프로젝트의 cc2 포트인 `control/indicatorManager.js` 가 이 샘플의 cc2 등가물(프리팹/에셋 의존 0).
+
+### 변경 파일 (4)
+1. `business/kakaoSdk.js` — `showAd(key, callbacks)` 로 변경. `{onEarned, onStarted}` 객체 전달 지원(하위호환: 함수=onEarned).
+2. `Hi5/AdManager.ts` `showKakaoRewardAd` — 광고 요청 시 `IndicatorManager.show()` → `onStarted`(표시 직전) `hide()`
+   → `finish()` 안전 hide. f2496d2(인디케이터 제거)을 **lifecycle 연결 형태로 재도입** → 더블 인디케이터 근본 해소.
+   `IndicatorManager.show()` 를 `cc.director.pause()` 보다 먼저 호출(스피너 초기 프레임 보장).
+3. `ui/LoadingManager.ts` — `Loading.show/indicator/hide/hideIndicator` 를 SDK-native `IndicatorManager` 로 위임.
+   30곳+ 호출처(`Loading.show(0.5)` 등) 무수정, timeout 자동 hide 보존(scheduleOnce). 레거시 prefab 슬롯은 참조 보존용으로만 유지.
+4. `control/indicatorManager.js` — `cc.isValid` 가드 추가(씬 전환 stale 노드 방어).
+
+### 미해결/주의
+- LoadingManager 레거시 prefab/loadingText/rotate 속성은 더 이상 렌더에 사용 안 함(시그니처/씬 참조 호환용).
+- 에디터 빌드 후 실제 카카오 환경에서 리워드 광고 로드~표시 전환 시 인디케이터 인계 동작 육안 확인 필요.

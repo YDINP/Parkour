@@ -65,6 +65,14 @@ const onHi5Message = (data) => {
         // 서버에서 게임 데이터 수신
         console.log("[Hi5] Game data loaded from server");
         setHi5Flag('hi5Initialized', true);
+
+        // 카카오 한정: 가로 게임임을 호스트에 통보 → 네비(메인)메뉴 가로 배치 유도.
+        // PlatFormData(platform)는 GAME_DATA 수신 시점에 이미 채워져 있음(Hi5._OnMessage).
+        if (Hi5.getPlatform() === 'kakao' && !getHi5Flag('orientationSet')) {
+            setHi5Flag('orientationSet', true);
+            Hi5.setDeviceOrientation('landscape');
+            console.log("[Hi5] setDeviceOrientation('landscape') called for kakao");
+        }
     } else if (data.fromhi5action === Hi5.MESSAGE.START_GAME) {
         // 게임 시작 요청
         console.log("[Hi5] Start game requested");

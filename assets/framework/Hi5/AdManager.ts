@@ -135,6 +135,12 @@ class AdManagerClass {
     private showKakaoRewardAd(callback: (success: boolean) => void): void {
         console.log("[AdManager] showKakaoRewardAd (kakao 분기)");
 
+        // 인디케이터: 광고 로드(createAd) 구간 동안 SDK-native 인디케이터(IndicatorManager) 표시.
+        //   hi5-sdk 공식 cocos-loading-indicator 샘플 패턴 — show() → onStarted(표시 직전) hide() → finally hide().
+        //   onStarted 시점에 정확히 내려가므로 네이티브 광고 표시 화면과 겹치지 않음(이전 더블 인디케이터 문제 해소).
+        //   cc.director.pause() 보다 먼저 띄워야 스피너 tween 의 초기 프레임이 보장된다.
+        IndicatorManager.show(null, null);
+
         // 게임 일시정지 (이미 일시정지 상태가 아닌 경우에만)
         if (!this.wasPausedBeforeAd) {
             cc.director.pause();
@@ -142,12 +148,17 @@ class AdManagerClass {
         // 광고 중 오디오 정지 (음악+효과음 모두 + _onShow 자동 resume 차단)
         pauseAudioForAd();
 
-        // 인디케이터: 프로젝트 커스텀 스피너 제거 → 카카오 광고 SDK 네이티브 로딩에 일임
-        //   (커스텀+카카오 두 개가 겹쳐 보이던 문제 → 카카오 SDK 것 하나만 노출).
-
         let earned = false;
+        let indicatorHidden = false;
+        const hideIndicator = () => {
+            if (indicatorHidden) return;
+            indicatorHidden = true;
+            IndicatorManager.hide();
+        };
+
         // 모든 종료 경로(.then 성공/미보상/실패, .catch 예외)에서 호출 → 오디오 재개 보장
         const finish = (success: boolean, toastKey?: string) => {
+            hideIndicator();  // 안전망: onStarted 가 못 와도(로드 실패 등) 확실히 숨김
             if (!this.wasPausedBeforeAd) {
                 cc.director.resume();
             }
@@ -157,7 +168,10 @@ class AdManagerClass {
             try { callback(success); } catch (e) { console.warn("[AdManager] kakao callback 예외:", e); }
         };
 
-        kakaoSdk.showAd("reward", () => { earned = true; })
+        kakaoSdk.showAd("reward", {
+            onStarted: () => { hideIndicator(); },   // 광고 표시 시작 → 커스텀 인디케이터를 네이티브 광고에 인계
+            onEarned: () => { earned = true; }
+        })
             .then((res: any) => {
                 const rewarded = !!(res && res.success && (res.rewarded || earned));
                 if (rewarded) {

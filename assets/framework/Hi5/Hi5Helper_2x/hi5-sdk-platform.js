@@ -2113,35 +2113,35 @@ const DEFAULT_KAKAO_AD_UNITS = {
   interstitial: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   interstitial_result: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   /** 전면 캐릭터 저장 */
-  interstitial_save: { android: "DAN-g9qO4l4i9f1DSh32", ios: "DAN-ajd37C9znQY2yCBr" },
+  interstitial_save: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   /** 전면 ap 소모 */
-  interstitial_ap: { android: "DAN-TI8eLrFPsRdBpZ0D", ios: "DAN-R6OJrIQ25wag6fDX" },
+  interstitial_ap: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   // ───── 보상(rewarded) ─────
   /** 보상 아이템 사용 (기본 보상). `showAd('reward')` 의 기본 대상. */
   reward: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   reward_item: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 이어하기 */
-  reward_continue: { android: "DAN-rtwNGDD9m5z7xev9", ios: "DAN-mvwu3d8WxbrQ70PJ" },
+  reward_continue: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 출석보상 한 번 더 */
-  reward_daily_bonus: { android: "DAN-L3N6JROyEHktr9sT", ios: "DAN-6Unw9EYdy0rOMsnn" },
+  reward_daily_bonus: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 꾸미기 옷 획득 */
-  reward_outfit: { android: "DAN-kdamDb0ktxb1sC3X", ios: "DAN-Mxh99NuRenYl9cya" },
+  reward_outfit: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 버프 사용 — ⚠️ xlsx 원본에서 iOS도 동일 unitId로 기재되어 있음 (오기 가능, 카카오게임즈에 확인 필요) */
-  reward_buff: { android: "DAN-RPTW4vhLAZdRe76E", ios: "DAN-RPTW4vhLAZdRe76E" },
+  reward_buff: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 부활하기 */
-  reward_revive: { android: "DAN-LKi7AXJf7NKvxU9R", ios: "DAN-ELwzI3imH11eCHVi" },
+  reward_revive: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 아이템 획득 */
-  reward_item_gain: { android: "DAN-Nv6fdGoOtAQlfcH4", ios: "DAN-8tQjyIZZTveCllUB" },
+  reward_item_gain: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 무료 재화 획득 */
-  reward_currency: { android: "DAN-PTqL7CGSmcllRpnl", ios: "DAN-q46CD0eaZkn3cua0" },
+  reward_currency: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 보상 2배 획득 */
-  reward_double: { android: "DAN-Ocx252C5QBFyprow", ios: "DAN-7sIJJkcN54lDB0W2" },
+  reward_double: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 ap 충전 */
-  reward_ap_charge: { android: "DAN-VFWlV4iwYawfiSWf", ios: "DAN-Tpo75PSGjtpxUhPS" },
+  reward_ap_charge: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 시간 단축 */
-  reward_time_skip: { android: "DAN-W0YPnVcjwiyVNFW5", ios: "DAN-aiLrYApno819OVUk" },
+  reward_time_skip: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 펫 소환 */
-  reward_pet: { android: "DAN-aCV79jNyGsbcJnIi", ios: "DAN-DMbWnKWiQ6ALcsQD" }
+  reward_pet: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" }
 };
 const DEFAULT_KAKAO_SHARE_TEMPLATE = "showoff01";
 const DEFAULT_VIBRATION_HAPTIC = "ImpactMedium";

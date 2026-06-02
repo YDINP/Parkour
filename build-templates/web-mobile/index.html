@@ -183,6 +183,48 @@
     var MIN_DISPLAY_MS = 3000;
     var pendingTimer = null;
 
+    // ── 데이터 요금 안내 토스트 설정값 (프로젝트별 커스터마이즈) ──────────────
+    //   text 를 '' 로 두면 토스트 비활성화.
+    var DATA_FEE_TOAST = {
+      text: 'Wi-Fi가 아닌 환경에서는 데이터 요금이 발생할 수 있어요',
+      width: 364,            // px
+      height: 45,            // px
+      fontSize: 14,          // px
+      color: '#ffffff',
+      bg: 'rgba(66,66,66,0.75)',   // #424242 75%
+      radius: 12,            // px
+      blur: 20,              // px (backdrop-filter)
+      bottomPct: 12,         // 화면 하단에서의 위치 (%)
+      durationMs: 3000       // 표시~닫힘 총 시간 (3초 내)
+    };
+
+    // 스플래시 종료 직후 1회 표시, durationMs 내 fade-out & 제거.
+    function _showDataFeeToast() {
+      try {
+        var c = DATA_FEE_TOAST;
+        if (!c || !c.text) return;
+        if (window.__dataFeeToastShown) return;
+        // OAuth 콜백(?code=) 로드는 GNB 표시용 clean-URL reload 예정 → reload 후 깨끗한 로드에서 표시.
+        if (/[?&]code=/i.test(location.search || '')) return;
+        window.__dataFeeToastShown = true;
+        var t = document.createElement('div');
+        t.id = 'data-fee-toast';
+        t.textContent = c.text;
+        t.style.cssText =
+          'position:fixed;left:50%;bottom:' + c.bottomPct + '%;transform:translateX(-50%);' +
+          'width:' + c.width + 'px;height:' + c.height + 'px;box-sizing:border-box;' +
+          'display:flex;align-items:center;justify-content:center;padding:0 12px;' +
+          'font-size:' + c.fontSize + 'px;line-height:1.2;color:' + c.color + ';white-space:nowrap;' +
+          'background:' + c.bg + ';backdrop-filter:blur(' + c.blur + 'px);-webkit-backdrop-filter:blur(' + c.blur + 'px);' +
+          'border-radius:' + c.radius + 'px;z-index:100000;pointer-events:none;opacity:0;transition:opacity 0.3s ease;';
+        document.body.appendChild(t);
+        var rAF2 = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : function (cb) { return setTimeout(cb, 16); };
+        rAF2(function () { rAF2(function () { t.style.opacity = '1'; }); });
+        setTimeout(function () { t.style.opacity = '0'; }, Math.max(0, c.durationMs - 300));
+        setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, c.durationMs + 50);
+      } catch (e) {}
+    }
+
     function _actuallyHide() {
       if (!splash || splash.dataset.hidden) return;
       splash.dataset.hidden = '1';
@@ -193,6 +235,7 @@
       // 2) 로고 fade-out 끝난 직후 splash 자체를 일순간에 DOM 제거 (배경도 같이 사라짐)
       setTimeout(function () {
         if (splash.parentNode) splash.parentNode.removeChild(splash);
+        _showDataFeeToast();   // 스플래시 종료 직후 데이터 요금 안내 토스트
       }, 620);   // CSS transition 600ms + 약간의 여유
     }
 

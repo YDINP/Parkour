@@ -309,11 +309,12 @@ export default class PlayerInfoDC extends DataCenter {
             console.log("[Hi5] GameEnd called, score submitted:", this.tmpScore);
         }
 
-        // 카카오 리더보드 점수 제출 (isHi5Platform 와 별도 분기 — 카카오는 해당 가드에서 제외됨)
+        // 카카오 리더보드 제출 — 승리 시에만 "클리어한 스테이지(playinglv)"를 제출
+        // (isHi5Platform 와 별도 분기 — 카카오는 해당 가드에서 제외됨)
         const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
-        if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
-            kakaoSdk.submitScore(this.tmpScore);
-            console.log("[KakaoSDK] submitScore 호출:", this.tmpScore);
+        if (isWin && kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+            kakaoSdk.submitScore(this.playinglv);
+            console.log("[KakaoSDK] submitScore 호출(클리어 스테이지):", this.playinglv);
         }
     }
 

@@ -1,3 +1,7 @@
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.6.15  (source: dist/cjs/index.js)
+// Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
+// 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/index.js 를 이 파일로 복사(헤더 재삽입).
+// Exports: Hi5 (레거시 콜백 API), async (Promise/adapter API), detectPlatform, isStandalone
 'use strict';
 
 const _Hi5 = {
@@ -328,6 +332,9 @@ function isSafeAreaCapable(adapter) {
 function isRankCapable(adapter) {
   return adapter.hasCapability("rank") && typeof adapter.submitScore === "function";
 }
+function isShareCapable(adapter) {
+  return adapter.hasCapability("share") && typeof adapter.shareText === "function";
+}
 function isLifecycleCapable(adapter) {
   return adapter.hasCapability("lifecycle") && typeof adapter.gameStart === "function";
 }
@@ -424,7 +431,7 @@ var __spreadValues = (a, b) => {
   return a;
 };
 var __publicField$2 = (obj, key, value) => __defNormalProp$2(obj, typeof key !== "symbol" ? key + "" : key, value);
-var __async$a = (__this, __arguments, generator) => {
+var __async$b = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -476,7 +483,7 @@ class Hi5Adapter {
    * 멱등성: 이미 초기화된 경우 즉시 success 반환.
    */
   init(loading, options) {
-    return __async$a(this, null, function* () {
+    return __async$b(this, null, function* () {
       if (this._initialized) {
         logger.warn("\uC774\uBBF8 \uCD08\uAE30\uD654\uB428. \uAC74\uB108\uB700.");
         return { success: true };
@@ -665,7 +672,7 @@ class Hi5Adapter {
     return ads ? Object.keys(ads) : [];
   }
   showAd(keyOrRawId, onEarnedOrCallbacks) {
-    return __async$a(this, null, function* () {
+    return __async$b(this, null, function* () {
       var _a, _b;
       const callbacks = typeof onEarnedOrCallbacks === "function" ? { onEarned: onEarnedOrCallbacks } : onEarnedOrCallbacks != null ? onEarnedOrCallbacks : {};
       const onEarned = callbacks.onEarned;
@@ -759,7 +766,7 @@ class Hi5Adapter {
     return { success: false, error: `\uC0C1\uD488\uC744 \uCC3E\uC744 \uC218 \uC5C6\uC74C: ${productKey}` };
   }
   purchase(keyOrRawId) {
-    return __async$a(this, null, function* () {
+    return __async$b(this, null, function* () {
       var _a;
       try {
         const productResult = this._resolveProduct(keyOrRawId);
@@ -860,7 +867,7 @@ class Hi5Adapter {
 var __defProp$1 = Object.defineProperty;
 var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField$1 = (obj, key, value) => __defNormalProp$1(obj, typeof key !== "symbol" ? key + "" : key, value);
-var __async$9 = (__this, __arguments, generator) => {
+var __async$a = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -985,7 +992,7 @@ function bytesToBase64(bytes) {
   return btoa(bin);
 }
 function encryptLeaderboardScore(score, encryptionKeyB64, sdk) {
-  return __async$9(this, null, function* () {
+  return __async$a(this, null, function* () {
     const lb = sdk.leaderboards;
     if (lb && typeof lb.encryptScore === "function") {
       return yield lb.encryptScore(score, encryptionKeyB64);
@@ -1043,7 +1050,7 @@ class CrazyGamesAdapter {
    * 멱등성: 이미 초기화된 경우 즉시 반환.
    */
   init(loading, _options) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       var _a;
       if (this._initialized) {
         return { success: true };
@@ -1094,7 +1101,7 @@ class CrazyGamesAdapter {
   //   onEarned 콜백은 type === 'rewarded'일 때만 호출.
   // ============================================
   showAd(keyOrRawId, onEarnedOrCallbacks) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) {
         return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
@@ -1179,7 +1186,7 @@ class CrazyGamesAdapter {
    * 초기화 전 호출되면 false 반환 (안전 fallback).
    */
   hasAdblock() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return false;
       try {
@@ -1213,7 +1220,7 @@ class CrazyGamesAdapter {
   //   활성 게임플레이 중 표시 금지 — 호출 위치는 게임 책임.
   // ============================================
   requestBanner(containerId, size) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       const dim = BANNER_DIMENSIONS[size];
@@ -1231,7 +1238,7 @@ class CrazyGamesAdapter {
     });
   }
   requestResponsiveBanner(containerId) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       try {
@@ -1274,7 +1281,7 @@ class CrazyGamesAdapter {
     }
   }
   getUser() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return null;
       try {
@@ -1287,7 +1294,7 @@ class CrazyGamesAdapter {
     });
   }
   showAuthPrompt() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       try {
@@ -1299,7 +1306,7 @@ class CrazyGamesAdapter {
     });
   }
   getUserToken() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       try {
@@ -1311,7 +1318,7 @@ class CrazyGamesAdapter {
     });
   }
   showAccountLinkPrompt() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       try {
@@ -1373,7 +1380,7 @@ class CrazyGamesAdapter {
     }
   }
   listFriends(options) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       var _a, _b, _c, _d, _e;
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
@@ -1411,7 +1418,7 @@ class CrazyGamesAdapter {
   //   submitScore 네임스페이스가 SDK 버전마다 다를 수 있어 leaderboards → user 순으로 탐색.
   // ============================================
   submitLeaderboardScore(score, encryptionKey) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       let encryptedScore;
@@ -1439,7 +1446,7 @@ class CrazyGamesAdapter {
     });
   }
   getLeaderboardEntries(options) {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       var _a;
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
@@ -1456,7 +1463,7 @@ class CrazyGamesAdapter {
     });
   }
   getPlayerLeaderboardEntry() {
-    return __async$9(this, null, function* () {
+    return __async$a(this, null, function* () {
       const sdk = this._sdk;
       if (!sdk) return { success: false, error: "CrazyGames SDK \uBBF8\uCD08\uAE30\uD654" };
       const lb = sdk.leaderboards;
@@ -1507,7 +1514,7 @@ registerAdapter({
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-var __async$8 = (__this, __arguments, generator) => {
+var __async$9 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -1546,7 +1553,7 @@ class StandaloneAdapter {
     return this._initialized;
   }
   init(loading, _options) {
-    return __async$8(this, null, function* () {
+    return __async$9(this, null, function* () {
       if (this._initialized) {
         return { success: true };
       }
@@ -1564,7 +1571,7 @@ class StandaloneAdapter {
   // AdCapable (mock)
   // ============================================
   showAd(_keyOrRawId, onEarned) {
-    return __async$8(this, null, function* () {
+    return __async$9(this, null, function* () {
       if (onEarned) onEarned({ type: "mock" });
       return { success: true, rewarded: true };
     });
@@ -1623,7 +1630,7 @@ registerAdapter({
   create: () => new StandaloneAdapter()
 });
 
-var __async$7 = (__this, __arguments, generator) => {
+var __async$8 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -1659,7 +1666,7 @@ function isInitialized() {
   return hasActiveAdapter() && getActiveAdapter$1().isInitialized();
 }
 function init(arg1, arg2, arg3) {
-  return __async$7(this, null, function* () {
+  return __async$8(this, null, function* () {
     let adapter;
     let loading;
     let options;
@@ -1831,7 +1838,7 @@ function clearData() {
   _lastWarnLevel = "none";
 }
 
-var __async$6 = (__this, __arguments, generator) => {
+var __async$7 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -1859,7 +1866,7 @@ function getAdLifecycleConfig() {
   return _adLifecycleConfig;
 }
 function showAd(keyOrRawId, onEarnedOrOptions) {
-  return __async$6(this, null, function* () {
+  return __async$7(this, null, function* () {
     var _a, _b;
     const adapter = getActiveAdapter();
     if (!isAdCapable(adapter)) {
@@ -1919,7 +1926,7 @@ function showAd(keyOrRawId, onEarnedOrOptions) {
   });
 }
 function hasAdblock() {
-  return __async$6(this, null, function* () {
+  return __async$7(this, null, function* () {
     const adapter = getActiveAdapter();
     if (isAdCapable(adapter) && typeof adapter.hasAdblock === "function") {
       try {
@@ -2067,7 +2074,7 @@ function hideKakaoSplash() {
   }
 }
 
-var __async$5 = (__this, __arguments, generator) => {
+var __async$6 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -2092,14 +2099,14 @@ const UNSUPPORTED$3 = {
   error: "\uD604\uC7AC \uD50C\uB7AB\uD3FC\uC740 \uBC30\uB108 \uAD11\uACE0\uB97C \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
 };
 function showBanner(containerId, size) {
-  return __async$5(this, null, function* () {
+  return __async$6(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isBannerCapable(adapter)) return UNSUPPORTED$3;
     return adapter.requestBanner(containerId, size);
   });
 }
 function showResponsiveBanner(containerId) {
-  return __async$5(this, null, function* () {
+  return __async$6(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isBannerCapable(adapter)) return UNSUPPORTED$3;
     return adapter.requestResponsiveBanner(containerId);
@@ -2114,7 +2121,7 @@ function clearAllBanners() {
   if (adapter && isBannerCapable(adapter)) adapter.clearAllBanners();
 }
 
-var __async$4 = (__this, __arguments, generator) => {
+var __async$5 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -2140,28 +2147,28 @@ function isAccountAvailable() {
   return !!adapter && isUserAccountCapable(adapter) && adapter.isUserAccountAvailable();
 }
 function getUser() {
-  return __async$4(this, null, function* () {
+  return __async$5(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isUserAccountCapable(adapter)) return null;
     return adapter.getUser();
   });
 }
 function showAuthPrompt() {
-  return __async$4(this, null, function* () {
+  return __async$5(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isUserAccountCapable(adapter)) return NO_ACCOUNT;
     return adapter.showAuthPrompt();
   });
 }
 function getUserToken() {
-  return __async$4(this, null, function* () {
+  return __async$5(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isUserAccountCapable(adapter)) return NO_ACCOUNT;
     return adapter.getUserToken();
   });
 }
 function showAccountLinkPrompt() {
-  return __async$4(this, null, function* () {
+  return __async$5(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isUserAccountCapable(adapter)) return NO_ACCOUNT;
     return adapter.showAccountLinkPrompt();
@@ -2183,14 +2190,14 @@ function getSystemInfo() {
   return adapter.getSystemInfo();
 }
 function listFriends(options) {
-  return __async$4(this, null, function* () {
+  return __async$5(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isUserAccountCapable(adapter)) return NO_ACCOUNT;
     return adapter.listFriends(options);
   });
 }
 
-var __async$3 = (__this, __arguments, generator) => {
+var __async$4 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -2212,7 +2219,7 @@ var __async$3 = (__this, __arguments, generator) => {
 };
 const UNSUPPORTED$2 = { success: false, error: "\uD604\uC7AC \uD50C\uB7AB\uD3FC\uC740 \uB9AC\uB354\uBCF4\uB4DC\uB97C \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4" };
 function submitLeaderboardScore(score, encryptionKey) {
-  return __async$3(this, null, function* () {
+  return __async$4(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isLeaderboardCapable(adapter)) return UNSUPPORTED$2;
     return adapter.submitLeaderboardScore(score, encryptionKey);
@@ -2221,7 +2228,7 @@ function submitLeaderboardScore(score, encryptionKey) {
 const LEADERBOARD_ENDPOINT = "https://leaderboard.crazygames.com/leaderboard/scores";
 const MAX_BATCH = 100;
 function submitLeaderboardScoresServerSide(options) {
-  return __async$3(this, null, function* () {
+  return __async$4(this, null, function* () {
     var _a;
     const { apiKey, scores } = options;
     if (!apiKey) return { success: false, error: "apiKey\uAC00 \uBE44\uC5B4 \uC788\uC2B5\uB2C8\uB2E4" };
@@ -2295,7 +2302,7 @@ function submitLeaderboardScoresServerSide(options) {
   });
 }
 function getLeaderboardEntries(options) {
-  return __async$3(this, null, function* () {
+  return __async$4(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isLeaderboardCapable(adapter) || typeof adapter.getLeaderboardEntries !== "function") {
       return UNSUPPORTED$2;
@@ -2304,7 +2311,7 @@ function getLeaderboardEntries(options) {
   });
 }
 function getPlayerLeaderboardEntry() {
-  return __async$3(this, null, function* () {
+  return __async$4(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isLeaderboardCapable(adapter) || typeof adapter.getPlayerLeaderboardEntry !== "function") {
       return UNSUPPORTED$2;
@@ -2313,7 +2320,7 @@ function getPlayerLeaderboardEntry() {
   });
 }
 
-var __async$2 = (__this, __arguments, generator) => {
+var __async$3 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -2338,7 +2345,7 @@ const UNSUPPORTED$1 = {
   error: "\uD604\uC7AC \uD50C\uB7AB\uD3FC\uC740 \uD574\uB2F9 \uB7AD\uD0B9 \uAE30\uB2A5\uC744 \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
 };
 function submitScoreAsync(options) {
-  return __async$2(this, null, function* () {
+  return __async$3(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isRankCapable(adapter) || typeof adapter.submitScoreAsync !== "function") {
       return UNSUPPORTED$1;
@@ -2347,7 +2354,7 @@ function submitScoreAsync(options) {
   });
 }
 function accumulateScore(options) {
-  return __async$2(this, null, function* () {
+  return __async$3(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isRankCapable(adapter) || typeof adapter.accumulateScore !== "function") {
       return UNSUPPORTED$1;
@@ -2356,7 +2363,7 @@ function accumulateScore(options) {
   });
 }
 function setRankProperties(properties) {
-  return __async$2(this, null, function* () {
+  return __async$3(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isRankCapable(adapter) || typeof adapter.setLeaderboardProperties !== "function") {
       return UNSUPPORTED$1;
@@ -2365,7 +2372,7 @@ function setRankProperties(properties) {
   });
 }
 function getMyRanking(options) {
-  return __async$2(this, null, function* () {
+  return __async$3(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isRankCapable(adapter) || typeof adapter.getMyRanking !== "function") {
       return UNSUPPORTED$1;
@@ -2374,12 +2381,88 @@ function getMyRanking(options) {
   });
 }
 function getRankings(options) {
-  return __async$2(this, null, function* () {
+  return __async$3(this, null, function* () {
     const adapter = getActiveAdapterOrNull();
     if (!adapter || !isRankCapable(adapter) || typeof adapter.getRankings !== "function") {
       return UNSUPPORTED$1;
     }
     return adapter.getRankings(options);
+  });
+}
+
+var __async$2 = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
+function isShareAvailable() {
+  try {
+    if (!isInitialized()) return false;
+    const adapter = getActiveAdapterOrNull();
+    if (!adapter || !isShareCapable(adapter)) return false;
+    return typeof adapter.shareTemplate === "function";
+  } catch (e) {
+    return false;
+  }
+}
+function getCachedUser() {
+  var _a;
+  try {
+    if (!isInitialized()) return null;
+    const adapter = getActiveAdapterOrNull();
+    if (!adapter || typeof adapter.getCachedUser !== "function") return null;
+    return (_a = adapter.getCachedUser()) != null ? _a : null;
+  } catch (e) {
+    return null;
+  }
+}
+function safeShareTemplate(templateArgsOrCode, maybeTemplateArgs) {
+  return __async$2(this, null, function* () {
+    let templateCode;
+    let templateArgs;
+    if (typeof templateArgsOrCode === "string") {
+      templateCode = templateArgsOrCode;
+      templateArgs = maybeTemplateArgs;
+    } else {
+      templateArgs = templateArgsOrCode;
+    }
+    if (!isInitialized()) {
+      return { success: false, error: "Share: SDK \uBBF8\uCD08\uAE30\uD654" };
+    }
+    const adapter = getActiveAdapterOrNull();
+    if (!adapter || !isShareCapable(adapter) || typeof adapter.shareTemplate !== "function") {
+      return { success: false, error: "\uD604\uC7AC \uD50C\uB7AB\uD3FC\uC740 \uD15C\uD50C\uB9BF \uACF5\uC720\uB97C \uC9C0\uC6D0\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4" };
+    }
+    try {
+      const payload = {};
+      if (templateCode) payload.templateCode = templateCode;
+      if (templateArgs) payload.templateArgs = templateArgs;
+      return yield adapter.shareTemplate(payload);
+    } catch (err) {
+      const error = err instanceof Error ? err.message : String(err);
+      logger.warn(`shareTemplate \uC608\uC678: ${error}`);
+      return { success: false, error };
+    }
+  });
+}
+function shareGameResult(args) {
+  return __async$2(this, null, function* () {
+    return safeShareTemplate(args);
   });
 }
 
@@ -2468,6 +2551,7 @@ var index = /*#__PURE__*/Object.freeze({
     gameStart: gameStart,
     getActiveAdapter: getActiveAdapter,
     getAdLifecycleConfig: getAdLifecycleConfig,
+    getCachedShareUser: getCachedUser,
     getItem: getItem,
     getLeaderboardEntries: getLeaderboardEntries,
     getLogLevel: getLogLevel,
@@ -2488,10 +2572,12 @@ var index = /*#__PURE__*/Object.freeze({
     isAccountAvailable: isAccountAvailable,
     isCrazyGamesDomain: isCrazyGamesDomain,
     isInitialized: isInitialized,
+    isShareAvailable: isShareAvailable,
     listFriends: listFriends,
     onAuthChange: onAuthChange,
     purchase: purchase,
     removeItem: removeItem,
+    safeShareTemplate: safeShareTemplate,
     saveData: saveData,
     sendLog: sendLog,
     setAdLifecycleConfig: setAdLifecycleConfig,
@@ -2499,6 +2585,7 @@ var index = /*#__PURE__*/Object.freeze({
     setItem: setItem,
     setLogLevel: setLogLevel,
     setRankProperties: setRankProperties,
+    shareGameResult: shareGameResult,
     showAccountLinkPrompt: showAccountLinkPrompt,
     showAd: showAd,
     showAuthPrompt: showAuthPrompt,
