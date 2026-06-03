@@ -115,6 +115,28 @@
             transition: width 0.3s ease;
         }
     </style>
+    <!--
+      Kakao SDK GNB 오버레이 가로모드(landscape) 보정 — 게임 측 로컬 커스텀.
+      sentinel(BEGIN/END kakao-splash) 바깥에 두어 apply-kakao-splash.mjs 재실행에도 보존됨.
+      가로모드에서 GNB 모달이 화면 절반 이상 차지하거나 정렬이 깨질 때 강제로
+      가운데 + max-height/width 클램프 + 스크롤 허용으로 안전 표시.
+      효과가 충분하면 SDK 본체(docs/kakao/templates/kakao-splash.html)로 이관 검토.
+    -->
+    <style id="kakao-gnb-landscape-fix">
+        @media (orientation: landscape) {
+            #sdk-gnb-overlay {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            #sdk-gnb-overlay > * {
+                max-height: 92vh !important;
+                max-width: min(440px, 92vw) !important;
+                overflow: auto !important;
+                margin: auto !important;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- BEGIN kakao-splash (hi5-sdk) -->
