@@ -232,8 +232,23 @@ export default class Player extends cc.Component implements FizzCollideInterface
                     return;
                 }
                 if (this.skeleton && this.skeleton.skeleton && skeletonData) {
-                    this.skeleton.skeleton.skeletonData = skeletonData;
-                    this.skeleton.skeleton.setAnimation(0, "Idle", true);
+                    const sk = this.skeleton.skeleton;
+                    // 비동기 스왑 시점에 이미 재생 중인 애니메이션(주로 Run)을 보존한다.
+                    // 무조건 "Idle"로 덮으면, 게임 시작 후 달리기가 시작된 뒤 이 콜백이
+                    // 늦게 도착할 때 Idle로 멈춰버린다(Idle엔 player_walk 이벤트가 없어 영구 정지).
+                    let resumeAnim = "Idle";
+                    let resumeLoop = true;
+                    const cur = (typeof sk.getCurrent === "function") ? sk.getCurrent(0) : null;
+                    if (cur && cur.animation && cur.animation.name) {
+                        resumeAnim = cur.animation.name;
+                        resumeLoop = cur.loop;
+                    }
+                    sk.skeletonData = skeletonData;
+                    try {
+                        sk.setAnimation(0, resumeAnim, resumeLoop);
+                    } catch (e) {
+                        sk.setAnimation(0, "Idle", true);
+                    }
                     // 튜브 영웅(ID 6)일 때 스파인 스케일 0.8배
                     if (heroId === "6") {
                         this.skeleton.node.scale = 0.8;

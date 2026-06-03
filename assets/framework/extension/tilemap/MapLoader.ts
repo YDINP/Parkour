@@ -63,10 +63,23 @@ export default class MapLoader extends cc.Component {
 
 
     onLoad() {
-        // this.label.string = "加载..."
+        // 가시영역 변경(폴드 펼침/회전/리사이즈) 시 카메라 추적 경계 재계산.
+        //   ResolutionManager 가 cc.view 리사이즈에서 'resolution:changed' 를 emit 한다.
+        cc.director.on('resolution:changed', this._refreshFollowBoundary, this);
+    }
+
+    onDestroy() {
+        cc.director.off('resolution:changed', this._refreshFollowBoundary, this);
     }
 
     start() {
+    }
+
+    // SmoothFollow 의 _fullScreenSize/경계를 현재 가시영역(cc.winSize) 기준으로 다시 잡는다.
+    private _refreshFollowBoundary() {
+        if (!this.followAction) return;
+        if (this.followAction.refreshScreenSize) this.followAction.refreshScreenSize();
+        this.followAction.updateBoundary(this._getFollowRect(this.mapWidth, this.mapHeight));
     }
 
     @property()
@@ -106,6 +119,7 @@ export default class MapLoader extends cc.Component {
             tiledmap.node.setAnchorPoint(0, 0)
             tiledmap.node.setPosition(this.mapWidth, 0)
             this.mapWidth += layerWalker.mapSizeInPixel.width;
+            if (this.followAction.refreshScreenSize) this.followAction.refreshScreenSize();
             this.followAction.updateBoundary(this._getFollowRect(this.mapWidth, this.mapHeight));
             this.loadedTmxs.push(layerWalker);
             return Promise.resolve(layerWalker)
@@ -183,6 +197,9 @@ export default class MapLoader extends cc.Component {
         // follow  options
         this.followAction = cc.smoothFollow(this.playerNode, this._getFollowRect(this.mapWidth, this.mapHeight), this.followSpeed, this.followOffset)
         this.tiledmap.node.runAction(this.followAction)
+        // 로드 직후 가시영역이 아직 확정 전(웹뷰 회전/폴드 등)일 수 있어 다음 프레임/직후 재계산.
+        this.scheduleOnce(this._refreshFollowBoundary, 0);
+        this.scheduleOnce(this._refreshFollowBoundary, 0.2);
     }
 
     loadMapContent(tiledmap: cc.TiledMap): Promise<TmxLayerWalker> {

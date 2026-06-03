@@ -145,6 +145,15 @@ cc.SmoothFollow = cc.Class({
         }
     },
 
+    // 가시영역(cc.winSize)은 폴드 펼침/회전/리사이즈로 로드 후 바뀔 수 있다.
+    // initWithTarget 에서 1회만 캡처한 _fullScreenSize 가 stale 해지면 경계가 좁게 잡혀
+    // 가로로 넓은 화면에서 맵 우측 밖이 노출(검은 영역)된다 → 현재 winSize 로 재계산.
+    refreshScreenSize: function () {
+        var winSize = cc.winSize;
+        this._fullScreenSize = cc.v2(winSize.width, winSize.height);
+        this._halfScreenSize = this._fullScreenSize.mul(0.5);
+    },
+
     step: function (dt) {
         var targetWorldPos = this.target.convertToWorldSpaceAR(cc.Vec2.ZERO);
         var followedWorldPos = this._followedNode.convertToWorldSpaceAR(cc.Vec2.ZERO.add(this._followOffset));

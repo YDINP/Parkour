@@ -105,6 +105,11 @@ export default class Game extends mvcView implements ITileObjectFactory {
     onLoad() {
         Game.instance = this;
         root = this;
+        // 인게임 해상도 정책: 디자인보다 가로로 넓으면 높이고정(가로 채움), 좁으면 너비고정(세로 채움).
+        //   Canvas 기본값 fitWidth+fitHeight=SHOW_ALL 은 와이드에서 좌우 검은 레터박스를 만든다 → 회피.
+        //   loadMap/카메라 추적(start)보다 먼저 적용해 winSize 가 올바른 값으로 잡히게 한다.
+        this._applyAdaptiveResolution();
+        cc.director.on('resolution:changed', this._applyAdaptiveResolution, this);
         this.playControls = this.getComponentInChildren(UIPlayControls);
         this.player = this.getComponentInChildren(Player);
 
@@ -124,6 +129,25 @@ export default class Game extends mvcView implements ITileObjectFactory {
 
         // 장애물 레이어 클리핑은 loadMap()에서 obstacleLayer 생성 후 호출됨
         // this.setupObstacleLayerClipping();
+    }
+
+    /** 화면비에 따라 Canvas 정책을 FIXED_HEIGHT(가로 넓음)/FIXED_WIDTH(세로 넓음)로 적응 → 레터박스 제거. */
+    private _applyAdaptiveResolution() {
+        const canvas = cc.Canvas.instance;
+        if (!canvas) return;
+        const design = canvas.designResolution;
+        const designRatio = design.width / design.height;
+        const frame = cc.view.getFrameSize();
+        const screenRatio = frame.width / frame.height;
+        if (screenRatio >= designRatio) {
+            // 가로로 넓음 → 높이 고정, 가로 확장(좌우 더 보임, 검은띠 없음)
+            canvas.fitHeight = true;
+            canvas.fitWidth = false;
+        } else {
+            // 세로로 김 → 너비 고정, 세로 확장
+            canvas.fitWidth = true;
+            canvas.fitHeight = false;
+        }
     }
 
     /**
@@ -188,6 +212,7 @@ export default class Game extends mvcView implements ITileObjectFactory {
 
 
     onDestroy() {
+        cc.director.off('resolution:changed', this._applyAdaptiveResolution, this);
         root = null;
         //保存
         pdata.save("diamond")
@@ -219,40 +244,11 @@ export default class Game extends mvcView implements ITileObjectFactory {
         pdata.enterGame();
 
         this.loadMap();
-
-        // transition_gradient 위치를 가로 긴 화면에서 맵 우측에 맞춤
-        this.adjustTransitionGradient();
     }
-
-    /**
-     * 가로로 긴 화면에서 transition_gradient가 Canvas 우측이 아닌 맵 우측에 위치하도록 조정
-     */
-    adjustTransitionGradient() {
-        let uiLayer = cc.find("Canvas/uilayer");
-        if (!uiLayer) return;
-        let transitionNode = uiLayer.getChildByName("transition_gradient");
-        if (!transitionNode) return;
-
-        // Canvas design resolution: 1136x640
-        // 맵 우측 끝: designWidth/2 = 568
-        const designWidth = 1136;
-        const mapRightEdge = designWidth / 2; // 568
-
-        // 실제 visibleRect 너비와 Canvas 너비의 차이 계산
-        // fitWidth=true, fitHeight=true (SHOW_ALL) 모드에서
-        // 가로가 더 길면 Canvas가 가로로 확장됨
-        let canvasWidth = cc.visibleRect.width;
-        let canvasRightEdge = canvasWidth / 2;
-
-        // Widget 컴포넌트의 right 값을 조정하여 맵 우측에 위치하도록
-        let widget = transitionNode.getComponent(cc.Widget);
-        if (widget) {
-            // 맵 우측과 Canvas 우측의 차이만큼 오프셋
-            let offset = canvasRightEdge - mapRightEdge;
-            widget.right = offset;
-            widget.updateAlignment();
-        }
-    }
+    // adjustTransitionGradient() 제거:
+    //   transition_gradient(전환 와이프용 우측 10px 스트립)는 Widget(alignRight, right=0)으로
+    //   이미 실제 화면 우측 끝에 정렬된다(uilayer 가 전체화면 stretch). 기존 함수는 right 를 양수로
+    //   덮어써 디자인 1136 경계(=와이드에서 화면 중앙)로 밀어 검은 세로선처럼 보이게 했음 → 제거.
 
     onLoadFinished(params?) {
         if (params) {

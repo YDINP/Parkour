@@ -11,21 +11,26 @@ const IndicatorManager = require("./control/indicatorManager");
 declare const window: any;
 
 // ── 광고 중 오디오 정지 유틸 (114 Hi5Ad 패턴) ───────────────────────────────
-// 카카오 광고는 별도 창/포커스 전환을 유발해 CC2.x 엔진의 cc.audioEngine._onShow가
-// 자동으로 resumeAll()을 호출 → 광고 도중 게임 BGM/효과음이 다시 재생되는 버그가 있음.
-// pauseMusic()만으로는 효과음(playEffect)이 멈추지 않고, 포커스 복귀 시 음악도 되살아남.
-// 따라서 _onShow를 광고 중 no-op으로 monkey-patch하고, pauseAll()+stopAllEffects()로
-// 음악·효과음을 모두 정지한다. (Device.bgm/효과음 모두 cc.audioEngine 경유 → 단일 정지로 커버)
+// 카카오 광고는 별도 창/포커스 전환(EVENT_HIDE/SHOW)을 유발 → CC2.x 엔진이 포커스 복귀 시
+// 오디오를 자동 재개 → 광고 도중 게임 BGM/효과음이 되살아나는 버그(특히 iOS 광고 오버레이).
+//
+// 주의: CC 2.4.x 엔진에는 cc.audioEngine._onShow 가 없다(과거 가정 오류 → 패치가 죽은 코드였음).
+//   실제 자동 재개는 _restore()(EVENT_SHOW 에 등록, _break 캐시분을 resume)가 담당하고,
+//   resumeAll()/resumeMusic() 은 수동 재개 경로다. 핸들러 이름 의존을 버리고 이 재개 진입점들을
+//   광고 중(__isWatchingAd) 모두 no-op 으로 막아야 iOS 에서 BGM 이 되살아나지 않는다.
+//   (Device.bgm/효과음 모두 cc.audioEngine 경유 → pauseAll()+stopAllEffects() 로 정지 커버)
 function patchAudioEngineOnShow(): void {
     const ae: any = cc.audioEngine as any;
-    if (ae.__onShowPatched) return;
-    const orig = ae._onShow ? ae._onShow.bind(ae) : null;
-    if (!orig) return;
-    ae._onShow = function () {
-        if (window.__isWatchingAd) return;  // 광고 중에는 자동 resume 차단
-        orig();
-    };
-    ae.__onShowPatched = true;
+    if (ae.__adResumeGuardPatched) return;
+    ["resumeAll", "resumeMusic", "_restore"].forEach((n) => {
+        if (typeof ae[n] !== "function") return;
+        const orig = ae[n];
+        ae[n] = function () {
+            if (window.__isWatchingAd) return;  // 광고 중 자동/수동 재개 모두 차단
+            return orig.apply(ae, arguments);
+        };
+    });
+    ae.__adResumeGuardPatched = true;
 }
 
 function pauseAudioForAd(): void {

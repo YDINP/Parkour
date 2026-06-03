@@ -95,10 +95,14 @@ export default class ParallaxNode extends cc.Component {
         if (this.horizontal_repeat) {
             this.node.x = this.dir * (this.refrenceNode.x - this.refrecenOffset.x) * this.offset.x;
             this.node.x = this.node.x % this.size.width
+            // 서브픽셀 위치는 복제본 경계에서 1px seam(검은 세로선)을 만든다 → 정수 픽셀로 스냅.
+            //   (SmoothFollow 가 타일맵에 쓰는 것과 동일한 처리)
+            this.node.x = Math.round(this.node.x);
         }
         else if (this.vertical_repeat) {
             this.node.y = this.dir * (this.refrenceNode.y - this.refrecenOffset.y) * this.offset.y;
             this.node.y = this.node.y % this.size.height
+            this.node.y = Math.round(this.node.y);
         }
         // this.node.y = this.node.y % this.size.height
     }

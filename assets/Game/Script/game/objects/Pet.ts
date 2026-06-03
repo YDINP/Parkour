@@ -21,6 +21,7 @@ export default class Pet extends cc.Component {
     data: PetData = null;
 
     skeleton: SkeletonComponent = null;
+    dragon: dragonBones.ArmatureDisplay = null;
     buffSystem: BuffSystem = null;
 
     body: FizzBody = null;
@@ -31,6 +32,12 @@ export default class Pet extends cc.Component {
         this.follower.offset = cc.v2(-100, 100);
 
         this.skeleton = gUtil.getOrAddComponent(this, SkeletonComponent)
+        // 펫 프리팹은 spine이 아니라 dragonBones를 사용한다.
+        // SkeletonComponent.play()는 spine 전용이라 dragonBones 펫에서는 no-op이 되므로
+        // dragonBones 컴포넌트가 있으면 그쪽으로 직접 재생한다.
+        if (typeof dragonBones !== 'undefined') {
+            this.dragon = this.getComponent(dragonBones.ArmatureDisplay);
+        }
         this.buffSystem = gUtil.getOrAddComponent(this, BuffSystem)
         this.body = gUtil.getOrAddComponent(this, FizzBody);
         this.body.isTrigger = true;
@@ -82,12 +89,19 @@ export default class Pet extends cc.Component {
     }
 
     collect() {
-
         //collect
+        if (this.dragon) {
+            this.dragon.playAnimation("collect", 0); // 0 = 무한 루프
+            return;
+        }
         this.skeleton.play("collect", 0)
     }
 
     run() {
+        if (this.dragon) {
+            this.dragon.playAnimation("run", 0); // 0 = 무한 루프
+            return;
+        }
         this.skeleton.play("run", 0);
     }
 
