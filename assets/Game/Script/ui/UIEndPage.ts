@@ -107,6 +107,11 @@ export default class UIEndPage extends mvcView {
 
     tmp: cc.Node = null;
 
+    /** 자랑하기 버튼 (prefab 의 k/right/btn_share). 다른 버튼과 동일하게 결과 연출 후 노출. */
+    private btnShare: cc.Node = null;
+    /** 카카오 환경 여부 (자랑하기는 카카오 전용). */
+    private shareAvailable: boolean = false;
+
     static instance: UIEndPage
 
 
@@ -118,6 +123,25 @@ export default class UIEndPage extends mvcView {
         this.onClick(this.btn_next, this.click_next);
         this.onClick(this.node_btn_boxtip, this.click_boxtip);
         this.onClick(this.node_close, this.click_close);
+
+        // btn_share (자랑하기) — 카카오 자랑하기(showoff01) 바인딩. 라벨은 로컬라이징, 카카오 환경에서만 노출.
+        //   노출 타이밍은 다른 버튼과 동일하게 cutBtnStyle(결과 연출 후)에서 처리 → 여기선 초기 숨김.
+        this.btnShare = cc.find("k/right/btn_share", this.node);
+        if (this.btnShare) {
+            const shareLabel = this.btnShare.getComponentInChildren(cc.Label);
+            if (shareLabel) {
+                // 키값("@btn.share")을 넣고 localizeLabel 로 변환 + _localizationKey 등록(언어 변경 시 자동 갱신).
+                shareLabel.string = "@btn.share";
+                LocalizationManager.localizeLabel(shareLabel);
+            }
+            this.onClick(this.btnShare, this.click_share);
+            try {
+                const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+                this.shareAvailable = !!(kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao());
+            } catch (e) { this.shareAvailable = false; }
+            this.btnShare.active = false;   // 결과 연출 후 cutBtnStyle 에서 노출
+        }
+
         this.updateHeroSpine(pdata.selHero);
         this.tmp = this.layout_lootlist.node.children[0]
         this.tmp.active = false;
@@ -161,6 +185,8 @@ export default class UIEndPage extends mvcView {
         this.btn_next.active = b;
         this.btn_triple.active = b;
         this.node_close.active = b;
+        // 자랑하기 버튼도 다른 버튼과 동일 타이밍으로 노출 (카카오 환경에서만).
+        if (this.btnShare) this.btnShare.active = b && this.shareAvailable;
     }
 
     onUpgradePlayLv() {
@@ -183,6 +209,28 @@ export default class UIEndPage extends mvcView {
     click_boxtip() {
         Toast.make(LocalizationManager.getText("@text.upgrade_extra_reward"));
         // Toast.make("每次升级将会额外获得奖励!")
+    }
+
+    /** 자랑하기 — 카카오 SDK 템플릿 공유(showoff01). score = 이번 판 점수(tmpScore, 리더보드와 동일 값). */
+    click_share() {
+        Device.playSfx(csv.Audio.btn_click);
+        const score = pdata.tmpScore;
+        console.log("[UIEndPage] click_share tapped, score=", score);
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (!(kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao())) {
+                console.warn("[UIEndPage] share skip — not kakao");
+                return;
+            }
+            const p = kakaoSdk.shareTemplate("showoff01", { score: score });
+            if (p && p.then) {
+                p.then((res: any) => {
+                    console.log("[UIEndPage] shareTemplate 결과:", JSON.stringify(res));
+                }).catch((e: any) => console.warn("[UIEndPage] shareTemplate 예외:", e));
+            }
+        } catch (e) {
+            console.warn("[UIEndPage] kakao share 예외:", e);
+        }
     }
 
     async addLootItems(items: LootItemData[], interval = 0.1) {

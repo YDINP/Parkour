@@ -137,6 +137,26 @@
             }
         }
     </style>
+
+    <!--
+      Kakao 스플래시 가로 보정 — 게임 측 로컬 커스텀 (sentinel 바깥, apply-kakao-splash 재실행에도 보존).
+      세로 웹뷰에서는 Cocos 가 게임을 rotate(90deg)(가로)로 돌리지만, HTML 스플래시는 DOM 이라 회전을 못 받아
+      세로로 남는다 → 동일하게 90° 회전 + 100vh×100vw 로 화면을 가로로 꽉 채운다.
+      가로 웹뷰(orientation: landscape)에서는 규칙 미적용 → 그대로 정상.
+      !important 로 sentinel 내부 #kakao-splash 기본 규칙(right/bottom:0)을 override.
+    -->
+    <style id="kakao-splash-landscape-fix">
+        @media (orientation: portrait) {
+            #kakao-splash {
+                right: auto !important;
+                bottom: auto !important;
+                width: 100vh !important;
+                height: 100vw !important;
+                transform-origin: top left !important;
+                transform: rotate(90deg) translateY(-100%) !important;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- BEGIN kakao-splash (hi5-sdk) -->

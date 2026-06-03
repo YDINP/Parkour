@@ -214,11 +214,81 @@ function showToastPreset(preset, options) {
     } catch (e) { console.warn("[KakaoSDK] showToastPreset 예외:", e); }
 }
 
+/**
+ * 카카오 템플릿 공유(자랑하기). templateCode 미지정 시 어댑터 기본('showoff01').
+ * @param {string} templateCode 예: 'showoff01'
+ * @param {object} [templateArgs] 템플릿 동적 인자 (예: { stage: 12 })
+ * @returns {Promise<{success:boolean, error?:string}>}
+ */
+function shareTemplate(templateCode, templateArgs) {
+    return ensureInit().then(function (ok) {
+        if (!ok || !_adapter || typeof _adapter.shareTemplate !== "function") {
+            return { success: false, error: "not-ready" };
+        }
+        return _adapter.shareTemplate({ templateCode: templateCode, templateArgs: templateArgs })
+            .then(function (res) { return res || { success: false }; })
+            .catch(function (e) { console.warn("[KakaoSDK] shareTemplate 예외:", e); return { success: false, error: String(e) }; });
+    });
+}
+
 // 템플릿이 정의한 전역 토스트 훅을 캔버스 기준 구현으로 교체.
 //   → 데이터요금 안내(스플래시 종료 시 _showDataFeeToast → window.__showKakaoToast)도 캔버스 기준 배치 적용.
 //   kakaoSdk 는 부팅 시 LoadingScene 에서 require 되어 스플래시 종료(_actuallyHide) 전에 교체됨.
 try {
     if (typeof window !== "undefined") window.__showKakaoToast = showToast;
+} catch (e) {}
+
+// SDK DOM 오버레이(네비메뉴 GNB 등)를 게임 컨테이너로 이동 → Cocos 회전(rotate(90deg)) 상속.
+//   세로 웹뷰에서 게임만 가로로 회전돼도 GNB 가 게임과 같은 방향으로 표시되도록.
+//   (토스트와 동일 기법. 광고는 네이티브 뷰라 여기서 못 다룸 — 네이티브 가로 필요.)
+//   SDK 는 #sdk-gnb-overlay 를 body 에 동적 생성하므로 MutationObserver 로 감지해 이동.
+function _reparentSdkOverlays() {
+    try {
+        if (typeof document === "undefined" || typeof MutationObserver === "undefined" || !document.body) return;
+        if (window.__sdkOverlayReparentSet) return;
+        window.__sdkOverlayReparentSet = true;
+        var IDS = ["sdk-gnb-overlay"];
+        // GNB 메뉴를 게임(가로) 우상단에 고정 + 내부 래퍼를 컨테이너 폭(100%)에 맞춤.
+        //   SDK 기본 내부 div 는 width/height:100vw(세로 뷰포트 기준) 라 가로 컨테이너와 어긋남 → 100% 로 교정.
+        var fixGnbLayout = function (el) {
+            try {
+                if (!el || el.id !== "sdk-gnb-overlay") return;
+                var inner = el.querySelector("div");
+                if (inner) { inner.style.width = "100%"; inner.style.height = "100%"; inner.style.inset = "0"; }
+                var header = el.querySelector(".doc-header");
+                if (header) {
+                    header.style.top = "0"; header.style.left = "0"; header.style.right = "0";
+                    header.style.width = "100%";
+                }
+                var ih = el.querySelector(".inner_header");
+                if (ih) { ih.style.justifyContent = "flex-end"; }
+                var wb = el.querySelector(".wrap_btn");
+                if (wb) { wb.style.justifyContent = "flex-end"; }
+            } catch (e) {}
+        };
+        var move = function (el) {
+            try {
+                if (!el || !el.parentNode) return;
+                var c = (typeof cc !== "undefined" && cc.game && cc.game.container) ? cc.game.container : null;
+                if (c && el.parentNode !== c) c.appendChild(el);
+                fixGnbLayout(el);
+            } catch (e) {}
+        };
+        IDS.forEach(function (id) { move(document.getElementById(id)); });
+        var obs = new MutationObserver(function (muts) {
+            for (var i = 0; i < muts.length; i++) {
+                var added = muts[i].addedNodes;
+                for (var j = 0; j < added.length; j++) {
+                    var n = added[j];
+                    if (n && n.nodeType === 1 && IDS.indexOf(n.id) !== -1) move(n);
+                }
+            }
+        });
+        obs.observe(document.body, { childList: true });
+    } catch (e) { console.warn("[KakaoSDK] SDK 오버레이 reparent 설정 예외:", e); }
+}
+try {
+    if (typeof window !== "undefined" && isKakao()) _reparentSdkOverlays();
 } catch (e) {}
 
 module.exports = {
@@ -229,6 +299,7 @@ module.exports = {
     getMyRanking: getMyRanking,
     submitScore: submitScore,
     showAd: showAd,
+    shareTemplate: shareTemplate,
     showToast: showToast,
     showToastPreset: showToastPreset,
     TOAST_MESSAGES: (sdk && sdk.KAKAO_TOAST_MESSAGES) || null,

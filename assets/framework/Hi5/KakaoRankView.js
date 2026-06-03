@@ -27,8 +27,8 @@ var COLOR_INACTIVE = cc.color(112, 91, 80);
 // Parkour = 주간 리더보드 (실제 초기화 주기 = 카카오 어드민 설정. 라벨은 표시용).
 var DEFAULT_TEXT = {
     title: 'RANKING',
-    curWeek: '이번주',
-    prevWeek: '지난주',
+    curWeek: '이번주 랭킹',
+    prevWeek: '지난주 랭킹',
     me: '나',
     refresh: '매주 월요일 <color=#ef6f26>00:00</color> 초기화',
 };
