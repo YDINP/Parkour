@@ -26,6 +26,10 @@ var sdk = require("../Hi5Helper_2x/hi5-sdk");
 var H5_ID = "20756";
 var SERVER_TYPE = "qa";
 var LEADERBOARD_ID = "ranking";
+// 화면 방향 — SDK start config 의 orientation 으로 전달(가로 게임).
+//   SDK 기본값은 "portrait" 이고 어드민 미등록 시 세로로 떨어지므로, 코드에서 명시적으로 "landscape" 강제.
+//   (어드민에 가로 등록돼 있어도 동일 값이라 충돌 없음.)
+var ORIENTATION = "landscape";
 
 var _adapter = null;
 var _initPromise = null;
@@ -67,8 +71,8 @@ function ensureInit() {
         return Promise.resolve(false);
     }
     try {
-        _adapter = new KakaoAdapter({ h5Id: H5_ID, serverType: SERVER_TYPE });
-        console.log("[KakaoSDK] KakaoAdapter 생성:", { h5Id: H5_ID, serverType: SERVER_TYPE });
+        _adapter = new KakaoAdapter({ h5Id: H5_ID, serverType: SERVER_TYPE, orientation: ORIENTATION });
+        console.log("[KakaoSDK] KakaoAdapter 생성:", { h5Id: H5_ID, serverType: SERVER_TYPE, orientation: ORIENTATION });
     } catch (e) {
         console.warn("[KakaoSDK] KakaoAdapter 생성 실패:", e);
         return Promise.resolve(false);
@@ -142,25 +146,80 @@ function showAd(key, callbacks) {
     });
 }
 
+// 프리셋 기본 문구 (sdk.KAKAO_TOAST_MESSAGES 우선, 없으면 이 fallback).
+var _TOAST_FALLBACK = {
+    dataFee: "Wi-Fi가 아닌 환경에서는 데이터 요금이 발생할 수 있어요",
+    adLoadFail: "광고를 불러올 수 없어요. 잠시 후 다시 시도해주세요",
+    adSkipped: "광고를 끝까지 시청해야 보상을 받을 수 있어요",
+    adSuccess: "보상 시청이 완료되어 보상을 지급했어요"
+};
+
 /**
- * 공용 카카오 토스트 — 스플래시 템플릿이 노출한 window.__showKakaoToast 경유(SDK 1.6.16+).
- * 템플릿 미주입/비카카오 빌드에서는 SDK 내부에서 no-op.
+ * 공용 카카오 토스트 (자체 렌더링 — 캔버스 기준 배치).
+ *   window.__showKakaoToast(뷰포트 기준) 대신, 게임 캔버스 영역의 가로 중앙 + 하단 bottomPct 위치에 배치.
+ *   → 카카오 웹뷰가 세로/레터박스여도 토스트가 게임 화면 안에 보이도록 보강. 캔버스 없으면 뷰포트 기준 fallback.
  * @param {string} text
- * @param {object} [options] width/height/maxWidth/fontSize/color/bg/radius/blur/bottomPct/durationMs
+ * @param {object} [options] fontSize/color/bg/radius/bottomPct/durationMs/maxWidth
  */
 function showToast(text, options) {
-    try { if (sdk.showKakaoToast) sdk.showKakaoToast(text, options); }
-    catch (e) { console.warn("[KakaoSDK] showToast 예외:", e); }
+    try {
+        if (!text || typeof document === "undefined" || !document.body) return;
+        var o = options || {};
+        var bg = o.bg || "rgba(0,0,0,0.85)";
+        var color = o.color || "#ffffff";
+        var fontSize = o.fontSize != null ? o.fontSize : 14;
+        var radius = o.radius != null ? o.radius : 12;
+        var bottomPct = o.bottomPct != null ? o.bottomPct : 12;
+        var durationMs = o.durationMs != null ? o.durationMs : 3000;
+        var maxWidth = o.maxWidth != null ? o.maxWidth : 600;
+
+        // 부모: 게임 컨테이너(cc.game.container)에 붙이면 Cocos 가 적용한 회전(rotate(90deg))을 그대로 상속한다.
+        //   → 세로 웹뷰에서 게임만 가로로 회전돼도 토스트가 게임과 같은 방향/위치로 표시됨.
+        //   transform 걸린 컨테이너는 absolute 자식의 컨테이닝 블록이 되므로 좌표가 컨테이너(=게임 화면) 기준.
+        //   컨테이너 없으면 body + fixed(뷰포트 기준) fallback.
+        var parent = document.body, posMode = "fixed";
+        try {
+            if (typeof cc !== "undefined" && cc.game && cc.game.container) { parent = cc.game.container; posMode = "absolute"; }
+        } catch (e) {}
+
+        var t = document.createElement("div");
+        t.className = "kakao-toast-cc";
+        t.textContent = text;
+        t.style.cssText =
+            "position:" + posMode + ";left:50%;bottom:" + bottomPct + "%;transform:translateX(-50%);" +
+            "box-sizing:border-box;display:flex;align-items:center;justify-content:center;" +
+            "padding:10px 18px;max-width:min(calc(100% - 32px)," + maxWidth + "px);white-space:nowrap;text-align:center;" +
+            "font-size:" + fontSize + "px;line-height:1.3;color:" + color + ";background:" + bg + ";" +
+            "border-radius:" + radius + "px;z-index:100000;pointer-events:none;opacity:0;transition:opacity 0.3s ease;";
+        parent.appendChild(t);
+        // 텍스트가 max-width 초과 시 줄바꿈 fallback.
+        if (t.scrollWidth > t.clientWidth + 1) { t.style.whiteSpace = "normal"; t.style.wordBreak = "keep-all"; }
+
+        var raf = (typeof requestAnimationFrame === "function") ? requestAnimationFrame : function (cb) { return setTimeout(cb, 16); };
+        raf(function () { raf(function () { t.style.opacity = "1"; }); });
+        setTimeout(function () { t.style.opacity = "0"; }, Math.max(0, durationMs - 300));
+        setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, durationMs + 50);
+    } catch (e) { console.warn("[KakaoSDK] showToast 예외:", e); }
 }
 
 /**
  * 프리셋 토스트 — 'dataFee' | 'adLoadFail' | 'adSkipped' | 'adSuccess'.
- * 문구는 sdk.KAKAO_TOAST_MESSAGES[preset] (부팅 시 덮어쓰기 가능).
+ * 문구는 sdk.KAKAO_TOAST_MESSAGES[preset] 우선, 없으면 내부 fallback.
  */
 function showToastPreset(preset, options) {
-    try { if (sdk.showKakaoToastPreset) sdk.showKakaoToastPreset(preset, options); }
-    catch (e) { console.warn("[KakaoSDK] showToastPreset 예외:", e); }
+    try {
+        var msgs = (sdk && sdk.KAKAO_TOAST_MESSAGES) || _TOAST_FALLBACK;
+        var text = msgs[preset] || _TOAST_FALLBACK[preset];
+        if (text) showToast(text, options);
+    } catch (e) { console.warn("[KakaoSDK] showToastPreset 예외:", e); }
 }
+
+// 템플릿이 정의한 전역 토스트 훅을 캔버스 기준 구현으로 교체.
+//   → 데이터요금 안내(스플래시 종료 시 _showDataFeeToast → window.__showKakaoToast)도 캔버스 기준 배치 적용.
+//   kakaoSdk 는 부팅 시 LoadingScene 에서 require 되어 스플래시 종료(_actuallyHide) 전에 교체됨.
+try {
+    if (typeof window !== "undefined") window.__showKakaoToast = showToast;
+} catch (e) {}
 
 module.exports = {
     isKakao: isKakao,

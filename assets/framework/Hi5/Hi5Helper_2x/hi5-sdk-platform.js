@@ -2217,6 +2217,7 @@ class KakaoAdapter {
           market: this._options.market,
           appVersion: this._options.appVersion,
           serverType: this._options.serverType,
+          orientation: this._options.orientation,
           runtime: { search: typeof location !== "undefined" ? location.search : "" }
         });
         if (!startResult.success) {
