@@ -107,7 +107,10 @@ export default class FizzManager extends cc.Component {
         //   캐릭터가 멈췄다 튀는 진동(stutter)이 발생했음. 가변 dt로 교체해 부드럽게.
         //   상한 클램프(=2스텝치)로 탭전환/랙스파이크 시 위치 점프·터널링만 방지.
         let step = dt > 0 ? dt : this.FIXED_DT;
-        if (step > this.FIXED_DT * 2) step = this.FIXED_DT * 2;
+        // 상한 = 원본 고정스텝(0.016). 큰 첫 프레임/랙 스파이크 시 한 스텝이 과도하게 커져
+        //   스폰 직후 장애물에 박혀(피격→disableMoveForSec) "선 채로 안 달림"이 되는 것을 방지.
+        //   고주사율(120Hz, dt≈0.008)은 dt 그대로 → 부드러움 유지.
+        if (step > this.FIXED_DT) step = this.FIXED_DT;
         Fizz.update(step);
 
         if (this.debug) {

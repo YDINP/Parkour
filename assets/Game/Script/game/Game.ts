@@ -275,7 +275,7 @@ export default class Game extends mvcView implements ITileObjectFactory {
     private invisibleRectBodies = [];
 
     loadMap() {
-        // preload prefabs 
+        // preload prefabs
         let spawnerPool = PoolSpawner.get("monsters")
         //todo 跟据关卡需要的情况加载 
         spawnerPool.preload("action_001", "objects/prefabs/action_001")
@@ -313,22 +313,33 @@ export default class Game extends mvcView implements ITileObjectFactory {
 
         //fix when playinglv == 0
         pdata.playinglv = pdata.playinglv || 0;
-        let lvdata = ccUtil.get(LevelData, pdata.playinglv)
-        // let lvdata = ccUtil.get(LevelData, 2)
-        let mapSegData = lvdata.segments[0];
 
         //模式第一段
+        let mapSegData;
         if (pdata.gameMode == ParkourType.Normal) {
-            //关卡
+            //关卡 — LevelData[playinglv] 가 없으면 1레벨로 폴백, 그래도 없으면 진입 중단(크래시 방지).
+            let lvdata = ccUtil.get(LevelData, pdata.playinglv)
+            if (!lvdata) {
+                cc.warn("[Game] LevelData 없음 playinglv=" + pdata.playinglv + " → lv1 폴백");
+                pdata.playinglv = 1;
+                lvdata = ccUtil.get(LevelData, pdata.playinglv);
+            }
+            if (!lvdata || !lvdata.segments || !lvdata.segments[0]) {
+                cc.error("[Game] LevelData/segments 로드 실패 — 맵 로드 중단. playinglv=" + pdata.playinglv);
+                return;
+            }
             mapSegData = lvdata.segments[0];
         } else {
-            //无尽 
+            //无尽
             mapSegData = ccUtil.get(MapSegData, 'forest')
+        }
+        if (!mapSegData || !mapSegData.level_tmx) {
+            cc.error("[Game] mapSegData/level_tmx 없음 — 맵 로드 중단. mode=" + pdata.gameMode + " playinglv=" + pdata.playinglv);
+            return;
         }
         this.mapLoader.followOffset = cc.v2(cc.winSize.width / 4, 0);
         this.mapLoader.playerNode.active = false;
         this.mapLoader.loadMap(mapSegData.level_tmx, this.onLoadingMap.bind(this)).then(layerWalker => {
-
             this.createCollisionLayer(layerWalker);
             this.loadElements(layerWalker)
 
@@ -365,7 +376,7 @@ export default class Game extends mvcView implements ITileObjectFactory {
                 this.onLevelLoadCompleted();
             }
 
-        })
+        }).catch(e => console.error("[Game] 맵 로드 실패:", e));
     }
 
     onLoadingMap(c, t, item) {

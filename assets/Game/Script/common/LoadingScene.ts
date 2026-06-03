@@ -25,10 +25,10 @@ const PRELOAD_LIST: Array<{ url: string; type: typeof cc.Asset }> = [
     { url: "Textures/kakao/heros/05Muzi",     type: sp.SkeletonData as any },
     { url: "Textures/kakao/heros/07Neo",      type: sp.SkeletonData as any },
     // 게임 플로우 핵심 UI prefab
-    { url: "Prefabs/UIReady",    type: cc.Prefab },
-    { url: "Prefabs/UIEndPage",  type: cc.Prefab },
-    { url: "Prefabs/UIFail",     type: cc.Prefab },
-    { url: "Prefabs/UIRevive",   type: cc.Prefab },
+    { url: "prefabs/UIReady",    type: cc.Prefab },
+    { url: "prefabs/UIEndPage",  type: cc.Prefab },
+    { url: "prefabs/UIFail",     type: cc.Prefab },
+    { url: "prefabs/UIRevive",   type: cc.Prefab },
     // 게임 중 반복 재생되는 정적 오디오
     { url: "Audio/pick_bean", type: cc.AudioClip },
     { url: "Audio/eat_coin",  type: cc.AudioClip },

@@ -24,7 +24,7 @@ var sdk = require("../Hi5Helper_2x/hi5-sdk");
 
 // === 카카오 어드민 발급값 ===
 var H5_ID = "20756";
-var SERVER_TYPE = "qa";
+var SERVER_TYPE = "qa";   // QA 서버 (로컬 dev 테스트 시 'dev', 운영 'live')
 var LEADERBOARD_ID = "ranking";
 // 화면 방향 — SDK start config 의 orientation 으로 전달(가로 게임).
 //   SDK 기본값은 "portrait" 이고 어드민 미등록 시 세로로 떨어지므로, 코드에서 명시적으로 "landscape" 강제.

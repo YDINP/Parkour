@@ -185,8 +185,10 @@ export default class UIEndPage extends mvcView {
         this.btn_next.active = b;
         this.btn_triple.active = b;
         this.node_close.active = b;
-        // 자랑하기 버튼도 다른 버튼과 동일 타이밍으로 노출 (카카오 환경에서만).
-        if (this.btnShare) this.btnShare.active = b && this.shareAvailable;
+        // 자랑하기: 카카오 환경 + "무한모드"에서만 노출 (일반 스테이지 모드 제외). 리더보드 점수와 동일 조건.
+        if (this.btnShare) {
+            this.btnShare.active = b && this.shareAvailable && (pdata.gameMode == ParkourType.Infinite);
+        }
     }
 
     onUpgradePlayLv() {
