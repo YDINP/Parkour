@@ -151,6 +151,9 @@ export default class UI_signIn extends mvcView {
         // 전체 UI 갱신 (핑크 배경, 버튼 상태 등 올바르게 업데이트)
         this.render();
 
+        // PlayerAction: 출석 보상 수령(일일).
+        pdata.logPlayerAction("daily_sign_in", { day: num });
+
         Toast.make(LocalizationManager.getText("@signInSuccess"));
     }
 

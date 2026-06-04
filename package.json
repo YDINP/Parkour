@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@TinycellCorp/hi5-sdk": "^1.6.18",
+    "@TinycellCorp/hi5-sdk": "file:../../hi5-sdk/TinycellCorp-hi5-sdk-1.8.2.tgz",
     "progress": "^2.0.3",
     "typings": "^2.1.1"
   }

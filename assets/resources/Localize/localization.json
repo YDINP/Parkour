@@ -338,7 +338,15 @@
     "rank_loading": "불러오는 중...",
     "rank_load_failed": "랭킹을 불러오지 못했어요.",
     "rank_empty": "아직 랭킹이 없어요.",
-    "rank_me": "나"
+    "rank_me": "나",
+    "loading.progress": "로딩 중",
+    "loading.login": "로그인 중",
+    "loading.login_failed": "로그인 실패",
+    "loading.config": "설정 로딩",
+    "loading.config_local": "로컬 설정 로딩",
+    "loading.config_network": "네트워크 설정 로딩",
+    "loading.config_share": "공유 설정 로딩",
+    "loading.entering": "게임 진입 중..."
   },
   "en": {
     "btn.share": "Share",
@@ -680,7 +688,15 @@
     "rank_loading": "Loading...",
     "rank_load_failed": "Failed to load ranking.",
     "rank_empty": "No ranking yet.",
-    "rank_me": "Me"
+    "rank_me": "Me",
+    "loading.progress": "Loading...",
+    "loading.login": "Signing in...",
+    "loading.login_failed": "Login failed",
+    "loading.config": "Loading config...",
+    "loading.config_local": "Loading local config...",
+    "loading.config_network": "Loading network config...",
+    "loading.config_share": "Loading shared config...",
+    "loading.entering": "Entering game..."
   },
   "cn": {
     "btn.share": "炫耀一下",
@@ -1021,6 +1037,14 @@
     "rank_loading": "加载中...",
     "rank_load_failed": "无法加载排行榜。",
     "rank_empty": "暂无排行榜。",
-    "rank_me": "我"
+    "rank_me": "我",
+    "loading.progress": "加载中",
+    "loading.login": "登录中",
+    "loading.login_failed": "登录失败",
+    "loading.config": "加载配置",
+    "loading.config_local": "加载本地配置",
+    "loading.config_network": "加载网络配置",
+    "loading.config_share": "加载共享配置",
+    "loading.entering": "进入游戏中..."
   }
 }

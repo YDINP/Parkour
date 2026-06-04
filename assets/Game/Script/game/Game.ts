@@ -238,6 +238,15 @@ export default class Game extends mvcView implements ITileObjectFactory {
             Hi5.GameStart();
             console.log("[Hi5] GameStart called");
         }
+
+        // 카카오 게임로그: StartPlay(플레이 시작, 판당 1회). gameStart()로 play_time 추적 시작.
+        //   go()는 onLevelLoadCompleted(맵 로드 완료) 에서 판당 1회만 호출 — 부활(revive)은 update_Resume 경로라 미포함.
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                kakaoSdk.gameStart({ mode: pdata.gameMode == ParkourType.Infinite ? "infinite" : "normal" });
+            }
+        } catch (e) { console.warn("[Game] kakao StartPlay 로그 예외:", e); }
     }
 
     start() {
@@ -486,6 +495,8 @@ export default class Game extends mvcView implements ITileObjectFactory {
         this.player.buffSystem.startBuff("loseLife")
         this.player.buffSystem.startBuff("revive", 2);
         this.player.set(heroId);
+        // PlayerAction: 부활(광고 보상 후 이어하기). revive() 는 부활 실행 단일 지점.
+        pdata.logPlayerAction("revive", { hero_id: heroId });
     }
 
 

@@ -1,3 +1,7 @@
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.2  (source: dist/cjs/platform.js)
+// Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
+// 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/platform.js 를 이 파일로 복사(헤더 재삽입).
+// Exports: KakaoAdapter, DEFAULT_KAKAO_AD_UNITS 등
 'use strict';
 
 var __defProp$4 = Object.defineProperty;
@@ -1936,8 +1940,20 @@ var __async$3 = (__this, __arguments, generator) => {
 };
 function kakaoSendLog(hf, type, body) {
   return __async$3(this, null, function* () {
+    var _a;
     try {
-      const params = { type, body: body != null ? body : {} };
+      const safeBody = body != null ? body : {};
+      const params = { type, body: safeBody, logBody: safeBody };
+      try {
+        console.log("[Kakao.Log]", type, safeBody);
+      } catch (e) {
+      }
+      if (typeof window !== "undefined") {
+        try {
+          (_a = window.__showKakaoLogOverlay) == null ? void 0 : _a.call(window, type, safeBody);
+        } catch (e) {
+        }
+      }
       const response = yield promisifyKakaoCall(hf.Log.send.bind(hf.Log), params);
       return asAsyncResult(response);
     } catch (err) {
@@ -2113,35 +2129,35 @@ const DEFAULT_KAKAO_AD_UNITS = {
   interstitial: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   interstitial_result: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
   /** 전면 캐릭터 저장 */
-  interstitial_save: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
+  interstitial_save: { android: "DAN-g9qO4l4i9f1DSh32", ios: "DAN-ajd37C9znQY2yCBr" },
   /** 전면 ap 소모 */
-  interstitial_ap: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
+  interstitial_ap: { android: "DAN-TI8eLrFPsRdBpZ0D", ios: "DAN-R6OJrIQ25wag6fDX" },
   // ───── 보상(rewarded) ─────
   /** 보상 아이템 사용 (기본 보상). `showAd('reward')` 의 기본 대상. */
   reward: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   reward_item: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
   /** 보상 이어하기 */
-  reward_continue: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_continue: { android: "DAN-rtwNGDD9m5z7xev9", ios: "DAN-mvwu3d8WxbrQ70PJ" },
   /** 보상 출석보상 한 번 더 */
-  reward_daily_bonus: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_daily_bonus: { android: "DAN-L3N6JROyEHktr9sT", ios: "DAN-6Unw9EYdy0rOMsnn" },
   /** 보상 꾸미기 옷 획득 */
-  reward_outfit: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_outfit: { android: "DAN-kdamDb0ktxb1sC3X", ios: "DAN-Mxh99NuRenYl9cya" },
   /** 보상 버프 사용 — ⚠️ xlsx 원본에서 iOS도 동일 unitId로 기재되어 있음 (오기 가능, 카카오게임즈에 확인 필요) */
-  reward_buff: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_buff: { android: "DAN-RPTW4vhLAZdRe76E", ios: "DAN-RPTW4vhLAZdRe76E" },
   /** 보상 부활하기 */
-  reward_revive: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_revive: { android: "DAN-LKi7AXJf7NKvxU9R", ios: "DAN-ELwzI3imH11eCHVi" },
   /** 보상 아이템 획득 */
-  reward_item_gain: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_item_gain: { android: "DAN-Nv6fdGoOtAQlfcH4", ios: "DAN-8tQjyIZZTveCllUB" },
   /** 보상 무료 재화 획득 */
-  reward_currency: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_currency: { android: "DAN-PTqL7CGSmcllRpnl", ios: "DAN-q46CD0eaZkn3cua0" },
   /** 보상 보상 2배 획득 */
-  reward_double: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_double: { android: "DAN-Ocx252C5QBFyprow", ios: "DAN-7sIJJkcN54lDB0W2" },
   /** 보상 ap 충전 */
-  reward_ap_charge: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_ap_charge: { android: "DAN-VFWlV4iwYawfiSWf", ios: "DAN-Tpo75PSGjtpxUhPS" },
   /** 보상 시간 단축 */
-  reward_time_skip: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+  reward_time_skip: { android: "DAN-W0YPnVcjwiyVNFW5", ios: "DAN-aiLrYApno819OVUk" },
   /** 보상 펫 소환 */
-  reward_pet: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" }
+  reward_pet: { android: "DAN-aCV79jNyGsbcJnIi", ios: "DAN-DMbWnKWiQ6ALcsQD" }
 };
 const DEFAULT_KAKAO_SHARE_TEMPLATE = "showoff01";
 const DEFAULT_VIBRATION_HAPTIC = "ImpactMedium";
@@ -2166,7 +2182,13 @@ class KakaoAdapter {
     __publicField(this, "_cachedUser", null);
     // 리더보드 조회 결과 캐시 (rankingsCacheTTLMs > 0 일 때만 사용)
     __publicField(this, "_rankingsCache", /* @__PURE__ */ new Map());
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    // 플레이 시간 추적 — gameStart() 에서 set, gameEnd() / ExitPlay 에서 사용 후 reset
+    __publicField(this, "_playStartTime", 0);
+    // beforeunload ExitPlay 핸들러 1회 가드 — autoExitPlayLog 활성 시 init 성공 직후 1회 등록
+    __publicField(this, "_exitHandlerRegistered", false);
+    // 초기화 에러 다이얼로그 1회 가드 — 한번 뜨면 이후 init 재호출에서도 추가 표시 안 함.
+    __publicField(this, "_initErrorShown", false);
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
     if (!options || !options.h5Id) {
       throw new Error("KakaoAdapter: h5Id\uB294 \uD544\uC218\uC785\uB2C8\uB2E4");
     }
@@ -2181,8 +2203,40 @@ class KakaoAdapter {
       shareTemplateCode: (_f = options.shareTemplateCode) != null ? _f : DEFAULT_KAKAO_SHARE_TEMPLATE,
       disableDesktopOauthBridge: (_g = options.disableDesktopOauthBridge) != null ? _g : false,
       redirectQaApiToCube: (_h = options.redirectQaApiToCube) != null ? _h : false,
-      rankingsCacheTTLMs: (_i = options.rankingsCacheTTLMs) != null ? _i : 0
+      rankingsCacheTTLMs: (_i = options.rankingsCacheTTLMs) != null ? _i : 0,
+      autoInitErrorDialog: (_j = options.autoInitErrorDialog) != null ? _j : true,
+      autoLoadingLog: (_k = options.autoLoadingLog) != null ? _k : true,
+      autoExitPlayLog: (_l = options.autoExitPlayLog) != null ? _l : true
     };
+  }
+  /**
+   * init 실패 시 자동 에러 다이얼로그 표시 (옵션 `autoInitErrorDialog` 활성 시).
+   *
+   * - `AsyncResult.error` 문자열에서 `code=N` 패턴을 추출해 타이틀에 부착.
+   * - 한번 표시되면 **이후 모든 진행을 차단** — 반환 Promise 가 영원히 pending 상태로 유지되어
+   *   호출자(보통 `init()`)도 hang. 사용자가 "다시 시도"(`location.reload()`) 또는
+   *   "게임 종료"(`window.close()` → `about:blank`) 를 누르면 페이지 자체가 종료/재시작됨.
+   * - 1회 가드(`_initErrorShown`): init 재호출 시 중복 다이얼로그가 쌓이는 것 방지.
+   * - 스플래시 템플릿 미적용 환경/옵션 비활성 시: 즉시 resolve (게임이 평소대로 에러 결과 처리).
+   */
+  _maybeShowInitError(errorMessage) {
+    if (!this._options.autoInitErrorDialog) return Promise.resolve();
+    if (typeof window === "undefined") return Promise.resolve();
+    const fn = window.__showKakaoInitErrorDialog;
+    if (typeof fn !== "function") return Promise.resolve();
+    if (this._initErrorShown) {
+      return new Promise(() => {
+      });
+    }
+    this._initErrorShown = true;
+    const m = /code=(-?\d+|unknown)/i.exec(errorMessage || "");
+    const code = m && m[1] && m[1].toLowerCase() !== "unknown" ? Number(m[1]) : null;
+    try {
+      fn(code, null, null);
+    } catch (e) {
+    }
+    return new Promise(() => {
+    });
   }
   hasCapability(cap) {
     return this.capabilities.has(cap);
@@ -2203,7 +2257,9 @@ class KakaoAdapter {
         yield loadKakaoSdkScript();
         const hf = window.HF;
         if (!hf) {
-          return { success: false, error: "Kakao SDK \uB85C\uB4DC \uD6C4\uC5D0\uB3C4 window.HF \uBBF8\uC874\uC7AC" };
+          const error = "Kakao SDK \uB85C\uB4DC \uD6C4\uC5D0\uB3C4 window.HF \uBBF8\uC874\uC7AC";
+          yield this._maybeShowInitError(error);
+          return { success: false, error };
         }
         this._hf = hf;
         if (!this._options.disableDesktopOauthBridge) {
@@ -2217,26 +2273,42 @@ class KakaoAdapter {
           market: this._options.market,
           appVersion: this._options.appVersion,
           serverType: this._options.serverType,
-          orientation: this._options.orientation,
           runtime: { search: typeof location !== "undefined" ? location.search : "" }
         });
         if (!startResult.success) {
+          yield this._maybeShowInitError(startResult.error);
           return startResult;
         }
         this._populateUserCache(hf);
         logger.info(
           `Kakao SDK \uCD08\uAE30\uD654 \uC644\uB8CC (h5Id=${this._options.h5Id}, serverType=${this._options.serverType}` + (this._cachedKakaoPlayer ? `, player=${this._cachedKakaoPlayer.playerNickname}` : ", \uBE44\uB85C\uADF8\uC778") + `)`
         );
+        if (this._options.autoLoadingLog) {
+          yield kakaoSendLog(hf, "loading").catch(() => {
+          });
+        }
         yield loading();
+        if (this._options.autoLoadingLog) {
+          yield kakaoSendLog(hf, "complete_loading").catch(() => {
+          });
+        }
+        if (this._options.autoExitPlayLog) {
+          this._registerExitPlayHandler();
+        }
         this._initialized = true;
         try {
+          if (typeof window !== "undefined") {
+            window.__kakaoInitOk = true;
+          }
           const hide = typeof window !== "undefined" ? window.__hideKakaoSplash : null;
           if (typeof hide === "function") hide();
         } catch (e) {
         }
         return { success: true };
       } catch (error) {
-        return { success: false, error: `Kakao init \uC2E4\uD328: ${kakaoErrMsg(error)}` };
+        const msg = `Kakao init \uC2E4\uD328: ${kakaoErrMsg(error)}`;
+        yield this._maybeShowInitError(msg);
+        return { success: false, error: msg };
       }
     });
   }
@@ -2480,17 +2552,68 @@ class KakaoAdapter {
   // ============================================
   // LifecycleCapable
   //   카카오는 별도 gameStart/gameEnd가 없으므로 Log 모듈로 매핑:
-  //     gameStart → StartPlay, gameEnd → CompletePlay (기본 result='done', play_time=0).
-  //   더 정확한 로그는 게임이 직접 `sendLog`로 보내는 게 권장.
+  //     gameStart → StartPlay (+ play_time 추적 시작)
+  //     gameEnd   → CompletePlay (자동 ms play_time 계산, result/score/stage 명시 가능)
+  //   `gameStart()` ~ `gameEnd()` 사이 페이지 closeㅡ가 발생하면
+  //   `autoExitPlayLog` 옵션으로 자동 등록된 `beforeunload` 핸들러가 ExitPlay 발사.
   // ============================================
-  gameStart() {
+  /**
+   * 게임 1판 시작. `sendLog('StartPlay')` 호출 + 내부 `_playStartTime` 캡쳐.
+   *
+   * @param body 선택 — StartPlay body (`round`/`stage`/`level`). 카카오 spec 전부 옵셔널.
+   */
+  gameStart(body) {
     if (!this._hf) return;
-    kakaoSendLog(this._hf, "StartPlay").catch(() => {
+    this._playStartTime = Date.now();
+    kakaoSendLog(this._hf, "start_play", body).catch(() => {
     });
   }
-  gameEnd() {
+  /**
+   * 게임 1판 정상 종료. `sendLog('CompletePlay', { result, play_time, ... })` 자동 전송.
+   *
+   * `play_time` 은 `gameStart()` 호출 시점부터 지금까지의 ms 를 자동 계산 — 게임이 직접 전달할 필요 없음.
+   * `gameStart()` 호출 없이 `gameEnd()` 만 호출하면 `play_time: 0`.
+   *
+   * @param body 선택 — `result`(기본 `'done'`), `score`, `stage`. 명시 안 하면 result='done' 만 전송.
+   */
+  gameEnd(body) {
+    var _a;
     if (!this._hf) return;
-    kakaoSendLog(this._hf, "CompletePlay", { result: "done", play_time: 0 }).catch(() => {
+    const playTime = this._playStartTime > 0 ? Date.now() - this._playStartTime : 0;
+    this._playStartTime = 0;
+    const payload = __spreadValues(__spreadValues({
+      result: (_a = body == null ? void 0 : body.result) != null ? _a : "done",
+      play_time: playTime
+    }, (body == null ? void 0 : body.score) !== void 0 ? { score: body.score } : {}), (body == null ? void 0 : body.stage) !== void 0 ? { stage: body.stage } : {});
+    kakaoSendLog(this._hf, "complete_play", payload).catch(() => {
+    });
+  }
+  /**
+   * 현재 진행 중인 플레이의 경과 시간 (ms). `gameStart()` 호출 전이거나 `gameEnd()` 호출 후는 0.
+   * 게임이 share 템플릿/UI 표시용으로 시간을 가져갈 때 사용.
+   */
+  getPlayTime() {
+    return this._playStartTime > 0 ? Date.now() - this._playStartTime : 0;
+  }
+  /**
+   * `beforeunload` 이벤트에 `ExitPlay` 자동 등록. 1회 가드.
+   *  - 플레이 중(`_playStartTime > 0`)일 때만 발사.
+   *  - best-effort: 브라우저가 fetch 완료 못할 수 있음.
+   *  - `autoExitPlayLog: false` 면 등록 안 함.
+   */
+  _registerExitPlayHandler() {
+    if (this._exitHandlerRegistered) return;
+    if (typeof window === "undefined") return;
+    this._exitHandlerRegistered = true;
+    window.addEventListener("beforeunload", () => {
+      if (this._playStartTime <= 0) return;
+      if (!this._hf) return;
+      const playTime = Date.now() - this._playStartTime;
+      kakaoSendLog(this._hf, "exit_play", {
+        reason: "user_exit",
+        play_time: playTime
+      }).catch(() => {
+      });
     });
   }
   // ============================================

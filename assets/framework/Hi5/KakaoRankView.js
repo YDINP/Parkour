@@ -17,6 +17,16 @@
  */
 
 var kakaoSdk = require('./business/kakaoSdk');
+var LocalizationManager = require('./Localization/LocalizationManager');
+
+// 현재 언어 코드('ko'/'en'/'cn'...) — LocalizationManager 우선, 실패 시 저장값(없으면 'ko').
+function curLang() {
+    try {
+        var LM = LocalizationManager && (LocalizationManager.default || LocalizationManager);
+        if (LM && typeof LM.getLanguage === 'function') return LM.getLanguage();
+    } catch (e) {}
+    try { return cc.sys.localStorage.getItem('game_language') || 'ko'; } catch (e) { return 'ko'; }
+}
 
 var TOP_N = 50;
 var VIEW_PREFAB = 'prefab/ui/kakao/rankView';
@@ -58,6 +68,10 @@ var KakaoRankView = cc.Class({
         var self = this;
         var N = function (p) { return cc.find(p, self.node); };
         var T = Object.assign({}, DEFAULT_TEXT, KakaoRankView.TEXT || {});
+        // title: 한글이면 '랭킹', 그 외 'RANKING'. (KakaoRankView.TEXT.title 로 명시 override 시 그대로 둠)
+        if (!(KakaoRankView.TEXT && KakaoRankView.TEXT.title)) {
+            T.title = (curLang() === 'ko') ? '랭킹' : 'RANKING';
+        }
         this._text = T;
 
         this._content = N('Frame/ScrollView/view/content');

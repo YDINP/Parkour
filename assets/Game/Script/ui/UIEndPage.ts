@@ -178,7 +178,7 @@ export default class UIEndPage extends mvcView {
         this.cleanup();
         this.cutBtnStyle(false);
         this.scheduleOnce(this.showResult, 1)
-
+        // CompletePlay 로그는 pdata.endGame() (모든 종료 경로의 단일 지점) 에서 처리 — 여기선 발사하지 않음(중복 방지).
     }
 
     cutBtnStyle(b: boolean) {

@@ -1,4 +1,4 @@
-// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.6.18  (source: dist/cjs/index.js)
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.2  (source: dist/cjs/index.js)
 // Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
 // 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/index.js 를 이 파일로 복사(헤더 재삽입).
 // Exports: Hi5, async, detectPlatform, isStandalone, showKakaoToast, showKakaoToastPreset, KAKAO_TOAST_MESSAGES 등
@@ -2096,6 +2096,31 @@ function showKakaoToastPreset(preset, options) {
   showKakaoToast(text, options);
 }
 
+function showKakaoDialog(options) {
+  if (typeof window === "undefined") return Promise.resolve(-1);
+  const fn = window.__showKakaoDialog;
+  if (typeof fn !== "function") return Promise.resolve(-1);
+  try {
+    const r = fn(options);
+    return r && typeof r.then === "function" ? r : Promise.resolve(-1);
+  } catch (e) {
+    return Promise.resolve(-1);
+  }
+}
+function showKakaoInitErrorDialog(options) {
+  var _a;
+  if (typeof window === "undefined") return Promise.resolve(-1);
+  const fn = window.__showKakaoInitErrorDialog;
+  if (typeof fn !== "function") return Promise.resolve(-1);
+  const opts = options != null ? options : {};
+  try {
+    const r = fn((_a = opts.code) != null ? _a : null, opts.onExit, opts.onRetry);
+    return r && typeof r.then === "function" ? r : Promise.resolve(-1);
+  } catch (e) {
+    return Promise.resolve(-1);
+  }
+}
+
 var __async$6 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -2613,6 +2638,8 @@ var index = /*#__PURE__*/Object.freeze({
     showAd: showAd,
     showAuthPrompt: showAuthPrompt,
     showBanner: showBanner,
+    showKakaoDialog: showKakaoDialog,
+    showKakaoInitErrorDialog: showKakaoInitErrorDialog,
     showKakaoToast: showKakaoToast,
     showKakaoToastPreset: showKakaoToastPreset,
     showResponsiveBanner: showResponsiveBanner,

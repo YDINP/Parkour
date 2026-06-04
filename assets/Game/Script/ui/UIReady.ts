@@ -232,6 +232,8 @@ export default class UIReady extends mvcView {
             this.lable_coin_rest.string = pdata.gold + ""
             // 레벨업 후 필요한 UI만 빠르게 업데이트 (전체 토글 리스트 새로고침 대신)
             this.refreshLabelsOnlyAfterUpgrade();
+            // PlayerAction: 능력(어빌리티) 강화 성공.
+            pdata.logPlayerAction("upgrade_ability", { ability: data.type, level: pdata.abilitys[data.type] });
         }
         else {
             Toast.make(LocalizationManager.getText("@text.not_enough_silver2"));
@@ -293,6 +295,10 @@ export default class UIReady extends mvcView {
             let data = v.getData() as BuyPropsData;
             return data.type;
         })
+        // PlayerAction: 시작 아이템 사용(무한모드 진입 시 적용한 스타트 버프). 적용 아이템이 있을 때만 1회.
+        if (pdata.startBuffs.length > 0) {
+            pdata.logPlayerAction("use_start_item", { items: pdata.startBuffs.join(",") });
+        }
         pdata.energy--;
         pdata.save("energy");
         Loading.show(0.5);

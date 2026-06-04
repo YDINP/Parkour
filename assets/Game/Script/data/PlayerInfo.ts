@@ -318,6 +318,34 @@ export default class PlayerInfoDC extends DataCenter {
             kakaoSdk.submitScore(this.tmpScore);
             console.log("[KakaoSDK] submitScore 호출(무한모드 점수):", this.tmpScore);
         }
+
+        // 카카오 게임로그: CompletePlay(판 종료, 모든 종료 경로의 단일 지점 endGame() 에서 1회).
+        //   result 정확화 — 일반모드: 클리어=win / 사망·중단=lose. 무한모드: 사망 종료 = done(승패 개념 없음).
+        //   score=이번 런 점수(tmpScore). stage=일반모드 진행 스테이지. play_time 은 gameEnd() 가 자동 계산.
+        try {
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                let result: string;
+                if (this.gameMode == ParkourType.Normal) {
+                    result = this.isGameWin ? "win" : "lose";
+                } else {
+                    result = "done";
+                }
+                const body: any = { result: result, score: this.tmpScore };
+                if (this.gameMode == ParkourType.Normal) body.stage = this.playinglv;
+                kakaoSdk.gameEnd(body);
+            }
+        } catch (e) { console.warn("[PlayerInfo] kakao CompletePlay 로그 예외:", e); }
+    }
+
+    /** 카카오 게임로그: PlayerAction(게임 내 행동). 비카카오 안전 no-op. 중복 require 회피용 공용 헬퍼. */
+    logPlayerAction(action: string, extra?: { [k: string]: any }) {
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                const body = Object.assign({ action: action }, extra || {});
+                kakaoSdk.sendLog("player_action", body);
+            }
+        } catch (e) { console.warn("[PlayerInfo] kakao PlayerAction 로그 예외:", e); }
     }
 
 
@@ -408,12 +436,14 @@ export default class PlayerInfoDC extends DataCenter {
     selectHero(id) {
         this.selHero = id;
         this.save("selHero")
+        this.logPlayerAction("select_hero", { hero_id: id });
     }
 
     /** Select pet  */
     selectPet(id) {
         this.selPet = id;
         this.save("selPet")
+        this.logPlayerAction("select_pet", { pet_id: id });
     }
 
     /** Upgrade hero */
@@ -421,10 +451,13 @@ export default class PlayerInfoDC extends DataCenter {
         let lv = this.getHeroLevel(id)
         let d = ccUtil.get(HeroData, lv + 1)
         if (d) {
+            let wasUnowned = lv <= 0;   // lv 0→1 = 신규 구매(unlock), 그 외 = 강화
             lv++;
             this.heros[id] = lv;
             this.save("heros")
             this.sendToServer("heros,gold,diamond")
+            // PlayerAction: 영웅 구매(buy_hero) vs 강화(upgrade_hero) 구분.
+            this.logPlayerAction(wasUnowned ? "buy_hero" : "upgrade_hero", { hero_id: id, level: lv });
             return "succ"
         } else {
             return "max"
@@ -465,6 +498,10 @@ export default class PlayerInfoDC extends DataCenter {
                 next_require_exp = d.require_exp;
             }
             this.save("exp", 'playerlv');
+            if (isSucc) {
+                // PlayerAction: 플레이어 레벨업(실제 레벨 상승 시 1회).
+                this.logPlayerAction("level_up", { level: pdata.playerlv });
+            }
             return isSucc ? "succ" : "fail";
         }
     }
@@ -518,10 +555,13 @@ export default class PlayerInfoDC extends DataCenter {
         let lv = this.getPetLevel(id)
         let d = ccUtil.get(PetData, lv + 1)
         if (d) {
+            let wasUnowned = lv <= 0;   // lv 0→1 = 신규 획득(부화/잠금해제), 그 외 = 강화
             lv++;
             this.pets[id] = lv;
             this.save("pets")
             this.sendToServer("pets,gold,diamond")
+            // PlayerAction: 펫 신규 획득(get_pet) vs 강화(upgrade_pet) 구분.
+            this.logPlayerAction(wasUnowned ? "get_pet" : "upgrade_pet", { pet_id: id, level: lv });
             return "succ"
         } else {
             return "max"

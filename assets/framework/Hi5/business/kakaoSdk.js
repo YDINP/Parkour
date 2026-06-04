@@ -24,7 +24,10 @@ var sdk = require("../Hi5Helper_2x/hi5-sdk");
 
 // === 카카오 어드민 발급값 ===
 var H5_ID = "20756";
-var SERVER_TYPE = "qa";   // QA 서버 (로컬 dev 테스트 시 'dev', 운영 'live')
+// 서버 타입 자동감지 — 호스트명 prefix 로 결정 (dev-→dev, qa-→qa, 그외→live).
+//   동일 빌드를 QA/Live 양 도메인에 올려도 호스트명만으로 백엔드가 갈리도록 (수동 빌드 분기 제거).
+function detectServerType(){ try{ var h=(typeof location!=="undefined"?location.hostname:"")||""; h=h.toLowerCase(); if(h.indexOf("dev-")===0) return "dev"; if(h.indexOf("qa-")===0) return "qa"; }catch(e){} return "live"; }
+var SERVER_TYPE = detectServerType();
 var LEADERBOARD_ID = "ranking";
 // 화면 방향 — SDK start config 의 orientation 으로 전달(가로 게임).
 //   SDK 기본값은 "portrait" 이고 어드민 미등록 시 세로로 떨어지므로, 코드에서 명시적으로 "landscape" 강제.
@@ -34,6 +37,54 @@ var ORIENTATION = "landscape";
 var _adapter = null;
 var _initPromise = null;
 var _ready = false;
+
+/**
+ * toKakaoKafka 헤더 강제 true 패치 (log-internals.md §4).
+ *   SDK 내부 Xe(type) 가 first_page/click_start/shop/player_action 등을 toKakaoKafka:false 로 보내
+ *   HTTP 200 이어도 카카오 Kafka 미적재(어드민 미집계). /writeH5Log 요청의 헤더를 강제 true 로 덮어
+ *   모든 로그 타입이 분석 대시보드에 집계되도록 함. window.__kakaoKafkaForced 가드로 1회만.
+ */
+function forceKakaoKafkaHeader() {
+    if (typeof window === "undefined") return;
+    if (window.__kakaoKafkaForced) return;
+    window.__kakaoKafkaForced = true;
+    var URL_MATCH = "/writeH5Log";
+    try {
+        if (typeof window.fetch === "function") {
+            var origFetch = window.fetch.bind(window);
+            window.fetch = function (input, init) {
+                var url = typeof input === "string" ? input
+                        : (typeof URL !== "undefined" && input instanceof URL) ? input.toString()
+                        : (input && input.url) ? input.url : "";
+                if (url && url.indexOf(URL_MATCH) !== -1) {
+                    init = init || {};
+                    try {
+                        var headers = new Headers(init.headers || {});
+                        headers.set("toKakaoKafka", "true");
+                        init.headers = headers;
+                    } catch (e) {}
+                }
+                return origFetch(input, init);
+            };
+        }
+    } catch (e) { console.warn("[KakaoSDK] forceKakaoKafkaHeader fetch 패치 예외:", e); }
+    try {
+        if (typeof XMLHttpRequest !== "undefined") {
+            var origOpen = XMLHttpRequest.prototype.open;
+            var origSetHeader = XMLHttpRequest.prototype.setRequestHeader;
+            XMLHttpRequest.prototype.open = function (method, url) {
+                this.__url = url;
+                return origOpen.apply(this, arguments);
+            };
+            XMLHttpRequest.prototype.setRequestHeader = function (name, value) {
+                if (name === "toKakaoKafka" && this.__url && this.__url.indexOf(URL_MATCH) !== -1) {
+                    return origSetHeader.call(this, name, "true");
+                }
+                return origSetHeader.call(this, name, value);
+            };
+        }
+    } catch (e) { console.warn("[KakaoSDK] forceKakaoKafkaHeader XHR 패치 예외:", e); }
+}
 
 function isKakao() {
     try {
@@ -62,6 +113,8 @@ function ensureInit() {
         console.log("[KakaoSDK] init 스킵 — H5_ID:" + !!H5_ID + " kakao:" + kak);
         return Promise.resolve(false);
     }
+    // toKakaoKafka 헤더 강제 패치 — 어댑터 생성/init 전(첫 로그 발사 전)에 1회 적용 (§4).
+    forceKakaoKafkaHeader();
     // platform.js 는 여기서만 lazy require (런타임 kakao 호스트).
     var KakaoAdapter = null;
     try {
@@ -71,7 +124,24 @@ function ensureInit() {
         return Promise.resolve(false);
     }
     try {
-        _adapter = new KakaoAdapter({ h5Id: H5_ID, serverType: SERVER_TYPE, orientation: ORIENTATION });
+        _adapter = new KakaoAdapter({ h5Id: H5_ID, serverType: SERVER_TYPE, orientation: ORIENTATION, adUnits: {
+            // 미서빙 세부 슬롯 → base 유닛 통일 (성공작 Z-Pig 패턴). 1.8.0 platform.js 세부슬롯 default를 override.
+            interstitial_result: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
+            interstitial_save: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
+            interstitial_ap: { android: "DAN-ruHgApIXXPWWSOO0", ios: "DAN-aDL9z3VW5ahULFo7" },
+            reward_item: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_continue: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_daily_bonus: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_outfit: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_buff: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_revive: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_item_gain: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_currency: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_double: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_ap_charge: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_time_skip: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+            reward_pet: { android: "DAN-0Qhj8vQxudOr7LHg", ios: "DAN-Jxtxl9RjpOmnHOIf" },
+        } });
         console.log("[KakaoSDK] KakaoAdapter 생성:", { h5Id: H5_ID, serverType: SERVER_TYPE, orientation: ORIENTATION });
     } catch (e) {
         console.warn("[KakaoSDK] KakaoAdapter 생성 실패:", e);
@@ -143,6 +213,43 @@ function showAd(key, callbacks) {
         return _adapter.showAd(k, callbacks)
             .then(function (res) { return res || { success: false }; })
             .catch(function (e) { console.warn("[KakaoSDK] showAd 예외:", e); return { success: false, error: String(e) }; });
+    });
+}
+
+/**
+ * 카카오 게임로그 — 임의 spec 이벤트 전송 (FirstPage/ClickStart/Shop 등).
+ *   _adapter.sendLog(type, body) 직접 호출. 없으면 sdk.async.sendLog 대체.
+ *   비카카오/미초기화 시 안전 no-op.
+ */
+function sendLog(type, body) {
+    return ensureInit().then(function (ok) {
+        if (!ok) return;
+        try {
+            if (_adapter && typeof _adapter.sendLog === "function") { _adapter.sendLog(type, body); return; }
+            if (sdk.async && typeof sdk.async.sendLog === "function") { sdk.async.sendLog(type, body); }
+        } catch (e) { console.warn("[KakaoSDK] sendLog 예외:", e); }
+    });
+}
+
+/**
+ * 게임 1판 시작 — StartPlay 매핑 + play_time 추적 시작.
+ *   ⚠ _adapter.gameStart(body) 직접 호출 (최상위 sdk.async.gameStart 는 무인자).
+ */
+function gameStart(body) {
+    return ensureInit().then(function (ok) {
+        if (!ok || !_adapter || typeof _adapter.gameStart !== "function") return;
+        try { _adapter.gameStart(body); } catch (e) { console.warn("[KakaoSDK] gameStart 예외:", e); }
+    });
+}
+
+/**
+ * 게임 1판 종료 — CompletePlay 매핑 (result/score/stage, play_time 자동).
+ *   ⚠ _adapter.gameEnd(body) 직접 호출 (최상위 sdk.async.gameEnd 는 무인자라 result/score 버림).
+ */
+function gameEnd(body) {
+    return ensureInit().then(function (ok) {
+        if (!ok || !_adapter || typeof _adapter.gameEnd !== "function") return;
+        try { _adapter.gameEnd(body); } catch (e) { console.warn("[KakaoSDK] gameEnd 예외:", e); }
     });
 }
 
@@ -299,6 +406,9 @@ module.exports = {
     getMyRanking: getMyRanking,
     submitScore: submitScore,
     showAd: showAd,
+    sendLog: sendLog,
+    gameStart: gameStart,
+    gameEnd: gameEnd,
     shareTemplate: shareTemplate,
     showToast: showToast,
     showToastPreset: showToastPreset,

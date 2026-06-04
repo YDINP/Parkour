@@ -136,6 +136,22 @@ export default class Home extends mvcView {
             }
         }
         evt.emit("Home.start")
+
+        // 카카오 게임로그: FirstPage(게임 접속 후 최초 1회). 비카카오 환경 안전 no-op.
+        //   홈 재진입(게임→홈 복귀)·GNB reload 시 start()가 다시 호출되므로 sessionStorage 키로 세션당 1회만 발사.
+        //   (sessionStorage 는 탭 단위 — 페이지 reload 에도 유지, 새 탭/세션 진입 시 초기화.)
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                const KEY = "kakao_firstpage_logged";
+                let alreadyLogged = false;
+                try { alreadyLogged = !!(window.sessionStorage && window.sessionStorage.getItem(KEY)); } catch (e) {}
+                if (!alreadyLogged) {
+                    try { window.sessionStorage && window.sessionStorage.setItem(KEY, "1"); } catch (e) {}
+                    kakaoSdk.sendLog("first_page", {});
+                }
+            }
+        } catch (e) { console.warn("[Home] kakao FirstPage 로그 예외:", e); }
     }
 
     onDestroy() {
@@ -238,31 +254,46 @@ export default class Home extends mvcView {
 
     
 
+    /** 카카오 게임로그: Shop(상점 진입). 비카카오 안전 no-op. */
+    private _logShop(shop: string) {
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                kakaoSdk.sendLog("shop", { shop: shop });
+            }
+        } catch (e) { console.warn("[Home] kakao Shop 로그 예외:", e); }
+    }
+
     //获取体力
     private click_get_engergy() {
 
+        this._logShop("heart");
         vm.show("UIRedHeartShop");
     }
     //获取银币
     private click_get_gold() {
 
+        this._logShop("silver");
         vm.show("UISilverCoin");
     }
     //获取钻石
     private click_get_diamond() {
 
+        this._logShop("diamond");
         vm.show("UIDiamondShop");
     }
 
     //角色
     private click_role() {
 
+        this._logShop("hero");
         vm.show("UIHeroShop");
     }
 
     //宠物
     private click_pet() {
 
+        this._logShop("pet");
         vm.show("UIPet");
     }
 
@@ -312,7 +343,18 @@ export default class Home extends mvcView {
             return;
         }
         pdata.gameMode = ParkourType.Normal;
+        this._logClickStart("normal");
         vm.show("UILevels")
+    }
+
+    /** 카카오 게임로그: ClickStart(시작 버튼 → 게임 진입). 비카카오 안전 no-op. */
+    private _logClickStart(mode: string) {
+        try {
+            const kakaoSdk = require("../../../framework/Hi5/business/kakaoSdk");
+            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+                kakaoSdk.sendLog("click_start", { mode: mode });
+            }
+        } catch (e) { console.warn("[Home] kakao ClickStart 로그 예외:", e); }
     }
 
     //无尽模式
@@ -337,6 +379,7 @@ export default class Home extends mvcView {
             return;
         }
         pdata.gameMode = ParkourType.Infinite;
+        this._logClickStart("infinite");
         vm.show("UIReady")
     }
 

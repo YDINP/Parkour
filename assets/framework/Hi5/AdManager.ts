@@ -88,7 +88,7 @@ class AdManagerClass {
         //   (c) 실패(로드/표시)        → ad_load_failed + 미지급(false)
         try {
             if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
-                this.showKakaoRewardAd(callback);
+                this.showKakaoRewardAd(callback, adType.key);
                 return;
             }
         } catch (e) {
@@ -127,7 +127,7 @@ class AdManagerClass {
      * 카카오 리워드 광고 (vendored KakaoAdapter).
      * indicator show → kakaoSdk.showAd('reward') → 모든 종료 경로에서 indicator hide + 토스트.
      */
-    private showKakaoRewardAd(callback: (success: boolean) => void): void {
+    private showKakaoRewardAd(callback: (success: boolean) => void, rewardKey?: string): void {
         console.log("[AdManager] showKakaoRewardAd (kakao 분기)");
 
         // 인디케이터: 광고 로드(createAd) 구간 동안 SDK-native 인디케이터(IndicatorManager) 표시.
@@ -172,6 +172,8 @@ class AdManagerClass {
             .then((res: any) => {
                 const rewarded = !!(res && res.success && (res.rewarded || earned));
                 if (rewarded) {
+                    // 카카오 게임로그: PlayerAction(리워드 광고 완주 → 보상 획득). reward 종류(rewardKey) 포함. 비카카오 안전 no-op.
+                    try { kakaoSdk.sendLog("player_action", { action: "reward_ad_completed", reward: rewardKey || "" }); } catch (e) {}
                     finish(true, "adSuccess");                  // 보상 획득 후 광고창 닫힘
                 } else if (res && res.success) {
                     finish(false, "adSkipped");                 // 시청했으나 미지급(중도종료)

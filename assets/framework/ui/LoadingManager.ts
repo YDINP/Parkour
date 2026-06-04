@@ -43,7 +43,9 @@ export default class LoadingManager extends cc.Component {
     show(timeout, text = null, modal = true, callback = null, target = null) {
         this._callback = callback;
         this._target = target;
-        IndicatorManager.show(this.node, null);
+        // null(=씬 루트) 로 부착 → IndicatorManager 가 화면 중앙 배치 + 풀스크린 딤/입력차단 보장.
+        //   (this.node 부모로 넘기면 중앙배치 분기를 타지 않아 딤이 화면을 못 덮어 버튼이 눌렸음)
+        IndicatorManager.show(null, null);
         if (timeout > 0) {
             this.unschedule(this.dealyClose);
             this.scheduleOnce(this.dealyClose, timeout)
@@ -61,7 +63,7 @@ export default class LoadingManager extends cc.Component {
      * 심플 인디케이터 표시 (타임아웃 없이, hideIndicator()로 숨김)
      */
     indicator() {
-        IndicatorManager.show(this.node, null);
+        IndicatorManager.show(null, null);
         this.unschedule(this.dealyClose);
         console.log("[Indicator] show");
     }
