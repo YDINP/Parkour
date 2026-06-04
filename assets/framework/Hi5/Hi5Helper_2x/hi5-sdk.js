@@ -1,4 +1,4 @@
-// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.2  (source: dist/cjs/index.js)
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.3  (source: dist/cjs/index.js)
 // Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
 // 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/index.js 를 이 파일로 복사(헤더 재삽입).
 // Exports: Hi5, async, detectPlatform, isStandalone, showKakaoToast, showKakaoToastPreset, KAKAO_TOAST_MESSAGES 등
@@ -414,23 +414,23 @@ function hasActiveAdapter() {
   return _activeAdapter !== null;
 }
 
-var __defProp$2 = Object.defineProperty;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
+var __defProp$3 = Object.defineProperty;
+var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp$2(a, prop, b[prop]);
+    if (__hasOwnProp$1.call(b, prop))
+      __defNormalProp$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1)
+    for (var prop of __getOwnPropSymbols$1(b)) {
+      if (__propIsEnum$1.call(b, prop))
+        __defNormalProp$3(a, prop, b[prop]);
     }
   return a;
 };
-var __publicField$2 = (obj, key, value) => __defNormalProp$2(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __publicField$2 = (obj, key, value) => __defNormalProp$3(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __async$b = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -504,7 +504,7 @@ class Hi5Adapter {
             const eventData = (_b = data.data) == null ? void 0 : _b.event;
             if (status === 0 && (eventData == null ? void 0 : eventData.type) === "success" && (eventData == null ? void 0 : eventData.data)) {
               const receipt = eventData.data;
-              const purchaseData = __spreadValues({
+              const purchaseData = __spreadValues$1({
                 productId: this._lastPurchaseProductId || receipt.displayName || "",
                 orderId: receipt.orderId,
                 amount: receipt.amount,
@@ -864,9 +864,9 @@ class Hi5Adapter {
   }
 }
 
-var __defProp$1 = Object.defineProperty;
-var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField$1 = (obj, key, value) => __defNormalProp$1(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __defProp$2 = Object.defineProperty;
+var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField$1 = (obj, key, value) => __defNormalProp$2(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __async$a = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -1511,9 +1511,9 @@ registerAdapter({
   create: () => new CrazyGamesAdapter()
 });
 
-var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __defProp$1 = Object.defineProperty;
+var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp$1(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __async$9 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -2121,6 +2121,129 @@ function showKakaoInitErrorDialog(options) {
   }
 }
 
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+const DEFAULTS = {
+  position: "top-left",
+  maxItems: 12,
+  fadeAfterMs: 8e3,
+  fontSize: 11,
+  maxWidth: "60vw"
+};
+const CONTAINER_ID = "kakao-log-overlay";
+function isKakaoLogOverlayRequested() {
+  if (typeof window === "undefined") return false;
+  try {
+    const qs = typeof location !== "undefined" && location.search || "";
+    if (/[?&]logOverlay=true\b/i.test(qs)) return true;
+  } catch (e) {
+  }
+  try {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("KAKAO_LOG_OVERLAY") === "1") return true;
+  } catch (e) {
+  }
+  if (window.__kakaoLogOverlayEnabled === true) return true;
+  return false;
+}
+function formatTime(d) {
+  const pad = (n) => n < 10 ? "0" + n : String(n);
+  return "[" + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()) + "]";
+}
+function positionCss(pos) {
+  switch (pos) {
+    case "top-right":
+      return "top:8px;right:8px;";
+    case "bottom-left":
+      return "bottom:8px;left:8px;";
+    case "bottom-right":
+      return "bottom:8px;right:8px;";
+    case "top-left":
+    default:
+      return "top:8px;left:8px;";
+  }
+}
+function enableKakaoLogOverlay(options) {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  const cfg = __spreadValues(__spreadValues({}, DEFAULTS), options != null ? options : {});
+  const items = [];
+  function ensureContainer() {
+    if (!document.body) return null;
+    let div = document.getElementById(CONTAINER_ID);
+    if (div && div.isConnected) return div;
+    div = document.createElement("div");
+    div.id = CONTAINER_ID;
+    div.style.cssText = "position:fixed;" + positionCss(cfg.position) + "z-index:99998;pointer-events:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:" + cfg.fontSize + "px;line-height:1.3;color:#fff;max-width:" + cfg.maxWidth + ";word-break:break-all;-webkit-user-select:none;user-select:none;";
+    document.body.appendChild(div);
+    return div;
+  }
+  function push(type, body) {
+    try {
+      const c = ensureContainer();
+      if (!c) return;
+      const item = document.createElement("div");
+      const hasBody = body && typeof body === "object" && Object.keys(body).length > 0;
+      let bodyStr = "";
+      if (hasBody) {
+        try {
+          bodyStr = " " + JSON.stringify(body);
+        } catch (e) {
+          bodyStr = "";
+        }
+      }
+      item.textContent = formatTime(/* @__PURE__ */ new Date()) + " " + String(type) + bodyStr;
+      item.style.cssText = "background:rgba(0,0,0,0.6);padding:2px 6px;border-radius:3px;margin-top:2px;transition:opacity 600ms ease-out;";
+      c.appendChild(item);
+      items.push(item);
+      while (items.length > cfg.maxItems) {
+        const old = items.shift();
+        if (old && old.parentNode) old.parentNode.removeChild(old);
+      }
+      setTimeout(() => {
+        if (item.isConnected) item.style.opacity = "0";
+      }, cfg.fadeAfterMs);
+      setTimeout(() => {
+        const idx = items.indexOf(item);
+        if (idx >= 0) items.splice(idx, 1);
+        if (item.parentNode) item.parentNode.removeChild(item);
+      }, cfg.fadeAfterMs + 700);
+    } catch (e) {
+    }
+  }
+  window.__showKakaoLogOverlay = push;
+  window.__kakaoLogOverlayEnabled = true;
+}
+function maybeEnableKakaoLogOverlay(options) {
+  if (!isKakaoLogOverlayRequested()) return;
+  enableKakaoLogOverlay(options);
+}
+function disableKakaoLogOverlay() {
+  if (typeof window === "undefined") return;
+  try {
+    delete window.__showKakaoLogOverlay;
+  } catch (e) {
+    window.__showKakaoLogOverlay = void 0;
+  }
+  window.__kakaoLogOverlayEnabled = false;
+  if (typeof document !== "undefined") {
+    const el = document.getElementById(CONTAINER_ID);
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+  }
+}
+
 var __async$6 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -2595,6 +2718,8 @@ var index = /*#__PURE__*/Object.freeze({
     clearAllBanners: clearAllBanners,
     clearBanner: clearBanner,
     clearData: clearData,
+    disableKakaoLogOverlay: disableKakaoLogOverlay,
+    enableKakaoLogOverlay: enableKakaoLogOverlay,
     gameEnd: gameEnd,
     gameStart: gameStart,
     getActiveAdapter: getActiveAdapter,
@@ -2620,8 +2745,10 @@ var index = /*#__PURE__*/Object.freeze({
     isAccountAvailable: isAccountAvailable,
     isCrazyGamesDomain: isCrazyGamesDomain,
     isInitialized: isInitialized,
+    isKakaoLogOverlayRequested: isKakaoLogOverlayRequested,
     isShareAvailable: isShareAvailable,
     listFriends: listFriends,
+    maybeEnableKakaoLogOverlay: maybeEnableKakaoLogOverlay,
     onAuthChange: onAuthChange,
     purchase: purchase,
     removeItem: removeItem,

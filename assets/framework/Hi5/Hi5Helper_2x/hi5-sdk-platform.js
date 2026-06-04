@@ -1,12 +1,12 @@
-// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.2  (source: dist/cjs/platform.js)
+// ⚠ Vendored from @TinycellCorp/hi5-sdk@1.8.3  (source: dist/cjs/platform.js)
 // Cocos Creator 2.4.x 는 assets/ 에서 node_modules 를 런타임 resolve 못함 → SDK 번들을 여기 둔다.
 // 직접 수정 금지. 갱신: npm install @TinycellCorp/hi5-sdk@<v> 후 dist/cjs/platform.js 를 이 파일로 복사(헤더 재삽입).
 // Exports: KakaoAdapter, DEFAULT_KAKAO_AD_UNITS 등
 'use strict';
 
-var __defProp$4 = Object.defineProperty;
-var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField$4 = (obj, key, value) => __defNormalProp$4(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __defProp$5 = Object.defineProperty;
+var __defNormalProp$5 = (obj, key, value) => key in obj ? __defProp$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField$4 = (obj, key, value) => __defNormalProp$5(obj, typeof key !== "symbol" ? key + "" : key, value);
 class _Hi5SDK {
   constructor() {
     __publicField$4(this, "isIframe");
@@ -208,9 +208,9 @@ const logger = {
   }
 };
 
-var __defProp$3 = Object.defineProperty;
-var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField$3 = (obj, key, value) => __defNormalProp$3(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __defProp$4 = Object.defineProperty;
+var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField$3 = (obj, key, value) => __defNormalProp$4(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __async$9 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -855,9 +855,9 @@ registerAdapter({
   create: () => new CrazyGamesAdapter()
 });
 
-var __defProp$2 = Object.defineProperty;
-var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField$2 = (obj, key, value) => __defNormalProp$2(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __defProp$3 = Object.defineProperty;
+var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField$2 = (obj, key, value) => __defNormalProp$3(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __async$8 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
@@ -973,6 +973,116 @@ registerAdapter({
   // 항상 매칭 (fallback)
   create: () => new StandaloneAdapter()
 });
+
+var __defProp$2 = Object.defineProperty;
+var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$2.call(b, prop))
+      __defNormalProp$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2)
+    for (var prop of __getOwnPropSymbols$2(b)) {
+      if (__propIsEnum$2.call(b, prop))
+        __defNormalProp$2(a, prop, b[prop]);
+    }
+  return a;
+};
+const DEFAULTS = {
+  position: "top-left",
+  maxItems: 12,
+  fadeAfterMs: 8e3,
+  fontSize: 11,
+  maxWidth: "60vw"
+};
+const CONTAINER_ID = "kakao-log-overlay";
+function isKakaoLogOverlayRequested() {
+  if (typeof window === "undefined") return false;
+  try {
+    const qs = typeof location !== "undefined" && location.search || "";
+    if (/[?&]logOverlay=true\b/i.test(qs)) return true;
+  } catch (e) {
+  }
+  try {
+    if (typeof localStorage !== "undefined" && localStorage.getItem("KAKAO_LOG_OVERLAY") === "1") return true;
+  } catch (e) {
+  }
+  if (window.__kakaoLogOverlayEnabled === true) return true;
+  return false;
+}
+function formatTime(d) {
+  const pad = (n) => n < 10 ? "0" + n : String(n);
+  return "[" + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()) + "]";
+}
+function positionCss(pos) {
+  switch (pos) {
+    case "top-right":
+      return "top:8px;right:8px;";
+    case "bottom-left":
+      return "bottom:8px;left:8px;";
+    case "bottom-right":
+      return "bottom:8px;right:8px;";
+    case "top-left":
+    default:
+      return "top:8px;left:8px;";
+  }
+}
+function enableKakaoLogOverlay(options) {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  const cfg = __spreadValues$2(__spreadValues$2({}, DEFAULTS), {});
+  const items = [];
+  function ensureContainer() {
+    if (!document.body) return null;
+    let div = document.getElementById(CONTAINER_ID);
+    if (div && div.isConnected) return div;
+    div = document.createElement("div");
+    div.id = CONTAINER_ID;
+    div.style.cssText = "position:fixed;" + positionCss(cfg.position) + "z-index:99998;pointer-events:none;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:" + cfg.fontSize + "px;line-height:1.3;color:#fff;max-width:" + cfg.maxWidth + ";word-break:break-all;-webkit-user-select:none;user-select:none;";
+    document.body.appendChild(div);
+    return div;
+  }
+  function push(type, body) {
+    try {
+      const c = ensureContainer();
+      if (!c) return;
+      const item = document.createElement("div");
+      const hasBody = body && typeof body === "object" && Object.keys(body).length > 0;
+      let bodyStr = "";
+      if (hasBody) {
+        try {
+          bodyStr = " " + JSON.stringify(body);
+        } catch (e) {
+          bodyStr = "";
+        }
+      }
+      item.textContent = formatTime(/* @__PURE__ */ new Date()) + " " + String(type) + bodyStr;
+      item.style.cssText = "background:rgba(0,0,0,0.6);padding:2px 6px;border-radius:3px;margin-top:2px;transition:opacity 600ms ease-out;";
+      c.appendChild(item);
+      items.push(item);
+      while (items.length > cfg.maxItems) {
+        const old = items.shift();
+        if (old && old.parentNode) old.parentNode.removeChild(old);
+      }
+      setTimeout(() => {
+        if (item.isConnected) item.style.opacity = "0";
+      }, cfg.fadeAfterMs);
+      setTimeout(() => {
+        const idx = items.indexOf(item);
+        if (idx >= 0) items.splice(idx, 1);
+        if (item.parentNode) item.parentNode.removeChild(item);
+      }, cfg.fadeAfterMs + 700);
+    } catch (e) {
+    }
+  }
+  window.__showKakaoLogOverlay = push;
+  window.__kakaoLogOverlayEnabled = true;
+}
+function maybeEnableKakaoLogOverlay(options) {
+  if (!isKakaoLogOverlayRequested()) return;
+  enableKakaoLogOverlay();
+}
 
 function detectPlatform() {
   if (new URLSearchParams(location.search).has("standalone")) {
@@ -2254,6 +2364,7 @@ class KakaoAdapter {
     return __async(this, null, function* () {
       if (this._initialized) return { success: true };
       try {
+        maybeEnableKakaoLogOverlay();
         yield loadKakaoSdkScript();
         const hf = window.HF;
         if (!hf) {
