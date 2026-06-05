@@ -253,6 +253,31 @@ function gameEnd(body) {
     });
 }
 
+/**
+ * 게임 1판 미완주 종료 — ExitPlay (result 미확정 이탈: 그만하기/타임아웃/방치 등).
+ *   가이드 §5/§6 패턴:
+ *     - play_time = _adapter.getPlayTime() (gameStart 후 경과 ms). ≤0 이면 플레이 중 아님 → no-op.
+ *     - sendLog('exit_play', {reason, play_time}) 발사 (gameEnd 가 아니라 sendLog — result 없음).
+ *     - 발사 직후 _adapter._playStartTime=0 리셋 → SDK beforeunload 자동핸들러의 중복 exit_play 차단.
+ *   ⚠ 같은 판에 gameEnd() 와 동시 호출 금지(한 판 종료로그 1건). 호출처 isGameEnd 가드로 보장.
+ */
+function exitPlay(reason) {
+    return ensureInit().then(function (ok) {
+        if (!ok || !_adapter) return;
+        try {
+            var playTime = (typeof _adapter.getPlayTime === "function") ? _adapter.getPlayTime() : 0;
+            if (!(playTime > 0)) return;   // 플레이 중 아님 (이중 가드)
+            if (typeof _adapter.sendLog === "function") {
+                _adapter.sendLog("exit_play", { reason: reason, play_time: playTime });
+            } else if (sdk.async && typeof sdk.async.sendLog === "function") {
+                sdk.async.sendLog("exit_play", { reason: reason, play_time: playTime });
+            }
+            // SDK 자동 beforeunload 핸들러 중복 발사 차단 — _playStartTime 리셋 (gameEnd 와 동일 효과).
+            try { _adapter._playStartTime = 0; } catch (e) {}
+        } catch (e) { console.warn("[KakaoSDK] exitPlay 예외:", e); }
+    });
+}
+
 // 프리셋 기본 문구 (sdk.KAKAO_TOAST_MESSAGES 우선, 없으면 이 fallback).
 var _TOAST_FALLBACK = {
     dataFee: "Wi-Fi가 아닌 환경에서는 데이터 요금이 발생할 수 있어요",
@@ -409,6 +434,7 @@ module.exports = {
     sendLog: sendLog,
     gameStart: gameStart,
     gameEnd: gameEnd,
+    exitPlay: exitPlay,
     shareTemplate: shareTemplate,
     showToast: showToast,
     showToastPreset: showToastPreset,

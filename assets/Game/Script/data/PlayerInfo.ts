@@ -291,6 +291,10 @@ export default class PlayerInfoDC extends DataCenter {
 
     /** Game end data processing  */
     endGame(isWin?) {
+        // 카카오 complete_play 중복 가드용 — endGame 진입 시점의 이전 종료여부 캡처.
+        //   exit_play(그만하기) 경로가 먼저 isGameEnd=true 로 set 했다면 여기서 complete_play 를 발사하지 않음
+        //   (한 판 종료로그 = complete_play XOR exit_play 1건 보장).
+        const _prevEnded = this.isGameEnd;
         this.isGameEnd = true;
         if (isWin) {
             this.isGameWin = true;
@@ -323,7 +327,7 @@ export default class PlayerInfoDC extends DataCenter {
         //   result 정확화 — 일반모드: 클리어=win / 사망·중단=lose. 무한모드: 사망 종료 = done(승패 개념 없음).
         //   score=이번 런 점수(tmpScore). stage=일반모드 진행 스테이지. play_time 은 gameEnd() 가 자동 계산.
         try {
-            if (kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
+            if (!_prevEnded && kakaoSdk && kakaoSdk.isKakao && kakaoSdk.isKakao()) {
                 let result: string;
                 if (this.gameMode == ParkourType.Normal) {
                     result = this.isGameWin ? "win" : "lose";
