@@ -21,6 +21,7 @@
 
 require("../Hi5Helper_2x/regenerator-runtime");
 var sdk = require("../Hi5Helper_2x/hi5-sdk");
+var adDiag = require("../ad-diag");
 
 // === 카카오 어드민 발급값 ===
 var H5_ID = "20756";
@@ -113,6 +114,16 @@ function ensureInit() {
         console.log("[KakaoSDK] init 스킵 — H5_ID:" + !!H5_ID + " kakao:" + kak);
         return Promise.resolve(false);
     }
+    // ad-diag/로그 오버레이 활성 플래그 영속화. ?logOverlay=true 쿼리는 카카오 OAuth redirect 후
+    //   소실되므로 부팅 초입에서 localStorage 로 옮긴다. ⚠ Live 제외 — Live URL 에 쿼리를 붙여 디버깅하면
+    //   그 origin 에 플래그가 영구히 남아 일반 유저에게 오버레이가 노출된다(qa-/dev- 는 접두라 통과).
+    try {
+        var _isLive = /(^|\.)gameplay\.game\.kakao\.com$/i.test((location && location.hostname) || "");
+        if (!_isLive && /[?&]logOverlay=true\b/i.test((location && location.search) || "")) {
+            localStorage.setItem("KAKAO_LOG_OVERLAY", "1");
+        }
+    } catch (e) { /* localStorage 불가 — 쿼리 있는 동안만 동작 */ }
+
     // toKakaoKafka 헤더 강제 패치 — 어댑터 생성/init 전(첫 로그 발사 전)에 1회 적용 (§4).
     forceKakaoKafkaHeader();
     // platform.js 는 여기서만 lazy require (런타임 kakao 호스트).
@@ -207,12 +218,25 @@ function showAd(key, callbacks) {
     var k = key || "interstitial";
     return ensureInit().then(function (ok) {
         if (!ok || !_adapter || typeof _adapter.showAd !== "function") {
+            // 진단: 어댑터 미준비로 광고 자체를 못 부른 케이스도 실패로 남긴다(트리거 도달 여부 판별용).
+            adDiag.log("ad_fail", { key: k, code: "not-ready" });
             return { success: false, error: "not-ready" };
         }
+        // 진단 로그는 게임 내 모든 광고 호출이 지나는 이 단일 진입점에만 둔다.
+        adDiag.log("ad_call", { key: k, plat: adDiag.platform(_adapter || sdk) });
         // 함수면 onEarned 단일 콜백, 객체면 {onEarned,onStarted} 그대로 전달 (KakaoAdapter.showAd 가 양형 모두 지원).
         return _adapter.showAd(k, callbacks)
-            .then(function (res) { return res || { success: false }; })
-            .catch(function (e) { console.warn("[KakaoSDK] showAd 예외:", e); return { success: false, error: String(e) }; });
+            .then(function (res) {
+                res = res || { success: false };
+                if (res.success) adDiag.log("ad_success", { key: k, rewarded: res.rewarded });
+                else adDiag.log("ad_fail", { key: k, code: res.errorCode || res.error || "unknown" });
+                return res;
+            })
+            .catch(function (e) {
+                console.warn("[KakaoSDK] showAd 예외:", e);
+                adDiag.log("ad_fail", { key: k, code: String(e) });
+                return { success: false, error: String(e) };
+            });
     });
 }
 

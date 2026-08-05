@@ -1,6 +1,106 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+<!-- BEGIN kakao-cookie-backup v1 -->
+<!-- SSOT: Ben_Claude/project-specific/modules/kakao-cookie-backup.js — 수정은 SSOT 후 injector 재실행 -->
+<script>window.__KCB_PATTERNS = [/^kakao\./, /^pdata\./, /^UInfo\.(signData|sharecount|drawResidueTime)$/];</script>
+<script>
+(function () {
+    try {
+        if (window.__kakaoCookieBackup) return;
+        // 카카오 게임 호스트(dev-/qa-/live) 또는 provider=kakao 진입에서만 동작 — 그 외 no-op
+        var isKakaoEnv = /(^|\.)((qa|dev)-)?gameplay\.game\.kakao\.com$/i.test(location.hostname || '') ||
+            /[?&]provider=kakao\b/i.test(location.search || '');
+        if (!isKakaoEnv) return;
+        if (typeof Storage === 'undefined' || !window.localStorage) return;
+
+        var PATTERNS = window.__KCB_PATTERNS || [/^kakao\./];
+        var NS = 'kcb.';            // 쿠키명 prefix (키에 h5Id 포함이라 게임 간 이름 충돌 없음)
+        var MAX_COOKIE = 3800;      // name+value 인코딩 후 바이트 가드 (4KB 한도)
+        var MAX_AGE = 31536000;     // 1년 (매 기록마다 갱신)
+        var PATH = (function () {
+            var p = location.pathname || '/';
+            var i = p.lastIndexOf('/');
+            return i >= 0 ? p.slice(0, i + 1) : '/';
+        })();
+        var lastWritten = {};
+
+        function matches(key) {
+            for (var i = 0; i < PATTERNS.length; i++) { if (PATTERNS[i].test(key)) return true; }
+            return false;
+        }
+        function cname(key) { return NS + encodeURIComponent(key); }
+        function writeCookie(key, raw) {
+            if (lastWritten[key] === raw) return;
+            var n = cname(key), v = encodeURIComponent(raw);
+            if (n.length + v.length > MAX_COOKIE) {
+                // 쿠키우선 읽기에서 구버전 쿠키가 최신 localStorage 를 가리면 안 됨 → 기존 쿠키 삭제
+                deleteCookie(key);
+                if (typeof console !== 'undefined' && console.warn) console.warn('[kcb] 쿠키 한도 초과로 스킵(기존 쿠키 삭제):', key, n.length + v.length + 'B');
+                return;
+            }
+            document.cookie = n + '=' + v + '; path=' + PATH + '; max-age=' + MAX_AGE + '; SameSite=Lax';
+            lastWritten[key] = raw;
+        }
+        function deleteCookie(key) {
+            document.cookie = cname(key) + '=; path=' + PATH + '; max-age=0; SameSite=Lax';
+            delete lastWritten[key];
+        }
+        function readCookie(key) {
+            var n = cname(key) + '=';
+            var parts = (document.cookie || '').split('; ');
+            for (var i = 0; i < parts.length; i++) {
+                if (parts[i].indexOf(n) === 0) {
+                    try { return decodeURIComponent(parts[i].slice(n.length)); } catch (e) { return null; }
+                }
+            }
+            return null;
+        }
+
+        var proto = Storage.prototype;
+        var origSet = proto.setItem, origGet = proto.getItem, origRemove = proto.removeItem;
+        proto.setItem = function (key, value) {
+            origSet.apply(this, arguments);
+            try { if (this === window.localStorage && matches(String(key))) writeCookie(String(key), String(value)); } catch (e) { }
+        };
+        proto.getItem = function (key) {
+            // 쿠키 우선: 대상 키는 쿠키 값이 있으면 그걸 정본으로 반환(+localStorage 재수화)
+            try {
+                if (this === window.localStorage && matches(String(key))) {
+                    var c = readCookie(String(key));
+                    if (c !== null) {
+                        if (origGet.apply(this, arguments) !== c) origSet.call(this, key, c);
+                        return c;
+                    }
+                }
+            } catch (e) { }
+            return origGet.apply(this, arguments);   // 쿠키 없음 → localStorage 폴백
+        };
+        proto.removeItem = function (key) {
+            origRemove.apply(this, arguments);
+            try { if (this === window.localStorage && matches(String(key))) deleteCookie(String(key)); } catch (e) { }
+        };
+
+        // QA/치트 확인용 (logOverlay 등에서 window.__kakaoCookieBackup.dump() 호출)
+        window.__kakaoCookieBackup = {
+            version: 2,   // v2 = 쿠키 우선 읽기
+            path: PATH,
+            read: readCookie,
+            dump: function () {
+                var out = {}, parts = (document.cookie || '').split('; ');
+                for (var i = 0; i < parts.length; i++) {
+                    if (parts[i].indexOf(NS) === 0) {
+                        var eq = parts[i].indexOf('=');
+                        out[decodeURIComponent(parts[i].slice(NS.length, eq))] = parts[i].length - eq - 1;
+                    }
+                }
+                return out;   // {키: 저장바이트}
+            }
+        };
+    } catch (e) { }
+})();
+</script>
+<!-- END kakao-cookie-backup -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, minimal-ui=true"/>
