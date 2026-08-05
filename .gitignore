@@ -67,3 +67,12 @@ quick_gen_project_*_autogen.sh.meta
 
 # 스플래시 적용 스크립트 백업
 *.bak
+
+# 로컬 HTTPS 테스트 서버 (kakao-serve.js + 자체서명 인증서). 커밋 금지 — 키가 저장소에 들어간다.
+cert.pem
+key.pem
+kakao-serve.js
+kakao-local-test/
+
+# 빌드 산출물
+dist/
